@@ -652,6 +652,58 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 }
 .seam path{stroke-width:1.8}
 
+/* ==========================================================================
+   CONVERGENCE DIAGRAM — phone layout
+   The desktop version rotated the SVG 90° to sit between the stacked cards.
+   Rotating a full-width, short element turns it into a full-height, narrow
+   one, so the line escaped its box and cut diagonally across the text.
+   On phones we drop the SVG entirely and draw a short vertical connector
+   with CSS, which cannot overflow.
+   ========================================================================== */
+@media(max-width:860px){
+  .seam{
+    position:relative;
+    width:auto;
+    min-width:0;
+    height:3.25rem;
+    min-height:3.25rem;
+    transform:none;          /* undo the rotation */
+    overflow:hidden;
+  }
+  .seam > svg{display:none}
+
+  .seam::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:2px;
+    margin-left:-1px;
+    background:var(--gold);
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .seam::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:.5rem;
+    height:.5rem;
+    margin:-.25rem 0 0 -.25rem;
+    border-radius:50%;
+    background:var(--gold);
+    opacity:0;
+    transition:opacity .6s ease .2s;
+  }
+  .is-visible .seam::before,
+  .is-visible .seam::after{opacity:1}
+}
+@media(max-width:860px) and (prefers-reduced-motion:reduce){
+  .seam::before,.seam::after{opacity:1}
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -2023,8 +2075,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   /* =====================================================================
      LEAD CAPTURE
 
-     Every form posts to the same Supabase Edge Function, which saves the
-     record to your database and hands the email to Brevo.
+     Chapter opt-in  -> posted to Kit, which sends the delivery email.
+     Church/speaking -> posted to Netlify Forms, which emails you.
 
      Both fall back gracefully: if a network call fails, the visitor still
      reaches the thank-you view and the chapters still unlock on this
