@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unsubscribe — Never Fight or Argue Again</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#080F1E;--gold:#D4A63C;--ivory:#F7F4EC}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:var(--navy);color:var(--ivory);padding:24px;
+       font-family:Karla,-apple-system,Helvetica,Arial,sans-serif;text-align:center;position:relative;overflow:hidden}
+  body::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(44rem 24rem at 50% 26%,rgba(212,166,60,.15),transparent 62%);pointer-events:none}
+  .box{position:relative;max-width:31rem}
+  .mark{font-family:Marcellus,Georgia,serif;font-size:.9375rem;letter-spacing:.09em;
+        text-transform:uppercase;margin-bottom:2.5rem;color:rgba(247,244,236,.65)}
+  .mark i{font-style:normal;color:var(--gold)}
+  h1{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:clamp(1.9rem,5vw,2.6rem);
+     line-height:1.1;margin:0 0 1.25rem}
+  .rule{display:flex;align-items:center;gap:.85rem;justify-content:center;margin:0 auto 1.75rem;max-width:9rem}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.5}
+  .rule span{width:.4rem;height:.4rem;background:var(--gold);transform:rotate(45deg)}
+  p{color:rgba(247,244,236,.72);line-height:1.65;margin:0 0 2.25rem;font-size:1.0625rem}
+  a.btn{display:inline-block;background:var(--gold);color:var(--navy);text-decoration:none;
+     padding:.95rem 1.75rem;font-weight:700;font-size:.8125rem;letter-spacing:.06em;
+     text-transform:uppercase;border-radius:2px;transition:background .2s ease}
+  a.btn:hover{background:#EFCE79}
+  a.btn:focus-visible{outline:2px solid #EFCE79;outline-offset:3px}
+  .quiet{font-size:.875rem;color:rgba(247,244,236,.45);margin-top:2rem}
+  .quiet a{color:rgba(247,244,236,.7)}
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="mark">Never Fight <i>or Argue</i> Again</div>
+    <h1 id="heading">One moment…</h1>
+    <div class="rule" aria-hidden="true"><span></span></div>
+    <p id="message">Updating your preferences.</p>
+    <a class="btn" href="/">Back to the site</a>
+    <p class="quiet" id="quiet" hidden></p>
+  </div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Must match the values in index.html
+  var CONFIG = {
+    supabaseProjectRef: '',
+    supabaseAnonKey: ''
+  };
+
+  var heading = document.getElementById('heading');
+  var message = document.getElementById('message');
+  var quiet = document.getElementById('quiet');
+
+  function show(h, m, q) {
+    heading.textContent = h;
+    message.textContent = m;
+    if (q) { quiet.innerHTML = q; quiet.hidden = false; }
+  }
+
+  var token = new URLSearchParams(location.search).get('t');
+
+  if (!token) {
+    show('Link not recognized',
+         'That unsubscribe link is missing its code. It may have been shortened or cut off by your email app.',
+         'Still getting emails? Reply to any one of them and we will take you off by hand.');
+    return;
+  }
+
+  if (!CONFIG.supabaseProjectRef) {
+    show('Not set up yet',
+         'This page needs the Supabase settings filled in before it can work.',
+         'Add supabaseProjectRef and supabaseAnonKey to this file, matching index.html.');
+    return;
+  }
+
+  fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/unsubscribe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': CONFIG.supabaseAnonKey,
+      'Authorization': 'Bearer ' + CONFIG.supabaseAnonKey
+    },
+    body: JSON.stringify({ t: token })
+  })
+    .then(function (r) { return r.json().catch(function () { return {}; }); })
+    .then(function (res) {
+      if (res && res.ok) {
+        show("You're unsubscribed",
+             'We won\u2019t email ' + (res.email || 'that address') + ' again. No hard feelings \u2014 we hope the chapters were useful.');
+      } else {
+        show('Link not recognized',
+             'We could not match that code to an address. It may have already been used.',
+             'Still getting emails? Reply to any one of them and we will take you off by hand.');
+      }
+    })
+    .catch(function () {
+      show('Something went wrong',
+           'We could not reach our server just now. Please try the link again in a few minutes.',
+           'If it keeps failing, reply to any of our emails and we will take you off by hand.');
+    });
+})();
+</script>
+</body>
+</html>

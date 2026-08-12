@@ -1,0 +1,9 @@
+Save your two-chapter PDF in this folder with exactly this filename:
+
+    never-fight-or-argue-again-chapters-1-2.pdf
+
+That is the name the download button and the Kit email both point to.
+If you want a different filename, change it here AND in the CONFIG block
+near the top of the <script> section in index.html.
+
+Once your PDF is in place, you can delete this text file.

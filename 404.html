@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Never Fight or Argue Again</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#080F1E;--gold:#D4A63C;--ivory:#F7F4EC}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       background:var(--navy);color:var(--ivory);padding:24px;text-align:center;
+       font-family:Karla,-apple-system,Helvetica,Arial,sans-serif;position:relative;overflow:hidden}
+  body::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(44rem 24rem at 50% 26%,rgba(212,166,60,.15),transparent 62%);pointer-events:none}
+  .box{position:relative;max-width:31rem}
+  .mark{font-family:Marcellus,Georgia,serif;font-size:.9375rem;letter-spacing:.09em;
+        text-transform:uppercase;margin-bottom:2.5rem;color:rgba(247,244,236,.65)}
+  .mark i{font-style:normal;color:var(--gold)}
+  h1{font-family:Marcellus,Georgia,serif;font-weight:400;font-size:clamp(1.9rem,5vw,2.6rem);
+     line-height:1.1;margin:0 0 1.25rem}
+  .rule{display:flex;align-items:center;gap:.85rem;justify-content:center;margin:0 auto 1.75rem;max-width:9rem}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.5}
+  .rule span{width:.4rem;height:.4rem;background:var(--gold);transform:rotate(45deg)}
+  p{color:rgba(247,244,236,.72);line-height:1.65;margin:0 0 2.25rem;font-size:1.0625rem}
+  a{display:inline-block;background:var(--gold);color:var(--navy);text-decoration:none;
+    padding:.95rem 1.75rem;font-weight:700;font-size:.8125rem;letter-spacing:.06em;
+    text-transform:uppercase;border-radius:2px}
+  a:hover{background:#EFCE79}
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="mark">Never Fight <i>or Argue</i> Again</div>
+    <h1>That page doesn't exist.</h1>
+    <div class="rule" aria-hidden="true"><span></span></div>
+    <p>The link may be out of date, or something got clipped in an email. Everything on this site lives on one page — head back and you'll find it.</p>
+    <a href="/">Back to the site</a>
+  </div>
+<script>
+  // Old-style links like /the-book.html or /for-churches.html land here.
+  // Send them to the matching tab instead of a dead end.
+  (function () {
+    var map = {
+      'the-book': 'book', 'book': 'book',
+      'for-churches': 'churches', 'churches': 'churches',
+      'testimonials': 'testimonials', 'endorsements': 'endorsements',
+      'speaking': 'speaking', 'about': 'about', 'about-us': 'about',
+      'thank-you': 'thanks', 'thanks': 'thanks', 'chapters': 'chapters'
+    };
+    var slug = location.pathname.replace(/^\/|\/$/g, '').replace(/\.html?$/, '').toLowerCase();
+    if (map[slug]) location.replace('/#' + map[slug]);
+  })();
+</script>
+</body>
+</html>

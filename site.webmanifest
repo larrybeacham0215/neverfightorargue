@@ -1,0 +1,13 @@
+{
+  "name": "Never Fight or Argue Again",
+  "short_name": "NFOAA",
+  "description": "Biblical wisdom and practical tools for building a stronger marriage.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080F1E",
+  "theme_color": "#080F1E",
+  "icons": [
+    { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
