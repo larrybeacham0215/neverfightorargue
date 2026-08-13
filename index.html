@@ -698,6 +698,71 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 
 /* ==========================================================================
+   TESTIMONIALS — slider in the page header
+   The video sits beside the introduction rather than in a section below it.
+   The frame matches the photographs on the About and Churches pages, so the
+   three page headers read as a set.
+   ========================================================================== */
+.phead--slider .phead__inner{grid-template-columns:.85fr 1.15fr}
+.phead--slider .phead__words{max-width:29rem}
+
+.phead__media{min-width:0}
+
+/* Framed exactly like .portrait--head: gold mat, inner hairline, soft glow. */
+.phead--slider .vid{
+  border:0;
+  padding:.5rem;
+  background:linear-gradient(150deg,rgba(212,166,60,.32),rgba(212,166,60,.08) 45%,rgba(212,166,60,.24));
+  box-shadow:
+    0 0 0 1px rgba(212,166,60,.3),
+    0 30px 60px -30px rgba(0,0,0,.9),
+    0 0 90px -30px rgba(212,166,60,.28);
+}
+.phead--slider .vid::before{
+  content:"";
+  position:absolute;
+  inset:.5rem;
+  background:
+    radial-gradient(38rem 22rem at 50% 42%,rgba(212,166,60,.14),transparent 65%),
+    linear-gradient(160deg,#16233D,#080F1E);
+}
+.phead--slider .vid::after{
+  content:"";
+  position:absolute;
+  inset:1.15rem;
+  border:1px solid rgba(247,244,236,.22);
+  pointer-events:none;
+}
+.phead--slider .vid > *{position:relative;z-index:1}
+.phead--slider .vid iframe,
+.phead--slider .vid video{inset:.5rem;width:auto;height:auto;right:.5rem;bottom:.5rem}
+
+/* One video per row here, with the caption underneath rather than beside it —
+   the header column is narrower than the old full-width section was. */
+.phead--slider .slide__grid{grid-template-columns:1fr;gap:1.15rem}
+.phead--slider .slide__quote{font-size:1rem}
+.phead--slider .slider{margin-top:0}
+.phead--slider .slider__bar{margin-top:1.25rem}
+
+@media(max-width:900px){
+  /* Below the words, full width, so the video is big enough to be worth
+     watching rather than squeezed into a column. */
+  .phead--slider .phead__inner{
+    grid-template-columns:1fr;
+    grid-template-areas:none;
+    gap:1.5rem;
+  }
+  .phead--slider .phead__words{display:block;max-width:none}
+  .phead--slider .phead__media{grid-column:1}
+  .phead--slider .vid{padding:.35rem}
+  .phead--slider .vid::before{inset:.35rem}
+  .phead--slider .vid::after{inset:.8rem}
+  .phead--slider .vid iframe,
+  .phead--slider .vid video{inset:.35rem;right:.35rem;bottom:.35rem}
+}
+
+
+/* ==========================================================================
    TESTIMONIALS — video slider
    Each slide holds one 16:9 video. Until the real embeds go in, the frame
    renders a placeholder so the layout is already correct.
@@ -1711,134 +1776,131 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 <!-- ==================================================================== -->
 <div class="view" id="view-testimonials" hidden>
 
-  <header class="phead">
+  <header class="phead phead--portrait phead--slider">
     <div class="wrap phead__inner">
-      <p class="eyebrow">Testimonials</p>
-      <h1>Couples who stopped fighting, in their own words.</h1>
-      <p>These aren't actors and they weren't handed a script. They're couples who worked the plan, and a few of them will tell you plainly how bad it got first.</p>
-    </div>
-  </header>
-
-  <section class="band on-navy">
-    <div class="wrap">
-      <p class="eyebrow reveal">Video stories</p>
-      <h2 class="h-lg reveal">Hear it from them.</h2>
-
-      <div class="slider reveal" id="vidSlider" aria-roledescription="carousel" aria-label="Video testimonials">
-        <div class="slider__frame">
-          <div class="slider__track" id="vidTrack">
-        <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 1">
-          <div class="slide__grid">
-            <!-- SWAP: replace the whole .vid block with your embed, e.g.
-                 <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
-                   title="The Harrisons" allow="autoplay; fullscreen; picture-in-picture"
-                   allowfullscreen loading="lazy"></iframe></div> -->
-            <div class="vid">
-              <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <p class="vid__note">Video 1 · Add embed here</p>
-            </div>
-            <div>
-              <p class="slide__who">The Harrisons</p>
-              <p class="slide__meta">Married 14 years</p>
-              <blockquote class="slide__quote">Placeholder caption — a line or two from what this couple says on camera. Replace with their own words once the videos are cut.</blockquote>
-              <p class="slide__len">Runtime 2:41</p>
-            </div>
-          </div>
+      <div class="phead__words">
+        <p class="eyebrow">Testimonials</p>
+        <h1>Couples who stopped fighting, in their own words.</h1>
+        <p>These aren't actors and they weren't handed a script. They're couples who worked the plan, and a few of them will tell you plainly how bad it got first.</p>
+      </div>
+      <div class="phead__media">
+  <div class="slider reveal" id="vidSlider" aria-roledescription="carousel" aria-label="Video testimonials">
+    <div class="slider__frame">
+      <div class="slider__track" id="vidTrack">
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 1">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Harrisons" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 1 · Add embed here</p>
         </div>
-        <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 2">
-          <div class="slide__grid">
-            <!-- SWAP: replace the whole .vid block with your embed, e.g.
-                 <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
-                   title="The Alvarezes" allow="autoplay; fullscreen; picture-in-picture"
-                   allowfullscreen loading="lazy"></iframe></div> -->
-            <div class="vid">
-              <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <p class="vid__note">Video 2 · Add embed here</p>
-            </div>
-            <div>
-              <p class="slide__who">The Alvarezes</p>
-              <p class="slide__meta">Married 6 years</p>
-              <blockquote class="slide__quote">Placeholder caption — the moment in their story that made the plan click. Swap this text with a real pull quote from the interview.</blockquote>
-              <p class="slide__len">Runtime 3:12</p>
-            </div>
-          </div>
-        </div>
-        <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 3">
-          <div class="slide__grid">
-            <!-- SWAP: replace the whole .vid block with your embed, e.g.
-                 <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
-                   title="The Whitfields" allow="autoplay; fullscreen; picture-in-picture"
-                   allowfullscreen loading="lazy"></iframe></div> -->
-            <div class="vid">
-              <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <p class="vid__note">Video 3 · Add embed here</p>
-            </div>
-            <div>
-              <p class="slide__who">The Whitfields</p>
-              <p class="slide__meta">Married 22 years</p>
-              <blockquote class="slide__quote">Placeholder caption — what changed at home after they worked both plans. Replace with their words.</blockquote>
-              <p class="slide__len">Runtime 2:05</p>
-            </div>
-          </div>
-        </div>
-        <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 4">
-          <div class="slide__grid">
-            <!-- SWAP: replace the whole .vid block with your embed, e.g.
-                 <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
-                   title="The Nkemelus" allow="autoplay; fullscreen; picture-in-picture"
-                   allowfullscreen loading="lazy"></iframe></div> -->
-            <div class="vid">
-              <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <p class="vid__note">Video 4 · Add embed here</p>
-            </div>
-            <div>
-              <p class="slide__who">The Nkemelus</p>
-              <p class="slide__meta">Married 9 years</p>
-              <blockquote class="slide__quote">Placeholder caption — the objection they had going in, and what answered it. Replace with their words.</blockquote>
-              <p class="slide__len">Runtime 3:48</p>
-            </div>
-          </div>
-        </div>
-        <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 5">
-          <div class="slide__grid">
-            <!-- SWAP: replace the whole .vid block with your embed, e.g.
-                 <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
-                   title="The Brookses" allow="autoplay; fullscreen; picture-in-picture"
-                   allowfullscreen loading="lazy"></iframe></div> -->
-            <div class="vid">
-              <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-              <p class="vid__note">Video 5 · Add embed here</p>
-            </div>
-            <div>
-              <p class="slide__who">The Brookses</p>
-              <p class="slide__meta">Small group leaders</p>
-              <blockquote class="slide__quote">Placeholder caption — what happened when they ran this with their group. Replace with their words.</blockquote>
-              <p class="slide__len">Runtime 2:27</p>
-            </div>
-          </div>
-        </div>
-          </div>
-        </div>
-
-        <div class="slider__bar">
-          <div class="slider__dots" id="vidDots">
-          <button type="button" data-go="0" aria-label="Go to testimonial 1" aria-current="true"></button>
-          <button type="button" data-go="1" aria-label="Go to testimonial 2"></button>
-          <button type="button" data-go="2" aria-label="Go to testimonial 3"></button>
-          <button type="button" data-go="3" aria-label="Go to testimonial 4"></button>
-          <button type="button" data-go="4" aria-label="Go to testimonial 5"></button>
-          </div>
-          <div style="display:flex;align-items:center;gap:1.25rem">
-            <span class="slider__count" id="vidCount">1 / 5</span>
-            <div class="slider__arrows">
-              <button type="button" id="vidPrev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-              <button type="button" id="vidNext" aria-label="Next testimonial"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-            </div>
-          </div>
+        <div>
+          <p class="slide__who">The Harrisons</p>
+          <p class="slide__meta">Married 14 years</p>
+          <blockquote class="slide__quote">Placeholder caption — a line or two from what this couple says on camera. Replace with their own words once the videos are cut.</blockquote>
+          <p class="slide__len">Runtime 2:41</p>
         </div>
       </div>
     </div>
-  </section>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 2">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Alvarezes" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 2 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Alvarezes</p>
+          <p class="slide__meta">Married 6 years</p>
+          <blockquote class="slide__quote">Placeholder caption — the moment in their story that made the plan click. Swap this text with a real pull quote from the interview.</blockquote>
+          <p class="slide__len">Runtime 3:12</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 3">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Whitfields" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 3 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Whitfields</p>
+          <p class="slide__meta">Married 22 years</p>
+          <blockquote class="slide__quote">Placeholder caption — what changed at home after they worked both plans. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 2:05</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 4">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Nkemelus" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 4 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Nkemelus</p>
+          <p class="slide__meta">Married 9 years</p>
+          <blockquote class="slide__quote">Placeholder caption — the objection they had going in, and what answered it. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 3:48</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 5">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Brookses" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 5 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Brookses</p>
+          <p class="slide__meta">Small group leaders</p>
+          <blockquote class="slide__quote">Placeholder caption — what happened when they ran this with their group. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 2:27</p>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="slider__bar">
+      <div class="slider__dots" id="vidDots">
+      <button type="button" data-go="0" aria-label="Go to testimonial 1" aria-current="true"></button>
+      <button type="button" data-go="1" aria-label="Go to testimonial 2"></button>
+      <button type="button" data-go="2" aria-label="Go to testimonial 3"></button>
+      <button type="button" data-go="3" aria-label="Go to testimonial 4"></button>
+      <button type="button" data-go="4" aria-label="Go to testimonial 5"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.25rem">
+        <span class="slider__count" id="vidCount">1 / 5</span>
+        <div class="slider__arrows">
+          <button type="button" id="vidPrev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="vidNext" aria-label="Next testimonial"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+  </header>
+
 
   <section class="band band--paper">
     <div class="wrap">
