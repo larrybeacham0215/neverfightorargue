@@ -659,6 +659,45 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 
 /* ==========================================================================
+   FOR CHURCHES — group photo in the page header
+   Same framed treatment as the About portrait, but this photograph is 16:9
+   rather than 4:3, so it keeps its own proportions instead of being cropped
+   into a squarer frame.
+   ========================================================================== */
+.portrait--wide{aspect-ratio:auto}
+.portrait--wide img{height:auto;object-fit:contain}
+.phead--wide .phead__inner{grid-template-columns:.95fr 1.05fr}
+.phead--wide .phead__words{max-width:32rem}
+
+@media(max-width:900px){
+  /* This headline is long and the photo is wide, so on phones the eyebrow
+     runs full width and the photo takes a larger share of the row beneath,
+     with the heading beside it at a smaller step. A wide photo squeezed into
+     a tall slot would crop the group down to two faces, so it keeps its own
+     proportions here rather than filling the row height. */
+  .phead--wide .phead__inner{grid-template-columns:1fr minmax(9.5rem,52%);gap:.9rem}
+  .phead--wide .eyebrow{grid-column:1 / -1;grid-row:1}
+  .phead--wide h1{
+    grid-column:1;grid-row:2;
+    font-size:clamp(1.55rem,6.4vw,2.15rem);
+    line-height:1.1;
+    align-self:start;
+  }
+  .phead--wide .portrait--head{
+    grid-column:2;grid-row:2;
+    align-self:start;
+    margin-top:.3rem;
+    min-height:0;
+    aspect-ratio:auto;
+  }
+  .phead--wide .portrait--head img{height:auto;object-fit:contain}
+}
+@media(max-width:520px){
+  .phead--wide .phead__inner{grid-template-columns:1fr 54%}
+}
+
+
+/* ==========================================================================
    TESTIMONIALS — video slider
    Each slide holds one 16:9 video. Until the real embeds go in, the frame
    renders a placeholder so the layout is already correct.
@@ -1260,11 +1299,21 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 <!-- ==================================================================== -->
 <div class="view" id="view-churches" hidden>
 
-  <header class="phead">
+  <header class="phead phead--portrait phead--wide">
     <div class="wrap phead__inner">
-      <p class="eyebrow">For churches &amp; organizations</p>
-      <h1>Marriage curriculum couples will actually finish.</h1>
-      <p>Most marriage studies teach couples to communicate better inside the same old pattern. This one changes the pattern — and it gives each spouse something specific to do, which is usually the difference between a group that shows up week four and a group that doesn't.</p>
+      <div class="phead__words">
+        <p class="eyebrow">For churches &amp; organizations</p>
+        <h1>Marriage curriculum couples will actually finish.</h1>
+        <p>Most marriage studies teach couples to communicate better inside the same old pattern. This one changes the pattern — and it gives each spouse something specific to do, which is usually the difference between a group that shows up week four and a group that doesn't.</p>
+      </div>
+      <figure class="portrait portrait--head portrait--wide">
+        <picture>
+          <source srcset="/assets/churches-group.webp" type="image/webp">
+          <img src="/assets/churches-group.jpg"
+               alt="Couples working through the study together around a table in a small group"
+               width="1400" height="788" loading="eager">
+        </picture>
+      </figure>
     </div>
   </header>
 
