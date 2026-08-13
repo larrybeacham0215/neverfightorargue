@@ -784,21 +784,34 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 @media(max-width:900px){
   .phead--book .phead__inner{
-    grid-template-columns:1fr minmax(8rem,40%);
-    gap:1rem;
+    grid-template-columns:1fr minmax(9.5rem,46%);
+    gap:.9rem;
     align-items:start;
   }
   .phead--book .phead__words{display:contents}
-  .phead--book .eyebrow{grid-column:1 / -1;grid-row:1}
-  .phead--book h1{grid-column:1;grid-row:2;align-self:start;margin-bottom:0;font-size:clamp(1.5rem,6.2vw,2.1rem)}
-  .phead--book .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1rem}
+
+  /* The eyebrow stays in the left column so the cover can start level with
+     it, spanning both text rows rather than beginning halfway down. */
+  .phead--book .eyebrow{grid-column:1;grid-row:1;margin-bottom:.5rem}
+  .phead--book h1{
+    grid-column:1;grid-row:2;
+    align-self:start;margin-bottom:0;
+    font-size:clamp(1.5rem,6.1vw,2.1rem);
+  }
+  .phead--book .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1.25rem}
   .phead--book .phead__cta{grid-column:1 / -1;grid-row:4;margin-top:1.5rem}
-  .phead--book .phead__media{grid-column:2;grid-row:2;align-self:start;margin-top:.2rem}
-  .phead--book .book3d{--bw:min(9.5rem,38vw)}
+
+  .phead--book .phead__media{
+    grid-column:2;
+    grid-row:1 / 3;
+    align-self:center;
+    justify-content:center;
+  }
+  .phead--book .book3d{--bw:min(12rem,44vw)}
 }
 @media(max-width:520px){
-  .phead--book .phead__inner{grid-template-columns:1fr 42%;gap:.85rem}
-  .phead--book .book3d{--bw:min(8.5rem,40vw)}
+  .phead--book .phead__inner{grid-template-columns:1fr 47%;gap:.8rem}
+  .phead--book .book3d{--bw:min(10.5rem,45vw)}
 }
 
 
