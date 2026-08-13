@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Never Fight or Argue Again//Launch//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nfoaa-launch-2026-11-01@neverfightorargue.com
+DTSTAMP:20260813T180000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Never Fight or Argue Again — book launch
+DESCRIPTION:The full book is available today. Both preparation plans\, the A
+ nti-Fight Plan where they meet\, and the chapter-by-chapter discussion guid
+ e for couples and small groups.\n\nhttps://neverfightorargue.com/book/
+URL:https://neverfightorargue.com/book/
+LOCATION:neverfightorargue.com
+TRANSP:TRANSPARENT
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Never Fight or Argue Again launches tomorrow
+END:VALARM
+END:VEVENT
+END:VCALENDAR
