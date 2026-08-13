@@ -638,7 +638,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
     margin-bottom:.35rem;
   }
   .phead--portrait h1{grid-column:1;grid-row:2;align-self:start;margin-bottom:0}
-  .phead--portrait .phead__words > p:not(.eyebrow){grid-column:1 / -1;grid-row:3;margin-top:1rem}
+  .phead--portrait .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1rem}
 
   .portrait--head{
     grid-column:2;
@@ -763,6 +763,42 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .phead--slider .vid::after{inset:.8rem}
   .phead--slider .vid iframe,
   .phead--slider .vid video{inset:.35rem;right:.35rem;bottom:.35rem}
+}
+
+
+/* ==========================================================================
+   THE BOOK — cover in the page header
+   Same left/right arrangement as the other page headers. The cover carries
+   its own shadow, so it gets no gold frame; a frame around a book mockup
+   would read as a picture of a book rather than the book itself.
+   ========================================================================== */
+.phead--book .phead__inner{grid-template-columns:1.05fr .95fr;align-items:center}
+.phead--book .phead__words{max-width:33rem}
+.phead--book .phead__media{display:flex;justify-content:center}
+.phead--book .book3d{--bw:min(20rem,34vw)}
+
+.phead__cta{
+  display:flex;flex-wrap:wrap;gap:.75rem;
+  margin-top:2rem;margin-bottom:0;
+}
+
+@media(max-width:900px){
+  .phead--book .phead__inner{
+    grid-template-columns:1fr minmax(8rem,40%);
+    gap:1rem;
+    align-items:start;
+  }
+  .phead--book .phead__words{display:contents}
+  .phead--book .eyebrow{grid-column:1 / -1;grid-row:1}
+  .phead--book h1{grid-column:1;grid-row:2;align-self:start;margin-bottom:0;font-size:clamp(1.5rem,6.2vw,2.1rem)}
+  .phead--book .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1rem}
+  .phead--book .phead__cta{grid-column:1 / -1;grid-row:4;margin-top:1.5rem}
+  .phead--book .phead__media{grid-column:2;grid-row:2;align-self:start;margin-top:.2rem}
+  .phead--book .book3d{--bw:min(9.5rem,38vw)}
+}
+@media(max-width:520px){
+  .phead--book .phead__inner{grid-template-columns:1fr 42%;gap:.85rem}
+  .phead--book .book3d{--bw:min(8.5rem,40vw)}
 }
 
 
@@ -1217,41 +1253,46 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 <!-- ==================================================================== -->
 <div class="view" id="view-book" hidden>
 
-  <header class="phead">
+  <header class="phead phead--portrait phead--book">
     <div class="wrap phead__inner">
-      <p class="eyebrow">The book</p>
-      <h1>A plan for the conversation, not just advice about the fight.</h1>
-      <p>Most marriage books hand you principles and wish you well. This one hands you a sequence — what each spouse does before the conversation, what happens during it, and how you get back on track when an old habit shows up again.</p>
+      <div class="phead__words">
+        <p class="eyebrow">The book</p>
+        <h1>A plan for the conversation, not just advice about the fight.</h1>
+        <p>Most marriage books hand you principles and wish you well. This one hands you a sequence — what each spouse does before the conversation, what happens during it, and how you get back on track when an old habit shows up again.</p>
+        <p class="phead__cta">
+          <a class="btn" href="#buy">Where to buy</a>
+          <a class="btn btn--outline" href="/" data-tab="home">Read Chapter One free</a>
+        </p>
+      </div>
+      <div class="phead__media">
+        <div class="book3d">
+          <picture>
+            <source srcset="/assets/book-3d.webp" type="image/webp">
+            <img src="/assets/book-3d.png"
+                 alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
+                 width="760" height="966">
+          </picture>
+        </div>
+      </div>
     </div>
   </header>
 
   <section class="band band--paper">
-    <div class="wrap grid-2 grid-2--center">
-      <div class="reveal" style="display:flex;justify-content:center">
-        <div class="book3d book3d--md">
-            <picture>
-              <source srcset="/assets/book-3d.webp" type="image/webp">
-              <img src="/assets/book-3d.png"
-                   alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
-                   width="760" height="966">
-            </picture>
-          </div>
-      </div>
+    <div class="wrap grid-2">
       <div class="reveal">
         <p class="eyebrow eyebrow--ink">Never Fight or Argue Again</p>
         <h2 class="h-lg">Biblical wisdom &amp; practical tools for building a stronger marriage.</h2>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
         <p>Written by Larry and Rolanda Beacham out of years of learning — often the hard way — that fighting fair still wasn't the same as not fighting at all.</p>
-        <ul class="ticks">
+      </div>
+      <div class="reveal">
+        <ul class="ticks" style="margin-top:0">
           <li>Three parts: <strong>the foundation, the plan, and the life that follows</strong></li>
           <li>Separate preparation paths for <strong>both spouses</strong></li>
           <li>A <strong>chapter-by-chapter discussion guide</strong> for couples and small groups</li>
           <li>Scripture throughout, with sources cited plainly</li>
+          <li>Paperback and ebook, with <strong>bulk and church pricing</strong> available</li>
         </ul>
-        <p style="margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap">
-          <a class="btn btn--onLight" href="#buy">Where to buy</a>
-          <a class="btn btn--outline btn--gold" href="/" data-tab="home">Read Chapter One free</a>
-        </p>
       </div>
     </div>
   </section>
