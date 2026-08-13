@@ -703,7 +703,11 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
    The frame matches the photographs on the About and Churches pages, so the
    three page headers read as a set.
    ========================================================================== */
-.phead--slider .phead__inner{grid-template-columns:.85fr 1.15fr}
+.phead--slider .phead__inner{
+  grid-template-columns:.85fr 1.15fr;
+  align-items:start;      /* the slider column is the taller one, so centring
+                             pushed the words down; both start at the top */
+}
 .phead--slider .phead__words{max-width:29rem}
 
 .phead__media{min-width:0}
