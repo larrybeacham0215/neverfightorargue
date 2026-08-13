@@ -452,16 +452,22 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 @media(max-width:820px){.portrait{max-width:32rem}}
 
 /* ==========================================================================
-   ABOVE THE FOLD
-   The headline, the cover and the opt-in form all have to land inside the
-   first screen, so the hero runs tighter than the rest of the page: less
-   padding, a smaller type step, and a form that stays two fields wide.
+   HERO
+   Two lines of copy, the cover, and the opt-in form all have to land inside
+   the first screen. The hero therefore runs tighter than the rest of the
+   page, and tightens further as screens get shorter.
    ========================================================================== */
 .hero{padding-block:clamp(1.5rem,3vw,2.5rem) clamp(3rem,6vw,5rem)}
 .hero__grid{align-items:center;gap:clamp(2.5rem,6vw,6rem)}
-.hero .eyebrow{margin-bottom:.85rem}
-.hero h1{font-size:clamp(2.15rem,4.6vw,3.5rem);line-height:1.03;margin-bottom:1.5rem}
 
+/* Sized to run roughly the width of the headline beneath it, on one line. */
+.hero .eyebrow{
+  margin-bottom:1rem;
+  font-size:clamp(.72rem,1.02vw,.9rem);
+  letter-spacing:.235em;
+  white-space:nowrap;
+}
+.hero h1{font-size:clamp(2.15rem,4.6vw,3.5rem);line-height:1.03;margin-bottom:1.5rem}
 
 .hero .capture{padding:clamp(1.25rem,2.4vw,1.6rem)}
 .hero .capture__title{font-size:1.25rem;margin-bottom:.35rem}
@@ -471,21 +477,20 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .hero .form__fine{font-size:.6875rem}
 .bookwrap{--bw:min(23.5rem,76vw);width:var(--bw)}
 
-/* Short laptop screens: shave the last few pixels rather than push the button under. */
+/* Short laptop screens. */
 @media(min-width:901px) and (max-height:800px){
   .hero{padding-block:1.25rem 3rem}
   .hero h1{font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:.7rem}
-    .hero .capture{padding:1.25rem}
+  .hero .capture{padding:1.25rem}
   .hero .capture__sub{margin-bottom:.9rem}
   .bookwrap{--bw:min(20rem,34vw)}
 }
 
 /* ==========================================================================
-   PHONE HERO LAYOUT
-   Stacking the cover below the form buried it. Instead, `display:contents`
-   dissolves the left column so its children become grid items in their own
-   right — which lets the cover sit beside the tagline and the offer, high on
-   the page, while the headline and the form still run full width.
+   PHONE HERO
+   `display:contents` dissolves the left column so its children become grid
+   items in their own right. That lets the eyebrow run full width on one
+   line, the headline sit beside the cover, and the form span underneath.
    ========================================================================== */
 @media(max-width:900px){
   .hero{padding-block:1.25rem 2.75rem}
@@ -493,7 +498,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .hero__grid{
     grid-template-columns:1fr minmax(8rem,46%);
     grid-template-areas:
-      "eyebrow art"
+      "eyebrow eyebrow"
       "title   art"
       "form    form";
     column-gap:1rem;
@@ -502,13 +507,28 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   }
   .hero__grid > div:first-child{display:contents}
 
-  .hero .eyebrow{grid-area:eyebrow}
-  .hero h1{grid-area:title;margin-bottom:1rem;align-self:start}
+  .hero .eyebrow{
+    grid-area:eyebrow;
+    font-size:clamp(.75rem,3.5vw,1rem);
+    letter-spacing:.2em;
+    margin-bottom:.6rem;
+  }
+
+  /* Scaled up so it fills the column beside the cover instead of leaving a
+     void, and centred against the cover, which is the taller of the two. */
+  .hero h1{
+    grid-area:title;
+    align-self:center;
+    margin-bottom:1rem;
+    font-size:clamp(2.1rem,10.5vw,3.1rem);
+    line-height:1.05;
+  }
+
   .hero .capture{grid-area:form;position:relative;z-index:1}
 
-  /* The cover is deliberately larger than its row and laps over the top of
-     the form. The form's own heading sits left, so the overlap falls on
-     empty space and nothing is obscured. */
+  /* The cover is deliberately taller than its row and laps over the top of
+     the form. The form's heading sits left, so the overlap falls on empty
+     space; pointer-events are off so it can never swallow a tap. */
   .hero__art{
     grid-area:art;
     align-self:start;
@@ -521,29 +541,29 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .bookwrap{--bw:min(14rem,47vw)}
 }
 
-/* Small and short phones: trim wherever it costs nothing, so the opt-in
-   button still clears the fold with the cover now sitting above it. */
+/* Narrow phones. */
 @media(max-width:400px){
-  .hero__grid{grid-template-columns:1fr 44%;column-gap:.8rem}
-  .hero h1{font-size:1.85rem}
-  }
+  .hero__grid{grid-template-columns:1fr 45%;column-gap:.8rem}
+  .bookwrap{--bw:min(12rem,45vw)}
+}
+
+/* Short phones. */
 @media(max-width:900px) and (max-height:800px){
   .hero{padding-block:1rem 2.25rem}
-  .hero .eyebrow{margin-bottom:.65rem}
-  .hero h1{margin-bottom:.6rem}
-    .hero .capture{padding:1.1rem}
+  .hero .eyebrow{margin-bottom:.5rem}
+  .hero h1{font-size:clamp(1.95rem,9.5vw,2.7rem);margin-bottom:.7rem}
+  .hero .capture{padding:1.1rem}
   .hero .capture__sub{margin-bottom:.8rem}
 }
 
-
-/* Short phones (SE-sized). Everything here is padding and type scale — the
-   email input stays at 16px, because anything smaller makes iOS zoom the
-   whole page in when the field is tapped. */
+/* Shortest phones (SE-sized). Everything here is padding and type scale —
+   the email input stays at 16px, because anything smaller makes iOS zoom
+   the whole page in when the field is tapped. */
 @media(max-width:900px) and (max-height:700px){
   .hero{padding-block:.7rem 1.75rem}
-  .hero .eyebrow{margin-bottom:.5rem;font-size:.625rem}
-  .hero h1{font-size:1.7rem;margin-bottom:.5rem}
-      .hero .capture{padding:.9rem}
+  .hero .eyebrow{margin-bottom:.45rem;font-size:clamp(.7rem,3.3vw,.85rem)}
+  .hero h1{font-size:clamp(1.8rem,8.8vw,2.4rem);margin-bottom:.6rem}
+  .hero .capture{padding:.9rem}
   .hero .capture__title{font-size:1.0625rem;margin-bottom:.2rem}
   .hero .capture__sub{font-size:.8125rem;margin-bottom:.7rem}
   .hero .form{gap:.55rem}
@@ -552,7 +572,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .hero .field input{padding:.65rem .8rem}
   .hero .btn--lg{padding:.8rem 1.4rem;font-size:.875rem}
   .hero .form__fine{font-size:.625rem;line-height:1.4}
-
+  .bookwrap{--bw:min(11rem,42vw)}
 }
 
 
@@ -806,7 +826,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <h1 class="reveal">Read Chapter One, <em>on us.</em></h1>
 
         <div class="capture reveal">
-          <p class="capture__title">Send me Chapter One</p>
+          <p class="capture__title">Send Me Chapter One</p>
           <p class="capture__sub">Free. In your inbox in the next few minutes.</p>
           <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -952,7 +972,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <p style="font-size:.9375rem;color:var(--ink-soft)">After that, occasional notes from Larry and Ro. Nothing heavy, and you can leave any time.</p>
       </div>
       <div class="capture capture--light reveal">
-        <p class="capture__title">Send me Chapter One</p>
+        <p class="capture__title">Send Me Chapter One</p>
         <p class="capture__sub">Free. Straight to your inbox.</p>
         <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -1526,7 +1546,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         </p>
       </div>
       <div class="capture capture--light reveal">
-        <p class="capture__title">Send me Chapter One</p>
+        <p class="capture__title">Send Me Chapter One</p>
         <p class="capture__sub">Free. Straight to your inbox.</p>
         <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -1895,7 +1915,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <p class="lede lede--light center">It takes about ten seconds. Add your name and email and we'll unlock the chapter here and send a copy to your inbox.</p>
 
       <div class="capture" style="text-align:left;margin-top:2.5rem">
-        <p class="capture__title">Send me Chapter One</p>
+        <p class="capture__title">Send Me Chapter One</p>
         <p class="capture__sub">Free. No obligation.</p>
         <form class="form" data-capture data-stay="chapters" novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
