@@ -42,7 +42,7 @@ You'll see: *Your site is live at `https://YOURNAME.github.io/neverfightorargue/
 
 > Some images may look wrong on this temporary address because of the subfolder. That fixes itself in Task 2. Ignore it.
 
-**Write down your GitHub username** — you need it in a moment.
+Your GitHub username is **larrybeacham0215** — you need it in Step 6.
 
 ---
 
@@ -73,9 +73,9 @@ Four separate records all named `@` is correct — it's how GitHub spreads traff
 
 | Type | Name | Value | TTL |
 |---|---|---|---|
-| CNAME | `www` | `YOURNAME.github.io` | 1 Hour |
+| CNAME | `www` | `larrybeacham0215.github.io` | 1 Hour |
 
-Your GitHub username, lowercase. No `https://`, no repo name, no trailing slash.
+Exactly that — your GitHub username followed by `.github.io`. No `https://`, no repo name, no trailing slash.
 
 ### 7. Tell GitHub the domain
 - Repo → **Settings → Pages**

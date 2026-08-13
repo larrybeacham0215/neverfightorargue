@@ -22,7 +22,7 @@ unsubscribe/index.html  Unsubscribe page linked from email footers
 404.html                Catches stray URLs, routes legacy links to the right tab
 CNAME                   Tells GitHub Pages the custom domain
 .nojekyll               Stops GitHub processing this as a Jekyll blog
-assets/                 Cover, favicons, social share card
+assets/                 Cover, favicons, social share card, author photo
 chapters/               The free two-chapter PDF
 supabase/schema.sql     Run once in the Supabase SQL editor
 supabase/functions/     Two Edge Functions to deploy in the Supabase dashboard

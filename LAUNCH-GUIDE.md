@@ -176,6 +176,8 @@ Do this **after Step 2 finishes**, since Brevo needs to add records to your doma
 
 Brevo gives you DNS records — usually a DKIM record, an SPF/TXT record, and a `_dmarc` record. Add each one in **GoDaddy → DNS → Add New Record**, alongside the A records from Step 2.
 
+> **One thing to watch when you get here.** Your domain already has a `_dmarc` record from GoDaddy set to `p=quarantine`. That instructs mailbox providers to hold suspicious mail from your domain — which will include Brevo's, right up until DKIM and SPF are verified. So finish Brevo's authentication fully before you send anything real. If Brevo asks to replace that `_dmarc` record, let it.
+
 Back in Brevo, click **Authenticate**. Usually a few minutes.
 
 **Don't skip this.** Without it your emails get rejected or land in spam, and you'll spend an afternoon debugging the wrong thing.
@@ -320,7 +322,7 @@ Use your real email. Do this before telling anyone the site exists.
 # What to send me
 
 1. **The two-chapter PDF** — I'll check it opens cleanly and confirm the filename
-2. **A photo of you and Rolanda** — replaces the "Author photo" placeholder
+2. ~~A photo of you and Rolanda~~ — **done**, it's on the About page
 3. **Retailer links** — the five buy buttons still go nowhere
 4. **The current 20-chapter manuscript** — I still need the real names for Readiness Plan steps 5 and 6
 
@@ -335,7 +337,6 @@ Send me your Supabase project ref and anon key and I'll do Step 6 for you, thoug
 | Buy buttons | All five link to nothing |
 | Testimonials | 5 video slots, 3 written quotes |
 | Endorsements | 5 endorsements |
-| About | "Author photo" box |
 | Readiness Plan | Steps 5 and 6 are my guesses |
 
 **My recommendation still stands:** hide the Testimonials and Endorsements tabs until you have real content. A page of visible placeholders costs more trust than a missing tab. One line each — say the word.
