@@ -829,6 +829,35 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 
 /* ==========================================================================
+   THANK-YOU PAGE
+   ========================================================================== */
+.ty__actions{
+  display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;
+  margin-top:2.5rem;margin-bottom:.85rem;
+}
+.ty__fine{font-size:.8125rem;color:rgba(247,244,236,.5);margin:0}
+
+/* The launch date, given its own card so it reads as news rather than a
+   footnote to the download. */
+.ty__card{
+  border:1px solid var(--gold);
+  background:rgba(212,166,60,.06);
+  padding:clamp(1.5rem,3.5vw,2rem);
+  margin-bottom:2.5rem;
+  text-align:center;
+}
+.ty__card .eyebrow{margin-bottom:.75rem}
+.ty__card h2{margin-bottom:.75rem}
+.ty__card p{color:var(--on-navy);max-width:34rem;margin-inline:auto}
+.ty__cardCta{margin-top:1.5rem}
+.ty__ps{
+  margin-top:1.75rem;padding-top:1.5rem;
+  border-top:1px solid rgba(247,244,236,.14);
+  font-size:.9375rem;color:rgba(247,244,236,.6);
+}
+
+
+/* ==========================================================================
    TESTIMONIALS — video slider
    Each slide holds one 16:9 video. Until the real embeds go in, the frame
    renders a placeholder so the layout is already correct.
@@ -2134,15 +2163,27 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div class="orn orn--short orn--center" aria-hidden="true"><span></span></div>
       <p class="lede lede--light center" id="tyCopy">Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham — if it hasn't landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.</p>
 
-      <p style="margin-top:2.5rem" id="tyAction"><a class="btn btn--lg" href="/free-chapter/" data-tab="chapters">Or start reading right now</a></p>
+      <p class="ty__actions" id="tyAction">
+        <a class="btn btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf" download>Download Chapter One now</a>
+        <a class="btn btn--lg btn--outline" href="/free-chapter/" data-tab="chapters">Read it in your browser</a>
+      </p>
+      <p class="ty__fine" id="tyFine">No need to wait for the email &mdash; the chapter is yours right here.</p>
 
       <div class="ty__next" id="tyNext">
-        <h2 class="h-sm" style="margin-bottom:1rem">While you wait — one suggestion</h2>
+        <div class="ty__card">
+          <p class="eyebrow">Mark your calendar</p>
+          <h2 class="h-sm">The full book launches November 1st.</h2>
+          <p>Chapter One is the opening of it. On launch day we'll send you the link first, along with the bulk and church pricing before it goes public.</p>
+          <p class="ty__cardCta"><a class="btn btn--outline" href="/assets/launch-nov-1.ics" download>Add November 1st to my calendar</a></p>
+        </div>
+
+        <h2 class="h-sm" style="margin-bottom:1rem">While you wait &mdash; one suggestion</h2>
         <ol>
           <li>Read it on your own first. Don't hand it to your spouse yet.</li>
           <li>Notice which of the two plans you'd be working. Most people know within a page or two.</li>
           <li>Then ask your spouse to read it. Not as evidence. As an invitation.</li>
         </ol>
+        <p class="ty__ps">One more thing: reply to the email when it arrives and tell us where your marriage is right now. We read every one of them, and it shapes what we send you next.</p>
       </div>
     </div>
   </section>
