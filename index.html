@@ -3,30 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Never Fight or Argue Again — Larry &amp; Rolanda Beacham</title>
-<meta name="description" content="Get two free chapters. Most marriage advice teaches couples to fight fair. This book teaches them to stop. Biblical wisdom and practical tools from Larry and Rolanda Beacham.">
+<title>Never Fight or Argue Again — Larry & Rolanda Beacham</title>
+<meta name="description" content="Read the first chapter free. Most marriage advice teaches couples to fight fair. This book teaches them to stop.">
 <link rel="canonical" href="https://neverfightorargue.com/">
 
 <!-- Social share card (what appears when the link is texted or posted) -->
 <meta property="og:type" content="book">
 <meta property="og:site_name" content="Never Fight or Argue Again">
-<meta property="og:title" content="Never Fight or Argue Again — get two free chapters">
+<meta property="og:title" content="Never Fight or Argue Again — Larry & Rolanda Beacham">
 <meta property="og:description" content="Most marriage advice teaches couples to fight fair. This book teaches them to stop. Biblical wisdom and practical tools from Larry and Rolanda Beacham.">
 <meta property="og:url" content="https://neverfightorargue.com/">
 <meta property="og:image" content="https://neverfightorargue.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Never Fight or Argue Again — get two free chapters">
+<meta name="twitter:title" content="Never Fight or Argue Again — Larry & Rolanda Beacham">
 <meta name="twitter:description" content="Most marriage advice teaches couples to fight fair. This book teaches them to stop.">
 <meta name="twitter:image" content="https://neverfightorargue.com/assets/og-image.jpg">
 <meta name="theme-color" content="#080F1E">
 <meta name="author" content="Larry &amp; Rolanda Beacham">
 
-<link rel="icon" href="assets/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,7 +254,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .seal b{font-size:2.1rem}
 }
 /* On narrow screens the badge can only sit on top of the cover art, so it
-   steps aside — the eyebrow above the headline already says "two free chapters". */
+   steps aside — the eyebrow above the headline already says "free chapter". */
 @media(max-width:640px){.seal{display:none}}
 .seal b{font-family:var(--f-display);font-size:2.6rem;line-height:1;color:var(--gold);font-weight:400}
 .seal span{font-size:.625rem;font-weight:700;letter-spacing:.19em;text-transform:uppercase;color:rgba(247,244,236,.72);margin-top:.4rem;line-height:1.5}
@@ -461,7 +461,25 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .hero__grid{align-items:center;gap:clamp(2.5rem,6vw,6rem)}
 .hero .eyebrow{margin-bottom:.85rem}
 .hero h1{font-size:clamp(2.05rem,4.3vw,3.3rem);line-height:1.02;margin-bottom:.85rem}
-.hero__kicker{font-size:clamp(1rem,1.45vw,1.2rem);margin-bottom:1.4rem}
+.hero__kicker{font-size:clamp(1rem,1.45vw,1.2rem);margin-bottom:1.1rem}
+
+/* The offer, stated in the copy rather than hidden inside the form box. */
+.hero__offer{
+  display:flex;align-items:flex-start;gap:.85rem;
+  max-width:31rem;margin:0 0 1.5rem;
+  font-size:clamp(.9375rem,1.15vw,1.0625rem);
+  line-height:1.55;color:var(--on-navy);
+}
+.hero__offer b{color:var(--ivory);font-weight:700}
+.hero__offer-tag{
+  flex:none;margin-top:.1rem;
+  padding:.28rem .6rem;border-radius:2px;
+  background:var(--gold);color:var(--navy-deep);
+  font-size:.625rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+}
+@media(max-width:520px){
+  .hero__offer{gap:.65rem;margin-bottom:1.25rem}
+}
 .hero .capture{padding:clamp(1.25rem,2.4vw,1.6rem)}
 .hero .capture__title{font-size:1.25rem;margin-bottom:.35rem}
 .hero .capture__sub{font-size:.875rem;margin-bottom:1.1rem}
@@ -474,17 +492,93 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 @media(min-width:901px) and (max-height:800px){
   .hero{padding-block:1.25rem 3rem}
   .hero h1{font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:.7rem}
-  .hero__kicker{margin-bottom:1.1rem;font-size:1.0625rem}
+  .hero__kicker{margin-bottom:.8rem;font-size:1.0625rem}
+  .hero__offer{margin-bottom:1.1rem;font-size:.9375rem}
   .hero .capture{padding:1.25rem}
   .hero .capture__sub{margin-bottom:.9rem}
   .bookwrap{--bw:min(20rem,34vw)}
 }
 
-/* On phones the words and the form come first; the cover follows. */
+/* ==========================================================================
+   PHONE HERO LAYOUT
+   Stacking the cover below the form buried it. Instead, `display:contents`
+   dissolves the left column so its children become grid items in their own
+   right — which lets the cover sit beside the tagline and the offer, high on
+   the page, while the headline and the form still run full width.
+   ========================================================================== */
 @media(max-width:900px){
-  .hero__art{order:2;margin-top:.5rem}
-  .hero{padding-block:1.75rem 3rem}
-  .hero__grid{gap:2.25rem}
+  .hero{padding-block:1.25rem 2.75rem}
+
+  .hero__grid{
+    grid-template-columns:1fr minmax(6.5rem,38%);
+    grid-template-areas:
+      "eyebrow eyebrow"
+      "title   title"
+      "kicker  art"
+      "offer   art"
+      "form    form";
+    column-gap:1.1rem;
+    row-gap:0;
+    align-items:start;
+  }
+  .hero__grid > div:first-child{display:contents}
+
+  .hero .eyebrow{grid-area:eyebrow}
+  .hero h1{grid-area:title}
+  .hero__kicker{grid-area:kicker}
+  .hero__offer{grid-area:offer;margin-bottom:1rem}
+  .hero .capture{grid-area:form}
+
+  .hero__art{
+    grid-area:art;
+    align-self:start;
+    justify-content:center;
+    padding-block:0;
+    margin-top:.15rem;
+  }
+  .bookwrap{--bw:min(11rem,38vw)}
+}
+
+/* Small and short phones: trim wherever it costs nothing, so the opt-in
+   button still clears the fold with the cover now sitting above it. */
+@media(max-width:400px){
+  .hero__grid{grid-template-columns:1fr minmax(5.5rem,33%);column-gap:.8rem}
+  .bookwrap{--bw:min(8.5rem,33vw)}
+  .hero h1{font-size:1.85rem}
+  .hero__kicker{font-size:.9375rem;margin-bottom:.85rem}
+  .hero__offer{font-size:.875rem;margin-bottom:.85rem}
+}
+@media(max-width:900px) and (max-height:800px){
+  .hero{padding-block:1rem 2.25rem}
+  .hero .eyebrow{margin-bottom:.65rem}
+  .hero h1{margin-bottom:.6rem}
+  .hero__kicker{margin-bottom:.7rem}
+  .hero__offer{margin-bottom:.8rem}
+  .hero .capture{padding:1.1rem}
+  .hero .capture__sub{margin-bottom:.8rem}
+}
+
+
+/* Short phones (SE-sized). Everything here is padding and type scale — the
+   email input stays at 16px, because anything smaller makes iOS zoom the
+   whole page in when the field is tapped. */
+@media(max-width:900px) and (max-height:700px){
+  .hero{padding-block:.7rem 1.75rem}
+  .hero .eyebrow{margin-bottom:.5rem;font-size:.625rem}
+  .hero h1{font-size:1.7rem;margin-bottom:.5rem}
+  .hero__kicker{font-size:.875rem;margin-bottom:.6rem}
+  .hero__offer{font-size:.8125rem;margin-bottom:.65rem}
+  .hero__offer-tag{padding:.2rem .45rem;font-size:.5625rem}
+  .hero .capture{padding:.9rem}
+  .hero .capture__title{font-size:1.0625rem;margin-bottom:.2rem}
+  .hero .capture__sub{font-size:.8125rem;margin-bottom:.7rem}
+  .hero .form{gap:.55rem}
+  .hero .field{gap:.25rem}
+  .hero .field label{font-size:.5625rem}
+  .hero .field input{padding:.65rem .8rem}
+  .hero .btn--lg{padding:.8rem 1.4rem;font-size:.875rem}
+  .hero .form__fine{font-size:.625rem;line-height:1.4}
+  .bookwrap{--bw:min(7.5rem,30vw)}
 }
 
 
@@ -707,20 +801,20 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 <nav class="nav">
   <div class="wrap nav__inner">
-    <a class="nav__mark" href="#home" data-tab="home">
+    <a class="nav__mark" href="/" data-tab="home">
       <b>Never Fight <i>or Argue</i> Again</b>
       <small>Couples Ministry</small>
     </a>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="navTabs">Menu</button>
     <div class="nav__tabs" id="navTabs">
-      <a href="#home" data-tab="home">Home</a>
-      <a href="#book" data-tab="book">The Book</a>
-      <a href="#testimonials" data-tab="testimonials">Testimonials</a>
-      <a href="#endorsements" data-tab="endorsements">Endorsements</a>
-      <a href="#churches" data-tab="churches">Churches</a>
-      <a href="#speaking" data-tab="speaking">Speaking</a>
-      <a href="#about" data-tab="about">About</a>
-      <a class="btn nav__cta" href="#home">Free Chapters</a>
+      <a href="/" data-tab="home">Home</a>
+      <a href="/book/" data-tab="book">The Book</a>
+      <a href="/testimonials/" data-tab="testimonials">Testimonials</a>
+      <a href="/endorsements/" data-tab="endorsements">Endorsements</a>
+      <a href="/churches/" data-tab="churches">Churches</a>
+      <a href="/speaking/" data-tab="speaking">Speaking</a>
+      <a href="/about/" data-tab="about">About</a>
+      <a class="btn nav__cta" href="/" data-tab="home">Free Chapter</a>
     </div>
   </div>
 </nav>
@@ -735,12 +829,17 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   <header class="hero" id="free">
     <div class="wrap hero__grid">
       <div>
-        <p class="eyebrow reveal">Two free chapters · Instant access</p>
+        <p class="eyebrow reveal">Free chapter · Instant access</p>
         <h1 class="reveal">Stop learning to fight fair. <em>Learn to stop fighting.</em></h1>
         <p class="hero__kicker reveal">Fighting is a choice. Conflict is inevitable.</p>
 
+        <p class="hero__offer reveal">
+          <span class="hero__offer-tag">Free</span>
+          <span><b>Read Chapter One, on us.</b> No cost, no catch &mdash; the opening chapter, in your inbox in minutes.</span>
+        </p>
+
         <div class="capture reveal">
-          <p class="capture__title">Send me the first two chapters</p>
+          <p class="capture__title">Send me Chapter One</p>
           <p class="capture__sub">Free. In your inbox in the next few minutes.</p>
           <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -755,7 +854,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
               </div>
             </div>
             <p class="form__error" hidden></p>
-            <button class="btn btn--lg btn--block" type="submit">Send my free chapters</button>
+            <button class="btn btn--lg btn--block" type="submit">Send my free chapter</button>
             <p class="form__fine">No cost, no obligation. Unsubscribe any time. We never share your address.</p>
           </form>
         </div>
@@ -765,13 +864,13 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <div class="bookwrap">
           <div class="book3d">
             <picture>
-              <source srcset="assets/book-3d.webp" type="image/webp">
-              <img src="assets/book-3d.png"
+              <source srcset="/assets/book-3d.webp" type="image/webp">
+              <img src="/assets/book-3d.png"
                    alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
                    width="760" height="966">
             </picture>
           </div>
-          <div class="seal" aria-hidden="true"><b>2</b><span>Chapters<br>Free</span></div>
+          <div class="seal" aria-hidden="true"><b>1</b><span>Chapter<br>Free</span></div>
         </div>
       </div>
     </div>
@@ -792,7 +891,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <p>Nearly every book, seminar, and counseling session says the same thing: conflict is normal, so learn to manage it. Stay calm. Listen actively. Don't attack the person. It's decent advice, and it beats shouting matches and cold wars. But underneath it sits an assumption almost nobody questions: that conflict, even handled well, has to stay a permanent feature of your marriage.</p>
         <p>That's like telling a pilot to crash more gracefully instead of teaching them to fly higher and avoid the crash altogether.</p>
         <p>Conflict and fighting are not the same thing. Conflict is two people who see something differently. Fighting is what happens when one or both of them arrive unprepared. The difference isn't temperament or luck — it's preparation. And preparation can be learned.</p>
-        <p><a class="inlink" href="#book" data-tab="book">Read more about the plan →</a></p>
+        <p><a class="inlink" href="/book/" data-tab="book">Read more about the plan →</a></p>
       </div>
     </div>
   </section>
@@ -881,12 +980,12 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div class="reveal">
         <p class="eyebrow eyebrow--ink">Start reading free</p>
         <h2 class="h-lg">See it for yourself before you buy anything.</h2>
-        <p class="lede">We'll send the first two chapters — the case against fighting fair, and the difference between conflict and fighting. Enough to know within twenty minutes whether this is the book your marriage needs.</p>
+        <p class="lede">We'll send Chapter One — the case against fighting fair, and why "learn to fight better" was the wrong advice all along. Ten minutes is enough to know whether this is the book your marriage needs.</p>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
         <p style="font-size:.9375rem;color:var(--ink-soft)">After that, occasional notes from Larry and Ro. Nothing heavy, and you can leave any time.</p>
       </div>
       <div class="capture capture--light reveal">
-        <p class="capture__title">Send me the first two chapters</p>
+        <p class="capture__title">Send me Chapter One</p>
         <p class="capture__sub">Free. Straight to your inbox.</p>
         <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -899,7 +998,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
             <input type="email" id="f2e" name="email" placeholder="you@example.com" autocomplete="email" required>
           </div>
           <p class="form__error" hidden></p>
-          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send my free chapters</button>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send my free chapter</button>
           <p class="form__fine">Unsubscribe any time. We never share your address.</p>
         </form>
       </div>
@@ -912,7 +1011,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <p class="eyebrow">For churches &amp; ministries</p>
         <h2 class="h-lg">Looking for marriage curriculum?</h2>
         <p class="lede lede--light">The book, the companion workbook, and the full video course work together, so a small group, a marriage ministry, or a whole congregation can walk the plan at the same pace.</p>
-        <p style="margin-top:1.75rem"><a class="btn" href="#churches" data-tab="churches">See what's available</a></p>
+        <p style="margin-top:1.75rem"><a class="btn" href="/churches/" data-tab="churches">See what's available</a></p>
       </div>
       <div class="cards reveal">
         <div class="card">
@@ -954,8 +1053,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div class="reveal" style="display:flex;justify-content:center">
         <div class="book3d book3d--md">
             <picture>
-              <source srcset="assets/book-3d.webp" type="image/webp">
-              <img src="assets/book-3d.png"
+              <source srcset="/assets/book-3d.webp" type="image/webp">
+              <img src="/assets/book-3d.png"
                    alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
                    width="760" height="966">
             </picture>
@@ -974,7 +1073,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         </ul>
         <p style="margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap">
           <a class="btn btn--onLight" href="#buy">Where to buy</a>
-          <a class="btn btn--outline btn--gold" href="#home" data-tab="home">Read two chapters free</a>
+          <a class="btn btn--outline btn--gold" href="/" data-tab="home">Read Chapter One free</a>
         </p>
       </div>
     </div>
@@ -1080,7 +1179,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div class="reveal" style="max-width:34rem;margin:3rem auto 0;padding-top:2.5rem;border-top:1px solid rgba(247,244,236,.14)">
         <h3 class="h-sm" style="margin-bottom:.75rem">Ordering for a group?</h3>
         <p style="margin-bottom:1.5rem">Signed copies, bulk pricing, and church rates are available directly from us. Ten copies or a hundred — same conversation.</p>
-        <a class="btn" href="#churches" data-tab="churches">Church &amp; bulk orders</a>
+        <a class="btn" href="/churches/" data-tab="churches">Church &amp; bulk orders</a>
       </div>
     </div>
   </section>
@@ -1421,7 +1520,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   <section class="band band--paper">
     <div class="wrap grid-2 grid-2--center">
       <figure class="portrait reveal">
-        <img src="assets/larry-rolanda.jpg"
+        <img src="/assets/larry-rolanda.jpg"
              alt="Larry and Rolanda Beacham, smiling together outdoors"
              width="1200" height="900" loading="lazy">
         <figcaption>Larry &amp; Rolanda Beacham</figcaption>
@@ -1455,12 +1554,12 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <h2 class="h-lg">Have them in, or take the plan to your church.</h2>
         <p class="lede">They speak at weekend services, marriage retreats, and small-group series, and work with churches building marriage ministry from the ground up.</p>
         <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
-          <a class="btn btn--onLight" href="#speaking" data-tab="speaking">Speaking &amp; retreats</a>
-          <a class="btn btn--outline btn--gold" href="#churches" data-tab="churches">Curriculum for churches</a>
+          <a class="btn btn--onLight" href="/speaking/" data-tab="speaking">Speaking &amp; retreats</a>
+          <a class="btn btn--outline btn--gold" href="/churches/" data-tab="churches">Curriculum for churches</a>
         </p>
       </div>
       <div class="capture capture--light reveal">
-        <p class="capture__title">Send me the first two chapters</p>
+        <p class="capture__title">Send me Chapter One</p>
         <p class="capture__sub">Free. Straight to your inbox.</p>
         <form class="form" data-capture novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -1473,7 +1572,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
             <input type="email" id="a2" name="email" placeholder="you@example.com" autocomplete="email" required>
           </div>
           <p class="form__error" hidden></p>
-          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send my free chapters</button>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send my free chapter</button>
           <p class="form__fine">Unsubscribe any time. We never share your address.</p>
         </form>
       </div>
@@ -1647,7 +1746,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <p class="lede">We'd love to hear it, and with your permission we'd love to share it. A short note is plenty — no need to be polished about it.</p>
         <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
           <a class="btn btn--onLight" href="#" data-mail="Our story">Send us your story</a>
-          <a class="btn btn--outline btn--gold" href="#home" data-tab="home">Read two chapters free</a>
+          <a class="btn btn--outline btn--gold" href="/" data-tab="home">Read Chapter One free</a>
         </p>
       </div>
       <div class="reveal">
@@ -1748,7 +1847,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <p class="lede lede--light">We're glad to send a review copy to pastors, counselors, ministry leaders, and podcast hosts. Tell us a little about your audience and we'll get one out.</p>
         <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
           <a class="btn" href="#" data-mail="Review copy request">Request a review copy</a>
-          <a class="btn btn--outline" href="#speaking" data-tab="speaking">Book Larry &amp; Ro</a>
+          <a class="btn btn--outline" href="/speaking/" data-tab="speaking">Book Larry &amp; Ro</a>
         </p>
       </div>
       <div class="reveal">
@@ -1776,14 +1875,14 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <p class="eyebrow" style="text-align:center">You're in</p>
       <h1 class="h-xl" id="tyTitle">Check your inbox.</h1>
       <div class="orn orn--short orn--center" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center" id="tyCopy">Your two free chapters are on the way. The email comes from Larry &amp; Rolanda Beacham — if it hasn't landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.</p>
+      <p class="lede lede--light center" id="tyCopy">Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham — if it hasn't landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.</p>
 
-      <p style="margin-top:2.5rem" id="tyAction"><a class="btn btn--lg" href="#chapters" data-tab="chapters">Or start reading right now</a></p>
+      <p style="margin-top:2.5rem" id="tyAction"><a class="btn btn--lg" href="/free-chapter/" data-tab="chapters">Or start reading right now</a></p>
 
       <div class="ty__next" id="tyNext">
         <h2 class="h-sm" style="margin-bottom:1rem">While you wait — one suggestion</h2>
         <ol>
-          <li>Read chapter one on your own first. Don't hand it to your spouse yet.</li>
+          <li>Read it on your own first. Don't hand it to your spouse yet.</li>
           <li>Notice which of the two plans you'd be working. Most people know within a page or two.</li>
           <li>Then ask your spouse to read it. Not as evidence. As an invitation.</li>
         </ol>
@@ -1796,8 +1895,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div class="reveal" style="display:flex;justify-content:center">
         <div class="book3d book3d--sm">
             <picture>
-              <source srcset="assets/book-3d.webp" type="image/webp">
-              <img src="assets/book-3d.png"
+              <source srcset="/assets/book-3d.webp" type="image/webp">
+              <img src="/assets/book-3d.png"
                    alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
                    width="760" height="966">
             </picture>
@@ -1805,11 +1904,11 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       </div>
       <div class="reveal">
         <p class="eyebrow eyebrow--ink">What's next</p>
-        <h2 class="h-lg">If the first two chapters land, the rest of the plan is waiting.</h2>
+        <h2 class="h-lg">If Chapter One lands, the rest of the plan is waiting.</h2>
         <p style="margin-top:1rem">The full book carries both preparation plans, the Anti-Fight Plan where they meet, and a chapter-by-chapter discussion guide for couples and small groups.</p>
         <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
-          <a class="btn btn--onLight" href="#book" data-tab="book">Where to buy</a>
-          <a class="btn btn--outline btn--gold" href="#churches" data-tab="churches">For churches</a>
+          <a class="btn btn--onLight" href="/book/" data-tab="book">Where to buy</a>
+          <a class="btn btn--outline btn--gold" href="/churches/" data-tab="churches">For churches</a>
         </p>
       </div>
     </div>
@@ -1824,12 +1923,12 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   <section class="band on-navy" id="gateLocked" hidden>
     <div class="wrap gate">
       <p class="eyebrow">Members only</p>
-      <h1 class="h-lg">This page opens once you've requested the chapters.</h1>
+      <h1 class="h-lg">This page opens once you've requested the chapter.</h1>
       <div class="orn orn--short orn--center" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center">It takes about ten seconds. Add your name and email and we'll unlock the chapters here and send a copy to your inbox.</p>
+      <p class="lede lede--light center">It takes about ten seconds. Add your name and email and we'll unlock the chapter here and send a copy to your inbox.</p>
 
       <div class="capture" style="text-align:left;margin-top:2.5rem">
-        <p class="capture__title">Send me the first two chapters</p>
+        <p class="capture__title">Send me Chapter One</p>
         <p class="capture__sub">Free. No obligation.</p>
         <form class="form" data-capture data-stay="chapters" novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
@@ -1842,7 +1941,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
             <input type="email" id="g2" name="email" placeholder="you@example.com" autocomplete="email" required>
           </div>
           <p class="form__error" hidden></p>
-          <button class="btn btn--lg btn--block" type="submit">Unlock my chapters</button>
+          <button class="btn btn--lg btn--block" type="submit">Unlock my chapter</button>
           <p class="form__fine">Unsubscribe any time. We never share your address.</p>
         </form>
       </div>
@@ -1852,19 +1951,19 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   <div id="gateOpen" hidden>
     <header class="phead">
       <div class="wrap phead__inner">
-        <p class="eyebrow">Your free chapters</p>
-        <h1>Here they are. Start with chapter one.</h1>
-        <p>Read them on your own before you hand anything to your spouse. The invitation lands better than the evidence does.</p>
+        <p class="eyebrow">Your free chapter</p>
+        <h1>Here it is. Chapter One.</h1>
+        <p>Read it on your own before you hand anything to your spouse. The invitation lands better than the evidence does.</p>
       </div>
     </header>
 
     <section class="band band--paper">
       <div class="wrap" style="max-width:44rem">
         <div class="dl">
-          <a href="chapters/never-fight-or-argue-again-chapters-1-2.pdf" id="dlChapters" download>
+          <a href="/chapters/never-fight-or-argue-again-chapter-1.pdf" id="dlChapters" download>
             <span style="flex:1">
-              <b>Introduction, Chapter One &amp; Chapter Two</b>
-              <small>Why fighting fair isn't good enough &middot; The difference between conflict and fighting</small>
+              <b>Introduction &amp; Chapter One</b>
+              <small>Why fighting fair isn't good enough &middot; Renewing your mind about marriage and communication</small>
             </span>
             <span>PDF</span>
           </a>
@@ -1874,7 +1973,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
         <h2 class="h-md" style="margin-bottom:1rem">One suggestion before you read</h2>
         <p>Notice, as you go, which of the two plans you'd be working. Most people know within a page or two — and knowing which side of the conversation you're on is the whole starting point.</p>
-        <p style="margin-top:2rem"><a class="btn btn--onLight" href="#book" data-tab="book">Get the full book</a></p>
+        <p style="margin-top:2rem"><a class="btn btn--onLight" href="/book/" data-tab="book">Get the full book</a></p>
       </div>
     </section>
   </div>
@@ -1889,25 +1988,25 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div>
         <div class="foot__mark">Never Fight or Argue Again</div>
         <p style="margin:0;max-width:24rem">Biblical wisdom and practical tools for building a stronger marriage. Larry &amp; Rolanda Beacham · Odessa, Florida.</p>
-        <p style="margin-top:1.25rem"><a class="btn btn--outline" href="#home" data-tab="home">Get the free chapters</a></p>
+        <p style="margin-top:1.25rem"><a class="btn btn--outline" href="/" data-tab="home">Get the free chapters</a></p>
       </div>
       <div>
         <h4>Explore</h4>
         <ul>
-          <li><a href="#book" data-tab="book">The Book</a></li>
-          <li><a href="#testimonials" data-tab="testimonials">Testimonials</a></li>
-          <li><a href="#endorsements" data-tab="endorsements">Endorsements</a></li>
-          <li><a href="#churches" data-tab="churches">Churches</a></li>
-          <li><a href="#speaking" data-tab="speaking">Speaking</a></li>
-          <li><a href="#about" data-tab="about">About Larry &amp; Ro</a></li>
+          <li><a href="/book/" data-tab="book">The Book</a></li>
+          <li><a href="/testimonials/" data-tab="testimonials">Testimonials</a></li>
+          <li><a href="/endorsements/" data-tab="endorsements">Endorsements</a></li>
+          <li><a href="/churches/" data-tab="churches">Churches</a></li>
+          <li><a href="/speaking/" data-tab="speaking">Speaking</a></li>
+          <li><a href="/about/" data-tab="about">About Larry &amp; Ro</a></li>
         </ul>
       </div>
       <div>
         <h4>Get in touch</h4>
         <ul>
           <li><a href="#" data-mail="Hello">Email us</a></li>
-          <li><a href="#speaking" data-tab="speaking">Book us to speak</a></li>
-          <li><a href="#churches" data-tab="churches">Bulk &amp; church orders</a></li>
+          <li><a href="/speaking/" data-tab="speaking">Book us to speak</a></li>
+          <li><a href="/churches/" data-tab="churches">Bulk &amp; church orders</a></li>
         </ul>
       </div>
     </div>
@@ -1946,14 +2045,63 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
     supabaseAnonKey: '',
 
     // Rarely changed:
-    chapterFile: 'chapters/never-fight-or-argue-again-chapters-1-2.pdf',
+    chapterFile: '/chapters/never-fight-or-argue-again-chapter-1.pdf',
     inquiryEmail: 'hello@neverfightorargue.com'
   };
   /* ==================  END OF SETTINGS  ============================== */
 
   var VIEWS = ['home', 'book', 'testimonials', 'endorsements', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
-  /* ---------------- tab routing ---------------- */
+  /* =====================================================================
+     ROUTING
+
+     Real paths, not #fragments: /book, /churches, /about. Each of those is
+     a genuine folder on the server with its own index.html, so a visitor
+     landing there directly gets a normal page and a 200 status. Clicking
+     between them stays instant — the History API swaps the URL without a
+     reload, because every view already exists in this document.
+     ===================================================================== */
+  var ROUTES = {
+    '/':               'home',
+    '/book/':          'book',
+    '/testimonials/':  'testimonials',
+    '/endorsements/':  'endorsements',
+    '/churches/':      'churches',
+    '/speaking/':      'speaking',
+    '/about/':         'about',
+    '/thank-you/':     'thanks',
+    '/free-chapter/':  'chapters'
+  };
+  var PATHS = {};
+  for (var p in ROUTES) PATHS[ROUTES[p]] = p;
+
+  var TITLES = {
+    home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
+    book: 'The Book — Never Fight or Argue Again',
+    testimonials: 'Testimonials — Never Fight or Argue Again',
+    endorsements: 'Endorsements — Never Fight or Argue Again',
+    churches: 'For Churches & Organizations — Never Fight or Argue Again',
+    speaking: 'Speaking — Larry & Rolanda Beacham',
+    about: 'About Larry & Rolanda Beacham',
+    thanks: 'Thank you — Never Fight or Argue Again',
+    chapters: 'Your free chapter — Never Fight or Argue Again'
+  };
+
+  function normalise(path) {
+    path = (path || '/').replace(/index\.html$/, '');
+    if (path.charAt(path.length - 1) !== '/') path += '/';
+    return path;
+  }
+
+  function viewFromLocation() {
+    var v = ROUTES[normalise(location.pathname)];
+    if (v) return v;
+    // Anyone arriving on an old #hash link still lands in the right place.
+    var h = (location.hash || '').replace('#', '');
+    if (VIEWS.indexOf(h) !== -1) return h;
+    return 'home';
+  }
+
   function showView(name, opts) {
     if (VIEWS.indexOf(name) === -1) name = 'home';
     opts = opts || {};
@@ -1969,43 +2117,66 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
     });
 
     if (name === 'chapters') applyGate();
+    document.title = TITLES[name];
 
-    document.title = ({
-      home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
-      book: 'The Book — Never Fight or Argue Again',
-      testimonials: 'Testimonials — Never Fight or Argue Again',
-      endorsements: 'Endorsements — Never Fight or Argue Again',
-      churches: 'For Churches & Organizations — Never Fight or Argue Again',
-      speaking: 'Speaking — Larry & Rolanda Beacham',
-      about: 'About Larry & Rolanda Beacham',
-      thanks: 'Thank you — Never Fight or Argue Again',
-      chapters: 'Your free chapters — Never Fight or Argue Again'
-    })[name];
+    var canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.setAttribute('href', 'https://neverfightorargue.com' + PATHS[name]);
 
     revealAll();
     if (!opts.keepScroll) window.scrollTo(0, 0);
     closeMobileNav();
   }
 
-  function currentView() {
-    var h = (location.hash || '').replace('#', '');
-    return VIEWS.indexOf(h) !== -1 ? h : 'home';
+  function navigate(name, push) {
+    if (push && window.history && history.pushState) {
+      history.pushState({ view: name }, '', PATHS[name]);
+    }
+    showView(name);
   }
 
-  window.addEventListener('hashchange', function () { showView(currentView()); });
+  window.addEventListener('popstate', function () { showView(viewFromLocation()); });
 
-  // In-page anchors that aren't views (#free, #buy, #inquire, #book-us) still scroll.
+  // Old /#book style links: on first load, and also while already on the
+  // site, where changing only the hash does not reload the document.
+  function upgradeHash() {
+    var h = (location.hash || '').replace('#', '');
+    if (VIEWS.indexOf(h) === -1) return false;
+    if (history.replaceState) history.replaceState({ view: h }, '', PATHS[h]);
+    return h;
+  }
+  upgradeHash();
+  window.addEventListener('hashchange', function () {
+    var h = upgradeHash();
+    if (h) showView(h);
+  });
+
   document.addEventListener('click', function (ev) {
-    var a = ev.target.closest('a[href^="#"]');
+    var a = ev.target.closest('a');
     if (!a) return;
-    var target = a.getAttribute('href').slice(1);
-    if (!target || target === '') { ev.preventDefault(); return; }
-    if (VIEWS.indexOf(target) !== -1) return; // let hashchange handle it
-    var el = document.getElementById(target);
-    if (el) {
+    if (a.target === '_blank' || a.hasAttribute('download')) return;
+
+    // A tab link: swap views in place.
+    if (a.dataset.tab) {
       ev.preventDefault();
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      closeMobileNav();
+      navigate(a.dataset.tab, true);
+      return;
+    }
+
+    var href = a.getAttribute('href') || '';
+
+    // A same-page anchor (#free, #buy, #inquire): scroll to it.
+    if (href.charAt(0) === '#') {
+      var id = href.slice(1);
+      if (!id) { ev.preventDefault(); return; }
+      var el = document.getElementById(id);
+      if (el) { ev.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); closeMobileNav(); }
+      return;
+    }
+
+    // An internal path we know about: route it without a reload.
+    if (href.charAt(0) === '/' && ROUTES[normalise(href)]) {
+      ev.preventDefault();
+      navigate(ROUTES[normalise(href)], true);
     }
   });
 
@@ -2063,7 +2234,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   var TY = {
     'default': {
       title: 'Check your inbox.',
-      copy: 'Your two free chapters are on the way. The email comes from Larry &amp; Rolanda Beacham — if it hasn\'t landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.',
+      copy: 'Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham — if it hasn\'t landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.',
       showAction: true, showNext: true
     },
     'church': {
@@ -2165,15 +2336,14 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         }
         form.reset();
 
-        if (form.dataset.stay === 'chapters') { showView('chapters'); return; }
+        if (form.dataset.stay === 'chapters') { navigate('chapters', true); return; }
 
         var t = TY[kind] || TY['default'];
         document.getElementById('tyTitle').textContent = t.title;
         document.getElementById('tyCopy').innerHTML = t.copy;
         document.getElementById('tyAction').hidden = !t.showAction;
         document.getElementById('tyNext').hidden = !t.showNext;
-        location.hash = '#thanks';
-        showView('thanks');
+        navigate('thanks', true);
       });
     });
   });
@@ -2253,7 +2423,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   })();
 
   /* ---------------- boot ---------------- */
-  showView(currentView(), { keepScroll: true });
+  showView(viewFromLocation(), { keepScroll: true });
 })();
 
 </script>
