@@ -584,38 +584,58 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
    ========================================================================== */
 .phead--portrait .phead__inner{
   display:grid;
-  grid-template-columns:1.1fr .9fr;
+  grid-template-columns:.92fr 1.08fr;
   gap:clamp(1.75rem,4.5vw,4rem);
   align-items:center;
 }
 .phead--portrait .phead__inner > *{max-width:none}
-.phead__words{max-width:34rem}
+.phead__words{max-width:30rem}
+
+/* A double frame: an inset gold hairline sitting just inside a thin outer
+   rule, with a soft glow behind. Reads as a mounted print rather than a
+   snapshot dropped onto the page. */
 .portrait--head{
+  position:relative;
   width:100%;
-  border-color:rgba(212,166,60,.35);
-  box-shadow:0 0 0 1px rgba(212,166,60,.22), 0 26px 50px -28px rgba(0,0,0,.85);
+  aspect-ratio:4/3;
+  padding:.5rem;
+  background:linear-gradient(150deg,rgba(212,166,60,.32),rgba(212,166,60,.08) 45%,rgba(212,166,60,.24));
+  border:0;
+  box-shadow:
+    0 0 0 1px rgba(212,166,60,.3),
+    0 30px 60px -30px rgba(0,0,0,.9),
+    0 0 90px -30px rgba(212,166,60,.28);
 }
-.portrait--head figcaption{
-  background:linear-gradient(180deg,transparent,rgba(4,8,16,.85));
+.portrait--head img{
+  border-radius:1px;
+  box-shadow:0 0 0 1px rgba(4,8,16,.55);
+}
+/* The inner hairline, drawn over the photo's edge. */
+.portrait--head::after{
+  content:"";
+  position:absolute;
+  inset:1.15rem;
+  border:1px solid rgba(247,244,236,.22);
+  pointer-events:none;
 }
 
 @media(max-width:900px){
   .phead--portrait .phead__inner{
-    grid-template-columns:1fr minmax(7.5rem,44%);
-    gap:1rem;
+    grid-template-columns:1fr minmax(9rem,52%);
+    gap:.9rem;
     align-items:start;
   }
   .phead--portrait .phead__words{display:contents}
   .phead--portrait .eyebrow{grid-column:1 / -1}
-  .phead--portrait h1{grid-column:1;align-self:start;margin-bottom:.5rem}
-  .phead--portrait .phead__words > p{grid-column:1 / -1;margin-top:.35rem}
-  .portrait--head{grid-column:2;grid-row:2;align-self:start;margin-top:.35rem}
-  /* At this size the caption is three cramped lines on top of their faces,
-     and the headline beside it already says who they are. */
-  .portrait--head figcaption{display:none}
+  .phead--portrait h1{grid-column:1;align-self:center;margin-bottom:.5rem}
+  .phead--portrait .phead__words > p{grid-column:1 / -1;margin-top:.6rem}
+  .portrait--head{grid-column:2;grid-row:2;align-self:start;margin-top:.2rem;padding:.35rem}
+  .portrait--head::after{inset:.8rem}
 }
 @media(max-width:520px){
-  .phead--portrait .phead__inner{grid-template-columns:1fr 45%;gap:.85rem}
+  .phead--portrait .phead__inner{grid-template-columns:1fr 54%;gap:.75rem}
+  .portrait--head{padding:.3rem}
+  .portrait--head::after{inset:.65rem}
 }
 
 
@@ -1550,7 +1570,6 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
         <img src="/assets/larry-rolanda.jpg"
              alt="Larry and Rolanda Beacham, smiling together"
              width="1400" height="1050" loading="eager">
-        <figcaption>Larry &amp; Rolanda Beacham</figcaption>
       </figure>
     </div>
   </header>
