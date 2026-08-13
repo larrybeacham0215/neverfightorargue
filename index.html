@@ -480,17 +480,16 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .hero .form__fine{font-size:.6875rem}
 .bookwrap{--bw:min(23.5rem,76vw);width:var(--bw)}
 
-/* Short laptop screens. The hero keeps its full padding down to 720px tall
-   so it stays the same height as the interior page headers; below that the
-   opt-in button starts crowding the fold, so it tightens. */
-@media(min-width:901px) and (max-height:800px){
-  .hero h1{font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:.7rem}
+/* Short laptop screens. Since the hero copy was cut back to two lines the
+   opt-in button clears the fold with room to spare, so nothing is trimmed
+   until the viewport is genuinely short — which keeps the home hero the
+   same height as the interior page headers. */
+@media(min-width:901px) and (max-height:720px){
+  .hero{padding-block:2.5rem 3.25rem}
+  .hero h1{font-size:clamp(1.9rem,3.4vw,2.8rem);margin-bottom:.8rem}
   .hero .capture{padding:1.25rem}
   .hero .capture__sub{margin-bottom:.9rem}
-  .bookwrap{--bw:min(20rem,34vw)}
-}
-@media(min-width:901px) and (max-height:720px){
-  .hero{padding-block:2rem 3rem}
+  .bookwrap{--bw:min(21rem,34vw)}
 }
 
 /* ==========================================================================
