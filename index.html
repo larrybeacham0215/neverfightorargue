@@ -621,19 +621,38 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 @media(max-width:900px){
   .phead--portrait .phead__inner{
-    grid-template-columns:1fr minmax(9rem,52%);
-    gap:.9rem;
+    grid-template-columns:1fr minmax(9.5rem,54%);
+    grid-template-rows:auto 1fr auto;
+    gap:.8rem;
     align-items:start;
   }
   .phead--portrait .phead__words{display:contents}
-  .phead--portrait .eyebrow{grid-column:1 / -1}
-  .phead--portrait h1{grid-column:1;align-self:center;margin-bottom:.5rem}
-  .phead--portrait .phead__words > p{grid-column:1 / -1;margin-top:.6rem}
-  .portrait--head{grid-column:2;grid-row:2;align-self:start;margin-top:.2rem;padding:.35rem}
+
+  /* Eyebrow and names share the left column; the photo spans both of their
+     rows so it runs the full height of that block instead of floating in
+     the middle of it. */
+  .phead--portrait .eyebrow{
+    grid-column:1;grid-row:1;
+    font-size:clamp(.65rem,2.9vw,.8rem);
+    letter-spacing:.16em;
+    margin-bottom:.35rem;
+  }
+  .phead--portrait h1{grid-column:1;grid-row:2;align-self:start;margin-bottom:0}
+  .phead--portrait .phead__words > p:not(.eyebrow){grid-column:1 / -1;grid-row:3;margin-top:1rem}
+
+  .portrait--head{
+    grid-column:2;
+    grid-row:1 / 3;
+    align-self:stretch;
+    aspect-ratio:auto;          /* fill the rows rather than force 4:3 */
+    min-height:100%;
+    padding:.35rem;
+  }
+  .portrait--head img{height:100%;object-fit:cover}
   .portrait--head::after{inset:.8rem}
 }
 @media(max-width:520px){
-  .phead--portrait .phead__inner{grid-template-columns:1fr 54%;gap:.75rem}
+  .phead--portrait .phead__inner{grid-template-columns:1fr 56%;gap:.7rem}
   .portrait--head{padding:.3rem}
   .portrait--head::after{inset:.65rem}
 }
