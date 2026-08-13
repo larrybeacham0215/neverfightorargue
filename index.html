@@ -577,6 +577,49 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 
 /* ==========================================================================
+   ABOUT — portrait in the page header
+   The photo sits beside the introduction rather than opening the section
+   below it, so the page leads with their faces. Below 900px it keeps the
+   same left/right relationship rather than stacking, at a smaller size.
+   ========================================================================== */
+.phead--portrait .phead__inner{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:clamp(1.75rem,4.5vw,4rem);
+  align-items:center;
+}
+.phead--portrait .phead__inner > *{max-width:none}
+.phead__words{max-width:34rem}
+.portrait--head{
+  width:100%;
+  border-color:rgba(212,166,60,.35);
+  box-shadow:0 0 0 1px rgba(212,166,60,.22), 0 26px 50px -28px rgba(0,0,0,.85);
+}
+.portrait--head figcaption{
+  background:linear-gradient(180deg,transparent,rgba(4,8,16,.85));
+}
+
+@media(max-width:900px){
+  .phead--portrait .phead__inner{
+    grid-template-columns:1fr minmax(7.5rem,44%);
+    gap:1rem;
+    align-items:start;
+  }
+  .phead--portrait .phead__words{display:contents}
+  .phead--portrait .eyebrow{grid-column:1 / -1}
+  .phead--portrait h1{grid-column:1;align-self:start;margin-bottom:.5rem}
+  .phead--portrait .phead__words > p{grid-column:1 / -1;margin-top:.35rem}
+  .portrait--head{grid-column:2;grid-row:2;align-self:start;margin-top:.35rem}
+  /* At this size the caption is three cramped lines on top of their faces,
+     and the headline beside it already says who they are. */
+  .portrait--head figcaption{display:none}
+}
+@media(max-width:520px){
+  .phead--portrait .phead__inner{grid-template-columns:1fr 45%;gap:.85rem}
+}
+
+
+/* ==========================================================================
    TESTIMONIALS — video slider
    Each slide holds one 16:9 video. Until the real embeds go in, the frame
    renders a placeholder so the layout is already correct.
@@ -1496,27 +1539,34 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 <!-- ==================================================================== -->
 <div class="view" id="view-about" hidden>
 
-  <header class="phead">
+  <header class="phead phead--portrait">
     <div class="wrap phead__inner">
-      <p class="eyebrow">About the authors</p>
-      <h1>Larry &amp; Rolanda Beacham</h1>
-      <p>A husband-and-wife team devoted to helping couples move from conflict to real connection — starting with the years they spent learning it the hard way themselves.</p>
+      <div class="phead__words">
+        <p class="eyebrow">About the authors</p>
+        <h1>Larry &amp; Rolanda Beacham</h1>
+        <p>A husband-and-wife team devoted to helping couples move from conflict to real connection — starting with the years they spent learning it the hard way themselves.</p>
+      </div>
+      <figure class="portrait portrait--head">
+        <img src="/assets/larry-rolanda.jpg"
+             alt="Larry and Rolanda Beacham, smiling together"
+             width="1400" height="1050" loading="eager">
+        <figcaption>Larry &amp; Rolanda Beacham</figcaption>
+      </figure>
     </div>
   </header>
 
   <section class="band band--paper">
-    <div class="wrap grid-2 grid-2--center">
-      <figure class="portrait reveal">
-        <img src="/assets/larry-rolanda.jpg"
-             alt="Larry and Rolanda Beacham, smiling together outdoors"
-             width="1200" height="900" loading="lazy">
-        <figcaption>Larry &amp; Rolanda Beacham</figcaption>
-      </figure>
+    <div class="wrap grid-2">
       <div class="reveal">
         <p class="eyebrow eyebrow--ink">Their story</p>
         <h2 class="h-lg">Fighting fair still wasn't the same as not fighting.</h2>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p>Larry and Rolanda learned that the long way. They did what the books said. They stayed calm, listened actively, kept it clean. And they still kept ending up on opposite sides of the same room.</p>
+        <blockquote class="quote">
+          <p>They did what the books said. And they still kept ending up on opposite sides of the same room.</p>
+        </blockquote>
+      </div>
+      <div class="reveal">
+        <p>Larry and Rolanda learned that the long way. They stayed calm, listened actively, kept it clean — everything the advice told them to do.</p>
         <p>What eventually changed things wasn't a better technique. It was realizing that both of them were walking into hard conversations unprepared — one carrying pain with nowhere safe to put it, the other bracing for impact and reaching for a defense. Out of those years came the Safety Plan and Anti-Fight Plan framework at the center of this book.</p>
         <p>It has since shaped how they lead their own marriage and how they walk alongside other couples. They live in Odessa, Florida, and are parents to Taylor, Bryant, Lauryn, Manny, Ari, and Trey. <em>Never Fight or Argue Again</em> is their first book.</p>
       </div>
