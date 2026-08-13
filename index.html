@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Never Fight or Argue Again — Larry & Rolanda Beacham</title>
-<meta name="description" content="Read the first chapter free. Most marriage advice teaches couples to fight fair. This book teaches them to stop.">
+<title>Never Fight or Argue Again — Larry &amp; Rolanda Beacham</title>
+<meta name="description" content="Get the first chapter free. Most marriage advice teaches couples to fight fair. This book teaches them to stop. Biblical wisdom and practical tools from Larry and Rolanda Beacham.">
 <link rel="canonical" href="https://neverfightorargue.com/">
 
 <!-- Social share card (what appears when the link is texted or posted) -->
 <meta property="og:type" content="book">
 <meta property="og:site_name" content="Never Fight or Argue Again">
-<meta property="og:title" content="Never Fight or Argue Again — Larry & Rolanda Beacham">
+<meta property="og:title" content="Never Fight or Argue Again — read the first chapter free">
 <meta property="og:description" content="Most marriage advice teaches couples to fight fair. This book teaches them to stop. Biblical wisdom and practical tools from Larry and Rolanda Beacham.">
 <meta property="og:url" content="https://neverfightorargue.com/">
 <meta property="og:image" content="https://neverfightorargue.com/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Never Fight or Argue Again — Larry & Rolanda Beacham">
+<meta name="twitter:title" content="Never Fight or Argue Again — read the first chapter free">
 <meta name="twitter:description" content="Most marriage advice teaches couples to fight fair. This book teaches them to stop.">
 <meta name="twitter:image" content="https://neverfightorargue.com/assets/og-image.jpg">
 <meta name="theme-color" content="#080F1E">
@@ -460,26 +460,9 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .hero{padding-block:clamp(1.5rem,3vw,2.5rem) clamp(3rem,6vw,5rem)}
 .hero__grid{align-items:center;gap:clamp(2.5rem,6vw,6rem)}
 .hero .eyebrow{margin-bottom:.85rem}
-.hero h1{font-size:clamp(2.05rem,4.3vw,3.3rem);line-height:1.02;margin-bottom:.85rem}
-.hero__kicker{font-size:clamp(1rem,1.45vw,1.2rem);margin-bottom:1.1rem}
+.hero h1{font-size:clamp(2.15rem,4.6vw,3.5rem);line-height:1.03;margin-bottom:1.5rem}
 
-/* The offer, stated in the copy rather than hidden inside the form box. */
-.hero__offer{
-  display:flex;align-items:flex-start;gap:.85rem;
-  max-width:31rem;margin:0 0 1.5rem;
-  font-size:clamp(.9375rem,1.15vw,1.0625rem);
-  line-height:1.55;color:var(--on-navy);
-}
-.hero__offer b{color:var(--ivory);font-weight:700}
-.hero__offer-tag{
-  flex:none;margin-top:.1rem;
-  padding:.28rem .6rem;border-radius:2px;
-  background:var(--gold);color:var(--navy-deep);
-  font-size:.625rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
-}
-@media(max-width:520px){
-  .hero__offer{gap:.65rem;margin-bottom:1.25rem}
-}
+
 .hero .capture{padding:clamp(1.25rem,2.4vw,1.6rem)}
 .hero .capture__title{font-size:1.25rem;margin-bottom:.35rem}
 .hero .capture__sub{font-size:.875rem;margin-bottom:1.1rem}
@@ -492,9 +475,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 @media(min-width:901px) and (max-height:800px){
   .hero{padding-block:1.25rem 3rem}
   .hero h1{font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:.7rem}
-  .hero__kicker{margin-bottom:.8rem;font-size:1.0625rem}
-  .hero__offer{margin-bottom:1.1rem;font-size:.9375rem}
-  .hero .capture{padding:1.25rem}
+    .hero .capture{padding:1.25rem}
   .hero .capture__sub{margin-bottom:.9rem}
   .bookwrap{--bw:min(20rem,34vw)}
 }
@@ -510,51 +491,47 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .hero{padding-block:1.25rem 2.75rem}
 
   .hero__grid{
-    grid-template-columns:1fr minmax(6.5rem,38%);
+    grid-template-columns:1fr minmax(8rem,46%);
     grid-template-areas:
-      "eyebrow eyebrow"
-      "title   title"
-      "kicker  art"
-      "offer   art"
+      "eyebrow art"
+      "title   art"
       "form    form";
-    column-gap:1.1rem;
+    column-gap:1rem;
     row-gap:0;
     align-items:start;
   }
   .hero__grid > div:first-child{display:contents}
 
   .hero .eyebrow{grid-area:eyebrow}
-  .hero h1{grid-area:title}
-  .hero__kicker{grid-area:kicker}
-  .hero__offer{grid-area:offer;margin-bottom:1rem}
-  .hero .capture{grid-area:form}
+  .hero h1{grid-area:title;margin-bottom:1rem;align-self:start}
+  .hero .capture{grid-area:form;position:relative;z-index:1}
 
+  /* The cover is deliberately larger than its row and laps over the top of
+     the form. The form's own heading sits left, so the overlap falls on
+     empty space and nothing is obscured. */
   .hero__art{
     grid-area:art;
     align-self:start;
-    justify-content:center;
+    justify-content:flex-end;
     padding-block:0;
-    margin-top:.15rem;
+    margin:.1rem -.35rem -1.6rem 0;
+    z-index:2;
+    pointer-events:none;
   }
-  .bookwrap{--bw:min(11rem,38vw)}
+  .bookwrap{--bw:min(14rem,47vw)}
 }
 
 /* Small and short phones: trim wherever it costs nothing, so the opt-in
    button still clears the fold with the cover now sitting above it. */
 @media(max-width:400px){
-  .hero__grid{grid-template-columns:1fr minmax(5.5rem,33%);column-gap:.8rem}
-  .bookwrap{--bw:min(8.5rem,33vw)}
+  .hero__grid{grid-template-columns:1fr 44%;column-gap:.8rem}
   .hero h1{font-size:1.85rem}
-  .hero__kicker{font-size:.9375rem;margin-bottom:.85rem}
-  .hero__offer{font-size:.875rem;margin-bottom:.85rem}
-}
+  }
 @media(max-width:900px) and (max-height:800px){
   .hero{padding-block:1rem 2.25rem}
   .hero .eyebrow{margin-bottom:.65rem}
   .hero h1{margin-bottom:.6rem}
-  .hero__kicker{margin-bottom:.7rem}
-  .hero__offer{margin-bottom:.8rem}
-  .hero .capture{padding:1.1rem}
+    .hero .capture{padding:1.1rem}
   .hero .capture__sub{margin-bottom:.8rem}
 }
 
@@ -566,10 +543,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .hero{padding-block:.7rem 1.75rem}
   .hero .eyebrow{margin-bottom:.5rem;font-size:.625rem}
   .hero h1{font-size:1.7rem;margin-bottom:.5rem}
-  .hero__kicker{font-size:.875rem;margin-bottom:.6rem}
-  .hero__offer{font-size:.8125rem;margin-bottom:.65rem}
-  .hero__offer-tag{padding:.2rem .45rem;font-size:.5625rem}
-  .hero .capture{padding:.9rem}
+      .hero .capture{padding:.9rem}
   .hero .capture__title{font-size:1.0625rem;margin-bottom:.2rem}
   .hero .capture__sub{font-size:.8125rem;margin-bottom:.7rem}
   .hero .form{gap:.55rem}
@@ -578,7 +552,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .hero .field input{padding:.65rem .8rem}
   .hero .btn--lg{padding:.8rem 1.4rem;font-size:.875rem}
   .hero .form__fine{font-size:.625rem;line-height:1.4}
-  .bookwrap{--bw:min(7.5rem,30vw)}
+
 }
 
 
@@ -811,10 +785,9 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <a href="/book/" data-tab="book">The Book</a>
       <a href="/testimonials/" data-tab="testimonials">Testimonials</a>
       <a href="/endorsements/" data-tab="endorsements">Endorsements</a>
-      <a href="/churches/" data-tab="churches">Churches</a>
+      <a href="/churches/" data-tab="churches">For Churches</a>
       <a href="/speaking/" data-tab="speaking">Speaking</a>
-      <a href="/about/" data-tab="about">About</a>
-      <a class="btn nav__cta" href="/" data-tab="home">Free Chapter</a>
+      <a href="/about/" data-tab="about">About Us</a>
     </div>
   </div>
 </nav>
@@ -829,14 +802,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   <header class="hero" id="free">
     <div class="wrap hero__grid">
       <div>
-        <p class="eyebrow reveal">Free chapter · Instant access</p>
-        <h1 class="reveal">Stop learning to fight fair. <em>Learn to stop fighting.</em></h1>
-        <p class="hero__kicker reveal">Fighting is a choice. Conflict is inevitable.</p>
-
-        <p class="hero__offer reveal">
-          <span class="hero__offer-tag">Free</span>
-          <span><b>Read Chapter One, on us.</b> No cost, no catch &mdash; the opening chapter, in your inbox in minutes.</span>
-        </p>
+        <p class="eyebrow reveal">Free chapter &middot; Instant access</p>
+        <h1 class="reveal">Read Chapter One, <em>on us.</em></h1>
 
         <div class="capture reveal">
           <p class="capture__title">Send me Chapter One</p>
@@ -1988,7 +1955,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
       <div>
         <div class="foot__mark">Never Fight or Argue Again</div>
         <p style="margin:0;max-width:24rem">Biblical wisdom and practical tools for building a stronger marriage. Larry &amp; Rolanda Beacham · Odessa, Florida.</p>
-        <p style="margin-top:1.25rem"><a class="btn btn--outline" href="/" data-tab="home">Get the free chapters</a></p>
+        <p style="margin-top:1.25rem"><a class="btn btn--outline" href="/" data-tab="home">Get the free chapter</a></p>
       </div>
       <div>
         <h4>Explore</h4>
@@ -1996,7 +1963,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
           <li><a href="/book/" data-tab="book">The Book</a></li>
           <li><a href="/testimonials/" data-tab="testimonials">Testimonials</a></li>
           <li><a href="/endorsements/" data-tab="endorsements">Endorsements</a></li>
-          <li><a href="/churches/" data-tab="churches">Churches</a></li>
+          <li><a href="/churches/" data-tab="churches">For Churches</a></li>
           <li><a href="/speaking/" data-tab="speaking">Speaking</a></li>
           <li><a href="/about/" data-tab="about">About Larry &amp; Ro</a></li>
         </ul>
