@@ -2,7 +2,7 @@
 // Never Fight or Argue Again — subscribe function
 //
 // Handles every form on the site:
-//   kind: "chapters"  -> save subscriber, email them the two chapters
+//   kind: "chapters"  -> save subscriber, email them the free chapter
 //   kind: "church"    -> save inquiry, email Larry & Ro
 //   kind: "speaking"  -> save inquiry, email Larry & Ro
 //
@@ -25,7 +25,7 @@ const FROM_NAME = Deno.env.get("FROM_NAME") ?? "Larry & Ro";
 const BREVO_LIST_ID = Deno.env.get("BREVO_LIST_ID");
 const NOTIFY_EMAIL = Deno.env.get("NOTIFY_EMAIL") ?? "hello@neverfightorargue.com";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const CHAPTER_PATH = "/chapters/never-fight-or-argue-again-chapters-1-2.pdf";
+const CHAPTER_PATH = "/chapters/never-fight-or-argue-again-chapter-1.pdf";
 
 const ALLOWED_ORIGINS = [
   "https://neverfightorargue.com",
@@ -138,17 +138,17 @@ function chaptersEmail(firstName: string, token: string) {
   return shell(
     `
     <p style="margin:0 0 18px;">Hi ${name}</p>
-    <p style="margin:0 0 18px;">Thanks for asking for these.</p>
-    <p style="margin:0 0 18px;">Most marriage advice starts from the assumption that fighting is normal, and the best you can do is fight fair. These two chapters explain why we stopped believing that &mdash; and what we found on the other side of it.</p>
-    <p style="margin:0 0 26px;">One suggestion: read them on your own first. Don't hand them to your spouse yet. When you're ready, the invitation lands better than the evidence does.</p>
+    <p style="margin:0 0 18px;">Thank you for requesting a chapter of our book!</p>
+    <p style="margin:0 0 18px;">Most marriage advice starts from the assumption that fighting is normal, and the best you can do is fight fair. This chapter explains why we stopped believing that &mdash; and what we found on the other side of it.</p>
+    <p style="margin:0 0 26px;">One suggestion: read it on your own first. Don't hand it to your spouse yet. When you're ready, the invitation lands better than the evidence does.</p>
     <p style="margin:0 0 28px;text-align:center;">
       <a href="${SITE_URL}${CHAPTER_PATH}"
          style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">
-        Download the chapters
+        Download the chapter
       </a>
     </p>
     <p style="margin:0;">&mdash; Larry &amp; Ro</p>`,
-    `You're receiving this because you requested two free chapters at ${SITE_URL.replace("https://", "")}.<br>
+    `You're receiving this because you requested a free chapter at ${SITE_URL.replace("https://", "")}.<br>
      <a href="${SITE_URL}/unsubscribe/?t=${token}" style="color:#6B7385;">Unsubscribe</a>`,
   );
 }
@@ -231,7 +231,7 @@ Deno.serve(async (req) => {
 
       const sent = await sendEmail(
         email,
-        "Your two free chapters are here",
+        "Your free chapter is here",
         chaptersEmail(first_name, row.unsubscribe_token),
       );
       if (sent) {
