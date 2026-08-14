@@ -30,11 +30,13 @@ Person submits the form
    Day 2   Did you read it?           ← Brevo automation
    Day 5   Which plan are you on?
    Day 9   What Chapter One left out
-   Oct 25  Launching in one week
-   Nov 1   It's live
+   Oct 18  Can you be in the room?    ← live launch, Tampa
+   Oct 30  Saturday
+   Nov 1   It's out
+   Nov 3   What we said on Saturday
 ```
 
-Six emails. The first is transactional and fires from your code. The other five live in one Brevo automation and you can edit them any time without touching the site.
+Eight emails. The first is transactional and fires from your code. The other seven live in one Brevo automation and you can edit them any time without touching the site.
 
 ---
 
@@ -175,25 +177,43 @@ Copy these into Brevo. Every one is written to sound like the two of you, not a 
 >
 > Both spouses prepare separately. Then they meet, and the goal stops being to win and starts being to become one. There's a pause you can call by name when it's going badly — we call it Stop Loss — and a way back afterward that doesn't require anyone to grovel.
 >
-> That's the rest of the book. It's out November 1st.
+> That's the rest of the book. And we're not quietly putting it on sale — we're launching it in a room full of people on November 1st, in Tampa. More on that soon.
 >
 > — Larry & Ro
 
-### Email 5 — October 25
+### Email 5 — October 18 (two weeks out)
 
-**Subject:** One week out
+**Subject:** Can you be in the room?
 
 > Hi [first name],
 >
-> *Never Fight or Argue Again* is out a week from today.
+> On November 1st we're launching *Never Fight or Argue Again* live, in Tampa. Not a webinar. An actual room, with actual couples in it.
 >
-> Two things worth knowing now. If you're thinking about running it with a small group or a marriage ministry, there's bulk and church pricing — reply and we'll send it before it goes public.
+> We'd love you there. [Reserve a seat] — it's free, we just need a headcount.
 >
-> And if Chapter One was useful to you, the most helpful thing you could do on launch day is tell one other couple. Not share a link. Tell them.
+> If Tampa isn't reachable for you, stay on this list anyway. You'll get the book link the same day, and we'll send out what we teach from the stage that night.
+>
+> One more thing: if you're thinking about running this with a small group or a marriage ministry, reply and we'll send you bulk and church pricing before it goes public.
 >
 > — Larry & Ro
 
-### Email 6 — November 1
+> **Before you send this one**, replace `[Reserve a seat]` with your real registration link, and add the time and venue once they're confirmed.
+
+### Email 6 — October 30 (two days out)
+
+**Subject:** Saturday
+
+> Hi [first name],
+>
+> The launch is this Saturday, November 1st, in Tampa. [Details and directions]
+>
+> If you're coming: come early if you can. We'd rather meet you than start on time.
+>
+> If you're not: the book goes live the same day and you'll get the link in the morning.
+>
+> — Larry & Ro
+
+### Email 7 — November 1
 
 **Subject:** It's out
 
@@ -206,6 +226,20 @@ Copy these into Brevo. Every one is written to sound like the two of you, not a 
 > You've had Chapter One for a while now. The rest is both preparation plans, the Anti-Fight Plan where they meet, what to do when an old habit comes back, and a chapter-by-chapter discussion guide for couples and small groups.
 >
 > Thank you for reading the first part before there was anything to buy. That mattered to us.
+>
+> — Larry & Ro
+
+### Email 8 — November 3 (for everyone who couldn't come)
+
+**Subject:** What we said on Saturday
+
+> Hi [first name],
+>
+> Saturday's launch was something we'll be thinking about for a long time. Thank you to everyone who came.
+>
+> For those who couldn't: here's the part we most wanted people to hear. [Link or short recap]
+>
+> The book is out now, and the invitation in it is the same one we made from the stage — stop trying to fight better. Learn to stop.
 >
 > — Larry & Ro
 
