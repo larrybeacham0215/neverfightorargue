@@ -110,7 +110,7 @@ values before these can go out.
 >
 > On November 1st we're launching *Never Fight or Argue Again* live, in Tampa. Not a webinar. An actual room, with actual couples in it.
 >
-> We'd love you there. **[ Reserve a seat ]** — it's free, we just need a headcount.
+> We'd love to have you there. **[ Reserve a seat ]** — it's free, we just need a headcount.
 >
 > If Tampa isn't reachable for you, stay on this list anyway. You'll get the book link the same day, and we'll send out what we teach from the stage that night.
 >
