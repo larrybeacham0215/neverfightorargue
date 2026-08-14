@@ -1391,8 +1391,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="nav__tabs" id="navTabs">
       <a href="/" data-tab="home">Home</a>
       <a href="/book/" data-tab="book">The Book</a>
-      <a href="/testimonials/" data-tab="testimonials">Testimonials</a>
-      <a href="/endorsements/" data-tab="endorsements">Endorsements</a>
       <a href="/churches/" data-tab="churches">For Churches</a>
       <a href="/speaking/" data-tab="speaking">Speaking</a>
       <a href="/about/" data-tab="about">About Us</a>
@@ -2577,8 +2575,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h4>Explore</h4>
         <ul>
           <li><a href="/book/" data-tab="book">The Book</a></li>
-          <li><a href="/testimonials/" data-tab="testimonials">Testimonials</a></li>
-          <li><a href="/endorsements/" data-tab="endorsements">Endorsements</a></li>
           <li><a href="/churches/" data-tab="churches">For Churches</a></li>
           <li><a href="/speaking/" data-tab="speaking">Speaking</a></li>
           <li><a href="/about/" data-tab="about">About Larry &amp; Ro</a></li>
@@ -2640,7 +2636,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   };
   /* ==================  END OF SETTINGS  ============================== */
 
-  var VIEWS = ['home', 'book', 'testimonials', 'endorsements', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  // Testimonials and Endorsements are written but still carry placeholder
+  // quotes, so they are held back. To bring either one live: add it to VIEWS,
+  // put its path back in ROUTES, restore its nav and footer links, and add it
+  // to sitemap.xml. The markup is untouched and waiting.
+  var VIEWS = ['home', 'book', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -2654,8 +2654,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   var ROUTES = {
     '/':               'home',
     '/book/':          'book',
-    '/testimonials/':  'testimonials',
-    '/endorsements/':  'endorsements',
     '/churches/':      'churches',
     '/speaking/':      'speaking',
     '/about/':         'about',
@@ -2668,8 +2666,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   var TITLES = {
     home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
     book: 'The Book — Never Fight or Argue Again',
-    testimonials: 'Testimonials — Never Fight or Argue Again',
-    endorsements: 'Endorsements — Never Fight or Argue Again',
     churches: 'For Churches & Organizations — Never Fight or Argue Again',
     speaking: 'Speaking — Larry & Rolanda Beacham',
     about: 'About Larry & Rolanda Beacham',
