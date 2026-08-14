@@ -830,30 +830,322 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 
 /* ==========================================================================
    THANK-YOU PAGE
+   Two columns that fit one screen: the confirmation on the left, the launch
+   invitation on the right. Nothing below the fold on desktop.
    ========================================================================== */
-.ty__actions{
-  display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;
-  margin-top:2.5rem;margin-bottom:.85rem;
-}
-.ty__fine{font-size:.8125rem;color:rgba(247,244,236,.5);margin:0}
 
-/* The launch date, given its own card so it reads as news rather than a
-   footnote to the download. */
-.ty__card{
-  border:1px solid var(--gold);
-  background:rgba(212,166,60,.06);
-  padding:clamp(1.5rem,3.5vw,2rem);
-  margin-bottom:2.5rem;
-  text-align:center;
+/* The footer would push this past one screen, and there is nothing on this
+   page a visitor needs it for — the nav is still there. */
+body:has(#view-thanks:not([hidden])) .foot{display:none}
+.ty{
+  display:flex;
+  align-items:center;
+  min-height:calc(100vh - 4.2rem);   /* viewport minus the sticky nav */
+  padding-block:clamp(1.5rem,4vw,3rem);
 }
-.ty__card .eyebrow{margin-bottom:.75rem}
-.ty__card h2{margin-bottom:.75rem}
-.ty__card p{color:var(--on-navy);max-width:34rem;margin-inline:auto}
-.ty__cardCta{margin-top:1.5rem}
+.ty__grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,5vw,4.5rem);
+  align-items:center;
+  width:100%;
+}
+.ty__side{min-width:0;text-align:left}   /* the old centred layout left this behind */
+.ty__actions{justify-content:flex-start}
+
+.ty__mark{
+  width:3.25rem;height:3.25rem;border:1px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 0 1.5rem;
+}
+.ty__mark svg{width:1.2rem;height:1.2rem;stroke:var(--gold);fill:none;stroke-width:1.5}
+
+.ty__h1{font-size:clamp(2.1rem,4.2vw,3.1rem);line-height:1.04;margin-bottom:1.15rem}
+.ty__copy{color:var(--on-navy);max-width:31rem;margin-bottom:1.75rem}
+
+.ty__actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:0 0 .8rem;justify-content:flex-start}
+.ty__actions .btn{padding:1rem 1.35rem;font-size:.8125rem}
+.ty__fine{font-size:.78125rem;color:rgba(247,244,236,.5);margin:0}
 .ty__ps{
   margin-top:1.75rem;padding-top:1.5rem;
   border-top:1px solid rgba(247,244,236,.14);
-  font-size:.9375rem;color:rgba(247,244,236,.6);
+  font-size:.9375rem;color:rgba(247,244,236,.62);max-width:31rem;
+}
+
+/* the invitation */
+.ty__card{
+  border:1px solid var(--gold);
+  background:
+    radial-gradient(30rem 18rem at 50% 0%,rgba(212,166,60,.13),transparent 65%),
+    rgba(212,166,60,.05);
+  padding:clamp(1.75rem,3.5vw,2.5rem);
+  box-shadow:0 0 70px -34px rgba(212,166,60,.55);
+}
+.ty__card{text-align:left}
+.ty__card .eyebrow{margin-bottom:.85rem}
+.ty__h2{font-size:clamp(1.5rem,2.6vw,2.05rem);line-height:1.12;margin-bottom:0}
+.ty__card .orn{margin:1.1rem 0 1.25rem;max-width:7rem}
+.ty__card p{color:var(--on-navy);font-size:.9375rem}
+.ty__card p + p{margin-top:.85rem}
+.ty__cardCta{margin-top:1.6rem;margin-bottom:0}
+
+@media(max-width:900px){
+  .ty{min-height:0;padding-block:2.25rem 3rem}
+  .ty__grid{grid-template-columns:1fr;gap:2.25rem}
+  .ty__mark{width:2.75rem;height:2.75rem;margin-bottom:1.15rem}
+  .ty__actions .btn{flex:1 1 100%;justify-content:center}
+}
+@media(min-width:901px) and (max-height:760px){
+  .ty__mark{display:none}
+  .ty__h1{font-size:clamp(1.8rem,3.2vw,2.4rem);margin-bottom:.8rem}
+  .ty__copy{margin-bottom:1.25rem;font-size:.9375rem}
+  .ty__ps{margin-top:1.25rem;padding-top:1.1rem;font-size:.875rem}
+  .ty__card{padding:1.5rem}
+}
+
+/* ==========================================================================
+   ABOUT — portrait in the page header
+   The photo sits beside the introduction rather than opening the section
+   below it, so the page leads with their faces. Below 900px it keeps the
+   same left/right relationship rather than stacking, at a smaller size.
+   ========================================================================== */
+.phead--portrait .phead__inner{
+  display:grid;
+  grid-template-columns:.92fr 1.08fr;
+  gap:clamp(1.75rem,4.5vw,4rem);
+  align-items:center;
+}
+.phead--portrait .phead__inner > *{max-width:none}
+.phead__words{max-width:30rem}
+
+/* A double frame: an inset gold hairline sitting just inside a thin outer
+   rule, with a soft glow behind. Reads as a mounted print rather than a
+   snapshot dropped onto the page. */
+.portrait--head{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/3;
+  padding:.5rem;
+  background:linear-gradient(150deg,rgba(212,166,60,.32),rgba(212,166,60,.08) 45%,rgba(212,166,60,.24));
+  border:0;
+  box-shadow:
+    0 0 0 1px rgba(212,166,60,.3),
+    0 30px 60px -30px rgba(0,0,0,.9),
+    0 0 90px -30px rgba(212,166,60,.28);
+}
+.portrait--head img{
+  border-radius:1px;
+  box-shadow:0 0 0 1px rgba(4,8,16,.55);
+}
+/* The inner hairline, drawn over the photo's edge. */
+.portrait--head::after{
+  content:"";
+  position:absolute;
+  inset:1.15rem;
+  border:1px solid rgba(247,244,236,.22);
+  pointer-events:none;
+}
+
+@media(max-width:900px){
+  .phead--portrait .phead__inner{
+    grid-template-columns:1fr minmax(9.5rem,54%);
+    grid-template-rows:auto 1fr auto;
+    gap:.8rem;
+    align-items:start;
+  }
+  .phead--portrait .phead__words{display:contents}
+
+  /* Eyebrow and names share the left column; the photo spans both of their
+     rows so it runs the full height of that block instead of floating in
+     the middle of it. */
+  .phead--portrait .eyebrow{
+    grid-column:1;grid-row:1;
+    font-size:clamp(.65rem,2.9vw,.8rem);
+    letter-spacing:.16em;
+    margin-bottom:.35rem;
+  }
+  .phead--portrait h1{grid-column:1;grid-row:2;align-self:start;margin-bottom:0}
+  .phead--portrait .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1rem}
+
+  .portrait--head{
+    grid-column:2;
+    grid-row:1 / 3;
+    align-self:stretch;
+    aspect-ratio:auto;          /* fill the rows rather than force 4:3 */
+    min-height:100%;
+    padding:.35rem;
+  }
+  .portrait--head img{height:100%;object-fit:cover}
+  .portrait--head::after{inset:.8rem}
+}
+@media(max-width:520px){
+  .phead--portrait .phead__inner{grid-template-columns:1fr 56%;gap:.7rem}
+  .portrait--head{padding:.3rem}
+  .portrait--head::after{inset:.65rem}
+}
+
+
+/* ==========================================================================
+   FOR CHURCHES — group photo in the page header
+   Same framed treatment as the About portrait, but this photograph is 16:9
+   rather than 4:3, so it keeps its own proportions instead of being cropped
+   into a squarer frame.
+   ========================================================================== */
+.portrait--wide{aspect-ratio:auto}
+.portrait--wide img{height:auto;object-fit:contain}
+.phead--wide .phead__inner{grid-template-columns:.95fr 1.05fr}
+.phead--wide .phead__words{max-width:32rem}
+
+@media(max-width:900px){
+  /* This headline is long and the photo is wide, so on phones the eyebrow
+     runs full width and the photo takes a larger share of the row beneath,
+     with the heading beside it at a smaller step. A wide photo squeezed into
+     a tall slot would crop the group down to two faces, so it keeps its own
+     proportions here rather than filling the row height. */
+  .phead--wide .phead__inner{grid-template-columns:1fr minmax(9.5rem,52%);gap:.9rem}
+  .phead--wide .eyebrow{grid-column:1 / -1;grid-row:1}
+  .phead--wide h1{
+    grid-column:1;grid-row:2;
+    font-size:clamp(1.55rem,6.4vw,2.15rem);
+    line-height:1.1;
+    align-self:start;
+  }
+  .phead--wide .portrait--head{
+    grid-column:2;grid-row:2;
+    align-self:start;
+    margin-top:.3rem;
+    min-height:0;
+    aspect-ratio:auto;
+  }
+  .phead--wide .portrait--head img{height:auto;object-fit:contain}
+}
+@media(max-width:520px){
+  .phead--wide .phead__inner{grid-template-columns:1fr 54%}
+}
+
+
+/* ==========================================================================
+   TESTIMONIALS — slider in the page header
+   The video sits beside the introduction rather than in a section below it.
+   The frame matches the photographs on the About and Churches pages, so the
+   three page headers read as a set.
+   ========================================================================== */
+.phead--slider .phead__inner{
+  grid-template-columns:.85fr 1.15fr;
+  align-items:start;      /* the slider column is the taller one, so centring
+                             pushed the words down; both start at the top */
+}
+.phead--slider .phead__words{max-width:29rem}
+
+.phead__media{min-width:0}
+
+/* Framed exactly like .portrait--head: gold mat, inner hairline, soft glow. */
+.phead--slider .vid{
+  border:0;
+  padding:.5rem;
+  background:linear-gradient(150deg,rgba(212,166,60,.32),rgba(212,166,60,.08) 45%,rgba(212,166,60,.24));
+  box-shadow:
+    0 0 0 1px rgba(212,166,60,.3),
+    0 30px 60px -30px rgba(0,0,0,.9),
+    0 0 90px -30px rgba(212,166,60,.28);
+}
+.phead--slider .vid::before{
+  content:"";
+  position:absolute;
+  inset:.5rem;
+  background:
+    radial-gradient(38rem 22rem at 50% 42%,rgba(212,166,60,.14),transparent 65%),
+    linear-gradient(160deg,#16233D,#080F1E);
+}
+.phead--slider .vid::after{
+  content:"";
+  position:absolute;
+  inset:1.15rem;
+  border:1px solid rgba(247,244,236,.22);
+  pointer-events:none;
+}
+.phead--slider .vid > *{position:relative;z-index:1}
+.phead--slider .vid iframe,
+.phead--slider .vid video{inset:.5rem;width:auto;height:auto;right:.5rem;bottom:.5rem}
+
+/* One video per row here, with the caption underneath rather than beside it —
+   the header column is narrower than the old full-width section was. */
+.phead--slider .slide__grid{grid-template-columns:1fr;gap:1.15rem}
+.phead--slider .slide__quote{font-size:1rem}
+.phead--slider .slider{margin-top:0}
+.phead--slider .slider__bar{margin-top:1.25rem}
+
+@media(max-width:900px){
+  /* Below the words, full width, so the video is big enough to be worth
+     watching rather than squeezed into a column. */
+  .phead--slider .phead__inner{
+    grid-template-columns:1fr;
+    grid-template-areas:none;
+    gap:1.5rem;
+  }
+  .phead--slider .phead__words{display:block;max-width:none}
+  .phead--slider .phead__media{grid-column:1}
+  .phead--slider .vid{padding:.35rem}
+  .phead--slider .vid::before{inset:.35rem}
+  .phead--slider .vid::after{inset:.8rem}
+  .phead--slider .vid iframe,
+  .phead--slider .vid video{inset:.35rem;right:.35rem;bottom:.35rem}
+}
+
+
+/* ==========================================================================
+   THE BOOK — cover in the page header
+   Same left/right arrangement as the other page headers. The cover carries
+   its own shadow, so it gets no gold frame; a frame around a book mockup
+   would read as a picture of a book rather than the book itself.
+   ========================================================================== */
+.phead--book .phead__inner{grid-template-columns:1.05fr .95fr;align-items:center}
+.phead--book .phead__words{max-width:33rem}
+/* Sized so the cover finishes level with the words beside it. Height can't
+   be driven off the text column directly — the row would grow to fit the
+   cover, which would then grow to fill the row — so the width is set to the
+   value that produces a matching height at desktop sizes. */
+.phead--book .phead__media{display:flex;justify-content:center;align-items:center}
+.phead--book .book3d{width:min(25.75rem,39vw);height:auto}
+.phead--book .book3d img{width:100%;height:auto}
+
+.phead__cta{
+  display:flex;flex-wrap:wrap;gap:.75rem;
+  margin-top:2rem;margin-bottom:0;
+}
+
+@media(max-width:900px){
+  .phead--book .phead__inner{
+    grid-template-columns:1fr minmax(9.5rem,46%);
+    gap:.9rem;
+    align-items:start;
+  }
+  .phead--book .phead__words{display:contents}
+
+  /* The eyebrow stays in the left column so the cover can start level with
+     it, spanning both text rows rather than beginning halfway down. */
+  .phead--book .eyebrow{grid-column:1;grid-row:1;margin-bottom:.5rem}
+  .phead--book h1{
+    grid-column:1;grid-row:2;
+    align-self:start;margin-bottom:0;
+    font-size:clamp(1.5rem,6.1vw,2.1rem);
+  }
+  .phead--book .phead__words > p:not(.eyebrow):not(.phead__cta){grid-column:1 / -1;grid-row:3;margin-top:1.25rem}
+  .phead--book .phead__cta{grid-column:1 / -1;grid-row:4;margin-top:1.5rem}
+
+  .phead--book .phead__media{
+    grid-column:2;
+    grid-row:1 / 3;
+    align-self:center;
+    align-items:center;
+    justify-content:center;
+  }
+  .phead--book .book3d{width:min(12rem,44vw);height:auto}
+  .phead--book .book3d img{height:auto;width:100%}
+}
+@media(max-width:520px){
+  .phead--book .phead__inner{grid-template-columns:1fr 47%;gap:.8rem}
+  .phead--book .book3d{width:min(10.5rem,45vw)}
 }
 
 
@@ -2154,61 +2446,36 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 <!-- ==================================================================== -->
 <div class="view" id="view-thanks" hidden>
   <section class="ty">
-    <div class="wrap ty__inner">
-      <div class="ty__mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M2 6h20v13H2z"/><path d="M2 6l10 8 10-8"/></svg>
+    <div class="wrap ty__grid">
+
+      <div class="ty__side">
+        <div class="ty__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2 6h20v13H2z"/><path d="M2 6l10 8 10-8"/></svg>
+        </div>
+        <p class="eyebrow">You're in</p>
+        <h1 class="ty__h1" id="tyTitle">Check your inbox.</h1>
+        <p class="ty__copy" id="tyCopy">Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham &mdash; if it hasn't landed in a few minutes, look in Promotions or Spam and drag it across so the rest of our notes reach you.</p>
+
+        <p class="ty__actions" id="tyAction">
+          <a class="btn btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf" download>Download Chapter One</a>
+          <a class="btn btn--lg btn--outline" href="/free-chapter/" data-tab="chapters">Read in browser</a>
+        </p>
+        <p class="ty__fine" id="tyFine">No need to wait for the email &mdash; the chapter is yours right here.</p>
+
+        <p class="ty__ps" id="tyNext">Read it on your own first. Don't hand it to your spouse yet &mdash; the invitation lands better than the evidence does.</p>
       </div>
-      <p class="eyebrow" style="text-align:center">You're in</p>
-      <h1 class="h-xl" id="tyTitle">Check your inbox.</h1>
-      <div class="orn orn--short orn--center" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center" id="tyCopy">Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham — if it hasn't landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.</p>
 
-      <p class="ty__actions" id="tyAction">
-        <a class="btn btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf" download>Download Chapter One now</a>
-        <a class="btn btn--lg btn--outline" href="/free-chapter/" data-tab="chapters">Read it in your browser</a>
-      </p>
-      <p class="ty__fine" id="tyFine">No need to wait for the email &mdash; the chapter is yours right here.</p>
-
-      <div class="ty__next" id="tyNext">
+      <div class="ty__side ty__side--invite">
         <div class="ty__card">
           <p class="eyebrow">You're invited</p>
-          <h2 class="h-sm">Book launch &mdash; November 1st, Tampa.</h2>
-          <p>We're launching <em>Never Fight or Argue Again</em> live, in person, and we'd love you in the room. Time and venue are being finalized &mdash; you'll get the details by email before anyone else, along with how to reserve a seat.</p>
-          <p class="ty__cardCta"><a class="btn btn--outline" href="/assets/launch-nov-1.ics" download>Save the date</a></p>
+          <h2 class="ty__h2">Book launch<br>November 1st, Tampa.</h2>
+          <div class="orn orn--short" aria-hidden="true"><span></span></div>
+          <p>We're launching <em>Never Fight or Argue Again</em> live, in person &mdash; not a webinar, an actual room with actual couples in it. We'd love you there.</p>
+          <p>Time and venue are being finalized. You'll get the details by email before anyone else, along with how to reserve a seat.</p>
+          <p class="ty__cardCta"><a class="btn" href="/assets/launch-nov-1.ics" download>Save the date</a></p>
         </div>
+      </div>
 
-        <h2 class="h-sm" style="margin-bottom:1rem">While you wait &mdash; one suggestion</h2>
-        <ol>
-          <li>Read it on your own first. Don't hand it to your spouse yet.</li>
-          <li>Notice which of the two plans you'd be working. Most people know within a page or two.</li>
-          <li>Then ask your spouse to read it. Not as evidence. As an invitation.</li>
-        </ol>
-        <p class="ty__ps">One more thing: reply to the email when it arrives and tell us where your marriage is right now. We read every one of them, and it shapes what we send you next.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--paper">
-    <div class="wrap grid-2 grid-2--center">
-      <div class="reveal" style="display:flex;justify-content:center">
-        <div class="book3d book3d--sm">
-            <picture>
-              <source srcset="/assets/book-3d.webp" type="image/webp">
-              <img src="/assets/book-3d.png"
-                   alt="Never Fight or Argue Again by Larry and Rolanda Beacham"
-                   width="760" height="966">
-            </picture>
-          </div>
-      </div>
-      <div class="reveal">
-        <p class="eyebrow eyebrow--ink">What's next</p>
-        <h2 class="h-lg">If Chapter One lands, the rest of the plan is waiting.</h2>
-        <p style="margin-top:1rem">The full book carries both preparation plans, the Anti-Fight Plan where they meet, and a chapter-by-chapter discussion guide for couples and small groups.</p>
-        <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
-          <a class="btn btn--onLight" href="/book/" data-tab="book">Where to buy</a>
-          <a class="btn btn--outline btn--gold" href="/churches/" data-tab="churches">For churches</a>
-        </p>
-      </div>
     </div>
   </section>
 </div>
