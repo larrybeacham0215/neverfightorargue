@@ -2938,6 +2938,22 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     });
   });
 
+  // Preview any thank-you state without filling in a form:
+  //   /thank-you/?kind=church      /thank-you/?kind=speaking
+  // Handy for checking the copy; a real submission sets the same fields.
+  (function () {
+    var want = new URLSearchParams(location.search).get('kind');
+    if (!want || !TY[want]) return;
+    var t = TY[want];
+    var set = function (id, fn) { var el = document.getElementById(id); if (el) fn(el); };
+    set('tyEyebrow', function (el) { el.textContent = t.eyebrow; });
+    set('tyTitle', function (el) { el.textContent = t.title; });
+    set('tyCopy', function (el) { el.innerHTML = t.copy; });
+    set('tyAction', function (el) { el.hidden = !t.showAction; });
+    set('tyFine', function (el) { el.hidden = !t.showAction; });
+    set('tyNext', function (el) { el.hidden = !t.showNext; });
+  })();
+
   // Point the download at whatever file name is set in CONFIG.
   var dl = document.getElementById('dlChapters');
   if (dl && CONFIG.chapterFile) dl.setAttribute('href', CONFIG.chapterFile);
