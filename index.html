@@ -863,6 +863,15 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 .ty__h1{font-size:clamp(2.1rem,4.2vw,3.1rem);line-height:1.04;margin-bottom:1.15rem}
 .ty__copy{color:var(--on-navy);max-width:31rem;margin-bottom:1.75rem}
 
+/* Highlight — the one instruction people actually need to act on. */
+.hl{
+  background:rgba(212,166,60,.22);
+  box-shadow:0 0 0 .18em rgba(212,166,60,.22);
+  color:var(--ivory);
+  font-weight:600;
+  border-radius:1px;
+}
+
 .ty__actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:0 0 .8rem;justify-content:flex-start}
 .ty__actions .btn{padding:1rem 1.35rem;font-size:.8125rem}
 .ty__fine{font-size:.78125rem;color:rgba(247,244,236,.5);margin:0}
@@ -2457,7 +2466,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </div>
         <p class="eyebrow">You're in</p>
         <h1 class="ty__h1" id="tyTitle">Check your inbox.</h1>
-        <p class="ty__copy" id="tyCopy">Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham &mdash; if it hasn't landed in a few minutes, look in Promotions or Spam and drag it across so the rest of our notes reach you.</p>
+        <p class="ty__copy" id="tyCopy">Chapter One is on its way, from Larry &amp; Rolanda Beacham. If it hasn't landed in a few minutes, <mark class="hl">look in Promotions or Spam</mark>. Move it to your main inbox once and your email app will put the rest of our notes there too.</p>
 
         <p class="ty__actions" id="tyAction">
           <a class="btn btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf" download>Download Chapter One</a>
