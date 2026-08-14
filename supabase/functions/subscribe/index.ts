@@ -153,6 +153,23 @@ function chaptersEmail(firstName: string, token: string) {
   );
 }
 
+function inquiryReceipt(kind: string, firstName: string) {
+  const name = firstName ? `${firstName},` : "there,";
+  const what = kind === "church"
+    ? "running <em>Never Fight or Argue Again</em> with a group"
+    : "having us speak";
+  const next = kind === "church"
+    ? "We'll come back with pricing, what a group your size usually needs, and how the discussion guide works week to week."
+    : "We'll come back with availability, what we'd suggest for your group, and what we'd need from you.";
+
+  return shell(`
+    <p style="margin:0 0 18px;">Hi ${name}</p>
+    <p style="margin:0 0 18px;">Thank you for reaching out about ${what}. This is just to confirm it reached us &mdash; nothing else is needed from you right now.</p>
+    <p style="margin:0 0 18px;">${next} Expect to hear from one of us within two business days, and it will be a real reply, not an automated one.</p>
+    <p style="margin:0 0 18px;">If anything changes in the meantime, or you think of something you forgot to mention, just reply to this email. It comes straight to us.</p>
+    <p style="margin:0;">&mdash; Larry &amp; Ro</p>`);
+}
+
 function inquiryEmail(kind: string, d: Record<string, string>, extra: Record<string, unknown>) {
   const rows = Object.entries(extra)
     .filter(([, v]) => v)
@@ -271,6 +288,8 @@ Deno.serve(async (req) => {
       const pretty: Record<string, string> = {};
       for (const [k, v] of Object.entries(details)) pretty[labels[k] ?? k] = v;
 
+      // Notify Larry and Ro. Reply-to is the person who wrote in, so hitting
+      // reply goes straight back to them.
       await sendEmail(
         NOTIFY_EMAIL,
         `New ${kind} inquiry — ${record.organization || record.first_name || email}`,
@@ -278,7 +297,17 @@ Deno.serve(async (req) => {
         email,
       );
 
-      return new Response(JSON.stringify({ ok: true }), { headers });
+      // Confirm to the person who submitted, so they know it arrived and
+      // roughly when to expect a reply.
+      const receipted = await sendEmail(
+        email,
+        kind === "church"
+          ? "We got your inquiry — Never Fight or Argue Again"
+          : "We got your speaking inquiry — Larry & Ro",
+        inquiryReceipt(kind, first_name),
+      );
+
+      return new Response(JSON.stringify({ ok: true, receipted }), { headers });
     }
 
     return new Response(JSON.stringify({ error: "Unknown form type." }), { status: 400, headers });
