@@ -98,14 +98,23 @@ never-fight-or-argue-again-chapter-1.pdf
 
 It goes in **`assets/`** — note, not `chapters/`. The thank-you page download button and the email both point there.
 
-### Step 7: Build the follow-up sequence (30 min)
+### Step 7: The welcome sequence — already built and running
 
-**Brevo → Automations → Create an automation → Start from scratch.**
+Emails 2, 3 and 4 (day 2, day 5, day 9) send automatically. They are not a
+Brevo automation — they run from a `drip` Edge Function that a scheduled job
+inside your database calls every hour.
 
-- **Entry point:** *A contact is added to a list* → `Free Chapter`
-- Then alternate **Wait** steps and **Send an email** steps using the copy in Part 3 below.
+Nothing to set up. Tested end to end: a subscriber backdated three days
+received the day-2 email, the stage advanced, and a second run correctly sent
+nothing rather than sending twice.
 
-Set each email's **sender** to `Larry & Ro <hello@neverfightorargue.com>` and **reply-to** the same, so replies reach you.
+**To change the wording**, edit `supabase/functions/drip/index.ts` and ask me
+to redeploy. Same for the delivery email, which lives in `subscribe/index.ts`.
+
+**The four dated emails** — October 18, October 30, November 1, November 3 —
+are for a fixed calendar, not a per-person delay, so they go out as scheduled
+campaigns. Those need your venue and registration link first. Send me both and
+I'll schedule them.
 
 ---
 
