@@ -42,18 +42,21 @@
     <a href="/">Back to the site</a>
   </div>
 <script>
-  // Old-style links like /the-book.html or /for-churches.html land here.
-  // Send them to the matching tab instead of a dead end.
+  // Old-style links like /the-book.html or /for-churches.html land here, and
+  // so does any clean URL such as /book/ — GitHub Pages has no file there.
+  // Send them to the matching tab instead of a dead end, carrying any query
+  // string with them so things like ?kind=church survive the hop.
   (function () {
     var map = {
       'the-book': 'book', 'book': 'book',
       'for-churches': 'churches', 'churches': 'churches',
       'testimonials': 'testimonials', 'endorsements': 'endorsements',
       'speaking': 'speaking', 'about': 'about', 'about-us': 'about',
-      'thank-you': 'thanks', 'thanks': 'thanks', 'chapters': 'chapters'
+      'thank-you': 'thanks', 'thanks': 'thanks',
+      'chapters': 'chapters', 'free-chapter': 'chapters', 'free-chapters': 'chapters'
     };
     var slug = location.pathname.replace(/^\/|\/$/g, '').replace(/\.html?$/, '').toLowerCase();
-    if (map[slug]) location.replace('/#' + map[slug]);
+    if (map[slug]) location.replace('/' + (location.search || '') + '#' + map[slug]);
   })();
 </script>
 </body>
