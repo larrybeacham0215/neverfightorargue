@@ -2609,6 +2609,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 (function () {
   'use strict';
 
+  // Read this before anything else: the router rewrites the address bar on
+  // load, which would wipe the query string before we got to look at it.
+  var PREVIEW_KIND = (function () {
+    try { return new URLSearchParams(location.search).get('kind'); }
+    catch (e) { return null; }
+  })();
+
 
   /* =====================================================================
      ============  SETTINGS — THE ONLY PART YOU NEED TO EDIT  ============
@@ -2942,7 +2949,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   //   /thank-you/?kind=church      /thank-you/?kind=speaking
   // Handy for checking the copy; a real submission sets the same fields.
   (function () {
-    var want = new URLSearchParams(location.search).get('kind');
+    var want = PREVIEW_KIND;
     if (!want || !TY[want]) return;
     var t = TY[want];
     var set = function (id, fn) { var el = document.getElementById(id); if (el) fn(el); };
