@@ -60,7 +60,7 @@ Brevo gives you DNS records. Add each in **GoDaddy → DNS → Add New Record**.
 
 > The **API Keys** tab, not SMTP. Different credential; the SMTP one won't work here. This is the single most common mistake with Brevo.
 
-Then **Contacts → Lists → Add a list.** Name it `Free Chapter`. Open it and note the **list ID** from the URL — a number.
+**Already done.** The list `NFOAA — Free Chapter` exists, **list ID 3**. Use that for `BREVO_LIST_ID`.
 
 ### Step 4: Deploy the two functions (20 min, all in the browser)
 
@@ -73,7 +73,7 @@ Then **Contacts → Lists → Add a list.** Name it `Free Chapter`. Open it and 
 | `FROM_NAME` | `Larry & Ro` |
 | `NOTIFY_EMAIL` | Your everyday inbox |
 | `SITE_URL` | `https://neverfightorargue.com` |
-| `BREVO_LIST_ID` | The number from Step 3 |
+| `BREVO_LIST_ID` | `3` |
 
 Then **Edge Functions → Deploy a new function → Via Editor**, twice:
 
