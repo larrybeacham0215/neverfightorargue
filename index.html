@@ -872,6 +872,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   border-radius:1px;
 }
 
+/* A class that sets display beats the browser's own [hidden] rule, so the
+   hidden attribute has to be honoured explicitly here. */
+.ty__actions[hidden]{display:none}
 .ty__actions{display:flex;flex-wrap:wrap;gap:.7rem;margin:0 0 .8rem;justify-content:flex-start}
 .ty__actions .btn{padding:1rem 1.35rem;font-size:.8125rem}
 .ty__fine{font-size:.78125rem;color:rgba(247,244,236,.5);margin:0}
@@ -2464,7 +2467,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="ty__mark" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M2 6h20v13H2z"/><path d="M2 6l10 8 10-8"/></svg>
         </div>
-        <p class="eyebrow">You're in</p>
+        <p class="eyebrow" id="tyEyebrow">You're in</p>
         <h1 class="ty__h1" id="tyTitle">Check your inbox.</h1>
         <p class="ty__copy" id="tyCopy">Chapter One is on its way, from Larry &amp; Rolanda Beacham. If it hasn't landed in a few minutes, <mark class="hl">look in Promotions or Spam</mark>. Move it to your main inbox once and your email app will put the rest of our notes there too.</p>
 
@@ -2813,18 +2816,21 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   var TY = {
     'default': {
+      eyebrow: "You're in",
       title: 'Check your inbox.',
-      copy: 'Chapter One is on its way. The email comes from Larry &amp; Rolanda Beacham — if it hasn\'t landed in a few minutes, look in Promotions or Spam and drag it to your inbox so the rest of our notes reach you.',
+      copy: 'Chapter One is on its way, from Larry &amp; Rolanda Beacham. If it hasn\'t landed in a few minutes, <mark class="hl">look in Promotions or Spam</mark>. Move it to your main inbox once and your email app will put the rest of our notes there too.',
       showAction: true, showNext: true
     },
     'church': {
+      eyebrow: 'Inquiry received',
       title: 'Thanks — we\'ve got it.',
-      copy: 'Your inquiry is in front of us. Larry or Ro will reply personally, usually within two business days, with pricing and what we can support for a group your size.',
+      copy: 'Your inquiry is in front of us. Larry or Ro will reply personally, usually within two business days, with pricing and what we can support for a group your size. We\'ve sent you a confirmation in the meantime.',
       showAction: false, showNext: false
     },
     'speaking': {
+      eyebrow: 'Inquiry received',
       title: 'Thanks — we\'ve got it.',
-      copy: 'Your event details are in front of us. We\'ll come back within two business days with availability and what we\'d suggest for your group.',
+      copy: 'Your event details are in front of us. We\'ll come back within two business days with availability and what we\'d suggest for your group. We\'ve sent you a confirmation in the meantime.',
       showAction: false, showNext: false
     }
   };
@@ -2919,9 +2925,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         if (form.dataset.stay === 'chapters') { navigate('chapters', true); return; }
 
         var t = TY[kind] || TY['default'];
+        document.getElementById('tyEyebrow').textContent = t.eyebrow;
         document.getElementById('tyTitle').textContent = t.title;
         document.getElementById('tyCopy').innerHTML = t.copy;
+        // The chapter download belongs to the chapter form only — an inquiry
+        // should not be handed a book excerpt it never asked for.
         document.getElementById('tyAction').hidden = !t.showAction;
+        document.getElementById('tyFine').hidden = !t.showAction;
         document.getElementById('tyNext').hidden = !t.showNext;
         navigate('thanks', true);
       });
