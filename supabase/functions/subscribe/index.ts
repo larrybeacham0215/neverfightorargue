@@ -25,7 +25,7 @@ const FROM_NAME = Deno.env.get("FROM_NAME") ?? "Larry & Ro";
 const BREVO_LIST_ID = Deno.env.get("BREVO_LIST_ID");
 const NOTIFY_EMAIL = Deno.env.get("NOTIFY_EMAIL") ?? "hello@neverfightorargue.com";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const CHAPTER_PATH = "/chapters/never-fight-or-argue-again-chapter-1.pdf";
+const CHAPTER_PATH = "/assets/never-fight-or-argue-again-chapter-1.pdf";
 
 const ALLOWED_ORIGINS = [
   "https://neverfightorargue.com",
