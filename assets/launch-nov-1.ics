@@ -5,20 +5,27 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:nfoaa-launch-2026-11-01@neverfightorargue.com
-DTSTAMP:20260813T180000Z
+DTSTAMP:20260814T160000Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
-SUMMARY:Never Fight or Argue Again — book launch
-DESCRIPTION:The full book is available today. Both preparation plans\, the A
- nti-Fight Plan where they meet\, and the chapter-by-chapter discussion guid
- e for couples and small groups.\n\nhttps://neverfightorargue.com/book/
-URL:https://neverfightorargue.com/book/
-LOCATION:neverfightorargue.com
+SUMMARY:Never Fight or Argue Again — live book launch (Tampa)
+DESCRIPTION:The live launch of Never Fight or Argue Again by Larry & Rolanda
+  Beacham\, in Tampa\, Florida.\n\nTime and venue to be confirmed — watch you
+ r inbox for details and how to reserve a seat.\n\nhttps://neverfightorargue.
+ com/
+URL:https://neverfightorargue.com/
+LOCATION:Tampa, Florida
+STATUS:TENTATIVE
 TRANSP:TRANSPARENT
+BEGIN:VALARM
+TRIGGER:-P7D
+ACTION:DISPLAY
+DESCRIPTION:Never Fight or Argue Again launch is one week away
+END:VALARM
 BEGIN:VALARM
 TRIGGER:-P1D
 ACTION:DISPLAY
-DESCRIPTION:Never Fight or Argue Again launches tomorrow
+DESCRIPTION:Never Fight or Argue Again launch is tomorrow
 END:VALARM
 END:VEVENT
 END:VCALENDAR
