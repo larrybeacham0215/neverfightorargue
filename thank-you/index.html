@@ -862,16 +862,31 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .ev__day{font-family:var(--f-display);font-size:3.25rem;line-height:1;color:var(--ivory)}
 .ev__year{font-size:.75rem;letter-spacing:.2em;color:rgba(247,244,236,.55)}
 .ev__facts{margin:0}
-.ev__facts > div{display:grid;grid-template-columns:5.5rem 1fr;gap:.75rem;padding:.6rem 0}
+.ev__facts > div{display:grid;grid-template-columns:6rem 1fr;gap:.9rem;padding:.9rem 0}
 .ev__facts > div + div{border-top:1px solid rgba(247,244,236,.1)}
-.ev__facts dt{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding-top:.25rem}
-.ev__facts dd{margin:0;font-size:.9375rem;color:var(--ivory);line-height:1.5}
-.ev__tbd{color:rgba(247,244,236,.5);font-size:.8125rem;font-style:italic}
-.ev__note{
-  margin:1.35rem 0 0;padding-top:1.15rem;
-  border-top:1px solid rgba(247,244,236,.12);
-  font-size:.8125rem;color:rgba(247,244,236,.6);line-height:1.55;
+.ev__facts dt{
+  font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);padding-top:.3rem;
 }
+/* Larger than body copy on purpose — these are the four things somebody
+   actually came to this page to find out. */
+.ev__facts dd{margin:0;font-size:1.0625rem;color:var(--ivory);line-height:1.5}
+.ev__facts dd strong{font-weight:600;font-size:1.15rem;color:#fff}
+.ev__cardCta{margin:1.5rem 0 0}
+.ev__cardCta .btn{width:100%;justify-content:center}
+
+/* venue */
+.ev__addr{
+  font-family:var(--f-display);font-size:1.25rem;line-height:1.5;
+  color:var(--ink);margin-bottom:1.25rem;
+}
+.ev__addrCta{margin-top:1.75rem}
+.ev__map{
+  border:1px solid rgba(20,28,46,.18);
+  box-shadow:0 0 0 1px rgba(212,166,60,.25), 0 24px 50px -30px rgba(20,28,46,.6);
+  padding:.4rem;background:#fff;
+}
+.ev__map iframe{display:block;width:100%;height:clamp(19rem,32vw,25rem);border:0}
 
 /* run of show */
 .ev__run{list-style:none;margin:0;padding:0;counter-reset:none}
@@ -922,6 +937,10 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .ev__headGrid{grid-template-columns:1fr;gap:2rem}
   .ev__for{grid-template-columns:1fr;gap:1.5rem}
   .ev__day{font-size:2.75rem}
+  .ev__facts > div{grid-template-columns:5rem 1fr;gap:.75rem}
+  .ev__facts dd{font-size:1rem}
+  .ev__facts dd strong{font-size:1.0625rem}
+  .ev__map iframe{height:16rem}
 }
 
 /* ==========================================================================
@@ -1873,7 +1892,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h1>The night we stop<br><em>fighting fair.</em></h1>
         <p class="ev__lede">An evening with Larry &amp; Rolanda Beacham for the release of <em>Never Fight or Argue Again</em> &mdash; the case against fighting fair, the two plans that replace it, and time with couples doing the same work you are.</p>
         <p class="ev__cta"><a class="btn btn--lg" href="#rsvp">Reserve your seat &mdash; free</a></p>
-        <p class="ev__seats">Seating is limited and we'd rather know you're coming.</p>
+        <p class="ev__seats">Doors at 5:30&nbsp;pm. Seating is limited and we'd rather know you're coming.</p>
       </div>
 
       <aside class="ev__card">
@@ -1883,12 +1902,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <span class="ev__year">2026</span>
         </div>
         <dl class="ev__facts">
-          <div><dt>When</dt><dd>Sunday, November 1st, 2026<br><span class="ev__tbd">Time to be confirmed</span></dd></div>
-          <div><dt>Where</dt><dd>Tampa, Florida<br><span class="ev__tbd">Venue to be confirmed</span></dd></div>
+          <div><dt>When</dt><dd>Sunday, November 1st, 2026<br><strong>5:30&nbsp;pm</strong></dd></div>
+          <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL&#8209;54, Lutz, FL 33549</dd></div>
           <div><dt>Cost</dt><dd>Free to attend</dd></div>
           <div><dt>Who</dt><dd>Married couples, engaged couples, and anyone leading them</dd></div>
         </dl>
-        <p class="ev__note">Register now and you'll get the time and venue the moment they're set &mdash; before it goes public.</p>
+        <p class="ev__cardCta"><a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a></p>
       </aside>
     </div>
   </header>
@@ -1914,6 +1933,31 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </section>
 
+  <section class="band band--paper" id="venue">
+    <div class="wrap grid-2 grid-2--center">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Where to go</p>
+        <h2 class="h-lg">Grace Family Church, Lutz.</h2>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <p class="ev__addr">
+          22920 FL&#8209;54<br>
+          Lutz, FL 33549
+        </p>
+        <p>About twenty-five minutes north of downtown Tampa on State Road 54, with parking on site. Doors open at 5:30&nbsp;pm &mdash; come early if you can, we'd rather meet you than start on time.</p>
+        <p>Grace Family Church is home to Pastor Ralph Johnson, whose counsel shaped some of the hardest chapters in this book. It felt right to launch it there.</p>
+        <p class="ev__addrCta">
+          <a class="btn btn--onLight" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
+        </p>
+      </div>
+      <div class="reveal ev__map">
+        <iframe
+          title="Map to Grace Family Church, 22920 FL-54, Lutz, Florida"
+          src="https://www.google.com/maps?q=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549&amp;output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
   <section class="band on-navy">
     <div class="wrap">
       <p class="eyebrow" style="text-align:center">Come if</p>
@@ -1933,7 +1977,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="eyebrow eyebrow--ink">Reserve your seat</p>
         <h2 class="h-lg">Free, but we need a headcount.</h2>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p>Tell us you're coming and we'll hold room for you. You'll get the venue and time as soon as they're confirmed, a reminder as it gets close, and nothing else you didn't ask for.</p>
+        <p>Tell us you're coming and we'll hold room for you. You'll get a reminder as it gets close, directions the week of, and nothing else you didn't ask for.</p>
         <ul class="ticks">
           <li>Free to attend &mdash; <strong>no ticket, no fee</strong></li>
           <li>Bring your spouse or come alone, both are fine</li>
@@ -1998,10 +2042,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <h2 class="h-lg center" style="margin-bottom:2.5rem">Questions we're already getting.</h2>
       <div class="ev__faq">
         <details class="reveal"><summary>Is it really free?</summary><p>Yes. No ticket, no door charge. We ask you to register only so we know how many chairs to put out and can tell you where to go.</p></details>
-        <details class="reveal"><summary>Where in Tampa, and what time?</summary><p>Both are being finalised. Register and you'll have them by email before they're posted anywhere else &mdash; that's the main reason to sign up now rather than later.</p></details>
+        <details class="reveal"><summary>Where is it, and what time?</summary><p>Grace Family Church, 22920 FL&#8209;54, Lutz, FL 33549 &mdash; about twenty-five minutes north of downtown Tampa. Doors at 5:30&nbsp;pm. There's parking on site, and <a href="#venue">directions are here</a>.</p></details>
         <details class="reveal"><summary>Can I come without my spouse?</summary><p>Yes, and plenty will. Nothing on the night requires you to speak, pair up, or share anything about your marriage in front of anyone.</p></details>
         <details class="reveal"><summary>We're not in Florida.</summary><p>Register and choose "can't travel". You'll get the book link on launch day and a recap of what we taught, so the evening isn't lost on you.</p></details>
-        <details class="reveal"><summary>Is childcare available?</summary><p>We'll confirm that with the venue. Mention it in the registration notes and we'll make sure you're told either way.</p></details>
+        <details class="reveal"><summary>Is childcare available?</summary><p>We're confirming this with the church. Mention it in your registration notes and we'll make sure you get a straight answer well before the night.</p></details>
         <details class="reveal"><summary>I lead a marriage ministry. Can I bring my team?</summary><p>Please do. Put the number in the registration and mention it in the notes &mdash; if you're bringing a group we'll reserve a block together.</p></details>
         <details class="reveal"><summary>Will books be for sale?</summary><p>Yes, and we'll sign them. Bulk and church pricing is available too &mdash; <a href="/churches/" data-tab="churches">ask us here</a>.</p></details>
         <details class="reveal"><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness &mdash; it just frees the seat for someone else.</p></details>
@@ -2728,12 +2772,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="ty__side ty__side--invite">
         <div class="ty__card">
           <p class="eyebrow">You're invited</p>
-          <h2 class="ty__h2">Book launch<br>November 1st, Tampa.</h2>
+          <h2 class="ty__h2">Book launch<br>November 1st, 5:30&nbsp;pm.</h2>
           <div class="orn orn--short" aria-hidden="true"><span></span></div>
-          <p>We're launching <em>Never Fight or Argue Again</em> live, in person &mdash; not a webinar, an actual room with actual couples in it. We'd love to have you there.</p>
-          <p>Time and venue are being finalized. You'll get the details by email before anyone else, along with how to reserve a seat.</p>
+          <p>We're launching <em>Never Fight or Argue Again</em> live at Grace Family Church in Lutz &mdash; not a webinar, an actual room with actual couples in it. We'd love to have you there.</p>
+          <p>Doors at 5:30&nbsp;pm, free to attend. <a href="/book-launch/" data-tab="launch">Reserve a seat</a> so we know to expect you.</p>
           <p class="ty__cardCta">
-            <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101/20261102&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham%2C%20in%20Tampa%2C%20Florida.%0A%0ATime%20and%20venue%20to%20be%20confirmed%20%E2%80%94%20watch%20your%20inbox%20for%20details%20and%20how%20to%20reserve%20a%20seat.%0A%0Ahttps%3A//neverfightorargue.com/&location=Tampa%2C%20Florida" target="_blank" rel="noopener">Add to Google Calendar</a>
+            <a class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a>
           </p>
           <p class="ty__cardAlt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         </div>
@@ -3077,7 +3121,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     'launch': {
       eyebrow: "You're registered",
       title: 'Saved you a seat.',
-      copy: 'You\'re on the list for <strong>Sunday, November 1st</strong> in Tampa. We\'ve emailed your confirmation. The time and venue are being finalised &mdash; you\'ll have them before they go public anywhere else.',
+      copy: 'You\'re on the list for <strong>Sunday, November 1st at 5:30&nbsp;pm</strong> at Grace Family Church in Lutz. Your confirmation and directions are on the way by email.',
       showAction: false, showNext: false
     },
     'church': {
@@ -3202,7 +3246,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           var ps = card.querySelectorAll('p:not(.eyebrow):not(.ty__cardCta):not(.ty__cardAlt)');
           if (eb) eb.textContent = 'Your seat is held';
           if (h2) h2.innerHTML = 'Put it in your calendar<br>before you forget.';
-          if (ps[0]) ps[0].innerHTML = 'Sunday, November 1st in Tampa. We\'ve emailed your confirmation, and the venue and time will follow as soon as they\'re set.';
+          if (ps[0]) ps[0].innerHTML = 'Sunday, November 1st at 5:30&nbsp;pm &mdash; Grace Family Church, Lutz. We\'ve emailed your confirmation with directions.';
           if (ps[1]) ps[1].remove();
         }
         navigate('thanks', true);
