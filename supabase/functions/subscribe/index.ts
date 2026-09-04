@@ -157,7 +157,10 @@ function chaptersEmail(firstName: string, token: string) {
 // ---------------------------------------------------------------------------
 // Launch RSVPs — the 1 November event in Tampa.
 // ---------------------------------------------------------------------------
-const GCAL_LAUNCH = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101/20261102&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20in%20Tampa%2C%20Florida.%20Time%20and%20venue%20to%20be%20confirmed.%0A%0Ahttps%3A%2F%2Fneverfightorargue.com%2Fbook-launch%2F&location=Tampa%2C%20Florida";
+const GCAL_LAUNCH =
+  "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101T223000Z/20261102T003000Z&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&ctz=America/New_York";
+const DIRECTIONS =
+  "https://www.google.com/maps/dir/?api=1&destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549";
 
 function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean, token: string) {
   const name = firstName ? `${firstName},` : "there,";
@@ -166,15 +169,22 @@ function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean
   const body = inPerson
     ? `
       <p style="margin:0 0 18px;">Hi ${name}</p>
-      <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you on <strong>Sunday, November 1st</strong> in Tampa.</p>
-      <p style="margin:0 0 22px;">The time and venue are being finalised. You'll get them by email as soon as they're set, before they go public anywhere else. Put the date somewhere you'll see it in the meantime:</p>
+      <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you.</p>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0DCCF;background:#FBFAF6;margin:0 0 22px;">
+        <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141C2E;">
+          <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
+          <strong>Grace Family Church</strong><br>
+          22920 FL-54, Lutz, FL 33549<br>
+          <a href="${DIRECTIONS}" style="color:#9A7A2C;">Get directions</a>
+        </td></tr>
+      </table>
+      <p style="margin:0 0 22px;">Doors at 5:30. Come early if you can &mdash; we'd rather meet you than start on time. Put it somewhere you'll see it:</p>
       <p style="margin:0 0 8px;text-align:center;">
         <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
       </p>
       <p style="margin:0 0 26px;text-align:center;font-size:13px;">
         <a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#6B7385;">Other calendars (.ics)</a>
       </p>
-      <p style="margin:0 0 18px;">Come early if you can. We'd rather meet you than start on time.</p>
       <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#9A7A2C;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
       <p style="margin:0;">&mdash; Larry &amp; Ro</p>`
     : `
