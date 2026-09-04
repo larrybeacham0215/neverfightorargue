@@ -835,82 +835,61 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
    travels with the headline, then what it is, who it's for, the form, and
    the questions people ask before committing an evening.
    ========================================================================== */
-.ev__head{padding-block:clamp(2.5rem,6vw,4.5rem)}
+.ev__head{padding-block:clamp(1.75rem,3.5vw,3rem) clamp(2rem,4vw,3rem)}
 .ev__headGrid{
-  display:grid;grid-template-columns:1.15fr .85fr;
-  gap:clamp(2rem,5vw,4rem);align-items:start;
+  display:grid;grid-template-columns:1fr 1.12fr;
+  gap:clamp(1.75rem,4vw,3.25rem);align-items:center;
 }
-.ev__head h1{font-size:clamp(2.3rem,5vw,3.7rem);line-height:1.02;margin-bottom:1.25rem}
-.ev__lede{color:var(--on-navy);font-size:clamp(1rem,1.3vw,1.125rem);max-width:34rem;margin-bottom:2rem}
+.ev__head h1{font-size:clamp(2.1rem,4vw,3.15rem);line-height:1.03;margin-bottom:1rem}
+.ev__lede{color:var(--on-navy);font-size:clamp(.9375rem,1.15vw,1.0625rem);max-width:32rem;margin-bottom:1.6rem}
 .ev__cta{margin:0 0 .85rem}
-.ev__seats{font-size:.8125rem;color:rgba(247,244,236,.5);margin:0}
+.ev__seats{font-size:.8125rem;color:rgba(247,244,236,.55);margin:0;max-width:28rem}
 
-/* the facts panel */
-.ev__card{
-  border:1px solid var(--gold);
-  background:radial-gradient(26rem 16rem at 50% 0%,rgba(212,166,60,.12),transparent 68%),rgba(212,166,60,.05);
-  padding:clamp(1.5rem,3vw,2rem);
-  box-shadow:0 0 70px -34px rgba(212,166,60,.5);
-}
-.ev__date{
-  display:flex;align-items:baseline;gap:.5rem;
-  padding-bottom:1.15rem;margin-bottom:1.25rem;
-  border-bottom:1px solid rgba(212,166,60,.35);
-}
-.ev__month{font-family:var(--f-display);font-size:1.5rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
-.ev__day{font-family:var(--f-display);font-size:3.25rem;line-height:1;color:var(--ivory)}
-.ev__year{font-size:.75rem;letter-spacing:.2em;color:rgba(247,244,236,.55)}
-.ev__facts{margin:0}
-.ev__facts > div{display:grid;grid-template-columns:6rem 1fr;gap:.9rem;padding:.9rem 0}
-.ev__facts > div + div{border-top:1px solid rgba(247,244,236,.1)}
-.ev__facts dt{
-  font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--gold);padding-top:.3rem;
-}
-/* Larger than body copy on purpose — these are the four things somebody
-   actually came to this page to find out. */
-.ev__facts dd{margin:0;font-size:1.0625rem;color:var(--ivory);line-height:1.5}
-.ev__facts dd strong{font-weight:600;font-size:1.15rem;color:#fff}
-.ev__cardCta{margin:1.5rem 0 0}
-.ev__cardCta .btn{width:100%;justify-content:center}
-
-
-
-/* The staged room — the single strongest thing on this page, so it runs the
-   full width of the header beneath the headline and the facts. */
+/* The staged room, sized to sit beside the words rather than beneath them,
+   so it lands above the fold on a laptop. */
 .ev__stage{
-  margin:clamp(2rem,4vw,3rem) 0 0;
-  padding:.5rem;
+  margin:0;padding:.45rem;position:relative;
   background:linear-gradient(150deg,rgba(212,166,60,.34),rgba(212,166,60,.08) 45%,rgba(212,166,60,.26));
-  box-shadow:0 0 0 1px rgba(212,166,60,.3), 0 34px 70px -34px rgba(0,0,0,.9), 0 0 120px -50px rgba(212,166,60,.4);
-  position:relative;
+  box-shadow:0 0 0 1px rgba(212,166,60,.3), 0 30px 64px -32px rgba(0,0,0,.9), 0 0 110px -46px rgba(212,166,60,.4);
 }
 .ev__stage img{display:block;width:100%;height:auto}
 .ev__stage::after{
-  content:"";position:absolute;inset:1.15rem;
+  content:"";position:absolute;inset:1rem;
   border:1px solid rgba(247,244,236,.2);pointer-events:none;
 }
-@media(max-width:640px){
+
+/* The facts, as a bar under the fold line rather than a tall side panel. */
+.ev__bar{
+  display:grid;
+  grid-template-columns:auto repeat(3,1fr) auto;
+  gap:clamp(1rem,2.5vw,2rem);
+  align-items:center;
+  margin:clamp(1.75rem,3.5vw,2.5rem) 0 0;
+  padding:clamp(1.1rem,2vw,1.5rem) clamp(1.25rem,2.5vw,1.75rem);
+  border:1px solid var(--gold);
+  background:radial-gradient(40rem 12rem at 10% 0%,rgba(212,166,60,.14),transparent 70%),rgba(212,166,60,.05);
+}
+.ev__barDate{display:flex;align-items:baseline;gap:.4rem;padding-right:clamp(1rem,2vw,1.5rem);border-right:1px solid rgba(212,166,60,.3)}
+.ev__month{font-family:var(--f-display);font-size:1.15rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em}
+.ev__day{font-family:var(--f-display);font-size:2.5rem;line-height:1;color:var(--ivory)}
+.ev__year{font-size:.6875rem;letter-spacing:.16em;color:rgba(247,244,236,.5)}
+.ev__bar dt{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.ev__bar dd{margin:0;font-size:.9375rem;line-height:1.45;color:var(--on-navy)}
+.ev__bar dd strong{display:inline-block;font-weight:600;font-size:1.0625rem;color:var(--ivory)}
+.ev__barCta .btn{white-space:nowrap}
+
+@media(max-width:1100px){
+  .ev__bar{grid-template-columns:auto 1fr 1fr;row-gap:1.25rem}
+  .ev__barCta{grid-column:1 / -1}
+  .ev__barCta .btn{width:100%;justify-content:center}
+}
+@media(max-width:820px){
+  .ev__headGrid{grid-template-columns:1fr;gap:1.75rem}
+  .ev__bar{grid-template-columns:1fr;text-align:left}
+  .ev__barDate{border-right:0;border-bottom:1px solid rgba(212,166,60,.3);padding:0 0 .9rem}
   .ev__stage{padding:.35rem}
-  .ev__stage::after{inset:.8rem}
+  .ev__stage::after{inset:.75rem}
 }
-
-/* venue map */
-.ev__venueMedia{display:grid;gap:1rem}
-
-/* venue */
-.ev__addr{
-  font-family:var(--f-display);font-size:1.25rem;line-height:1.5;
-  color:var(--ink);margin-bottom:1.25rem;
-}
-.ev__addrCta{margin-top:1.75rem}
-.ev__map{
-  border:1px solid rgba(20,28,46,.18);
-  box-shadow:0 0 0 1px rgba(212,166,60,.25), 0 24px 50px -30px rgba(20,28,46,.6);
-  padding:.4rem;background:#fff;
-}
-.ev__map{border:1px solid rgba(20,28,46,.16);padding:.35rem;background:#fff}
-.ev__map iframe{display:block;width:100%;height:clamp(19rem,30vw,24rem);border:0}
 
 /* run of show */
 .ev__run{list-style:none;margin:0;padding:0;counter-reset:none}
@@ -960,11 +939,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 @media(max-width:900px){
   .ev__headGrid{grid-template-columns:1fr;gap:2rem}
   .ev__for{grid-template-columns:1fr;gap:1.5rem}
-  .ev__day{font-size:2.75rem}
-  .ev__facts > div{grid-template-columns:5rem 1fr;gap:.75rem}
-  .ev__facts dd{font-size:1rem}
-  .ev__facts dd strong{font-size:1.0625rem}
-  .ev__map iframe{height:16rem}
+  .ev__day{font-size:2.25rem}
+        .ev__map iframe{height:16rem}
 }
 
 /* ==========================================================================
@@ -1911,31 +1887,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   <header class="phead ev__head">
     <div class="wrap ev__headGrid">
-      <div>
+      <div class="ev__intro">
         <p class="eyebrow">Live book launch</p>
         <h1>The night we stop<br><em>fighting fair.</em></h1>
         <p class="ev__lede">An evening with Larry &amp; Rolanda Beacham for the release of <em>Never Fight or Argue Again</em> &mdash; the case against fighting fair, the two plans that replace it, and time with couples doing the same work you are.</p>
-        <p class="ev__cta"><a class="btn btn--lg" href="#rsvp">Reserve your seat &mdash; free</a></p>
-        <p class="ev__seats">Doors at 5:30&nbsp;pm. Seating is limited and we'd rather know you're coming.</p>
+        <p class="ev__cta">
+          <a class="btn btn--lg" href="#rsvp">Reserve your seat &mdash; free</a>
+        </p>
+        <p class="ev__seats">Free to attend. Doors at 5:30&nbsp;pm &mdash; seating is limited and we'd rather know you're coming.</p>
       </div>
 
-      <aside class="ev__card">
-        <div class="ev__date" aria-hidden="true">
-          <span class="ev__month">Nov</span>
-          <span class="ev__day">1</span>
-          <span class="ev__year">2026</span>
-        </div>
-        <dl class="ev__facts">
-          <div><dt>When</dt><dd>Sunday, November 1st, 2026<br><strong>5:30&nbsp;pm</strong></dd></div>
-          <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL&#8209;54, Lutz, FL 33549</dd></div>
-          <div><dt>Cost</dt><dd>Free to attend</dd></div>
-          <div><dt>Who</dt><dd>Married couples, engaged couples, and anyone leading them</dd></div>
-        </dl>
-        <p class="ev__cardCta"><a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a></p>
-      </aside>
-    </div>
-
-    <div class="wrap">
       <figure class="ev__stage">
         <picture>
           <source srcset="/assets/launch-stage.webp" type="image/webp">
@@ -1944,6 +1905,20 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
                width="1600" height="1200">
         </picture>
       </figure>
+    </div>
+
+    <div class="wrap">
+      <dl class="ev__bar">
+        <div class="ev__barDate">
+          <span class="ev__month">Nov</span><span class="ev__day">1</span><span class="ev__year">2026</span>
+        </div>
+        <div><dt>When</dt><dd>Sunday, November 1st<br><strong>5:30&nbsp;pm</strong></dd></div>
+        <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL&#8209;54, Lutz, FL 33549</dd></div>
+        <div><dt>Cost</dt><dd><strong>Free to attend</strong><br>Registration required</dd></div>
+        <div class="ev__barCta">
+          <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </dl>
     </div>
   </header>
 
