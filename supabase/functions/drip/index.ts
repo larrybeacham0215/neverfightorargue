@@ -129,10 +129,18 @@ async function send(to: string, subject: string, html: string) {
 // signs up in late October doesn't receive the whole run at once.
 // ---------------------------------------------------------------------------
 const GCAL_LAUNCH =
-  "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-  "&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch" +
-  "&dates=20261101/20261102" +
-  "&location=Tampa%2C%20Florida";
+  "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101T223000Z/20261102T003000Z&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&ctz=America/New_York";
+const DIRECTIONS =
+  "https://www.google.com/maps/dir/?api=1&destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549";
+const VENUE_HTML = `
+  <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0DCCF;background:#FBFAF6;margin:0 0 22px;">
+    <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141C2E;">
+      <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
+      <strong>Grace Family Church</strong><br>
+      22920 FL-54, Lutz, FL 33549<br>
+      <a href="${DIRECTIONS}" style="color:#9A7A2C;">Get directions</a>
+    </td></tr>
+  </table>`;
 
 // stage -> the date it becomes due
 const LAUNCH_SCHEDULE: Record<number, string> = {
@@ -154,9 +162,10 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
       subject: "One month until November 1st",
       html: shell(`
         <p style="margin:0 0 18px;">Hi ${name}</p>
-        <p style="margin:0 0 18px;">A month from today we'll be in a room in Tampa launching <em>Never Fight or Argue Again</em>, and you're on the list.</p>
+        <p style="margin:0 0 18px;">A month from today we'll be at Grace Family Church in Lutz launching <em>Never Fight or Argue Again</em>, and you're on the list.</p>
         <p style="margin:0 0 18px;">Here's what the evening actually is, so you know what you're walking into: the case against fighting fair made in person, both plans walked through end to end, and time for the questions people usually only ask us privately. Anonymous cards if you'd rather not raise a hand.</p>
-        <p style="margin:0 0 18px;">Venue and time are still being finalised. You'll have them well before the night.</p>
+        ${VENUE_HTML}
+        <p style="margin:0 0 18px;">Parking is on site. Doors at 5:30 &mdash; come early if you can.</p>
         <p style="margin:0;">&mdash; Larry &amp; Ro</p>`, foot),
     };
   }
@@ -166,7 +175,8 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
       subject: "A week out — here's what you need",
       html: shell(`
         <p style="margin:0 0 18px;">Hi ${name}</p>
-        <p style="margin:0 0 18px;">The launch is a week from today, Sunday November 1st.</p>
+        <p style="margin:0 0 18px;">The launch is a week from today.</p>
+        ${VENUE_HTML}
         <p style="margin:0 0 18px;">Two things worth doing now. Put it in your calendar if you haven't, and if you're bringing anyone who isn't already registered, send them to <a href="${SITE_URL}/book-launch/" style="color:#9A7A2C;">the registration page</a> so we count the chairs right.</p>
         <p style="margin:0 0 8px;text-align:center;">
           <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
@@ -182,8 +192,9 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
       subject: "Sunday",
       html: shell(`
         <p style="margin:0 0 18px;">Hi ${name}</p>
-        <p style="margin:0 0 18px;">Two days out. The launch is this Sunday, November 1st, in Tampa.</p>
-        <p style="margin:0 0 18px;">Come early if you can &mdash; we'd rather meet you than start on time. Parking and directions are on <a href="${SITE_URL}/book-launch/" style="color:#9A7A2C;">the event page</a>.</p>
+        <p style="margin:0 0 18px;">Two days out.</p>
+        ${VENUE_HTML}
+        <p style="margin:0 0 18px;">Parking is on site. Come early if you can &mdash; we'd rather meet you than start on time.</p>
         <p style="margin:0;">&mdash; Larry &amp; Ro</p>`, foot),
     };
   }
@@ -195,7 +206,8 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
           html: shell(`
             <p style="margin:0 0 18px;">Hi ${name}</p>
             <p style="margin:0 0 18px;">Tonight's the night. We're looking forward to meeting you.</p>
-            <p style="margin:0 0 18px;">All the details are on <a href="${SITE_URL}/book-launch/" style="color:#9A7A2C;">the event page</a>. Come early if you can.</p>
+            ${VENUE_HTML}
+            <p style="margin:0 0 18px;">Doors at 5:30. Come early if you can.</p>
             <p style="margin:0 0 18px;">One thing: the book is out today too. If you'd rather have your copy before you arrive, it's <a href="${SITE_URL}/book/" style="color:#9A7A2C;">here</a>.</p>
             <p style="margin:0;">See you tonight.<br>&mdash; Larry &amp; Ro</p>`, foot),
         }
@@ -204,7 +216,7 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
           html: shell(`
             <p style="margin:0 0 18px;">Hi ${name}</p>
             <p style="margin:0 0 18px;"><em>Never Fight or Argue Again</em> is available today.</p>
-            <p style="margin:0 0 18px;">You told us Tampa wasn't reachable, so this is your copy of the news &mdash; and in a couple of days we'll send you what we taught from the stage tonight.</p>
+            <p style="margin:0 0 18px;">You told us you couldn't travel, so this is your copy of the news &mdash; and in a couple of days we'll send you what we taught from the stage tonight.</p>
             <p style="margin:0 0 22px;text-align:center;">
               <a href="${SITE_URL}/book/" style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Get the book</a>
             </p>
