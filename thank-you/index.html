@@ -829,6 +829,101 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 }
 
 
+
+/* ==========================================================================
+   BOOK LAUNCH — event page
+   Laid out the way a good event listing is: the facts in a fixed panel that
+   travels with the headline, then what it is, who it's for, the form, and
+   the questions people ask before committing an evening.
+   ========================================================================== */
+.ev__head{padding-block:clamp(2.5rem,6vw,4.5rem)}
+.ev__headGrid{
+  display:grid;grid-template-columns:1.15fr .85fr;
+  gap:clamp(2rem,5vw,4rem);align-items:start;
+}
+.ev__head h1{font-size:clamp(2.3rem,5vw,3.7rem);line-height:1.02;margin-bottom:1.25rem}
+.ev__lede{color:var(--on-navy);font-size:clamp(1rem,1.3vw,1.125rem);max-width:34rem;margin-bottom:2rem}
+.ev__cta{margin:0 0 .85rem}
+.ev__seats{font-size:.8125rem;color:rgba(247,244,236,.5);margin:0}
+
+/* the facts panel */
+.ev__card{
+  border:1px solid var(--gold);
+  background:radial-gradient(26rem 16rem at 50% 0%,rgba(212,166,60,.12),transparent 68%),rgba(212,166,60,.05);
+  padding:clamp(1.5rem,3vw,2rem);
+  box-shadow:0 0 70px -34px rgba(212,166,60,.5);
+}
+.ev__date{
+  display:flex;align-items:baseline;gap:.5rem;
+  padding-bottom:1.15rem;margin-bottom:1.25rem;
+  border-bottom:1px solid rgba(212,166,60,.35);
+}
+.ev__month{font-family:var(--f-display);font-size:1.5rem;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.ev__day{font-family:var(--f-display);font-size:3.25rem;line-height:1;color:var(--ivory)}
+.ev__year{font-size:.75rem;letter-spacing:.2em;color:rgba(247,244,236,.55)}
+.ev__facts{margin:0}
+.ev__facts > div{display:grid;grid-template-columns:5.5rem 1fr;gap:.75rem;padding:.6rem 0}
+.ev__facts > div + div{border-top:1px solid rgba(247,244,236,.1)}
+.ev__facts dt{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding-top:.25rem}
+.ev__facts dd{margin:0;font-size:.9375rem;color:var(--ivory);line-height:1.5}
+.ev__tbd{color:rgba(247,244,236,.5);font-size:.8125rem;font-style:italic}
+.ev__note{
+  margin:1.35rem 0 0;padding-top:1.15rem;
+  border-top:1px solid rgba(247,244,236,.12);
+  font-size:.8125rem;color:rgba(247,244,236,.6);line-height:1.55;
+}
+
+/* run of show */
+.ev__run{list-style:none;margin:0;padding:0;counter-reset:none}
+.ev__run li{display:grid;grid-template-columns:2.75rem 1fr;gap:1rem;padding:1rem 0}
+.ev__run li + li{border-top:1px solid rgba(20,28,46,.1)}
+.ev__run span{
+  font-family:var(--f-display);font-size:1.05rem;color:var(--gold-ink);
+  border:1px solid rgba(154,122,44,.35);border-radius:50%;
+  width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;
+}
+.ev__run b{display:block;margin-bottom:.2rem;font-size:1rem}
+.ev__run p{margin:0;font-size:.9375rem;color:var(--ink-soft)}
+
+/* who it's for */
+.ev__for{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:clamp(1.25rem,3vw,2rem);margin-top:2.5rem;
+}
+.ev__for > div{border-left:2px solid var(--gold);padding-left:1.25rem}
+.ev__for b{display:block;margin-bottom:.4rem;color:var(--ivory)}
+.ev__for p{margin:0;color:var(--on-navy);font-size:.9375rem}
+
+/* questions */
+.ev__faq{max-width:46rem;margin-inline:auto}
+.ev__faq details{border-bottom:1px solid rgba(20,28,46,.12)}
+.ev__faq summary{
+  cursor:pointer;list-style:none;padding:1.15rem 2rem 1.15rem 0;position:relative;
+  font-family:var(--f-display);font-size:1.0625rem;color:var(--ink);
+}
+.ev__faq summary::-webkit-details-marker{display:none}
+.ev__faq summary::after{
+  content:"+";position:absolute;right:.25rem;top:50%;transform:translateY(-50%);
+  color:var(--gold-ink);font-size:1.35rem;line-height:1;
+}
+.ev__faq details[open] summary::after{content:"\2013"}
+.ev__faq summary:hover{color:var(--gold-ink)}
+.ev__faq details p{margin:0 0 1.25rem;color:var(--ink-soft);font-size:.9375rem;max-width:42rem}
+
+/* A <select> is sized by its longest option, which can push a grid column
+   past the viewport. Let the fields shrink instead. */
+.ev__rsvpForm .field,
+.ev__rsvpForm .form__row{min-width:0}
+.ev__rsvpForm select,
+.ev__rsvpForm input,
+.ev__rsvpForm textarea{width:100%;min-width:0;max-width:100%}
+
+@media(max-width:900px){
+  .ev__headGrid{grid-template-columns:1fr;gap:2rem}
+  .ev__for{grid-template-columns:1fr;gap:1.5rem}
+  .ev__day{font-size:2.75rem}
+}
+
 /* ==========================================================================
    THANK-YOU PAGE
    Two columns that fit one screen: the confirmation on the left, the launch
@@ -1392,6 +1487,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="nav__tabs" id="navTabs">
       <a href="/" data-tab="home">Home</a>
       <a href="/book/" data-tab="book">The Book</a>
+      <a href="/book-launch/" data-tab="launch">Book Launch</a>
       <a href="/churches/" data-tab="churches">For Churches</a>
       <a href="/speaking/" data-tab="speaking">Speaking</a>
       <a href="/about/" data-tab="about">About Us</a>
@@ -1759,6 +1855,156 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h3 class="h-sm" style="margin-bottom:.75rem">Ordering for a group?</h3>
         <p style="margin-bottom:1.5rem">Signed copies, bulk pricing, and church rates are available directly from us. Ten copies or a hundred — same conversation.</p>
         <a class="btn" href="/churches/" data-tab="churches">Church &amp; bulk orders</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================== BOOK LAUNCH ============================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-launch" hidden>
+
+  <header class="phead ev__head">
+    <div class="wrap ev__headGrid">
+      <div>
+        <p class="eyebrow">Live book launch</p>
+        <h1>The night we stop<br><em>fighting fair.</em></h1>
+        <p class="ev__lede">An evening with Larry &amp; Rolanda Beacham for the release of <em>Never Fight or Argue Again</em> &mdash; the case against fighting fair, the two plans that replace it, and time with couples doing the same work you are.</p>
+        <p class="ev__cta"><a class="btn btn--lg" href="#rsvp">Reserve your seat &mdash; free</a></p>
+        <p class="ev__seats">Seating is limited and we'd rather know you're coming.</p>
+      </div>
+
+      <aside class="ev__card">
+        <div class="ev__date" aria-hidden="true">
+          <span class="ev__month">Nov</span>
+          <span class="ev__day">1</span>
+          <span class="ev__year">2026</span>
+        </div>
+        <dl class="ev__facts">
+          <div><dt>When</dt><dd>Sunday, November 1st, 2026<br><span class="ev__tbd">Time to be confirmed</span></dd></div>
+          <div><dt>Where</dt><dd>Tampa, Florida<br><span class="ev__tbd">Venue to be confirmed</span></dd></div>
+          <div><dt>Cost</dt><dd>Free to attend</dd></div>
+          <div><dt>Who</dt><dd>Married couples, engaged couples, and anyone leading them</dd></div>
+        </dl>
+        <p class="ev__note">Register now and you'll get the time and venue the moment they're set &mdash; before it goes public.</p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="band band--paper">
+    <div class="wrap grid-2">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">What the evening is</p>
+        <h2 class="h-lg">Not a book signing with a microphone.</h2>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <p>We wanted the launch to be the thing the book is actually about, which meant doing it in a room rather than online. You'll hear the argument, see both plans laid out, and have the chance to ask the questions people usually only ask us privately.</p>
+        <p>Come with your spouse if you can. Come on your own if that's where you are &mdash; a good number of people will be, and nobody is going to ask you to share anything out loud.</p>
+      </div>
+      <div class="reveal">
+        <ol class="ev__run">
+          <li><span>01</span><div><b>Doors and coffee</b><p>Come early if you can. We'd rather meet you than start on time.</p></div></li>
+          <li><span>02</span><div><b>Why fighting fair isn't good enough</b><p>The case the book opens with, made in person.</p></div></li>
+          <li><span>03</span><div><b>The two plans, walked through</b><p>The Safety Plan and the Readiness Plan &mdash; who works which, and why you don't both do the same one.</p></div></li>
+          <li><span>04</span><div><b>Questions, asked honestly</b><p>Anonymous cards if you'd rather not raise a hand.</p></div></li>
+          <li><span>05</span><div><b>Books, signing, and staying late</b><p>Copies available. We're in no hurry to leave.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="band on-navy">
+    <div class="wrap">
+      <p class="eyebrow" style="text-align:center">Come if</p>
+      <h2 class="h-lg center" style="max-width:34rem;margin-inline:auto">You've read the advice and it still isn't working.</h2>
+      <div class="ev__for">
+        <div class="reveal"><b>You keep having the same argument</b><p>Different words, same room, same ending. You've both apologised before and it didn't hold.</p></div>
+        <div class="reveal"><b>One of you is ready and one isn't</b><p>That's normal, and it's the situation the two plans were built for. Either of you can start alone.</p></div>
+        <div class="reveal"><b>You lead couples</b><p>Pastors, small-group leaders and marriage ministry teams &mdash; come see whether it fits your people before you commit to it.</p></div>
+        <div class="reveal"><b>Things are quiet, not good</b><p>Nobody's shouting. Nobody's talking either. That counts, and it's worth an evening.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--light" id="rsvp">
+    <div class="wrap grid-2 grid-2--center">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Reserve your seat</p>
+        <h2 class="h-lg">Free, but we need a headcount.</h2>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <p>Tell us you're coming and we'll hold room for you. You'll get the venue and time as soon as they're confirmed, a reminder as it gets close, and nothing else you didn't ask for.</p>
+        <ul class="ticks">
+          <li>Free to attend &mdash; <strong>no ticket, no fee</strong></li>
+          <li>Bring your spouse or come alone, both are fine</li>
+          <li>Can't make Tampa? <strong>Register anyway</strong> and we'll send what we teach that night</li>
+          <li>Plans change &mdash; there's a link in every email to let us know</li>
+        </ul>
+      </div>
+
+      <div class="capture capture--light reveal">
+        <p class="capture__title">Register for November 1st</p>
+        <p class="capture__sub">Takes about twenty seconds. We'll confirm by email straight away.</p>
+        <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
+          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+          <div class="form__row">
+            <div class="field">
+              <label for="l1">First name</label>
+              <input type="text" id="l1" name="first_name" placeholder="First name" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="l2">Last name</label>
+              <input type="text" id="l2" name="last_name" placeholder="Last name" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="field">
+            <label for="l3">Email</label>
+            <input type="email" id="l3" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="l4">How many of you?</label>
+              <select id="l4" name="guests">
+                <option value="1">Just me</option>
+                <option value="2" selected>Two of us</option>
+                <option value="3">Three</option>
+                <option value="4">Four</option>
+                <option value="5">Five or more</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="l5">Can you be there in person?</label>
+              <select id="l5" name="attending">
+                <option value="in_person" selected>Yes, in Tampa</option>
+                <option value="cannot_attend">Can't travel this time</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="l6">Anything we should know?</label>
+            <textarea id="l6" name="notes" placeholder="Bringing a group, accessibility needs, a question you'd want answered…"></textarea>
+          </div>
+          <p class="form__error" hidden></p>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
+          <p class="form__fine">Free. We'll only email you about the launch and the book.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--paper">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--ink" style="text-align:center">Before you ask</p>
+      <h2 class="h-lg center" style="margin-bottom:2.5rem">Questions we're already getting.</h2>
+      <div class="ev__faq">
+        <details class="reveal"><summary>Is it really free?</summary><p>Yes. No ticket, no door charge. We ask you to register only so we know how many chairs to put out and can tell you where to go.</p></details>
+        <details class="reveal"><summary>Where in Tampa, and what time?</summary><p>Both are being finalised. Register and you'll have them by email before they're posted anywhere else &mdash; that's the main reason to sign up now rather than later.</p></details>
+        <details class="reveal"><summary>Can I come without my spouse?</summary><p>Yes, and plenty will. Nothing on the night requires you to speak, pair up, or share anything about your marriage in front of anyone.</p></details>
+        <details class="reveal"><summary>We're not in Florida.</summary><p>Register and choose "can't travel". You'll get the book link on launch day and a recap of what we taught, so the evening isn't lost on you.</p></details>
+        <details class="reveal"><summary>Is childcare available?</summary><p>We'll confirm that with the venue. Mention it in the registration notes and we'll make sure you're told either way.</p></details>
+        <details class="reveal"><summary>I lead a marriage ministry. Can I bring my team?</summary><p>Please do. Put the number in the registration and mention it in the notes &mdash; if you're bringing a group we'll reserve a block together.</p></details>
+        <details class="reveal"><summary>Will books be for sale?</summary><p>Yes, and we'll sign them. Bulk and church pricing is available too &mdash; <a href="/churches/" data-tab="churches">ask us here</a>.</p></details>
+        <details class="reveal"><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness &mdash; it just frees the seat for someone else.</p></details>
       </div>
     </div>
   </section>
@@ -2576,6 +2822,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h4>Explore</h4>
         <ul>
           <li><a href="/book/" data-tab="book">The Book</a></li>
+          <li><a href="/book-launch/" data-tab="launch">Book Launch</a></li>
           <li><a href="/churches/" data-tab="churches">For Churches</a></li>
           <li><a href="/speaking/" data-tab="speaking">Speaking</a></li>
           <li><a href="/about/" data-tab="about">About Larry &amp; Ro</a></li>
@@ -2641,7 +2888,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -2655,6 +2902,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   var ROUTES = {
     '/':               'home',
     '/book/':          'book',
+    '/book-launch/':   'launch',
     '/churches/':      'churches',
     '/speaking/':      'speaking',
     '/about/':         'about',
@@ -2667,6 +2915,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   var TITLES = {
     home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
     book: 'The Book — Never Fight or Argue Again',
+    launch: 'Book Launch — November 1st, Tampa — Never Fight or Argue Again',
     churches: 'For Churches & Organizations — Never Fight or Argue Again',
     speaking: 'Speaking — Larry & Rolanda Beacham',
     about: 'About Larry & Rolanda Beacham',
@@ -2825,6 +3074,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       copy: 'Chapter One is on its way, from Larry &amp; Rolanda Beacham. If it hasn\'t landed in a few minutes, <mark class="hl">look in Promotions or Spam</mark>. Move it to your main inbox once and your email app will put the rest of our notes there too.',
       showAction: true, showNext: true
     },
+    'launch': {
+      eyebrow: "You're registered",
+      title: 'Saved you a seat.',
+      copy: 'You\'re on the list for <strong>Sunday, November 1st</strong> in Tampa. We\'ve emailed your confirmation. The time and venue are being finalised &mdash; you\'ll have them before they go public anywhere else.',
+      showAction: false, showNext: false
+    },
     'church': {
       eyebrow: 'Inquiry received',
       title: 'Thanks — we\'ve got it.',
@@ -2937,6 +3192,19 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         document.getElementById('tyAction').hidden = !t.showAction;
         document.getElementById('tyFine').hidden = !t.showAction;
         document.getElementById('tyNext').hidden = !t.showNext;
+
+        // Someone who has just registered doesn't need inviting — turn the
+        // card into their next step instead.
+        var card = document.querySelector('#view-thanks .ty__card');
+        if (card && kind === 'launch') {
+          var eb = card.querySelector('.eyebrow');
+          var h2 = card.querySelector('.ty__h2');
+          var ps = card.querySelectorAll('p:not(.eyebrow):not(.ty__cardCta):not(.ty__cardAlt)');
+          if (eb) eb.textContent = 'Your seat is held';
+          if (h2) h2.innerHTML = 'Put it in your calendar<br>before you forget.';
+          if (ps[0]) ps[0].innerHTML = 'Sunday, November 1st in Tampa. We\'ve emailed your confirmation, and the venue and time will follow as soon as they\'re set.';
+          if (ps[1]) ps[1].remove();
+        }
         navigate('thanks', true);
       });
     });
