@@ -5,27 +5,26 @@ CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 UID:nfoaa-launch-2026-11-01@neverfightorargue.com
-DTSTAMP:20260814T160000Z
-DTSTART;VALUE=DATE:20261101
-DTEND;VALUE=DATE:20261102
-SUMMARY:Never Fight or Argue Again — live book launch (Tampa)
+DTSTAMP:20260904T200000Z
+DTSTART:20261101T223000Z
+DTEND:20261102T003000Z
+SUMMARY:Never Fight or Argue Again — live book launch
 DESCRIPTION:The live launch of Never Fight or Argue Again by Larry & Rolanda
-  Beacham\, in Tampa\, Florida.\n\nTime and venue to be confirmed — watch you
- r inbox for details and how to reserve a seat.\n\nhttps://neverfightorargue.
- com/
-URL:https://neverfightorargue.com/
-LOCATION:Tampa, Florida
-STATUS:TENTATIVE
-TRANSP:TRANSPARENT
+  Beacham.\n\nDoors 5:30pm. Free to attend.\n\nhttps://neverfightorargue.com/
+ book-launch/
+LOCATION:Grace Family Church\, 22920 FL-54\, Lutz\, FL 33549
+URL:https://neverfightorargue.com/book-launch/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
 BEGIN:VALARM
 TRIGGER:-P7D
 ACTION:DISPLAY
 DESCRIPTION:Never Fight or Argue Again launch is one week away
 END:VALARM
 BEGIN:VALARM
-TRIGGER:-P1D
+TRIGGER:-PT2H
 ACTION:DISPLAY
-DESCRIPTION:Never Fight or Argue Again launch is tomorrow
+DESCRIPTION:Never Fight or Argue Again launch is at 5:30pm
 END:VALARM
 END:VEVENT
 END:VCALENDAR
