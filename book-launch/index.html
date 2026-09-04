@@ -920,6 +920,20 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 /* This page is a single screen, so the footer would only add a scrollbar. */
 body:has(#view-launch:not([hidden])) .foot{display:none}
 
+/* Shorter laptops: trim the hero so the whole page still lands on one
+   screen, since there is nothing below it to scroll to. */
+@media(min-width:821px) and (max-height:820px){
+  .ev__head{padding-block:1.25rem 1.5rem}
+  .ev__head h1{font-size:clamp(1.9rem,3.4vw,2.6rem);margin-bottom:.75rem}
+  .ev__lede{font-size:.9375rem;margin-bottom:1.15rem}
+  .ev__seats{font-size:.75rem}
+  .ev__headGrid{gap:2rem}
+  .ev__bar{margin-top:1.5rem;padding:.9rem 1.25rem}
+  .ev__day{font-size:2rem}
+  .ev__bar dd{font-size:.875rem}
+  .ev__bar dd strong{font-size:1rem}
+}
+
 /* Grid children default to min-content width, which lets an embedded map or
    a long address push a column past a narrow screen. */
 #view-launch .grid-2 > *,
