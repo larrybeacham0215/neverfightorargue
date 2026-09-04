@@ -884,6 +884,52 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .ev__barCta .btn{width:100%;justify-content:center}
 }
 
+
+/* ==========================================================================
+   REGISTERED — the page after a launch RSVP
+   ========================================================================== */
+.reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
+.reg__grid{
+  display:grid;grid-template-columns:1.1fr .9fr;
+  gap:clamp(2rem,5vw,4rem);align-items:center;
+}
+.reg__tick{
+  width:3.5rem;height:3.5rem;border:1px solid var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;
+}
+.reg__tick svg{width:1.4rem;height:1.4rem;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.reg__head h1{font-size:clamp(2.2rem,4.4vw,3.3rem);line-height:1.03;margin-bottom:1.15rem}
+.reg__lede{color:var(--on-navy);max-width:30rem;margin-bottom:1.85rem}
+.reg__cta{margin:0 0 .75rem}
+.reg__alt{margin:0;font-size:.8125rem}
+.reg__alt a{color:rgba(247,244,236,.55);text-decoration:underline;text-underline-offset:3px}
+.reg__alt a:hover{color:var(--gold)}
+
+.reg__card{
+  border:1px solid var(--gold);
+  background:radial-gradient(26rem 16rem at 50% 0%,rgba(212,166,60,.13),transparent 68%),rgba(212,166,60,.05);
+  padding:clamp(1.5rem,3vw,2rem);
+  box-shadow:0 0 70px -34px rgba(212,166,60,.5);
+}
+.reg__date{
+  display:flex;align-items:baseline;gap:.5rem;
+  padding-bottom:1.15rem;margin-bottom:1.15rem;
+  border-bottom:1px solid rgba(212,166,60,.32);
+}
+.reg__facts{margin:0}
+.reg__facts > div{padding:.75rem 0}
+.reg__facts > div + div{border-top:1px solid rgba(247,244,236,.1)}
+.reg__facts dt{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.reg__facts dd{margin:0;font-size:1rem;line-height:1.5;color:var(--on-navy)}
+.reg__facts dd strong{font-weight:600;font-size:1.0625rem;color:var(--ivory)}
+.reg__cardCta{margin:1.4rem 0 0}
+.reg__cardCta .btn{width:100%;justify-content:center}
+
+@media(max-width:820px){
+  .reg__grid{grid-template-columns:1fr;gap:2rem}
+  .reg__tick{width:3rem;height:3rem;margin-bottom:1.15rem}
+}
+
 /* ==========================================================================
    REGISTRATION DIALOG
    The page is one screen, so the form opens over it rather than sending
@@ -2018,6 +2064,63 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </div>
 
 <!-- ==================================================================== -->
+<!-- ======================= REGISTERED (launch) ========================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-registered" hidden>
+
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg>
+        </div>
+        <p class="eyebrow">You're registered</p>
+        <h1>We've saved you<br><em>a seat.</em></h1>
+        <p class="reg__lede">A confirmation is on its way to your inbox. Nothing else is needed from you &mdash; just turn up. We'll send a reminder as the date gets close.</p>
+        <p class="reg__cta">
+          <a class="btn btn--lg" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a>
+        </p>
+        <p class="reg__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
+      </div>
+
+      <aside class="reg__card">
+        <div class="reg__date" aria-hidden="true">
+          <span class="ev__month">Nov</span><span class="ev__day">1</span><span class="ev__year">2026</span>
+        </div>
+        <dl class="reg__facts">
+          <div><dt>When</dt><dd>Sunday, November 1st<br><strong>Doors 5:30&nbsp;pm</strong></dd></div>
+          <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL&#8209;54<br>Lutz, FL 33549</dd></div>
+          <div><dt>Cost</dt><dd>Free &mdash; nothing to pay or print</dd></div>
+        </dl>
+        <p class="reg__cardCta">
+          <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="band band--paper">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--ink" style="text-align:center">Before the night</p>
+      <h2 class="h-lg center" style="margin-bottom:2.5rem">What to expect.</h2>
+      <div class="ev__faq">
+        <details class="reveal" open><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
+        <details class="reveal"><summary>Is childcare available?</summary><p>No &mdash; we're not able to provide childcare for this one, so please plan accordingly. The evening is built for adults and runs about two hours.</p></details>
+        <details class="reveal"><summary>Will there be food?</summary><p>Refreshments will be served. Not a full meal, so eat beforehand if you're coming straight from work.</p></details>
+        <details class="reveal"><summary>Will the book be available?</summary><p>Yes, and we'll be signing copies. Come find us afterward &mdash; we're in no hurry to leave.</p></details>
+        <details class="reveal"><summary>What time should I arrive?</summary><p>Doors open at 5:30&nbsp;pm. Come early if you can; we'd genuinely rather meet you than start on time.</p></details>
+        <details class="reveal"><summary>What should I wear?</summary><p>Whatever you'd wear to church or out to dinner. Nobody is dressing up for this.</p></details>
+        <details class="reveal"><summary>I'm coming on my own. Is that odd?</summary><p>Not at all, and you won't be the only one. Nothing on the night asks you to pair up, speak, or share anything about your marriage in front of anyone.</p></details>
+        <details class="reveal"><summary>Do I need to bring anything?</summary><p>No. There's nothing to print and no ticket to show &mdash; we'll have your name.</p></details>
+        <details class="reveal"><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness in it &mdash; it just frees the seat for someone else.</p></details>
+        <details class="reveal"><summary>I have an accessibility need.</summary><p>Reply to your confirmation email and tell us what you need. We'll sort it with the church and come back to you well before the night.</p></details>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
 <!-- ========================== FOR CHURCHES ============================ -->
 <!-- ==================================================================== -->
 <div class="view" id="view-churches" hidden>
@@ -2894,7 +2997,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -2909,6 +3012,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/':               'home',
     '/book/':          'book',
     '/book-launch/':   'launch',
+    '/registered/':    'registered',
     '/churches/':      'churches',
     '/speaking/':      'speaking',
     '/about/':         'about',
@@ -2922,6 +3026,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
     book: 'The Book — Never Fight or Argue Again',
     launch: 'Book Launch — November 1st, Tampa — Never Fight or Argue Again',
+    registered: "You're registered — Never Fight or Argue Again",
     churches: 'For Churches & Organizations — Never Fight or Argue Again',
     speaking: 'Speaking — Larry & Rolanda Beacham',
     about: 'About Larry & Rolanda Beacham',
@@ -3234,7 +3339,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         }
         var dlg = form.closest('dialog');
         if (dlg && dlg.open) dlg.close();
-        navigate('thanks', true);
+        // Launch RSVPs get their own page — the details and FAQ only make
+        // sense for someone who has just registered for the event.
+        navigate(kind === 'launch' ? 'registered' : 'thanks', true);
       });
     });
   });
