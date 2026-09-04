@@ -884,6 +884,43 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .ev__barCta{grid-column:1 / -1}
   .ev__barCta .btn{width:100%;justify-content:center}
 }
+
+/* ==========================================================================
+   REGISTRATION DIALOG
+   The page is one screen, so the form opens over it rather than sending
+   somebody scrolling. <dialog> gives the backdrop, focus trapping and Escape
+   handling for free.
+   ========================================================================== */
+.rsvp{
+  border:1px solid rgba(20,28,46,.14);
+  padding:0;max-width:34rem;width:calc(100% - 2rem);
+  max-height:calc(100dvh - 2.5rem);
+  background:#FDFCF8;color:var(--ink);
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.85);
+  position:relative;overflow:auto;
+  margin:auto;                       /* centre it in the viewport */
+}
+.rsvp::backdrop{background:rgba(4,8,16,.72);backdrop-filter:blur(3px)}
+.rsvp__inner{padding:clamp(1.5rem,4vw,2.5rem);border:0;background:transparent}
+.rsvp__title{
+  font-family:var(--f-display);font-size:clamp(1.5rem,3vw,2rem);
+  line-height:1.1;margin:0 0 .5rem;color:var(--ink);
+}
+.rsvp__sub{color:var(--ink-soft);font-size:.9375rem;margin:0 0 1.5rem}
+.rsvp__close{position:absolute;top:0;right:0;margin:0}
+.rsvp__close button{
+  background:none;border:0;cursor:pointer;
+  width:3rem;height:3rem;font-size:1.6rem;line-height:1;
+  color:var(--ink-soft);
+}
+.rsvp__close button:hover{color:var(--gold-ink)}
+.rsvp[open]{animation:rsvpIn .18s ease-out}
+@keyframes rsvpIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.rsvp[open]{animation:none}}
+
+/* This page is a single screen, so the footer would only add a scrollbar. */
+body:has(#view-launch:not([hidden])) .foot{display:none}
+
 /* Grid children default to min-content width, which lets an embedded map or
    a long address push a column past a narrow screen. */
 #view-launch .grid-2 > *,
@@ -898,27 +935,6 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .ev__stage{padding:.35rem}
   .ev__stage::after{inset:.75rem}
 }
-
-/* run of show */
-.ev__run{list-style:none;margin:0;padding:0;counter-reset:none}
-.ev__run li{display:grid;grid-template-columns:2.75rem 1fr;gap:1rem;padding:1rem 0}
-.ev__run li + li{border-top:1px solid rgba(20,28,46,.1)}
-.ev__run span{
-  font-family:var(--f-display);font-size:1.05rem;color:var(--gold-ink);
-  border:1px solid rgba(154,122,44,.35);border-radius:50%;
-  width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;
-}
-.ev__run b{display:block;margin-bottom:.2rem;font-size:1rem}
-.ev__run p{margin:0;font-size:.9375rem;color:var(--ink-soft)}
-
-/* who it's for */
-.ev__for{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:clamp(1.25rem,3vw,2rem);margin-top:2.5rem;
-}
-.ev__for > div{border-left:2px solid var(--gold);padding-left:1.25rem}
-.ev__for b{display:block;margin-bottom:.4rem;color:var(--ivory)}
-.ev__for p{margin:0;color:var(--on-navy);font-size:.9375rem}
 
 /* questions */
 .ev__faq{max-width:46rem;margin-inline:auto}
@@ -1900,9 +1916,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h1>The night we stop<br><em>fighting fair.</em></h1>
         <p class="ev__lede">An evening with Larry &amp; Rolanda Beacham for the release of <em>Never Fight or Argue Again</em> &mdash; the case against fighting fair, the two plans that replace it, and time with couples doing the same work you are.</p>
         <p class="ev__cta">
-          <a class="btn btn--lg" href="#rsvp">Reserve your seat &mdash; free</a>
+          <button class="btn btn--lg" type="button" data-open-rsvp>Reserve your seat &mdash; free</button>
         </p>
-        <p class="ev__seats">Free to attend. Doors at 5:30&nbsp;pm &mdash; seating is limited and we'd rather know you're coming.</p>
+        <p class="ev__seats">Free to attend, no ticket needed. Come with your spouse or on your own &mdash; and if you can't get to Lutz, register anyway and we'll send you what we teach that night.</p>
       </div>
 
       <figure class="ev__stage">
@@ -1930,148 +1946,61 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </header>
 
-  <section class="band band--paper">
-    <div class="wrap grid-2">
-      <div class="reveal">
-        <p class="eyebrow eyebrow--ink">What the evening is</p>
-        <h2 class="h-lg">Not a book signing with a microphone.</h2>
-        <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p>We wanted the launch to be the thing the book is actually about, which meant doing it in a room rather than online. You'll hear the argument, see both plans laid out, and have the chance to ask the questions people usually only ask us privately.</p>
-        <p>Come with your spouse if you can. Come on your own if that's where you are &mdash; a good number of people will be, and nobody is going to ask you to share anything out loud.</p>
-      </div>
-      <div class="reveal">
-        <ol class="ev__run">
-          <li><span>01</span><div><b>Doors and coffee</b><p>Come early if you can. We'd rather meet you than start on time.</p></div></li>
-          <li><span>02</span><div><b>Why fighting fair isn't good enough</b><p>The case the book opens with, made in person.</p></div></li>
-          <li><span>03</span><div><b>The two plans, walked through</b><p>The Safety Plan and the Readiness Plan &mdash; who works which, and why you don't both do the same one.</p></div></li>
-          <li><span>04</span><div><b>Questions, asked honestly</b><p>Anonymous cards if you'd rather not raise a hand.</p></div></li>
-          <li><span>05</span><div><b>Books, signing, and staying late</b><p>Copies available. We're in no hurry to leave.</p></div></li>
-        </ol>
-      </div>
-    </div>
-  </section>
+  <!-- Registration opens in a dialog so the page stays one screen. -->
+  <dialog class="rsvp" id="rsvpModal" aria-labelledby="rsvpHeading">
+    <form method="dialog" class="rsvp__close">
+      <button value="close" aria-label="Close">&times;</button>
+    </form>
+    <div class="rsvp__inner capture capture--light">
+      <p class="eyebrow eyebrow--ink">Reserve your seat</p>
+      <h2 id="rsvpHeading" class="rsvp__title">Register for November 1st</h2>
+      <p class="rsvp__sub">Free, and it takes about twenty seconds. We'll confirm by email straight away.</p>
 
-  <section class="band band--paper" id="venue">
-    <div class="wrap grid-2 grid-2--center">
-      <div class="reveal">
-        <p class="eyebrow eyebrow--ink">Where to go</p>
-        <h2 class="h-lg">Grace Family Church, Lutz.</h2>
-        <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p class="ev__addr">
-          22920 FL&#8209;54<br>
-          Lutz, FL 33549
-        </p>
-        <p>About twenty-five minutes north of downtown Tampa on State Road 54, with parking on site. Doors open at 5:30&nbsp;pm &mdash; come early if you can, we'd rather meet you than start on time.</p>
-        <p>Grace Family Church is home to Pastor Ralph Johnson, whose counsel shaped some of the hardest chapters in this book. It felt right to launch it there.</p>
-        <p class="ev__addrCta">
-          <a class="btn btn--onLight" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
-        </p>
-      </div>
-      <div class="reveal ev__venueMedia">
-        <div class="ev__map">
-          <iframe
-            title="Map to Grace Family Church, 22920 FL-54, Lutz, Florida"
-            src="https://www.google.com/maps?q=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549&amp;output=embed"
-            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
+        <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+        <div class="form__row">
+          <div class="field">
+            <label for="l1">First name</label>
+            <input type="text" id="l1" name="first_name" placeholder="First name" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="l2">Last name</label>
+            <input type="text" id="l2" name="last_name" placeholder="Last name" autocomplete="family-name">
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band on-navy">
-    <div class="wrap">
-      <p class="eyebrow" style="text-align:center">Come if</p>
-      <h2 class="h-lg center" style="max-width:34rem;margin-inline:auto">You've read the advice and it still isn't working.</h2>
-      <div class="ev__for">
-        <div class="reveal"><b>You keep having the same argument</b><p>Different words, same room, same ending. You've both apologised before and it didn't hold.</p></div>
-        <div class="reveal"><b>One of you is ready and one isn't</b><p>That's normal, and it's the situation the two plans were built for. Either of you can start alone.</p></div>
-        <div class="reveal"><b>You lead couples</b><p>Pastors, small-group leaders and marriage ministry teams &mdash; come see whether it fits your people before you commit to it.</p></div>
-        <div class="reveal"><b>Things are quiet, not good</b><p>Nobody's shouting. Nobody's talking either. That counts, and it's worth an evening.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--light" id="rsvp">
-    <div class="wrap grid-2 grid-2--center">
-      <div class="reveal">
-        <p class="eyebrow eyebrow--ink">Reserve your seat</p>
-        <h2 class="h-lg">Free, but we need a headcount.</h2>
-        <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p>Tell us you're coming and we'll hold room for you. You'll get a reminder as it gets close, directions the week of, and nothing else you didn't ask for.</p>
-        <ul class="ticks">
-          <li>Free to attend &mdash; <strong>no ticket, no fee</strong></li>
-          <li>Bring your spouse or come alone, both are fine</li>
-          <li>Can't make Tampa? <strong>Register anyway</strong> and we'll send what we teach that night</li>
-          <li>Plans change &mdash; there's a link in every email to let us know</li>
-        </ul>
-      </div>
-
-      <div class="capture capture--light reveal">
-        <p class="capture__title">Register for November 1st</p>
-        <p class="capture__sub">Takes about twenty seconds. We'll confirm by email straight away.</p>
-        <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
-          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
-          <div class="form__row">
-            <div class="field">
-              <label for="l1">First name</label>
-              <input type="text" id="l1" name="first_name" placeholder="First name" autocomplete="given-name" required>
-            </div>
-            <div class="field">
-              <label for="l2">Last name</label>
-              <input type="text" id="l2" name="last_name" placeholder="Last name" autocomplete="family-name">
-            </div>
+        <div class="field">
+          <label for="l3">Email</label>
+          <input type="email" id="l3" name="email" placeholder="you@example.com" autocomplete="email" required>
+        </div>
+        <div class="form__row">
+          <div class="field">
+            <label for="l4">How many of you?</label>
+            <select id="l4" name="guests">
+              <option value="1">Just me</option>
+              <option value="2" selected>Two of us</option>
+              <option value="3">Three</option>
+              <option value="4">Four</option>
+              <option value="5">Five or more</option>
+            </select>
           </div>
           <div class="field">
-            <label for="l3">Email</label>
-            <input type="email" id="l3" name="email" placeholder="you@example.com" autocomplete="email" required>
+            <label for="l5">Can you be there in person?</label>
+            <select id="l5" name="attending">
+              <option value="in_person" selected>Yes, in Lutz</option>
+              <option value="cannot_attend">Can't travel this time</option>
+            </select>
           </div>
-          <div class="form__row">
-            <div class="field">
-              <label for="l4">How many of you?</label>
-              <select id="l4" name="guests">
-                <option value="1">Just me</option>
-                <option value="2" selected>Two of us</option>
-                <option value="3">Three</option>
-                <option value="4">Four</option>
-                <option value="5">Five or more</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="l5">Can you be there in person?</label>
-              <select id="l5" name="attending">
-                <option value="in_person" selected>Yes, in Tampa</option>
-                <option value="cannot_attend">Can't travel this time</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label for="l6">Anything we should know?</label>
-            <textarea id="l6" name="notes" placeholder="Bringing a group, accessibility needs, a question you'd want answered…"></textarea>
-          </div>
-          <p class="form__error" hidden></p>
-          <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
-          <p class="form__fine">Free. We'll only email you about the launch and the book.</p>
-        </form>
-      </div>
+        </div>
+        <div class="field">
+          <label for="l6">Anything we should know?</label>
+          <textarea id="l6" name="notes" placeholder="Bringing a group, accessibility needs, a question you'd want answered…"></textarea>
+        </div>
+        <p class="form__error" hidden></p>
+        <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
+        <p class="form__fine">Free. We'll only email you about the launch and the book.</p>
+      </form>
     </div>
-  </section>
-
-  <section class="band band--paper">
-    <div class="wrap">
-      <p class="eyebrow eyebrow--ink" style="text-align:center">Before you ask</p>
-      <h2 class="h-lg center" style="margin-bottom:2.5rem">Questions we're already getting.</h2>
-      <div class="ev__faq">
-        <details class="reveal"><summary>Is it really free?</summary><p>Yes. No ticket, no door charge. We ask you to register only so we know how many chairs to put out and can tell you where to go.</p></details>
-        <details class="reveal"><summary>Where is it, and what time?</summary><p>Grace Family Church, 22920 FL&#8209;54, Lutz, FL 33549 &mdash; about twenty-five minutes north of downtown Tampa. Doors at 5:30&nbsp;pm. There's parking on site, and <a href="#venue">directions are here</a>.</p></details>
-        <details class="reveal"><summary>Can I come without my spouse?</summary><p>Yes, and plenty will. Nothing on the night requires you to speak, pair up, or share anything about your marriage in front of anyone.</p></details>
-        <details class="reveal"><summary>We're not in Florida.</summary><p>Register and choose "can't travel". You'll get the book link on launch day and a recap of what we taught, so the evening isn't lost on you.</p></details>
-        <details class="reveal"><summary>Is childcare available?</summary><p>We're confirming this with the church. Mention it in your registration notes and we'll make sure you get a straight answer well before the night.</p></details>
-        <details class="reveal"><summary>I lead a marriage ministry. Can I bring my team?</summary><p>Please do. Put the number in the registration and mention it in the notes &mdash; if you're bringing a group we'll reserve a block together.</p></details>
-        <details class="reveal"><summary>Will books be for sale?</summary><p>Yes, and we'll sign them. Bulk and church pricing is available too &mdash; <a href="/churches/" data-tab="churches">ask us here</a>.</p></details>
-        <details class="reveal"><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness &mdash; it just frees the seat for someone else.</p></details>
-      </div>
-    </div>
-  </section>
+  </dialog>
 
 </div>
 
@@ -3131,6 +3060,27 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
      device, so nobody hits a dead end.
      ===================================================================== */
 
+
+  // ---- registration dialog -------------------------------------------
+  (function () {
+    var dlg = document.getElementById('rsvpModal');
+    if (!dlg) return;
+
+    document.addEventListener('click', function (ev) {
+      var open = ev.target.closest('[data-open-rsvp]');
+      if (open) {
+        ev.preventDefault();
+        if (typeof dlg.showModal === 'function') dlg.showModal();
+        else dlg.setAttribute('open', '');       // very old browsers
+        var first = dlg.querySelector('input[name="first_name"]');
+        if (first) setTimeout(function () { first.focus(); }, 60);
+        return;
+      }
+      // clicking the backdrop closes it
+      if (ev.target === dlg) dlg.close();
+    });
+  })();
+
   var TY = {
     'default': {
       eyebrow: "You're in",
@@ -3269,6 +3219,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           if (ps[0]) ps[0].innerHTML = 'Sunday, November 1st at 5:30&nbsp;pm &mdash; Grace Family Church, Lutz. We\'ve emailed your confirmation with directions.';
           if (ps[1]) ps[1].remove();
         }
+        var dlg = form.closest('dialog');
+        if (dlg && dlg.open) dlg.close();
         navigate('thanks', true);
       });
     });
