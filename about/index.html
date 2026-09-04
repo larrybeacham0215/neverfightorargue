@@ -875,25 +875,28 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .ev__cardCta .btn{width:100%;justify-content:center}
 
 
-/* venue photo + map */
-.ev__venueMedia{display:grid;gap:1rem}
-.ev__photo{
-  position:relative;margin:0;padding:.5rem;
-  background:linear-gradient(150deg,rgba(212,166,60,.34),rgba(212,166,60,.1) 45%,rgba(212,166,60,.26));
-  box-shadow:0 0 0 1px rgba(212,166,60,.32), 0 26px 54px -30px rgba(20,28,46,.75);
+
+/* The staged room — the single strongest thing on this page, so it runs the
+   full width of the header beneath the headline and the facts. */
+.ev__stage{
+  margin:clamp(2rem,4vw,3rem) 0 0;
+  padding:.5rem;
+  background:linear-gradient(150deg,rgba(212,166,60,.34),rgba(212,166,60,.08) 45%,rgba(212,166,60,.26));
+  box-shadow:0 0 0 1px rgba(212,166,60,.3), 0 34px 70px -34px rgba(0,0,0,.9), 0 0 120px -50px rgba(212,166,60,.4);
+  position:relative;
 }
-.ev__photo img{display:block;width:100%;height:auto;border-radius:1px}
-.ev__photo::after{
+.ev__stage img{display:block;width:100%;height:auto}
+.ev__stage::after{
   content:"";position:absolute;inset:1.15rem;
-  border:1px solid rgba(247,244,236,.28);pointer-events:none;
+  border:1px solid rgba(247,244,236,.2);pointer-events:none;
 }
-.ev__photo figcaption{
-  position:absolute;left:.5rem;right:.5rem;bottom:.5rem;
-  padding:2rem 1.15rem .85rem;
-  font-size:.625rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--ivory);
-  background:linear-gradient(180deg,transparent,rgba(8,15,30,.82));
+@media(max-width:640px){
+  .ev__stage{padding:.35rem}
+  .ev__stage::after{inset:.8rem}
 }
+
+/* venue map */
+.ev__venueMedia{display:grid;gap:1rem}
 
 /* venue */
 .ev__addr{
@@ -907,7 +910,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   padding:.4rem;background:#fff;
 }
 .ev__map{border:1px solid rgba(20,28,46,.16);padding:.35rem;background:#fff}
-.ev__map iframe{display:block;width:100%;height:clamp(11rem,16vw,14rem);border:0}
+.ev__map iframe{display:block;width:100%;height:clamp(19rem,30vw,24rem);border:0}
 
 /* run of show */
 .ev__run{list-style:none;margin:0;padding:0;counter-reset:none}
@@ -961,7 +964,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .ev__facts > div{grid-template-columns:5rem 1fr;gap:.75rem}
   .ev__facts dd{font-size:1rem}
   .ev__facts dd strong{font-size:1.0625rem}
-  .ev__map iframe{height:12rem}
+  .ev__map iframe{height:16rem}
 }
 
 /* ==========================================================================
@@ -1931,6 +1934,17 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="ev__cardCta"><a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a></p>
       </aside>
     </div>
+
+    <div class="wrap">
+      <figure class="ev__stage">
+        <picture>
+          <source srcset="/assets/launch-stage.webp" type="image/webp">
+          <img src="/assets/launch-stage.jpg"
+               alt="The stage set for the Never Fight or Argue Again book launch at Grace Family Church, with seating for guests"
+               width="1600" height="1200">
+        </picture>
+      </figure>
+    </div>
   </header>
 
   <section class="band band--paper">
@@ -1971,15 +1985,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </p>
       </div>
       <div class="reveal ev__venueMedia">
-        <figure class="ev__photo">
-          <picture>
-            <source srcset="/assets/venue-grace-family.webp" type="image/webp">
-            <img src="/assets/venue-grace-family.jpg"
-                 alt="The main room at Grace Family Church, with the stage and water wall where the launch will be held"
-                 width="1200" height="792" loading="lazy">
-          </picture>
-          <figcaption>The room, before we fill it</figcaption>
-        </figure>
         <div class="ev__map">
           <iframe
             title="Map to Grace Family Church, 22920 FL-54, Lutz, Florida"
