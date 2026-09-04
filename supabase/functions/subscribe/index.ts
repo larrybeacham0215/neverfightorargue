@@ -153,6 +153,50 @@ function chaptersEmail(firstName: string, token: string) {
   );
 }
 
+
+// ---------------------------------------------------------------------------
+// Launch RSVPs — the 1 November event in Tampa.
+// ---------------------------------------------------------------------------
+const GCAL_LAUNCH = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101/20261102&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20in%20Tampa%2C%20Florida.%20Time%20and%20venue%20to%20be%20confirmed.%0A%0Ahttps%3A%2F%2Fneverfightorargue.com%2Fbook-launch%2F&location=Tampa%2C%20Florida";
+
+function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean, token: string) {
+  const name = firstName ? `${firstName},` : "there,";
+  const seats = guests > 1 ? `${guests} seats are` : "a seat is";
+
+  const body = inPerson
+    ? `
+      <p style="margin:0 0 18px;">Hi ${name}</p>
+      <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you on <strong>Sunday, November 1st</strong> in Tampa.</p>
+      <p style="margin:0 0 22px;">The time and venue are being finalised. You'll get them by email as soon as they're set, before they go public anywhere else. Put the date somewhere you'll see it in the meantime:</p>
+      <p style="margin:0 0 8px;text-align:center;">
+        <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
+      </p>
+      <p style="margin:0 0 26px;text-align:center;font-size:13px;">
+        <a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#6B7385;">Other calendars (.ics)</a>
+      </p>
+      <p style="margin:0 0 18px;">Come early if you can. We'd rather meet you than start on time.</p>
+      <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#9A7A2C;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
+      <p style="margin:0;">&mdash; Larry &amp; Ro</p>`
+    : `
+      <p style="margin:0 0 18px;">Hi ${name}</p>
+      <p style="margin:0 0 18px;">You're on the list for November 1st. You told us Tampa isn't reachable, so here's what that means for you.</p>
+      <p style="margin:0 0 18px;">On launch day you'll get the book link in the morning. A couple of days later we'll send what we taught from the stage that night, so the evening isn't lost on you just because you couldn't be in the room.</p>
+      <p style="margin:0 0 18px;">And if things change and you can make it after all, just reply to this email and we'll add you back to the headcount.</p>
+      <p style="margin:0;">&mdash; Larry &amp; Ro</p>`;
+
+  return shell(body, `
+    You're receiving this because you registered for the launch at ${SITE_URL.replace("https://", "")}.<br>
+    <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#6B7385;">Can't make it any more?</a>`);
+}
+
+function launchNotifyEmail(pretty: string) {
+  return shell(
+    `<p style="margin:0 0 18px;font-size:15px;color:#6B7385;">New launch registration</p>
+     <table style="width:100%;border-collapse:collapse;font-size:14px;">${pretty}</table>`,
+    `Sent from the book launch page. Reply to reach them directly.`,
+  );
+}
+
 function inquiryReceipt(kind: string, firstName: string) {
   const name = firstName ? `${firstName},` : "there,";
   const what = kind === "church"
@@ -259,6 +303,69 @@ Deno.serve(async (req) => {
     }
 
     // ---------------- church / speaking ----------------
+    if (kind === "launch") {
+      const guests = Math.max(1, Math.min(20, parseInt(String(body.guests ?? "1"), 10) || 1));
+      const inPerson = String(body.attending ?? "in_person") !== "cannot_attend";
+
+      const row = {
+        email,
+        first_name,
+        last_name: clean(body.last_name, 100),
+        guests,
+        attending: inPerson ? "in_person" : "cannot_attend",
+        notes: clean(body.notes),
+        source: clean(body.source, 60) || "website",
+        confirmed_at: new Date().toISOString(),
+        cancelled_at: null,
+      };
+
+      const { data: saved, error } = await db
+        .from("launch_rsvps")
+        .upsert(row, { onConflict: "email" })
+        .select("manage_token")
+        .single();
+
+      if (error) {
+        console.error("launch rsvp save failed", error);
+        return new Response(JSON.stringify({ error: "Could not save. Please try again." }), {
+          status: 500,
+          headers,
+        });
+      }
+
+      const pretty = Object.entries({
+        Name: `${first_name} ${clean(body.last_name, 100)}`.trim(),
+        Email: email,
+        Guests: String(guests),
+        Attending: inPerson ? "In person, Tampa" : "Cannot travel",
+        Notes: clean(body.notes),
+      })
+        .filter(([, v]) => v)
+        .map(([k, v]) =>
+          `<tr><td style="padding:6px 12px 6px 0;color:#6B7385;white-space:nowrap;">${k}</td><td style="padding:6px 0;">${v}</td></tr>`)
+        .join("");
+
+      await sendEmail(
+        NOTIFY_EMAIL,
+        `Launch RSVP — ${first_name || email}${guests > 1 ? ` (+${guests - 1})` : ""}${inPerson ? "" : " [remote]"}`,
+        launchNotifyEmail(pretty),
+        email,
+      );
+
+      const confirmed = await sendEmail(
+        email,
+        inPerson
+          ? "You're registered — November 1st, Tampa"
+          : "You're on the list for November 1st",
+        launchConfirmEmail(first_name, guests, inPerson, saved?.manage_token ?? ""),
+      );
+
+      // Keep them on the main list too, so they get the book news.
+      await addBrevoContact(email, first_name);
+
+      return new Response(JSON.stringify({ ok: true, confirmed }), { headers });
+    }
+
     if (kind === "church" || kind === "speaking") {
       const details: Record<string, string> = {};
       for (const k of ["interest", "group_size", "format", "event_date", "notes"]) {
