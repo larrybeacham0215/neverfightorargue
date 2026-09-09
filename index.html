@@ -1161,7 +1161,11 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
     align-items:start;
     text-align:center;
   }
-  .hero__kicker{grid-area:kicker;margin-bottom:.6rem}
+  /* One line always — it shrinks rather than wrapping to two. */
+  .hero__kicker{
+    grid-area:kicker;margin-bottom:.6rem;white-space:nowrap;
+    font-size:clamp(.5rem,2.45vw,.75rem);letter-spacing:.16em;
+  }
   .hero--light h1{
     grid-area:title;margin-bottom:.75rem;
     font-size:clamp(1.9rem,7.8vw,2.7rem);line-height:1.06;
