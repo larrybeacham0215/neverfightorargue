@@ -1057,18 +1057,21 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* the inline capture */
 .grab{margin:0}
 .grab__row{
-  display:flex;align-items:center;gap:.5rem;
+  display:flex;align-items:center;gap:.35rem;
   background:#fff;border:1px solid rgba(22,38,28,.12);
-  border-radius:999px;padding:.4rem .4rem .4rem 1rem;
+  border-radius:999px;padding:.4rem .4rem .4rem 1.15rem;
   box-shadow:0 14px 30px -22px rgba(22,38,28,.5);
-  max-width:34rem;
+  max-width:41rem;
 }
-.grab__icon{flex:none;display:flex}
-.grab__icon svg{width:1.15rem;height:1.15rem;stroke:#A08A6A;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .grab__row input{
-  flex:1;min-width:0;border:0;background:none;outline:none;
+  min-width:0;border:0;background:none;outline:none;
   font:inherit;font-size:.9375rem;color:var(--ink);padding:.7rem .25rem;
 }
+.grab__name{flex:0 1 9.5rem}
+.grab__mail{flex:1 1 11rem}
+.grab__div{flex:none;width:1px;align-self:stretch;margin:.45rem .35rem;background:rgba(22,38,28,.14)}
+.grab__row input:focus{outline:none}
+.grab__row:focus-within{border-color:rgba(143,90,45,.45);box-shadow:0 0 0 3px rgba(143,90,45,.12),0 14px 30px -22px rgba(22,38,28,.5)}
 .grab__row input::placeholder{color:#9AA396}
 .grab__btn{
   flex:none;border:0;cursor:pointer;border-radius:999px;
@@ -1133,16 +1136,31 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   .hero--light .bookwrap{--bw:min(11rem,36vw)}
   .hero--light h1{font-size:clamp(1.65rem,5.6vw,2.4rem)}
   .hero__sub{font-size:.9375rem;margin-bottom:1.15rem}
-  .grab__row{flex-wrap:wrap;border-radius:1rem;padding:.75rem}
-  .grab__row input{flex:1 1 100%;padding:.55rem .25rem}
-  .grab__btn{flex:1 1 100%;text-align:center}
-  .grab__icon{display:none}
+  /* Stacked on a phone: two fields in a row, then the button full width. */
+  .grab__row{flex-wrap:wrap;border-radius:1rem;padding:.6rem;gap:.4rem}
+  .grab__name{flex:1 1 40%;padding:.6rem .5rem}
+  .grab__mail{flex:1 1 45%;padding:.6rem .5rem}
+  .grab__div{margin:.35rem .15rem}
+  .grab__btn{flex:1 1 100%;text-align:center;margin-top:.15rem}
+}
+/* Only the narrowest phones need the two fields stacked; at 375px and up
+   they sit side by side as they do on desktop. */
+@media(max-width:359px){
+  .grab__name,.grab__mail{flex:1 1 100%}
+  .grab__div{display:none}
 }
 @media(max-width:640px){
   .hero--light .hero__grid{grid-template-columns:1fr;grid-template-areas:none;row-gap:1.5rem}
   .hero--light .hero__art{justify-content:center}
   .hero--light .bookwrap{--bw:min(15rem,55vw)}
   .hero__feats{margin-top:1.5rem}
+}
+@media(max-width:900px) and (max-height:640px){
+  .hero--light{padding-block:1rem 1.75rem}
+  .hero--light h1{font-size:clamp(1.45rem,5.2vw,2rem);margin-bottom:.9rem}
+  .hero__sub{margin-bottom:.9rem;font-size:.875rem}
+  .hero__kicker{margin-bottom:.7rem}
+  .hero__by{margin-bottom:1rem}
 }
 .sr-only{
   position:absolute;width:1px;height:1px;padding:0;margin:-1px;
@@ -1740,11 +1758,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <form class="grab" data-capture novalidate>
             <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
             <div class="grab__row">
-              <span class="grab__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M3 6.5h18v11H3z"/><path d="M3 7l9 6.5L21 7"/></svg>
-              </span>
+              <label class="sr-only" for="f1n">First name</label>
+              <input class="grab__name" type="text" id="f1n" name="first_name" placeholder="First name" autocomplete="given-name" required>
+              <span class="grab__div" aria-hidden="true"></span>
               <label class="sr-only" for="f1e">Email address</label>
-              <input type="email" id="f1e" name="email" placeholder="Enter your email" autocomplete="email" required>
+              <input class="grab__mail" type="email" id="f1e" name="email" placeholder="Your email" autocomplete="email" required>
               <button class="grab__btn" type="submit">Download Chapter 1 <span aria-hidden="true">&rarr;</span></button>
             </div>
             <p class="form__error" hidden></p>
