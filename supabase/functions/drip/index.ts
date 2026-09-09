@@ -26,13 +26,13 @@ const CHAPTER_PATH = "/assets/never-fight-or-argue-again-chapter-1.pdf";
 const SCHEDULE: Record<number, number> = { 1: 2, 2: 5, 3: 9 };
 
 const shell = (body: string, footer: string) => `
-<!DOCTYPE html><html><body style="margin:0;padding:0;background:#EFEBE0;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFEBE0;padding:32px 16px;">
+<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F1EBDD;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1EBDD;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #DED8C9;">
-        <tr><td style="background:#0E2A1A;padding:26px 32px;">
-          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F7F3EA;">
-            Never Fight <span style="color:#C97B4A;">or Argue</span> Again
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #E0D8C4;">
+        <tr><td style="background:#0D2D1D;padding:26px 32px;">
+          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F8F4E9;">
+            Never Fight <span style="color:#C39A5E;">or Argue</span> Again
           </div>
           <div style="font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,243,234,.5);padding-top:6px;">
             Couples Ministry
@@ -41,7 +41,7 @@ const shell = (body: string, footer: string) => `
         <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#16261C;">
           ${body}
         </td></tr>
-        <tr><td style="padding:20px 32px;border-top:1px solid #DED8C9;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#5C6B60;">
+        <tr><td style="padding:20px 32px;border-top:1px solid #E0D8C4;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#5C6B60;">
           ${footer}
         </td></tr>
       </table>
@@ -55,7 +55,7 @@ const chapterFooter = (token: string) => `
 
 const button = (label: string, href: string) => `
   <p style="margin:26px 0;text-align:center;">
-    <a href="${href}" style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">${label}</a>
+    <a href="${href}" style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">${label}</a>
   </p>`;
 
 function emailFor(stage: number, firstName: string, token: string) {
@@ -133,12 +133,12 @@ const GCAL_LAUNCH =
 const DIRECTIONS =
   "https://www.google.com/maps/dir/?api=1&destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549";
 const VENUE_HTML = `
-  <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #DED8C9;background:#FAF7F0;margin:0 0 22px;">
+  <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0D8C4;background:#FBF7EE;margin:0 0 22px;">
     <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#16261C;">
       <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
       <strong>Grace Family Church</strong><br>
       22920 FL-54, Lutz, FL 33549<br>
-      <a href="${DIRECTIONS}" style="color:#8F4F26;">Get directions</a>
+      <a href="${DIRECTIONS}" style="color:#8A6330;">Get directions</a>
     </td></tr>
   </table>`;
 
@@ -177,12 +177,12 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
         <p style="margin:0 0 18px;">Hi ${name}</p>
         <p style="margin:0 0 18px;">The launch is a week from today.</p>
         ${VENUE_HTML}
-        <p style="margin:0 0 18px;">Two things worth doing now. Put it in your calendar if you haven't, and if you're bringing anyone who isn't already registered, send them to <a href="${SITE_URL}/book-launch/" style="color:#8F4F26;">the registration page</a> so we count the chairs right.</p>
+        <p style="margin:0 0 18px;">Two things worth doing now. Put it in your calendar if you haven't, and if you're bringing anyone who isn't already registered, send them to <a href="${SITE_URL}/book-launch/" style="color:#8A6330;">the registration page</a> so we count the chairs right.</p>
         <p style="margin:0 0 8px;text-align:center;">
-          <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
+          <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
         </p>
         <p style="margin:0 0 22px;text-align:center;font-size:13px;"><a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#5C6B60;">Other calendars</a></p>
-        <p style="margin:0 0 18px;">If your plans have changed, <a href="${cancel}" style="color:#8F4F26;">tell us here</a>. Genuinely no hard feelings &mdash; it just frees the seat.</p>
+        <p style="margin:0 0 18px;">If your plans have changed, <a href="${cancel}" style="color:#8A6330;">tell us here</a>. Genuinely no hard feelings &mdash; it just frees the seat.</p>
         <p style="margin:0;">&mdash; Larry &amp; Ro</p>`, foot),
     };
   }
@@ -208,7 +208,7 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
             <p style="margin:0 0 18px;">Tonight's the night. We're looking forward to meeting you.</p>
             ${VENUE_HTML}
             <p style="margin:0 0 18px;">Doors at 5:30. Come early if you can.</p>
-            <p style="margin:0 0 18px;">One thing: the book is out today too. If you'd rather have your copy before you arrive, it's <a href="${SITE_URL}/book/" style="color:#8F4F26;">here</a>.</p>
+            <p style="margin:0 0 18px;">One thing: the book is out today too. If you'd rather have your copy before you arrive, it's <a href="${SITE_URL}/book/" style="color:#8A6330;">here</a>.</p>
             <p style="margin:0;">See you tonight.<br>&mdash; Larry &amp; Ro</p>`, foot),
         }
       : {
@@ -218,7 +218,7 @@ function launchEmail(stage: number, firstName: string, inPerson: boolean, token:
             <p style="margin:0 0 18px;"><em>Never Fight or Argue Again</em> is available today.</p>
             <p style="margin:0 0 18px;">You told us you couldn't travel, so this is your copy of the news &mdash; and in a couple of days we'll send you what we taught from the stage tonight.</p>
             <p style="margin:0 0 22px;text-align:center;">
-              <a href="${SITE_URL}/book/" style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Get the book</a>
+              <a href="${SITE_URL}/book/" style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Get the book</a>
             </p>
             <p style="margin:0;">&mdash; Larry &amp; Ro</p>`, foot),
         };
