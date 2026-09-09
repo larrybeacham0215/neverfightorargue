@@ -110,13 +110,13 @@ async function addBrevoContact(email: string, firstName: string) {
 
 // ---- email templates ------------------------------------------------
 const shell = (body: string, footer: string) => `
-<!DOCTYPE html><html><body style="margin:0;padding:0;background:#EFEBE0;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFEBE0;padding:32px 16px;">
+<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F1EBDD;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F1EBDD;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #DED8C9;">
-        <tr><td style="background:#0E2A1A;padding:26px 32px;">
-          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F7F3EA;">
-            Never Fight <span style="color:#C97B4A;">or Argue</span> Again
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #E0D8C4;">
+        <tr><td style="background:#0D2D1D;padding:26px 32px;">
+          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F8F4E9;">
+            Never Fight <span style="color:#C39A5E;">or Argue</span> Again
           </div>
           <div style="font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,243,234,.5);padding-top:6px;">
             Couples Ministry
@@ -125,7 +125,7 @@ const shell = (body: string, footer: string) => `
         <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#16261C;">
           ${body}
         </td></tr>
-        <tr><td style="padding:20px 32px;border-top:1px solid #DED8C9;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#5C6B60;">
+        <tr><td style="padding:20px 32px;border-top:1px solid #E0D8C4;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#5C6B60;">
           ${footer}
         </td></tr>
       </table>
@@ -143,7 +143,7 @@ function chaptersEmail(firstName: string, token: string) {
     <p style="margin:0 0 26px;">One suggestion: read it on your own first. Don't hand it to your spouse yet. When you're ready, the invitation lands better than the evidence does.</p>
     <p style="margin:0 0 28px;text-align:center;">
       <a href="${SITE_URL}${CHAPTER_PATH}"
-         style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">
+         style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">
         Download the chapter
       </a>
     </p>
@@ -170,22 +170,22 @@ function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean
     ? `
       <p style="margin:0 0 18px;">Hi ${name}</p>
       <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you.</p>
-      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #DED8C9;background:#FAF7F0;margin:0 0 22px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0D8C4;background:#FBF7EE;margin:0 0 22px;">
         <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#16261C;">
           <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
           <strong>Grace Family Church</strong><br>
           22920 FL-54, Lutz, FL 33549<br>
-          <a href="${DIRECTIONS}" style="color:#8F4F26;">Get directions</a>
+          <a href="${DIRECTIONS}" style="color:#8A6330;">Get directions</a>
         </td></tr>
       </table>
       <p style="margin:0 0 22px;">Doors at 5:30. Come early if you can &mdash; we'd rather meet you than start on time. Put it somewhere you'll see it:</p>
       <p style="margin:0 0 8px;text-align:center;">
-        <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
+        <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
       </p>
       <p style="margin:0 0 26px;text-align:center;font-size:13px;">
         <a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#5C6B60;">Other calendars (.ics)</a>
       </p>
-      <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#8F4F26;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
+      <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#8A6330;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
       <p style="margin:0;">&mdash; Larry &amp; Ro</p>`
     : `
       <p style="margin:0 0 18px;">Hi ${name}</p>
