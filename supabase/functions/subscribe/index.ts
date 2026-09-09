@@ -110,22 +110,22 @@ async function addBrevoContact(email: string, firstName: string) {
 
 // ---- email templates ------------------------------------------------
 const shell = (body: string, footer: string) => `
-<!DOCTYPE html><html><body style="margin:0;padding:0;background:#EEEDE3;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EEEDE3;padding:32px 16px;">
+<!DOCTYPE html><html><body style="margin:0;padding:0;background:#EFEBE0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFEBE0;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #E0DCCF;">
-        <tr><td style="background:#080F1E;padding:26px 32px;">
-          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F7F4EC;">
-            Never Fight <span style="color:#D4A63C;">or Argue</span> Again
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border:1px solid #DED8C9;">
+        <tr><td style="background:#0E2A1A;padding:26px 32px;">
+          <div style="font-family:Georgia,serif;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:#F7F3EA;">
+            Never Fight <span style="color:#C97B4A;">or Argue</span> Again
           </div>
-          <div style="font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,244,236,.5);padding-top:6px;">
+          <div style="font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(247,243,234,.5);padding-top:6px;">
             Couples Ministry
           </div>
         </td></tr>
-        <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#141C2E;">
+        <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:#16261C;">
           ${body}
         </td></tr>
-        <tr><td style="padding:20px 32px;border-top:1px solid #E0DCCF;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#6B7385;">
+        <tr><td style="padding:20px 32px;border-top:1px solid #DED8C9;font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:1.6;color:#5C6B60;">
           ${footer}
         </td></tr>
       </table>
@@ -143,13 +143,13 @@ function chaptersEmail(firstName: string, token: string) {
     <p style="margin:0 0 26px;">One suggestion: read it on your own first. Don't hand it to your spouse yet. When you're ready, the invitation lands better than the evidence does.</p>
     <p style="margin:0 0 28px;text-align:center;">
       <a href="${SITE_URL}${CHAPTER_PATH}"
-         style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">
+         style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">
         Download the chapter
       </a>
     </p>
     <p style="margin:0;">&mdash; Larry &amp; Ro</p>`,
     `You're receiving this because you requested a free chapter at ${SITE_URL.replace("https://", "")}.<br>
-     <a href="${SITE_URL}/unsubscribe/?t=${token}" style="color:#6B7385;">Unsubscribe</a>`,
+     <a href="${SITE_URL}/unsubscribe/?t=${token}" style="color:#5C6B60;">Unsubscribe</a>`,
   );
 }
 
@@ -170,22 +170,22 @@ function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean
     ? `
       <p style="margin:0 0 18px;">Hi ${name}</p>
       <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you.</p>
-      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0DCCF;background:#FBFAF6;margin:0 0 22px;">
-        <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141C2E;">
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #DED8C9;background:#FAF7F0;margin:0 0 22px;">
+        <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#16261C;">
           <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
           <strong>Grace Family Church</strong><br>
           22920 FL-54, Lutz, FL 33549<br>
-          <a href="${DIRECTIONS}" style="color:#9A7A2C;">Get directions</a>
+          <a href="${DIRECTIONS}" style="color:#8F4F26;">Get directions</a>
         </td></tr>
       </table>
       <p style="margin:0 0 22px;">Doors at 5:30. Come early if you can &mdash; we'd rather meet you than start on time. Put it somewhere you'll see it:</p>
       <p style="margin:0 0 8px;text-align:center;">
-        <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#D4A63C;color:#080F1E;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
+        <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C97B4A;color:#0E2A1A;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
       </p>
       <p style="margin:0 0 26px;text-align:center;font-size:13px;">
-        <a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#6B7385;">Other calendars (.ics)</a>
+        <a href="${SITE_URL}/assets/launch-nov-1.ics" style="color:#5C6B60;">Other calendars (.ics)</a>
       </p>
-      <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#9A7A2C;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
+      <p style="margin:0 0 18px;">If your plans change, just <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#8F4F26;">let us know here</a> &mdash; it frees the seat for someone else, and there's no awkwardness in it.</p>
       <p style="margin:0;">&mdash; Larry &amp; Ro</p>`
     : `
       <p style="margin:0 0 18px;">Hi ${name}</p>
@@ -196,12 +196,12 @@ function launchConfirmEmail(firstName: string, guests: number, inPerson: boolean
 
   return shell(body, `
     You're receiving this because you registered for the launch at ${SITE_URL.replace("https://", "")}.<br>
-    <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#6B7385;">Can't make it any more?</a>`);
+    <a href="${SITE_URL}/book-launch/?cancel=${token}" style="color:#5C6B60;">Can't make it any more?</a>`);
 }
 
 function launchNotifyEmail(pretty: string) {
   return shell(
-    `<p style="margin:0 0 18px;font-size:15px;color:#6B7385;">New launch registration</p>
+    `<p style="margin:0 0 18px;font-size:15px;color:#5C6B60;">New launch registration</p>
      <table style="width:100%;border-collapse:collapse;font-size:14px;">${pretty}</table>`,
     `Sent from the book launch page. Reply to reach them directly.`,
   );
@@ -229,19 +229,19 @@ function inquiryEmail(kind: string, d: Record<string, string>, extra: Record<str
     .filter(([, v]) => v)
     .map(
       ([k, v]) =>
-        `<tr><td style="padding:6px 14px 6px 0;color:#6B7385;white-space:nowrap;vertical-align:top;">${k}</td><td style="padding:6px 0;">${String(v).replace(/</g, "&lt;")}</td></tr>`,
+        `<tr><td style="padding:6px 14px 6px 0;color:#5C6B60;white-space:nowrap;vertical-align:top;">${k}</td><td style="padding:6px 0;">${String(v).replace(/</g, "&lt;")}</td></tr>`,
     )
     .join("");
   return shell(
     `
     <p style="margin:0 0 18px;font-size:18px;"><strong>New ${kind} inquiry</strong></p>
     <table style="font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;">
-      <tr><td style="padding:6px 14px 6px 0;color:#6B7385;">Name</td><td style="padding:6px 0;">${d.first_name} ${d.last_name}</td></tr>
-      <tr><td style="padding:6px 14px 6px 0;color:#6B7385;">Email</td><td style="padding:6px 0;"><a href="mailto:${d.email}">${d.email}</a></td></tr>
-      ${d.organization ? `<tr><td style="padding:6px 14px 6px 0;color:#6B7385;">Organization</td><td style="padding:6px 0;">${d.organization}</td></tr>` : ""}
+      <tr><td style="padding:6px 14px 6px 0;color:#5C6B60;">Name</td><td style="padding:6px 0;">${d.first_name} ${d.last_name}</td></tr>
+      <tr><td style="padding:6px 14px 6px 0;color:#5C6B60;">Email</td><td style="padding:6px 0;"><a href="mailto:${d.email}">${d.email}</a></td></tr>
+      ${d.organization ? `<tr><td style="padding:6px 14px 6px 0;color:#5C6B60;">Organization</td><td style="padding:6px 0;">${d.organization}</td></tr>` : ""}
       ${rows}
     </table>
-    <p style="margin:22px 0 0;color:#6B7385;font-size:13px;">Reply straight to this email to answer them.</p>`,
+    <p style="margin:22px 0 0;color:#5C6B60;font-size:13px;">Reply straight to this email to answer them.</p>`,
     `Sent automatically from ${SITE_URL.replace("https://", "")}.`,
   );
 }
@@ -352,7 +352,7 @@ Deno.serve(async (req) => {
       })
         .filter(([, v]) => v)
         .map(([k, v]) =>
-          `<tr><td style="padding:6px 12px 6px 0;color:#6B7385;white-space:nowrap;">${k}</td><td style="padding:6px 0;">${v}</td></tr>`)
+          `<tr><td style="padding:6px 12px 6px 0;color:#5C6B60;white-space:nowrap;">${k}</td><td style="padding:6px 0;">${v}</td></tr>`)
         .join("");
 
       await sendEmail(
