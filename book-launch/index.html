@@ -30,7 +30,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:ital,wght@0,600..900;1,600..800&family=Karla:ital,wght@0,300..700;1,400..600&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
    Never Fight or Argue Again — site styles
@@ -57,6 +57,7 @@
   --on-navy:rgba(247,243,234,.76);
 
   --f-display:"Marcellus",Georgia,"Times New Roman",serif;
+  --f-head:"Playfair Display",Georgia,"Times New Roman",serif;   /* has real bold weights */
   --f-body:"Karla",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 
   --measure:36rem;
@@ -1037,13 +1038,16 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   font-size:clamp(.625rem,.85vw,.75rem);letter-spacing:.24em;text-transform:uppercase;
   color:#8A6330;font-weight:700;margin-bottom:1rem;
 }
+.hero__lead{display:block}     /* its own line, and no "ofNever" run-together */
+.hero__title{display:block}
 .hero--light h1{
-  font-family:var(--f-display);
-  font-size:clamp(2.1rem,3.9vw,3.35rem);
-  line-height:1.08;color:#0E3220;margin-bottom:1.25rem;letter-spacing:-.005em;
+  font-family:var(--f-head);
+  font-weight:800;
+  font-size:clamp(2.15rem,4vw,3.4rem);
+  line-height:1.06;color:#0E3220;margin-bottom:1.25rem;letter-spacing:-.015em;
 }
 .hero__title{display:inline}
-.hero--light h1 em{color:#8F5A2D;font-style:italic}
+.hero--light h1 em{color:#8F5A2D;font-style:italic;font-weight:700}
 .hero__sub{
   color:#3A4A3F;max-width:33rem;margin-bottom:1.5rem;
   font-size:clamp(.9375rem,1.1vw,1.0625rem);line-height:1.65;
@@ -1299,15 +1303,16 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   /* Headline: a lighter opening line, then the title at full size. */
   .hero--light h1{font-size:inherit;margin-bottom:1rem}
   .hero__lead{
-    display:block;font-family:var(--f-display);
-    font-size:clamp(1.5rem,6.2vw,2rem);line-height:1.15;color:#16261C;
-    margin-bottom:.15rem;
+    display:block;font-family:var(--f-head);font-weight:700;
+    font-size:clamp(1.45rem,6vw,1.95rem);line-height:1.14;color:#16261C;
+    margin-bottom:.1rem;letter-spacing:-.01em;
   }
   .hero__title{
-    display:block;font-family:var(--f-display);
-    font-size:clamp(2.05rem,8.6vw,2.9rem);line-height:1.08;color:#0E3220;
+    display:block;font-family:var(--f-head);font-weight:800;
+    font-size:clamp(2rem,8.4vw,2.85rem);line-height:1.06;color:#0E3220;
+    letter-spacing:-.018em;
   }
-  .hero__title em{color:#8F5A2D;font-style:italic}
+  .hero__title em{color:#8F5A2D;font-style:italic;font-weight:700}
 
   /* The rendering sets the supporting line in the same serif as the title. */
   .hero__sub{
