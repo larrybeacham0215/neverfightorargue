@@ -1258,6 +1258,106 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
 }
 
+
+/* ==========================================================================
+   MOBILE HOME — built to the supplied rendering
+   ========================================================================== */
+@media(max-width:900px){
+  /* A cream bar with the wordmark and a rule-style menu icon. */
+  .nav{background:#FBF8F1;border-bottom:1px solid rgba(22,38,28,.1)}
+  .nav__mark b{color:#123322;font-family:var(--f-display);font-size:1.35rem;letter-spacing:0;text-transform:none}
+  .nav__mark b i{color:#8F5A2D;font-style:italic}
+  .nav__mark small{
+    color:#6A5B48;font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;
+  }
+  .nav__toggle{
+    border:0;background:none;color:transparent;position:relative;
+    width:2.5rem;height:2.5rem;padding:0;font-size:0;
+  }
+  .nav__toggle::before,.nav__toggle::after,.nav__toggle span{content:""}
+  .nav__toggle::before,.nav__toggle::after{
+    position:absolute;left:.35rem;right:.35rem;height:2px;border-radius:2px;
+    background:#8F5A2D;transition:transform .2s ease;
+  }
+  .nav__toggle::before{top:.7rem;box-shadow:0 7px 0 #8F5A2D}
+  .nav__toggle::after{bottom:.7rem}
+  .nav__tabs{background:#FBF8F1;border-top:1px solid rgba(22,38,28,.08)}
+  .nav__tabs a{color:#2C3A31}
+  .nav__tabs a:hover,.nav__tabs a.is-active{color:#8F5A2D}
+}
+
+@media(max-width:640px){
+  /* Headline: a lighter opening line, then the title at full size. */
+  .hero--light h1{font-size:inherit;margin-bottom:1rem}
+  .hero__lead{
+    display:block;font-family:var(--f-display);
+    font-size:clamp(1.5rem,6.2vw,2rem);line-height:1.15;color:#16261C;
+    margin-bottom:.15rem;
+  }
+  .hero__title{
+    display:block;font-family:var(--f-display);
+    font-size:clamp(2.05rem,8.6vw,2.9rem);line-height:1.08;color:#0E3220;
+  }
+  .hero__title em{color:#8F5A2D;font-style:italic}
+
+  /* The rendering sets the supporting line in the same serif as the title. */
+  .hero__sub{
+    font-family:var(--f-display);font-size:clamp(1rem,4.3vw,1.15rem);
+    line-height:1.5;color:#2B3A30;max-width:26rem;
+  }
+  .hero__by{font-size:.6875rem;letter-spacing:.16em;color:#3E4A3F}
+
+  /* Field box and button as separate rounded blocks, as in the rendering. */
+  .grab__row{
+    background:#fff;border:1px solid rgba(22,38,28,.1);
+    border-radius:1rem;padding:.15rem .9rem;
+    box-shadow:0 10px 26px -20px rgba(22,38,28,.55);
+  }
+  .grab__name,.grab__mail{padding:1.05rem .25rem;font-size:1rem}
+  .grab__btn{
+    margin-top:.85rem;padding:1.15rem 1.4rem;font-size:1.0625rem;
+    box-shadow:0 12px 26px -16px rgba(143,90,45,.75);
+  }
+  .hero__fine{font-size:.875rem;color:#6A756B;margin-top:.9rem}
+
+  .hero__featIcon{width:2.9rem;height:2.9rem;background:#F3EBDD}
+  .hero__featIcon svg{width:1.3rem;height:1.3rem;stroke-width:1.4}
+  .hero__feats b{font-size:.75rem;color:#243027;font-weight:500}
+  .hero__feats li{gap:.55rem}
+
+  /* Keep the whole offer — headline, cover and button — on the first screen. */
+  .hero--light{padding-block:1.1rem 1.85rem}
+  .hero__kicker{margin-bottom:.7rem}
+  .hero--light h1{margin-bottom:.8rem}
+  .hero__sub{margin:0 auto .8rem}
+  .hero--light .hero__art{padding-block:.6rem .9rem}
+  .hero--light .bookwrap{--bw:min(13.25rem,51vw)}
+  .hero__feats{margin-top:1.35rem}
+}
+
+/* Height tiers, kept after the block above so they win. The taller serif
+   costs vertical space, so shorter phones give some of it back. */
+@media(max-width:640px) and (max-height:860px){
+  .hero--light{padding-block:.9rem 1.6rem}
+  .hero__sub{font-size:1rem;margin-bottom:.7rem}
+  .hero--light .bookwrap{--bw:min(12rem,47vw)}
+  .hero--light .hero__art{padding-block:.5rem .8rem}
+  .hero__feats{margin-top:1.15rem}
+  .hero__featIcon{width:2.6rem;height:2.6rem}
+}
+@media(max-width:640px) and (max-height:790px){
+  .hero__sub{display:none}
+  .hero--light h1{margin-bottom:.9rem}
+  .hero--light .bookwrap{--bw:min(11rem,44vw)}
+}
+@media(max-width:640px) and (max-height:640px){
+  .hero__by{display:none}
+  .hero__lead{font-size:clamp(1.2rem,5vw,1.5rem)}
+  .hero__title{font-size:clamp(1.7rem,7vw,2.1rem)}
+  .hero--light .bookwrap{--bw:min(8.5rem,34vw)}
+  .hero__feats{display:none}
+}
+
 /* ==========================================================================
    THANK-YOU PAGE
    Two columns that fit one screen: the confirmation on the left, the launch
@@ -1840,7 +1940,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap hero__grid">
       <div class="hero__col">
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
-        <h1 class="reveal">Get the First Chapter of<br><span class="hero__title">Never Fight <em>or</em><br>Argue Again</span> &ndash; Free</h1>
+        <h1 class="reveal"><span class="hero__lead">Get the First Chapter of</span><span class="hero__title">Never Fight <em>or</em><br>Argue Again &ndash; Free</span></h1>
         <p class="hero__sub reveal">Discover biblical conflict resolution for couples who have tried everything. Learn practical tools to create safety, restore connection, and communicate without destructive conflict.</p>
 
         <p class="hero__by reveal">By Larry &amp; Rolanda Beacham <span aria-hidden="true"></span></p>
