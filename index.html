@@ -1015,11 +1015,13 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
    supporting promises. The cover carries the colour so the page doesn't
    have to.
    ========================================================================== */
+/* The dark hero paints a green wash through ::before; this one supplies its
+   own light ground instead. */
+.hero--light::before{display:none}
 .hero--light{
   background:
     radial-gradient(48rem 30rem at 78% 18%, rgba(195,154,94,.16), transparent 62%),
-    radial-gradient(38rem 26rem at 4% 84%, rgba(26,66,41,.07), transparent 60%),
-    linear-gradient(170deg,#FBF8F1 0%,#F6F1E5 100%);
+    linear-gradient(170deg,#FBF8F1 0%,#F7F2E7 60%,#F4EEE0 100%);
   color:var(--ink);
   border-bottom:1px solid rgba(22,38,28,.08);
   padding-block:clamp(2rem,4.5vw,3.75rem);
@@ -1148,48 +1150,91 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   .grab__name,.grab__mail{flex:1 1 100%}
   .grab__div{display:none}
 }
-/* On a phone nothing is squeezed into a half column: the headline runs the
-   full width, the cover sits under it, and the supporting text follows. */
+/* On a phone the hero is a single centred column: headline, cover, then the
+   capture. Matches the mobile rendering. */
 @media(max-width:640px){
   .hero--light .hero__grid > div:first-child{display:contents}
   .hero--light .hero__grid{
     grid-template-columns:1fr;
-    grid-template-areas:
-      "kicker"
-      "title"
-      "art"
-      "sub"
-      "by"
-      "cta"
-      "feats";
+    grid-template-areas:"kicker" "title" "sub" "by" "art" "cta" "feats";
     row-gap:0;
     align-items:start;
+    text-align:center;
   }
-  .hero__kicker{grid-area:kicker}
-  .hero--light h1{grid-area:title;margin-bottom:0;font-size:clamp(1.9rem,7.6vw,2.6rem);line-height:1.08}
-  .hero--light .hero__art{grid-area:art;justify-content:center;padding-block:1.25rem 0}
-  .hero--light .bookwrap{--bw:min(11.5rem,44vw)}
-  .hero__sub{grid-area:sub;margin:1.25rem 0 1.1rem;font-size:.9375rem}
-  .hero__by{grid-area:by;margin-bottom:1.15rem}
+  .hero__kicker{grid-area:kicker;margin-bottom:.6rem}
+  .hero--light h1{
+    grid-area:title;margin-bottom:.75rem;
+    font-size:clamp(1.9rem,7.8vw,2.7rem);line-height:1.06;
+  }
+  .hero__sub{
+    grid-area:sub;margin:0 auto .9rem;max-width:31rem;
+    font-size:.9375rem;line-height:1.55;
+  }
+
+  /* rules either side of the by-line */
+  .hero__by{
+    grid-area:by;justify-content:center;gap:.75rem;
+    margin:0 0 .25rem;font-size:.625rem;
+  }
+  .hero__by::before,.hero__by::after{
+    content:"";height:1px;width:2.25rem;background:rgba(143,90,45,.5);flex:none;
+  }
+  .hero__by span{display:none}
+
+  /* The green wash sits behind the fine print and the promises on a tall
+     mobile hero, so it is dialled back to keep them readable. */
+  .hero--light{
+    background:
+      radial-gradient(30rem 22rem at 82% 12%, rgba(195,154,94,.15), transparent 62%),
+      linear-gradient(175deg,#FBF8F1 0%,#F7F2E7 62%,#F4EEE0 100%);
+  }
+  .hero__fine{color:#6A756B}
+  .hero__feats b{color:#243027}
+
+  .hero--light .hero__art{grid-area:art;justify-content:center;padding-block:.5rem 1.15rem}
+  .hero--light .bookwrap{--bw:min(15rem,56vw)}
+
+  /* field box and button stacked, as in the rendering */
   .hero__cta{grid-area:cta}
-  .hero__feats{grid-area:feats;margin-top:1.5rem}
+  .grab__row{
+    flex-wrap:wrap;border-radius:1rem;padding:.35rem .9rem;
+    max-width:none;gap:0;
+  }
+  .grab__name{flex:1 1 46%;padding:.85rem .25rem;text-align:left}
+  .grab__mail{flex:1 1 46%;padding:.85rem .25rem;text-align:left}
+  .grab__div{margin:.55rem .5rem}
+  .grab__btn{
+    flex:1 1 100%;margin-top:.75rem;border-radius:999px;
+    padding:1.05rem 1.4rem;font-size:1rem;text-align:center;
+  }
+  .hero__fine{text-align:center;margin-top:.85rem}
+
+  /* three promises across, as a row */
+  .hero__feats{
+    grid-area:feats;margin-top:1.6rem;
+    grid-template-columns:repeat(3,1fr);gap:0;justify-content:stretch;
+  }
+  .hero__feats li{flex-direction:column;gap:.5rem;text-align:center;padding:0 .35rem}
+  .hero__feats li + li{padding-left:.35rem}
+  .hero__feats li + li::before{content:"";display:block;position:absolute;left:0;top:8%;bottom:8%;width:1px;background:rgba(22,38,28,.14)}
+  .hero__featIcon{width:2.6rem;height:2.6rem}
+  .hero__feats b{font-size:.75rem;line-height:1.3;white-space:normal}
 }
 
 /* Stacking the cover under the headline costs vertical space, so shorter
    phones get a smaller cover and tighter spacing to keep the button in view. */
 @media(max-width:640px) and (max-height:820px){
-  .hero--light{padding-block:1.15rem 2rem}
-  .hero--light h1{font-size:clamp(1.75rem,6.9vw,2.25rem)}
-  .hero--light .bookwrap{--bw:min(9.25rem,35vw)}
-  .hero--light .hero__art{padding-block:1rem 0}
-  .hero__sub{margin:1rem 0 .9rem}
-  .hero__kicker{margin-bottom:.75rem}
-  .hero__by{margin-bottom:1rem}
+  .hero--light{padding-block:1rem 1.75rem}
+  .hero--light h1{font-size:clamp(1.7rem,6.8vw,2.2rem)}
+  .hero--light .bookwrap{--bw:min(11rem,42vw)}
+  .hero--light .hero__art{padding-block:.35rem .85rem}
+  .hero__sub{margin-bottom:.7rem;font-size:.875rem}
 }
 @media(max-width:640px) and (max-height:700px){
-  .hero__sub,.hero__by{display:none}
-  .hero--light .hero__art{padding-block:.85rem 0}
-  .hero__cta{margin-top:1.1rem}
+  .hero__sub{display:none}
+  .hero--light .bookwrap{--bw:min(9rem,36vw)}
+  .grab__name,.grab__mail{padding:.7rem .25rem}
+  .grab__btn{padding:.9rem 1.2rem}
 }
 
 @media(max-width:900px) and (max-height:640px){
