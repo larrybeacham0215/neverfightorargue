@@ -1154,12 +1154,12 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 @media(max-width:640px){
   .hero--light .hero__grid > div:first-child{display:contents}
   .hero--light .hero__grid{
-    grid-template-columns:1fr minmax(6.5rem,40%);
+    grid-template-columns:1fr minmax(6.5rem,38%);
     grid-template-areas:
-      "kicker kicker"
+      "kicker art"
       "title  art"
-      "sub    sub"
-      "by     by"
+      "sub    art"
+      "by     art"
       "cta    cta"
       "feats  feats";
     column-gap:1rem;
@@ -1167,12 +1167,13 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
     align-items:start;
   }
   .hero__kicker{grid-area:kicker}
-  .hero--light h1{grid-area:title;align-self:center;margin-bottom:0}
-  .hero__sub{grid-area:sub;margin:1rem 0 1.1rem}
-  .hero__by{grid-area:by}
+  .hero--light h1{grid-area:title;margin-bottom:0}
+  .hero__sub{grid-area:sub;margin:.9rem 0 1rem;font-size:.9375rem}
+  .hero__by{grid-area:by;margin-bottom:1.1rem}
   .hero__cta{grid-area:cta}
   .hero__feats{grid-area:feats;margin-top:1.5rem}
   .hero--light .hero__art{grid-area:art;align-self:center;justify-content:center;padding-block:0}
+  .hero--light .hero__by span{max-width:3rem}
   .hero--light .bookwrap{--bw:min(10.5rem,37vw)}
 }
 @media(max-width:900px) and (max-height:640px){
