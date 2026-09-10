@@ -294,6 +294,13 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
 .field textarea{min-height:7rem;resize:vertical}
 .form__fine{font-size:.75rem;color:rgba(247,243,234,.5);margin:.25rem 0 0;line-height:1.5}
+.sponsor{margin:.25rem 0;padding:1rem 1.1rem;border:1px solid rgba(195,154,94,.5);border-radius:.6rem;background:rgba(195,154,94,.09)}
+.sponsor__title{font-family:'Marcellus',serif;font-size:1.05rem;margin:0 0 .35rem;color:var(--gold-ink)}
+.sponsor__copy{font-size:.875rem;color:var(--ink-soft);margin:0 0 .75rem;line-height:1.5}
+.sponsor__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.9375rem;color:var(--ink);line-height:1.4;cursor:pointer}
+.sponsor__check input{width:1.05rem;height:1.05rem;margin:.15rem 0 0;flex:none;accent-color:var(--gold-ink)}
+.sponsor__biz{display:none;margin-top:.8rem}
+.sponsor__biz.is-on{display:grid}
 .capture--light .form__fine{color:var(--ink-soft)}
 .form__error{font-size:.8125rem;color:#F0A9A9;margin:0}
 
@@ -2409,8 +2416,17 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           </div>
         </div>
         <div class="field">
-          <label for="l6">Anything we should know?</label>
-          <textarea id="l6" name="notes" placeholder="Bringing a group, accessibility needs, a question you'd want answered…"></textarea>
+          <label for="l6">Words of encouragement for Larry and Rolanda?</label>
+          <textarea id="l6" name="notes" placeholder="A prayer, a verse, a word for the night — or anything we should know…"></textarea>
+        </div>
+        <div class="sponsor">
+          <p class="sponsor__title">Sponsorship opportunities available</p>
+          <p class="sponsor__copy">Own a business or ministry that would like to be part of the night? A few sponsorship spots are open. Check the box and we&rsquo;ll send you the details.</p>
+          <label class="sponsor__check"><input type="checkbox" id="l7" name="sponsor_interest" value="yes"> Yes, I&rsquo;d like to hear about sponsoring the launch</label>
+          <div class="field sponsor__biz" id="sponsorBiz">
+            <label for="l8">Business or organization</label>
+            <input type="text" id="l8" name="sponsor_business" placeholder="Business or organization name" autocomplete="organization">
+          </div>
         </div>
         <p class="form__error" hidden></p>
         <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
@@ -3539,6 +3555,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   // ---- registration dialog -------------------------------------------
   (function () {
+    var spChk = document.getElementById('l7'), spBiz = document.getElementById('sponsorBiz');
+    if (spChk && spBiz) spChk.addEventListener('change', function () { spBiz.classList.toggle('is-on', spChk.checked); });
     var dlg = document.getElementById('rsvpModal');
     if (!dlg) return;
 
