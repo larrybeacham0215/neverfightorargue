@@ -138,6 +138,12 @@ h1 + .lede,h2 + .lede,h3 + .lede{margin-top:1.25rem}
 .btn:hover{background:var(--gold-light);border-color:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(195,154,94,.7)}
 .btn--outline{background:transparent;color:var(--gold)}
 .btn--outline:hover{background:var(--gold);color:var(--navy-deep)}
+.buy__stores{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+.buy__stores .btn:not([href]){opacity:.38;cursor:default;pointer-events:none}
+.buy__soon{max-width:34rem;margin:2rem auto 0}
+.buy__soon p{font-size:.9375rem;color:rgba(247,243,234,.7);margin:0 0 1rem}
+.buy__soonBtns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+.buy__soon.is-off{display:none}
 .btn--onLight{background:var(--navy);border-color:var(--navy);color:var(--ivory)}
 .btn--onLight:hover{background:var(--navy-mid);border-color:var(--navy-mid)}
 .btn--lg{padding:1.15rem 2.25rem;font-size:.9375rem}
@@ -2310,13 +2316,20 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p class="eyebrow reveal">Get the book</p>
       <h2 class="h-xl reveal">You can stop fighting.</h2>
       <div class="orn orn--short orn--center reveal" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center reveal" style="margin-bottom:2.5rem">Paperback and ebook. Available wherever you prefer to buy books.</p>
-      <div class="reveal" style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center">
-        <a class="btn btn--outline" href="#">Amazon</a>
-        <a class="btn btn--outline" href="#">Kindle</a>
-        <a class="btn btn--outline" href="#">Barnes &amp; Noble</a>
-        <a class="btn btn--outline" href="#">Apple Books</a>
-        <a class="btn btn--outline" href="#">Christianbook</a>
+      <p class="lede lede--light center reveal" style="margin-bottom:2.5rem">Paperback and ebook, releasing <strong>Sunday, November 1, 2026</strong>. Available wherever you prefer to buy books.</p>
+      <div class="reveal buy__stores" id="buyStores">
+        <a class="btn btn--outline" data-store="amazon" rel="noopener" target="_blank">Amazon</a>
+        <a class="btn btn--outline" data-store="kindle" rel="noopener" target="_blank">Kindle</a>
+        <a class="btn btn--outline" data-store="bn" rel="noopener" target="_blank">Barnes &amp; Noble</a>
+        <a class="btn btn--outline" data-store="apple" rel="noopener" target="_blank">Apple Books</a>
+        <a class="btn btn--outline" data-store="christianbook" rel="noopener" target="_blank">Christianbook</a>
+      </div>
+      <div class="reveal buy__soon" id="buySoon">
+        <p>Store links go live on launch day. Until then, two things you can do right now:</p>
+        <div class="buy__soonBtns">
+          <a class="btn" href="/" data-tab="home">Read Chapter One free</a>
+          <a class="btn btn--outline" href="/book-launch/" data-tab="launch">Reserve your seat &mdash; Nov 1</a>
+        </div>
       </div>
       <div class="reveal" style="max-width:34rem;margin:3rem auto 0;padding-top:2.5rem;border-top:1px solid rgba(247,243,234,.14)">
         <h3 class="h-sm" style="margin-bottom:.75rem">Ordering for a group?</h3>
@@ -3363,7 +3376,18 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
     // Rarely changed:
     chapterFile: '/assets/never-fight-or-argue-again-chapter-1.pdf?v=2',
-    inquiryEmail: 'hello@neverfightorargue.com'
+    inquiryEmail: 'hello@neverfightorargue.com',
+
+    // 4. Retailer links. Paste a URL beside each store as it goes live and
+    //    redeploy. Empty stores stay greyed out; the "coming soon" note
+    //    under the buttons hides itself once at least one link is set.
+    retailers: {
+      amazon: '',
+      kindle: '',
+      bn: '',
+      apple: '',
+      christianbook: ''
+    }
   };
   /* ==================  END OF SETTINGS  ============================== */
 
@@ -3743,6 +3767,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   if (dl && CONFIG.chapterFile) dl.setAttribute('href', CONFIG.chapterFile);
 
   // Inquiry email fallbacks pick up the address from CONFIG.
+  (function () {
+    var any = false, r = CONFIG.retailers || {};
+    document.querySelectorAll('#buyStores [data-store]').forEach(function (a) {
+      var u = r[a.dataset.store];
+      if (u) { a.setAttribute('href', u); any = true; } else { a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); }
+    });
+    var soon = document.getElementById('buySoon');
+    if (soon && any) soon.classList.add('is-off');
+  })();
+
   document.querySelectorAll('[data-mail]').forEach(function (a) {
     a.setAttribute('href', 'mailto:' + CONFIG.inquiryEmail + '?subject=' + encodeURIComponent(a.dataset.mail));
   });
