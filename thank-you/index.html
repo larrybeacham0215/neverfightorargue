@@ -305,9 +305,12 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .sponsor__title{font-family:'Marcellus',serif;font-size:1.05rem;margin:0 0 .35rem;color:var(--gold-ink)}
 .sponsor__copy{font-size:.875rem;color:var(--ink-soft);margin:0 0 .75rem;line-height:1.5}
 .sponsor__check{display:flex;gap:.6rem;align-items:flex-start;font-size:.9375rem;color:var(--ink);line-height:1.4;cursor:pointer}
-.sponsor__check input{width:1.05rem;height:1.05rem;margin:.15rem 0 0;flex:none;accent-color:var(--gold-ink)}
-.sponsor__biz{display:none;margin-top:.8rem}
+.sponsor__check span{flex:1;min-width:0}
+/* Beat .ev__rsvpForm input{width:100%} — that rule turned the checkbox into a full-width block on phones */
+.form .sponsor__check input,.ev__rsvpForm .sponsor__check input{width:1.05rem;height:1.05rem;max-width:1.05rem;margin:.15rem 0 0;padding:0;flex:none;accent-color:var(--gold-ink)}
+.sponsor__biz{display:none;margin-top:.9rem;gap:.9rem}
 .sponsor__biz.is-on{display:grid}
+.sponsor__opt{font-weight:400;letter-spacing:0;text-transform:none;opacity:.75}
 .capture--light .form__fine{color:var(--ink-soft)}
 .form__error{font-size:.8125rem;color:#F0A9A9;margin:0}
 
@@ -2446,11 +2449,37 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </div>
         <div class="sponsor">
           <p class="sponsor__title">Sponsorship opportunities available</p>
-          <p class="sponsor__copy">Own a business or ministry that would like to be part of the night? A few sponsorship spots are open. Check the box and we&rsquo;ll send you the details.</p>
-          <label class="sponsor__check"><input type="checkbox" id="l7" name="sponsor_interest" value="yes"> Yes, I&rsquo;d like to hear about sponsoring the launch</label>
-          <div class="field sponsor__biz" id="sponsorBiz">
-            <label for="l8">Business or organization</label>
-            <input type="text" id="l8" name="sponsor_business" placeholder="Business or organization name" autocomplete="organization">
+          <p class="sponsor__copy">Own a business or ministry that would like to be part of the night? A few sponsorship spots are open. Tell us a little about you and we&rsquo;ll be in touch with the details.</p>
+          <label class="sponsor__check"><input type="checkbox" id="l7" name="sponsor_interest" value="yes"><span>Yes, I&rsquo;d like to hear about sponsoring the launch</span></label>
+          <div class="sponsor__biz" id="sponsorBiz">
+            <div class="form__row">
+              <div class="field">
+                <label for="l8">Contact name</label>
+                <input type="text" id="l8" name="sponsor_contact" placeholder="Full name" autocomplete="name">
+              </div>
+              <div class="field">
+                <label for="l9">Business or organization</label>
+                <input type="text" id="l9" name="sponsor_business" placeholder="Business name" autocomplete="organization">
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="field">
+                <label for="l10">Phone</label>
+                <input type="tel" id="l10" name="sponsor_phone" placeholder="(813) 555-0100" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="l11">Business email</label>
+                <input type="email" id="l11" name="sponsor_email" placeholder="you@yourbusiness.com" autocomplete="work email">
+              </div>
+            </div>
+            <div class="field">
+              <label for="l12">Website or social <span class="sponsor__opt">(optional)</span></label>
+              <input type="text" id="l12" name="sponsor_website" placeholder="yourbusiness.com or @handle" autocomplete="url">
+            </div>
+            <div class="field">
+              <label for="l13">What would you like to sponsor? <span class="sponsor__opt">(optional)</span></label>
+              <textarea id="l13" name="sponsor_message" placeholder="A table at the event, printed materials, the reception, a gift for guests &mdash; or tell us what you have in mind"></textarea>
+            </div>
           </div>
         </div>
         <p class="form__error" hidden></p>
@@ -3593,6 +3622,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   (function () {
     var spChk = document.getElementById('l7'), spBiz = document.getElementById('sponsorBiz');
     if (spChk && spBiz) spChk.addEventListener('change', function () { spBiz.classList.toggle('is-on', spChk.checked); });
+    /* Until the backend stores each sponsor field separately, fold the essentials into
+       sponsor_business as well so nothing is lost. Harmless once the backend catches up. */
+    var spForm = spChk && spChk.form;
+    if (spForm) spForm.addEventListener('submit', function () {
+      if (!spChk.checked) return;
+      var g = function (n) { var el = spForm.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+      var biz = spForm.querySelector('[name="sponsor_business"]');
+      if (biz && !biz.dataset.raw) { biz.dataset.raw = biz.value; }
+      if (biz) biz.value = [biz.dataset.raw || biz.value, g('sponsor_contact'), g('sponsor_phone'), g('sponsor_email')].filter(Boolean).join(' | ');
+    }, true);
     var dlg = document.getElementById('rsvpModal');
     if (!dlg) return;
 
@@ -3691,6 +3730,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         showError('Please enter a valid email address.');
         if (email) email.focus();
         return;
+      }
+      var spOn = form.querySelector('[name="sponsor_interest"]');
+      if (spOn && spOn.checked) {
+        var need = [['sponsor_contact', 'Please add the sponsor contact name.'], ['sponsor_business', 'Please add the business or organization name.'], ['sponsor_phone', 'Please add a phone number for the sponsor contact.'], ['sponsor_email', 'Please add a business email for the sponsor contact.']];
+        for (var i = 0; i < need.length; i++) {
+          var f = form.querySelector('[name="' + need[i][0] + '"]');
+          if (f && !f.value.trim()) { showError(need[i][1]); f.focus(); return; }
+        }
+        var se = form.querySelector('[name="sponsor_email"]');
+        if (se && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(se.value.trim())) { showError('Please enter a valid business email for the sponsor contact.'); se.focus(); return; }
       }
       showError('');
 
