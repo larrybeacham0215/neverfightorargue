@@ -1040,6 +1040,9 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
   border-bottom:1px solid rgba(22,38,28,.08);
   padding-block:clamp(2rem,4.5vw,3.75rem);
 }
+.hero__banner{display:block;width:min(100% - 2rem, 68rem);margin:0 auto clamp(1.75rem,4vw,3rem);border-radius:.85rem;overflow:hidden;box-shadow:0 10px 30px rgba(22,38,28,.10);border:1px solid rgba(195,154,94,.35);transition:transform .2s,box-shadow .2s}
+.hero__banner:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(22,38,28,.14)}
+.hero__banner img{display:block;width:100%;height:auto}
 .hero--light .hero__grid{
   align-items:center;
   grid-template-columns:1.22fr .78fr;      /* the words need the room */
@@ -1964,6 +1967,14 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <div class="view" id="view-home">
 
   <header class="hero hero--light" id="free">
+    <a class="hero__banner" href="/book-launch/" data-tab="launch" aria-label="You're invited: Book Launch and 30-Year Wedding Anniversary Celebration. RSVP to join the celebration.">
+      <picture>
+        <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.webp" type="image/webp">
+        <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.jpg">
+        <source srcset="/assets/launch-banner.webp" type="image/webp">
+        <img src="/assets/launch-banner.jpg" alt="" width="2172" height="724">
+      </picture>
+    </a>
     <div class="wrap hero__grid">
       <div class="hero__col">
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
