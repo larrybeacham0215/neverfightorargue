@@ -1061,6 +1061,17 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* [hidden] must beat the display rules above (see "things learned the hard way") */
 .sp__held[hidden],#view-registered .field[hidden],#spFormWrap[hidden],#spDone[hidden]{display:none}
 .sp__list{align-content:start}
+.tiers{display:grid;gap:.6rem;max-width:64rem;margin:0 auto}
+.tier{display:grid;grid-template-columns:13rem 1fr auto;gap:1.25rem;align-items:center;background:var(--navy);border:1px solid rgba(195,154,94,.28);border-radius:.6rem;padding:1rem 1.25rem;min-width:0}
+.tier--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
+.tier--specific{border-style:dashed}
+.tier__head h3{font-family:var(--f-display);font-size:1.15rem;font-weight:400;margin:0 0 .15rem;color:var(--ivory)}
+.tier__head .sp__tierTag{margin-bottom:.3rem}
+.tier__head .sp__price{font-size:1.6rem;margin:0}
+.tier__sum{margin:0;font-size:.875rem;line-height:1.5;color:var(--on-navy);min-width:0}
+.tier__sum b{color:var(--ivory);font-weight:600}
+.tier .btn{padding:.7rem 1.25rem;white-space:nowrap}
+@media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
 .sp__howLine{font-size:.9375rem;color:var(--on-navy);max-width:52rem;margin:0 auto 2.5rem;line-height:1.6}
 .sp__howLine b{color:var(--gold)}
 .reg__jump{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
@@ -2605,7 +2616,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </p>
         <p class="reg__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         <nav class="reg__jump" aria-label="On this page">
-          <a href="#giveBook">Sponsor a couple</a>
+          <a href="#giveBook">Gift a signed copy</a>
           <a href="#sponsorLevels">Business sponsorships</a>
           <a href="#expect">What to expect</a>
         </nav>
@@ -2628,9 +2639,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="reg__two">
         <aside class="reg__give">
           <p class="reg__giveKick">For anyone</p>
-          <p class="reg__giveTitle">Sponsor a couple</p>
-          <p class="reg__giveCopy">$40 puts a signed copy of the book in the hands of a couple who couldn't buy one, on the night.</p>
-          <a class="btn btn--block" href="#giveBook">Sponsor a couple &mdash; $40</a>
+          <p class="reg__giveTitle">Gift a signed copy</p>
+          <p class="reg__giveCopy">$40 puts a signed copy of the book in the hands of a couple who couldn't afford one &mdash; given on the night, from us.</p>
+          <a class="btn btn--block" href="#giveBook">Gift a signed copy &mdash; $40</a>
         </aside>
         <aside class="reg__give reg__give--biz">
           <p class="reg__giveKick">For businesses</p>
@@ -2646,7 +2657,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   <!-- 2) sticky reminder: fades in a few seconds after landing -->
   <div class="stick" id="stick" hidden>
     <div class="stick__inner">
-      <a class="btn" href="#giveBook">Sponsor a couple &mdash; $40</a>
+      <a class="btn" href="#giveBook">Gift a signed copy &mdash; $40</a>
       <a class="btn btn--outline btn--onLightOutline" href="#sponsorLevels">Business sponsorships</a>
       <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
     </div>
@@ -2669,13 +2680,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       </div>
       <div class="give__copy">
         <p class="eyebrow eyebrow--ink">One thing you can do right now</p>
-        <h2 class="h-lg">Put the book in the hands of a couple who couldn't buy it.</h2>
-        <p class="lede">Every guest walks in free. But some couples will walk out without the book, because twenty dollars is real money this month &mdash; and those are often the couples who need it most.</p>
-        <p><strong>$40 sponsors one couple.</strong> They get a signed copy on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
+        <h2 class="h-lg">Gift a signed copy to a couple who can't afford one.</h2>
+        <p class="lede">The evening costs nothing to attend. But some couples will walk out without the book, because twenty dollars is real money this month &mdash; and those are often the couples who need it most.</p>
+        <p><strong>$40 covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
         <p class="give__cta">
-          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Sponsor a couple &mdash; $40</a>
+          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Gift a signed copy &mdash; $40</a>
         </p>
-        <p class="give__fine" id="giveFine">Sponsor one couple or several &mdash; choose the number on the form. Sponsors of five or more are named in the printed program.</p>
+        <p class="give__fine" id="giveFine">Gift one copy or several &mdash; choose the number on the form. Anyone who gifts five or more is named in the printed program.</p>
         <p class="give__more"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
       </div>
     </div>
@@ -2689,106 +2700,40 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p class="lede lede--light center" style="margin:1rem auto 1.25rem">For businesses and ministries. A full house of married couples, pastors and families from across Tampa Bay &mdash; local, loyal, and paying attention to who showed up. Every level includes reserved seats and recognition on the night.</p>
       <p class="sp__howLine center">How it works: choose a level &rarr; we call you within a business day &rarr; invoice (card, Zelle or check, due in 7 days) &rarr; send your logo by <b>October 18th</b> &rarr; see you November 1st.</p>
 
-      <div class="sp__grid">
-        <article class="sp__tier sp__tier--top">
-          <p class="sp__tierTag">One available</p>
-          <h3>Presenting Sponsor</h3>
-          <p class="sp__price">$2,500</p>
-          <p class="sp__tierLede">The night carries your name: <em>&ldquo;Presented by&hellip;&rdquo;</em> on everything.</p>
-          <ul class="sp__list">
-            <li>&ldquo;Presented by&rdquo; on the stage banner, screens, printed program, website and every launch email</li>
-            <li>Two minutes on stage, or a short video played before we begin</li>
-            <li>Reserved front table for 8</li>
-            <li>Display table at the reception</li>
-            <li>Full-page recognition in the printed program</li>
-            <li>Thanked by name from the stage</li>
-            <li>Featured social media post before and after the event</li>
-            <li>10 signed copies of the book</li>
-          </ul>
-          <button class="btn btn--lg btn--block" type="button" data-tier="presenting">Secure Presenting Sponsor</button>
+      <div class="tiers">
+        <article class="tier tier--top">
+          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
+          <p class="tier__sum"><b>&ldquo;Presented by&rdquo; on everything</b> &mdash; stage banner, screens, program, website and every email. Two minutes on stage or a short video, a reserved front table for 8, a display table at the reception, a full page in the program, a featured social post, and 10 signed books.</p>
+          <button class="btn" type="button" data-tier="presenting">Secure</button>
         </article>
-
-        <article class="sp__tier">
-          <p class="sp__tierTag">Three available</p>
-          <h3>Gold Sponsor</h3>
-          <p class="sp__price">$1,000</p>
-          <p class="sp__tierLede">Seen on screen, in print, and at the reception.</p>
-          <ul class="sp__list">
-            <li>Logo on the screens and in the printed program</li>
-            <li>Logo on the website and in launch emails</li>
-            <li>Reserved seats for 6</li>
-            <li>Display table at the reception</li>
-            <li>Thanked by name from the stage</li>
-            <li>Social media mention</li>
-            <li>5 signed copies of the book</li>
-          </ul>
-          <button class="btn btn--lg btn--block" type="button" data-tier="gold">Secure Gold Sponsor</button>
+        <article class="tier">
+          <div class="tier__head"><p class="sp__tierTag">Three available</p><h3>Gold Sponsor</h3><p class="sp__price">$1,000</p></div>
+          <p class="tier__sum"><b>Logo on the screens, program, website and emails.</b> Reserved seats for 6, a display table at the reception, thanked by name from the stage, a social mention, and 5 signed books.</p>
+          <button class="btn" type="button" data-tier="gold">Secure</button>
         </article>
-
-        <article class="sp__tier">
-          <p class="sp__tierTag">Six available</p>
-          <h3>Silver Sponsor</h3>
-          <p class="sp__price">$500</p>
-          <p class="sp__tierLede">Recognition on the night and online.</p>
-          <ul class="sp__list">
-            <li>Name on the screens and in the printed program</li>
-            <li>Listed on the website</li>
-            <li>Reserved seats for 4</li>
-            <li>Thanked from the stage</li>
-            <li>2 signed copies of the book</li>
-          </ul>
-          <button class="btn btn--lg btn--block btn--outline" type="button" data-tier="silver">Secure Silver Sponsor</button>
+        <article class="tier">
+          <div class="tier__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
+          <p class="tier__sum"><b>Name on the screens and in the program,</b> listed on the website, reserved seats for 4, thanked from the stage, and 2 signed books.</p>
+          <button class="btn btn--outline" type="button" data-tier="silver">Secure</button>
         </article>
-
-        <article class="sp__tier">
-          <p class="sp__tierTag">Open</p>
-          <h3>Community Sponsor</h3>
-          <p class="sp__price">$250</p>
-          <p class="sp__tierLede">For families, small businesses and friends who want to be part of it.</p>
-          <ul class="sp__list">
-            <li>Name in the printed program</li>
-            <li>Listed on the website</li>
-            <li>Reserved seats for 2</li>
-            <li>1 signed copy of the book</li>
-          </ul>
-          <button class="btn btn--lg btn--block btn--outline" type="button" data-tier="community">Secure Community Sponsor</button>
+        <article class="tier">
+          <div class="tier__head"><p class="sp__tierTag">Open</p><h3>Community Sponsor</h3><p class="sp__price">$250</p></div>
+          <p class="tier__sum"><b>For families, small businesses and friends.</b> Name in the program, listed on the website, reserved seats for 2, and a signed book.</p>
+          <button class="btn btn--outline" type="button" data-tier="community">Secure</button>
+        </article>
+        <article class="tier tier--specific">
+          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
+          <p class="tier__sum"><b>Host the food, the drinks, the hour everyone remembers.</b> &ldquo;Reception hosted by&rdquo; signage at every table, named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening &mdash; plus everything in Gold.</p>
+          <button class="btn btn--outline" type="button" data-tier="reception">Secure</button>
+        </article>
+        <article class="tier tier--specific">
+          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
+          <p class="tier__sum"><b>Your name on the gift every couple takes home.</b> A branded card inside every guest gift, plus everything in Silver.</p>
+          <button class="btn btn--outline" type="button" data-tier="gift">Secure</button>
         </article>
       </div>
     </div>
   </section>
-
-  <section class="band band--paper">
-    <div class="wrap">
-      <p class="eyebrow eyebrow--ink center">Or underwrite one piece of the night</p>
-      <h2 class="h-lg center" style="margin-bottom:2rem">Sponsor something specific.</h2>
-      <div class="sp__grid sp__grid--2">
-        <article class="sp__tier sp__tier--light">
-          <p class="sp__tierTag">One available</p>
-          <h3>Reception Sponsor</h3>
-          <p class="sp__price">$1,500</p>
-          <p class="sp__tierLede">The food, the drinks, the hour everyone remembers.</p>
-          <ul class="sp__list">
-            <li>&ldquo;Reception hosted by&rdquo; signage at every table</li>
-            <li>Named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening</li>
-            <li>Everything in Gold</li>
-          </ul>
-          <button class="btn btn--lg btn--block btn--onLight" type="button" data-tier="reception">Host the reception</button>
-        </article>
-        <article class="sp__tier sp__tier--light">
-          <p class="sp__tierTag">One available</p>
-          <h3>Guest Gift Sponsor</h3>
-          <p class="sp__price">$750</p>
-          <p class="sp__tierLede">Your name on the gift every couple takes home.</p>
-          <ul class="sp__list">
-            <li>Branded card inside every guest gift</li>
-            <li>Everything in Silver</li>
-          </ul>
-          <button class="btn btn--lg btn--block btn--onLight" type="button" data-tier="gift">Sponsor the gift</button>
-        </article>
-      </div>
-    </div>
-  </section>
-
 
   <section class="band band--paper" id="sponsorForm">
     <div class="wrap" style="max-width:44rem">
@@ -2807,11 +2752,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <option value="community">Community Sponsor &mdash; $250</option>
               <option value="reception">Reception Sponsor &mdash; $1,500</option>
               <option value="gift">Guest Gift Sponsor &mdash; $750</option>
-              <option value="couple">Sponsor a Couple &mdash; $40 each</option>
+              <option value="couple">Gift a signed copy &mdash; $40 each</option>
             </select>
           </div>
           <div class="field" id="spQtyWrap" hidden>
-            <label for="sp2">How many couples?</label>
+            <label for="sp2">How many copies?</label>
             <input type="number" id="sp2" name="quantity" min="1" max="200" value="3" inputmode="numeric">
           </div>
           <div class="form__row">
@@ -2891,7 +2836,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <details><summary>Can I sponsor more than one thing?</summary><p>Yes &mdash; reserve each one separately, or tell us in the message box and we'll put it on one invoice.</p></details>
         <details><summary>What if the level I want is taken?</summary><p>We'll call you the same day and offer the closest alternative. Nothing is charged until you say yes.</p></details>
         <details><summary>Can I bring a banner or product?</summary><p>Gold, Presenting and Reception sponsors get a display table at the reception. A pull-up banner is welcome; we'll confirm the space with the church.</p></details>
-        <details><summary>Can I sponsor as an individual, not a business?</summary><p>Absolutely. Community Sponsor and Sponsor a Couple are built for exactly that.</p></details>
+        <details><summary>Can I sponsor as an individual, not a business?</summary><p>Absolutely. Gifting a signed copy and the Community Sponsor level are built for exactly that.</p></details>
         <details><summary>Something else?</summary><p>Email <a href="#" data-mail="Sponsorship question">hello@neverfightorargue.com</a> or reply to any email from us &mdash; it comes straight to Larry.</p></details>
       </div>
     </div>
@@ -4033,7 +3978,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
       var fine = document.getElementById('giveFine');
-      if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Secure card payment through Stripe. Choose the number of couples on the next screen; sponsors of five or more are named in the printed program.';
+      if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Secure card payment through Stripe. Choose the number of copies on the next screen; anyone who gifts five or more is named in the printed program.';
 
       // Sticky reminder: appears a few seconds after landing on the registered page,
       // hides once they reach the form, and stays dismissed for the session.
