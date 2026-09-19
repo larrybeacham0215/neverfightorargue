@@ -2171,6 +2171,14 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </nav>
 
 <main id="main">
+  <!-- sticky reminder (shown on the registered and gift pages) -->
+  <div class="stick" id="stick" hidden>
+    <div class="stick__inner">
+      <a class="pillbtn pillbtn--bar pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a>
+      <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+
 
 <!-- ==================================================================== -->
 <!-- ============================ HOME ================================== -->
