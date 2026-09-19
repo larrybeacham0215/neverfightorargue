@@ -1067,6 +1067,13 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .reg__jump a{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ivory);text-decoration:none;border:1px solid rgba(247,243,234,.25);border-radius:999px;padding:.45rem .8rem}
 .reg__jump a:hover{border-color:var(--gold);color:var(--gold)}
 .reg__side{display:grid;gap:1rem}
+.reg__two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.reg__give--biz{border-color:rgba(247,243,234,.25);background:rgba(247,243,234,.04)}
+.reg__give .btn{margin-top:.25rem}
+.btn--onLightOutline{background:transparent;color:var(--navy);border-color:var(--navy)}
+.btn--onLightOutline:hover{background:var(--navy);color:var(--ivory)}
+.stick__inner{justify-content:center}
+@media(max-width:600px){.reg__two{grid-template-columns:1fr}}
 #view-registered .reg__grid{align-items:start}
 #view-registered .reg__card{padding:clamp(1.1rem,2vw,1.4rem)}
 #view-registered .reg__date{padding-bottom:.7rem;margin-bottom:.5rem}
@@ -1097,7 +1104,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .stick__alt{font-size:.8125rem;color:var(--gold-ink);white-space:nowrap}
 .stick__x{background:none;border:0;font-size:1.5rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:.2rem .4rem}
 @media(min-width:901px){.stick{bottom:auto;top:var(--navH,4.2rem);transform:translateY(-140%);border-top:0;border-bottom:1px solid rgba(22,38,28,.14);box-shadow:0 12px 30px rgba(22,38,28,.14)}}
-@media(max-width:700px){.stick__txt{display:none}.stick .btn{flex:1;text-align:center}.stick__alt{display:none}}
+@media(max-width:700px){.stick .btn{flex:1;text-align:center;padding-inline:.6rem;font-size:.75rem}}
 .sp__grid--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:52rem;margin-inline:auto}
 /* one view, two doors: /registered/ shows the confirmation header, /sponsor/ the sponsor one */
 #view-registered .reg__direct{display:none}
@@ -2610,18 +2617,20 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
         </p>
       </aside>
-      <aside class="reg__give">
-        <p class="reg__giveKick">While you're here</p>
-        <p class="reg__giveTitle">Give a couple the book &mdash; $40</p>
-        <p class="reg__giveCopy">Some couples will leave without it because twenty dollars is real money this month. $40 puts a signed copy in one couple's hands on the night.</p>
-        <div class="reg__givePick" role="group" aria-label="How many couples">
-          <button type="button" class="give__opt give__opt--dark" data-couples="1"><b>1</b><span>$40</span></button>
-          <button type="button" class="give__opt give__opt--dark is-on" data-couples="3"><b>3</b><span>$120</span></button>
-          <button type="button" class="give__opt give__opt--dark" data-couples="5"><b>5</b><span>$200</span></button>
-        </div>
-        <a class="btn btn--block" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
-        <p class="reg__giveMore"><a href="#giveBook">How it works &darr;</a></p>
-      </aside>
+      <div class="reg__two">
+        <aside class="reg__give">
+          <p class="reg__giveKick">For anyone</p>
+          <p class="reg__giveTitle">Sponsor a couple</p>
+          <p class="reg__giveCopy">$40 puts a signed copy of the book in the hands of a couple who couldn't buy one, on the night.</p>
+          <a class="btn btn--block" href="#giveBook">Sponsor a couple &mdash; $40</a>
+        </aside>
+        <aside class="reg__give reg__give--biz">
+          <p class="reg__giveKick">For businesses &amp; ministries</p>
+          <p class="reg__giveTitle">Sponsor the launch</p>
+          <p class="reg__giveCopy">Your name on the screens, in the program, and thanked from the stage in front of a full house. Levels from $250.</p>
+          <a class="btn btn--block btn--outline" href="#sponsorLevels">See the sponsorship levels</a>
+        </aside>
+      </div>
       </div>
     </div>
   </header>
@@ -2629,11 +2638,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   <!-- 2) sticky reminder: fades in a few seconds after landing -->
   <div class="stick" id="stick" hidden>
     <div class="stick__inner">
-      <span class="stick__txt"><b>Sponsor a couple &mdash; $40.</b> A signed book for a couple who couldn't buy one.</span>
-      <a class="btn" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
-      <a class="stick__alt" href="#sponsorLevels">Business sponsorships &rarr;</a>
+      <a class="btn" href="#giveBook">Sponsor a couple &mdash; $40</a>
+      <a class="btn btn--outline btn--onLightOutline" href="#sponsorLevels">Business sponsorships</a>
       <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
     </div>
+  </div>
   </div>
 
   <header class="phead sp__head reg__direct">
@@ -2656,15 +2665,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h2 class="h-lg">Put the book in the hands of a couple who couldn't buy it.</h2>
         <p class="lede">Every guest walks in free. But some couples will walk out without the book, because twenty dollars is real money this month &mdash; and those are often the couples who need it most.</p>
         <p><strong>$40 sponsors one couple.</strong> They get a signed copy on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
-        <div class="give__pick" role="group" aria-label="How many couples">
-          <button type="button" class="give__opt" data-couples="1"><b>1 couple</b><span>$40</span></button>
-          <button type="button" class="give__opt is-on" data-couples="3"><b>3 couples</b><span>$120</span></button>
-          <button type="button" class="give__opt" data-couples="5"><b>5 couples</b><span>$200</span></button>
-        </div>
         <p class="give__cta">
-          <a class="btn btn--lg btn--onLight" id="giveBtn" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
+          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Sponsor a couple &mdash; $40</a>
         </p>
-        <p class="give__fine" id="giveFine">Sponsors of five or more couples are named in the printed program. Reserve here and we'll send a secure link to pay by card, or Zelle.</p>
+        <p class="give__fine" id="giveFine">Sponsor one couple or several &mdash; choose the number on the form. Sponsors of five or more are named in the printed program.</p>
         <p class="give__more"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
       </div>
     </div>
@@ -4011,32 +4015,18 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
       // Sponsor-a-Couple feature: pick a number, then either pay by card (Stripe link, if
       // configured) or reserve through the form below.
-      var giveBtns = document.querySelectorAll('[data-give-btn]'), giveN = 3;
-      function giveSync() {
-        giveBtns.forEach(function (giveBtn) {
-          giveBtn.textContent = 'Sponsor ' + giveN + (giveN === 1 ? ' couple' : ' couples') + ' \u2014 $' + (giveN * 40);
-          if (CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
-        });
-      }
-      document.querySelectorAll('.give__opt').forEach(function (o) {
-        o.addEventListener('click', function () {
-          giveN = parseInt(o.dataset.couples, 10) || 1;
-          document.querySelectorAll('.give__opt').forEach(function (x) { x.classList.toggle('is-on', parseInt(x.dataset.couples, 10) === giveN); });
-          giveSync();
-        });
+      var giveBtn = document.getElementById('giveBtn');
+      if (giveBtn && CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
+      if (giveBtn) giveBtn.addEventListener('click', function (ev) {
+        if (CONFIG.stripeCoupleLink) return; // off to Stripe
+        ev.preventDefault();
+        sel.value = 'couple'; syncQty();
+        var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
+        if (wrap) wrap.hidden = false; if (done) done.hidden = true;
+        document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
-      giveBtns.forEach(function (giveBtn) {
-        giveBtn.addEventListener('click', function (ev) {
-          if (CONFIG.stripeCoupleLink) return; // off to Stripe
-          ev.preventDefault();
-          sel.value = 'couple'; syncQty();
-          var q = document.getElementById('sp2'); if (q) q.value = giveN;
-          var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
-          if (wrap) wrap.hidden = false; if (done) done.hidden = true;
-          document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-      giveSync();
+      var fine = document.getElementById('giveFine');
+      if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Secure card payment through Stripe. Choose the number of couples on the next screen; sponsors of five or more are named in the printed program.';
 
       // Sticky reminder: appears a few seconds after landing on the registered page,
       // hides once they reach the form, and stays dismissed for the session.
@@ -4058,10 +4048,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         if (!reg || reg.hidden) { stickHide(false); return; }
         stickTimer = setTimeout(stickShow, 3500);
       };
-      window.addEventListener('scroll', function () {
-        var f = document.getElementById('sponsorForm'); if (!f || !stick || stick.hidden) return;
-        if (f.getBoundingClientRect().top < window.innerHeight * 0.8) stickHide(false);
-      }, { passive: true });
       try { var navEl = document.querySelector('.nav'); if (navEl) document.documentElement.style.setProperty('--navH', navEl.offsetHeight + 'px'); } catch (e) {}
       window.__stickArm();
       var fine = document.getElementById('giveFine');
