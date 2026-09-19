@@ -2640,8 +2640,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <aside class="reg__give">
           <p class="reg__giveKick">For anyone</p>
           <p class="reg__giveTitle">Gift a signed copy</p>
-          <p class="reg__giveCopy">$40 puts a signed copy of the book in the hands of a couple who couldn't afford one &mdash; given on the night, from us.</p>
-          <a class="btn btn--block" href="#giveBook">Gift a signed copy &mdash; $40</a>
+          <p class="reg__giveCopy">$20 puts a signed copy of the book in the hands of a couple who couldn't afford one &mdash; given on the night, from us.</p>
+          <a class="btn btn--block" href="#giveBook">Gift a signed copy &mdash; $20</a>
         </aside>
         <aside class="reg__give reg__give--biz">
           <p class="reg__giveKick">For businesses</p>
@@ -2657,7 +2657,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   <!-- 2) sticky reminder: fades in a few seconds after landing -->
   <div class="stick" id="stick" hidden>
     <div class="stick__inner">
-      <a class="btn" href="#giveBook">Gift a signed copy &mdash; $40</a>
+      <a class="btn" href="#giveBook">Gift a signed copy &mdash; $20</a>
       <a class="btn btn--outline btn--onLightOutline" href="#sponsorLevels">Business sponsorships</a>
       <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
     </div>
@@ -2682,9 +2682,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="eyebrow eyebrow--ink">One thing you can do right now</p>
         <h2 class="h-lg">Gift a signed copy to a couple who can't afford one.</h2>
         <p class="lede">The evening costs nothing to attend. But some couples will walk out without the book, because twenty dollars is real money this month &mdash; and those are often the couples who need it most.</p>
-        <p><strong>$40 covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
+        <p><strong>$20 &mdash; the price of the book &mdash; covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
         <p class="give__cta">
-          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Gift a signed copy &mdash; $40</a>
+          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Gift a signed copy &mdash; $20</a>
         </p>
         <p class="give__fine" id="giveFine">Gift one copy or several &mdash; choose the number on the form. Anyone who gifts five or more is named in the printed program.</p>
         <p class="give__more"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
@@ -2751,7 +2751,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <option value="community">Community Sponsor &mdash; $250</option>
               <option value="reception">Reception Sponsor &mdash; $1,500</option>
               <option value="gift">Guest Gift Sponsor &mdash; $750</option>
-              <option value="couple">Gift a signed copy &mdash; $40 each</option>
+              <option value="couple">Gift a signed copy &mdash; $20 each</option>
             </select>
           </div>
           <div class="field" id="spQtyWrap" hidden>
@@ -3997,7 +3997,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         clearTimeout(stickTimer);
         var reg = document.getElementById('view-registered');
         if (!reg || reg.hidden) { stickHide(false); return; }
-        stickTimer = setTimeout(stickShow, 3500);
+        stickShow();
       };
       try { var navEl = document.querySelector('.nav'); if (navEl) document.documentElement.style.setProperty('--navH', navEl.offsetHeight + 'px'); } catch (e) {}
       window.__stickArm();
