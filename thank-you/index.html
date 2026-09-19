@@ -1080,9 +1080,12 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .reg__giveTitle{font-family:var(--f-display);font-size:1.35rem;color:var(--ivory);margin:0 0 .5rem}
 .reg__giveCopy{font-size:.875rem;color:var(--on-navy);margin:0 0 .9rem}
 .reg__givePick{display:flex;gap:.5rem;margin:0 0 .8rem}
-.give__opt--dark{background:transparent;border-color:rgba(247,243,234,.25);color:var(--ivory);min-width:0;flex:1;padding:.5rem .6rem;text-align:center}
-.give__opt--dark span{color:var(--on-navy)}
-.give__opt--dark.is-on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(195,154,94,.3);background:rgba(195,154,94,.15)}
+.reg__give .give__opt{background:transparent;border-color:rgba(247,243,234,.25);color:var(--ivory);min-width:0;flex:1 1 0;padding:.5rem .4rem;text-align:center}
+.reg__give .give__opt b,.reg__give .give__opt span{color:var(--ivory)}
+.reg__give .give__opt span{color:var(--on-navy)}
+.reg__give .give__opt.is-on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(195,154,94,.3);background:rgba(195,154,94,.18)}
+.reg__give{min-width:0;overflow:hidden}
+.reg__side{min-width:0}
 .reg__giveMore{margin:.75rem 0 0;font-size:.8125rem}
 .reg__giveMore a{color:rgba(247,243,234,.6)}
 .stick{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:#FAF6EC;border-top:1px solid rgba(22,38,28,.14);box-shadow:0 -12px 30px rgba(22,38,28,.14);transform:translateY(110%);transition:transform .35s ease}
