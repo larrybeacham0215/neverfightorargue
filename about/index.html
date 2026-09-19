@@ -1101,6 +1101,9 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .tier__head .sp__price{font-size:1.45rem;margin:0;color:var(--gold)}
 .tier__sum{margin:0;font-size:.9375rem;line-height:1.5;color:#F7F3EA;font-weight:400;min-width:0}
 .tier__sum b{color:#fff;font-weight:700}
+/* .on-navy p sets the muted colour with higher specificity — override it here */
+.on-navy .tier__sum,#sponsorLevels .tier__sum,.on-navy .sp__howLine,#sponsorLevels .sp__howLine{color:#fff}
+.on-navy .tier__sum b,#sponsorLevels .tier__sum b{color:#fff}
 .tier .btn{padding:.6rem 1.1rem;white-space:nowrap;font-size:.75rem}
 @media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
 .sp__howLine{font-size:.9375rem;color:#F7F3EA;font-weight:400;max-width:52rem;margin:0 auto 1.25rem;line-height:1.55}
