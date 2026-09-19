@@ -311,6 +311,9 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .sponsor__biz.is-on{display:grid}
 .sponsor__opt{font-weight:400;letter-spacing:0;text-transform:none;opacity:.75}
 .sponsor__check--plain{margin-top:.25rem;padding:.9rem 1rem;border:1px solid rgba(195,154,94,.5);border-radius:.6rem;background:rgba(195,154,94,.09)}
+.sponsor__phone{display:none;margin-top:-.25rem;padding:0 1rem 1rem;border:1px solid rgba(195,154,94,.5);border-top:0;border-radius:0 0 .6rem .6rem;background:rgba(195,154,94,.09)}
+.sponsor__phone.is-on{display:grid}
+.sponsor__check--plain.is-on{border-bottom-left-radius:0;border-bottom-right-radius:0}
 .capture--light .form__fine{color:var(--ink-soft)}
 .form__error{font-size:.8125rem;color:#F0A9A9;margin:0}
 
@@ -2669,6 +2672,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <textarea id="l6" name="notes" placeholder="A prayer, a verse, a word for the night — or anything we should know…"></textarea>
         </div>
         <label class="sponsor__check sponsor__check--plain"><input type="checkbox" id="l7" name="sponsor_interest" value="yes"><span>I own a business or ministry &mdash; tell me about sponsoring the launch</span></label>
+        <div class="field sponsor__phone" id="sponsorPhone">
+          <label for="l8">Best number to call or text you about sponsoring</label>
+          <input type="tel" id="l8" name="sponsor_phone" placeholder="(813) 555-0100" autocomplete="tel">
+        </div>
         <p class="form__error" hidden></p>
         <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
         <p class="form__fine">Free. We'll only email you about the launch and the book.</p>
@@ -4253,6 +4260,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Sponsors of five or more couples are named in the printed program. Secure card payment through Stripe; you can change the number on the next screen.';
     })();
 
+    var spChk = document.getElementById('l7'), spPhone = document.getElementById('sponsorPhone');
+    if (spChk && spPhone) spChk.addEventListener('change', function () {
+      spPhone.classList.toggle('is-on', spChk.checked); spChk.closest('label').classList.toggle('is-on', spChk.checked);
+      if (spChk.checked) setTimeout(function () { document.getElementById('l8').focus(); }, 150);
+    });
     var dlg = document.getElementById('rsvpModal');
     if (!dlg) return;
 
@@ -4358,6 +4370,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         var c = form.querySelector('[name="contact"]');
         if (c && !c.value.trim()) { showError('Please add a contact name.'); c.focus(); return; }
       }
+      var spOn = form.querySelector('[name="sponsor_interest"]'), spPh = form.querySelector('[name="sponsor_phone"]');
+      if (spOn && spOn.checked && spPh && !spPh.value.trim()) { showError('Please add a number we can call or text about sponsoring.'); spPh.focus(); return; }
       showError('');
 
       var btn = form.querySelector('button[type="submit"]');
