@@ -928,10 +928,13 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .co{min-height:0}
 #view-gift-checkout .band,#view-sponsor-checkout .band{padding-block:clamp(1.5rem,3vw,2.5rem)}
 .co__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
-.co__intro{display:flex;gap:1.25rem;align-items:flex-start;margin:0 0 1.25rem}
+.co__intro{display:grid;grid-template-columns:minmax(9rem,11.5rem) 1fr;gap:1.5rem;align-items:stretch;margin:0}
+.co__text{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.co__text .eyebrow{margin-bottom:.35rem}
 .co__h1{font-family:var(--f-display);font-weight:400;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.1;margin:.25rem 0 .6rem;color:var(--ink)}
 .co__lede{font-size:.9375rem;line-height:1.55;color:var(--ink-soft);margin:0 0 1rem}
-.co__book{width:7.5rem;flex:none;height:auto;display:block;filter:drop-shadow(0 14px 22px rgba(22,38,28,.25));margin:.25rem 0 0}
+.co__text .co__trust{margin-top:.25rem}
+.co__book{width:100%;height:100%;max-height:26rem;object-fit:contain;object-position:top;display:block;filter:drop-shadow(0 18px 28px rgba(22,38,28,.28));margin:0}
 .co__trust{list-style:none;margin:0;padding:0;display:grid;gap:.35rem;font-size:.875rem;color:var(--ink-soft)}
 .co__trust li{position:relative;padding-left:1.4rem}
 .co__trust li::before{content:"\2713";position:absolute;left:0;color:var(--gold-ink);font-weight:700}
@@ -950,7 +953,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .co__tier{margin:0 0 1.5rem;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:rgba(195,154,94,.1);font-size:1rem;color:var(--ink)}
 .co__tier b{font-family:var(--f-display);font-size:1.35rem;display:block;color:var(--gold-ink)}
 @media(max-width:900px){.co__grid{grid-template-columns:1fr}.co__qty{flex-wrap:wrap}.co__opt{flex:1 1 40%}}
-@media(max-width:520px){.co__book{width:5.5rem}}
+@media(max-width:520px){.co__intro{grid-template-columns:6.5rem 1fr;gap:1rem}}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -3111,17 +3114,17 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="co__side">
         <div class="co__intro">
           <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
-          <div>
+          <div class="co__text">
             <p class="eyebrow eyebrow--ink">Be a blessing</p>
             <h1 class="co__h1">Gift a signed copy to a couple.</h1>
             <p class="co__lede">$20 &mdash; the price of the book &mdash; puts a signed copy in another couple's hands on November 1st. We hand it to them, from us, with your name on the card inside if you'd like.</p>
+            <ul class="co__trust">
+              <li>Secure payment by Stripe</li>
+              <li>Receipt emailed to you</li>
+              <li>Gift five or more and you're named in the printed program</li>
+            </ul>
           </div>
         </div>
-        <ul class="co__trust">
-          <li>Secure payment by Stripe</li>
-          <li>Receipt emailed to you</li>
-          <li>Gift five or more and you're named in the printed program</li>
-        </ul>
       </div>
       <div class="co__main">
         <div class="co__step" id="coPick">
