@@ -889,43 +889,34 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
    ========================================================================== */
 
 /* ==========================================================================
-   REGISTERED HERO — cream, two columns, from the supplied design
+   REGISTERED HERO — site-styled copy on the left, the gift promo card on the right
    ========================================================================== */
-.rh{position:relative;overflow:hidden;background:#F7F2E8 url("/assets/registered-hero-bg.jpg?v=3") center/cover no-repeat;color:var(--ink);border-bottom:1px solid rgba(22,38,28,.08)}
-.rh__grid{display:grid;grid-template-columns:1fr 1fr;max-width:80rem;margin:0 auto;min-height:36rem}
-.rh__col{padding:clamp(1.5rem,3.5vw,3rem) clamp(1.25rem,4vw,4rem);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.rh__left{border-right:1px solid rgba(195,154,94,.55)}
-.rh__medal{width:min(100%,24rem);height:auto;margin:0 0 .25rem}
-.rh__kick{font-family:var(--f-body);font-size:.8125rem;letter-spacing:.28em;text-transform:uppercase;color:#8A6330;margin:0 0 .6rem;font-weight:600}
-.rh__kick--r{color:#8A6330;margin-bottom:.35rem}
-.rh__sprig{color:#8A6330;font-size:1rem;line-height:1;margin-bottom:.75rem}
-.rh__h1,.rh__h2{font-family:'Playfair Display',var(--f-display);font-weight:700;color:#173626;line-height:1.02;letter-spacing:-.02em;margin:0}
-.rh__h1{font-size:clamp(2rem,3.3vw,3.3rem)}
-.rh__h2{font-size:clamp(2.3rem,3.9vw,3.9rem);letter-spacing:-.03em;white-space:nowrap}
-@media(max-width:420px){.rh__h2{white-space:normal}}
-.rh__rule{display:block;width:6rem;height:1px;background:#C39A5E;margin:1rem auto 1.1rem}
-.rh__sub{font-family:'Playfair Display',var(--f-display);font-weight:600;color:#8A6330;font-size:clamp(1.15rem,1.75vw,1.55rem);margin:.6rem 0 .9rem;letter-spacing:-.02em}
-.rh__copy{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(1.1rem,1.5vw,1.35rem);line-height:1.45;color:#2E3A47;margin:0 0 1.5rem;max-width:34rem}
-.rh__copy--r{margin-bottom:1.25rem}
-.rh__copy em{font-style:italic}
-.rh__card{width:min(100%,34rem);border:1px solid rgba(195,154,94,.7);background:rgba(255,255,255,.55);border-radius:.4rem;padding:.35rem 1.5rem;text-align:left;box-shadow:0 8px 30px rgba(22,38,28,.06)}
-.rh__card > div{display:flex;align-items:center;gap:1.4rem;padding:.75rem 0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(1.05rem,1.4vw,1.3rem);color:#2E3A47}
-.rh__card > div + div{border-top:1px solid rgba(195,154,94,.35)}
-.rh__card svg{width:1.5rem;height:1.5rem;flex:none;fill:none;stroke:#173626;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.rh__close{font-family:'Playfair Display',var(--f-display);font-style:italic;font-weight:600;color:#8A6330;font-size:clamp(1.15rem,1.7vw,1.45rem);margin:1.5rem 0 .25rem}
-.rh__heart{color:#C39A5E;font-size:1rem;line-height:1}
-.rh__cal{font-family:var(--f-body);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin:1.25rem 0 0;color:#5C6B60}
-.rh__cal a{color:#173626;text-decoration:none;border-bottom:1px solid rgba(23,54,38,.35)}
-.rh__cal a:hover{color:#8A6330;border-color:#8A6330}
-.giftbtn--hero{width:min(100%,32rem);margin:0 0 -.75rem;position:relative;z-index:2}
-.giftbtn--hero img{max-width:100%}
-.rh__still{width:min(100%,38rem);height:auto;margin:0}
-.rh__biz{margin:1rem 0 0;font-family:var(--f-body);font-size:.8125rem}
-.rh__biz a{color:#8A6330;text-decoration:none;border-bottom:1px solid rgba(138,99,48,.4)}
+.rh{position:relative;background:
+    radial-gradient(48rem 30rem at 78% 18%, rgba(195,154,94,.14), transparent 62%),
+    linear-gradient(170deg,#FBF8F1 0%,#F7F2E7 60%,#F4EEE0 100%);
+  color:var(--ink);border-bottom:1px solid rgba(22,38,28,.08);padding-block:clamp(2rem,4.5vw,3.5rem)}
+.rh__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:center}
+.rh__left .reg__tick{border-color:var(--gold-ink)}
+.rh__left .reg__tick svg{stroke:var(--gold-ink)}
+.rh__h1{font-size:clamp(2.2rem,4.4vw,3.3rem);line-height:1.03;margin:0 0 1.15rem;color:var(--ink)}
+.rh__h1 em{font-style:italic;color:var(--gold-ink)}
+.rh__copy{color:var(--ink-soft);max-width:32rem;margin:0 0 1.5rem;font-size:1.0625rem}
+.rh__facts{margin:0 0 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:32rem}
+.rh__facts > div{border-left:2px solid var(--gold);padding-left:.9rem}
+.rh__facts dt{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:.3rem}
+.rh__facts dd{margin:0;font-size:.9375rem;color:var(--ink-soft);line-height:1.5}
+.rh__facts strong{color:var(--ink)}
+.rh__cta{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 .6rem}
+.rh__alt{margin:0 0 1.5rem;font-size:.8125rem}
+.rh__alt a{color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px}
+.rh__close{font-family:var(--f-display);font-style:italic;color:var(--gold-ink);font-size:1.25rem;margin:0}
+.rh__promo{display:block;border-radius:.9rem;overflow:hidden;border:1px solid rgba(195,154,94,.55);box-shadow:0 30px 60px -30px rgba(22,38,28,.45),0 0 0 6px rgba(255,255,255,.5);transition:transform .2s,box-shadow .2s;background:#FBF7EE}
+.rh__promo:hover{transform:translateY(-3px);box-shadow:0 36px 70px -30px rgba(22,38,28,.5),0 0 0 6px rgba(255,255,255,.6)}
+.rh__promo img{display:block;width:100%;height:auto}
 @media(max-width:900px){
-  .rh__grid{grid-template-columns:1fr}
-  .rh__left{border-right:0;border-bottom:1px solid rgba(195,154,94,.55)}
-  .rh{background:linear-gradient(180deg,#FDF9F1 0%,#F6F0E3 100%)}
+  .rh__grid{grid-template-columns:1fr;gap:2rem}
+  .rh__promo{max-width:30rem;margin-inline:auto}
+  .rh__facts{grid-template-columns:1fr}
 }
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
@@ -2652,35 +2643,29 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <div class="view" id="view-registered" hidden>
 
   <header class="rh reg__after">
-    <div class="rh__grid">
-      <div class="rh__col rh__left">
-        <img class="rh__medal" src="/assets/registered-medallion.png?v=2" alt="" width="500" height="195">
-        <p class="rh__kick">You&rsquo;re registered</p>
-        <h1 class="rh__h1">We&rsquo;ve Saved You a Seat.</h1>
-        <span class="rh__rule" aria-hidden="true"></span>
-        <p class="rh__copy">A confirmation is on its way to your inbox.<br>Nothing else is needed from you &mdash; just show up.<br>We&rsquo;ll send a reminder as the date gets close.</p>
-        <div class="rh__card">
-          <div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Sunday, November 1, 2026</span></div>
-          <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>5:30 PM</span></div>
-          <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span>Grace Family Church</span></div>
-          <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>22920 FL-54, Lutz, FL 33549</span></div>
-        </div>
+    <div class="wrap rh__grid">
+      <div class="rh__left">
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow eyebrow--ink">You&rsquo;re registered</p>
+        <h1 class="rh__h1">We&rsquo;ve saved you<br><em>a seat.</em></h1>
+        <p class="rh__copy">A confirmation is on its way to your inbox. Nothing else is needed from you &mdash; just show up. We&rsquo;ll send a reminder as the date gets close.</p>
+        <dl class="rh__facts">
+          <div><dt>When</dt><dd>Sunday, November 1, 2026<br><strong>Doors 5:30 pm</strong></dd></div>
+          <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL-54, Lutz, FL 33549</dd></div>
+        </dl>
+        <p class="rh__cta">
+          <a class="btn btn--onLight" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a>
+          <a class="btn btn--outline btn--onLightOutline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
+        </p>
+        <p class="rh__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         <p class="rh__close">We can&rsquo;t wait to celebrate with you.</p>
-        <span class="rh__heart" aria-hidden="true">&#9825;</span>
-        <p class="rh__cal"><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a> &middot; <a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a> &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Directions</a></p>
       </div>
-      <div class="rh__col rh__right">
-        <p class="rh__kick rh__kick--r">One more way to make the night better</p>
-        <span class="rh__sprig" aria-hidden="true">&#10047;</span>
-        <h2 class="rh__h2">Gift a Signed Copy</h2>
-        <p class="rh__sub">Help another couple leave with the book.</p>
-        <p class="rh__copy rh__copy--r">$20 puts a signed copy of <em>Never Fight or Argue Again</em> in the hands of a couple who couldn&rsquo;t afford one &mdash; given on the night, from us.</p>
-        <a class="giftbtn giftbtn--hero" href="#giveBook"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
-        <img class="rh__still" src="/assets/registered-still.png?v=2" alt="" width="839" height="340">
-        <p class="rh__close">A simple way to bless another marriage.</p>
-        <span class="rh__heart" aria-hidden="true">&#9825;</span>
-        <p class="rh__biz"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
-      </div>
+      <a class="rh__promo" href="#giveBook" aria-label="Gift a signed copy — $20. Help another couple leave with the book.">
+        <picture>
+          <source srcset="/assets/gift-promo.webp" type="image/webp">
+          <img src="/assets/gift-promo.jpg" alt="" width="820" height="941">
+        </picture>
+      </a>
     </div>
   </header>
 
