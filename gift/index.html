@@ -921,6 +921,32 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .rh__promo{max-width:30rem;margin-inline:auto}
   .rh__facts{grid-template-columns:1fr}
 }
+
+/* ==========================================================================
+   CHECKOUT — embedded Stripe on our own page
+   ========================================================================== */
+.co{min-height:70vh}
+.co__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
+.co__side .lede{margin:1rem 0 1.5rem;color:var(--ink-soft)}
+.co__book{width:min(100%,14rem);height:auto;display:block;filter:drop-shadow(0 20px 30px rgba(22,38,28,.25));margin:0 0 1.5rem}
+.co__trust{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;font-size:.9rem;color:var(--ink-soft)}
+.co__trust li{position:relative;padding-left:1.4rem}
+.co__trust li::before{content:"\2713";position:absolute;left:0;color:var(--gold-ink);font-weight:700}
+.co__main{background:#fff;border:1px solid rgba(195,154,94,.5);border-radius:.75rem;padding:clamp(1.25rem,3vw,2rem);box-shadow:0 20px 50px -30px rgba(22,38,28,.35)}
+.co__label{font-family:var(--f-display);font-size:1.15rem;color:var(--ink);margin:0 0 1rem}
+.co__lock{font-size:.85rem;opacity:.7}
+.co__qty{display:flex;gap:.6rem;margin:0 0 1rem}
+.co__opt{font:inherit;cursor:pointer;flex:1 1 0;min-width:0;background:#fff;border:1px solid rgba(22,38,28,.2);border-radius:.6rem;padding:.75rem .5rem;text-align:center;display:grid;gap:.1rem;color:var(--ink)}
+.co__opt b{font-size:1.25rem;font-weight:600}
+.co__opt span{font-size:.8125rem;color:var(--ink-soft)}
+.co__opt.is-on{border-color:var(--gold-ink);box-shadow:0 0 0 2px rgba(138,99,48,.25);background:rgba(195,154,94,.1)}
+.co__custom{display:flex;align-items:center;gap:.75rem;font-size:.9375rem;color:var(--ink-soft);margin:0 0 1.25rem}
+.co__custom input{width:6rem;font:inherit;padding:.55rem .7rem;border:1px solid rgba(22,38,28,.2);border-radius:.4rem}
+.co__frame[hidden],#coPick[hidden]{display:none}
+#coMount,#scMount{min-height:24rem}
+.co__tier{margin:0 0 1.5rem;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:rgba(195,154,94,.1);font-size:1rem;color:var(--ink)}
+.co__tier b{font-family:var(--f-display);font-size:1.35rem;display:block;color:var(--gold-ink)}
+@media(max-width:900px){.co__grid{grid-template-columns:1fr}.co__book{max-width:9rem}.co__qty{flex-wrap:wrap}.co__opt{flex:1 1 40%}}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -3071,6 +3097,77 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   </header>
 </div>
 
+<!-- ==================================================================== -->
+<!-- ========================= GIFT CHECKOUT ============================ -->
+<!-- Embedded Stripe checkout on our own page.                             -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <p class="eyebrow eyebrow--ink">Be a blessing</p>
+        <h1 class="h-lg">Gift a signed copy to a couple.</h1>
+        <p class="lede">$20 &mdash; the price of the book &mdash; puts a signed copy of <em>Never Fight or Argue Again</em> in another couple's hands on November 1st. We hand it to them, from us, with your name on the card inside if you'd like it there.</p>
+        <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367" loading="lazy">
+        <ul class="co__trust">
+          <li>Secure payment by Stripe</li>
+          <li>Receipt emailed to you</li>
+          <li>Gift five or more and you're named in the printed program</li>
+        </ul>
+      </div>
+      <div class="co__main">
+        <div class="co__step" id="coPick">
+          <p class="co__label">How many copies?</p>
+          <div class="co__qty" role="group" aria-label="Number of copies">
+            <button type="button" class="co__opt" data-q="1"><b>1</b><span>$20</span></button>
+            <button type="button" class="co__opt is-on" data-q="3"><b>3</b><span>$60</span></button>
+            <button type="button" class="co__opt" data-q="5"><b>5</b><span>$100</span></button>
+            <button type="button" class="co__opt" data-q="10"><b>10</b><span>$200</span></button>
+          </div>
+          <label class="co__custom">Or another number: <input type="number" id="coQty" min="1" max="100" inputmode="numeric" placeholder="e.g. 7"></label>
+          <button type="button" class="btn btn--onLight btn--lg btn--block" id="coGo">Continue to secure payment</button>
+          <p class="form__fine" style="color:var(--ink-soft)">You can still change the number on the next step.</p>
+          <p class="form__error" id="coErr" hidden></p>
+        </div>
+        <div class="co__frame" id="coFrame" hidden>
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="coMount"></div>
+          <p class="form__fine" style="color:var(--ink-soft);margin-top:.75rem"><a href="#" id="coBack">&larr; Change the number of copies</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= SPONSOR CHECKOUT =========================== -->
+<!-- /sponsor/checkout/?tier=gold — used by the invoicing tool             -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <p class="eyebrow eyebrow--ink">Sponsorship payment</p>
+        <h1 class="h-lg" id="scTitle">Thank you for sponsoring the night.</h1>
+        <p class="lede" id="scLede">Complete your sponsorship of the <em>Never Fight or Argue Again</em> book launch &amp; 30-year anniversary celebration, Sunday November 1st at Grace Family Church.</p>
+        <div class="co__tier" id="scTier"></div>
+        <ul class="co__trust">
+          <li>Secure payment by Stripe</li>
+          <li>Receipt and invoice emailed to you</li>
+          <li>Next: send us your logo by October 18th</li>
+        </ul>
+      </div>
+      <div class="co__main">
+        <div class="co__frame">
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="scMount"></div>
+          <p class="form__error" id="scErr" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -3945,7 +4042,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     // 5. Sponsor-a-Couple card payments. Paste the Stripe Payment Link here
     //    and the button on the registered page sends people straight to it.
     //    Empty = the button reserves through the form and Larry follows up.
-    stripeCoupleLink: 'https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00',
+    stripeCoupleLink: 'https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00', // fallback if embedded checkout can't load
+    stripePublishableKey: 'pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC',
+    // Set to false to send people to Stripe's hosted page instead of the on-site checkout.
+    embeddedCheckout: true,
 
     retailers: {
       amazon: '',
@@ -3961,7 +4061,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'invoice', 'gift', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -3980,6 +4080,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/sponsor/':       'sponsor',       // hidden: not in nav, footer or sitemap
     '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
     '/gift/':          'gift',          // public, shareable
+    '/gift/checkout/': 'gift-checkout',
+    '/sponsor/checkout/': 'sponsor-checkout',
     '/sponsor-thank-you/': 'sponsor-thanks',
     '/sponsor-paid/':  'sponsor-paid',
     '/invoice/':       'invoice',        // hidden internal tool
@@ -4000,6 +4102,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     sponsor: 'Sponsor the launch — Never Fight or Argue Again',
     'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
     'gift': 'Gift a signed copy — Never Fight or Argue Again',
+    'gift-checkout': 'Gift a signed copy — secure payment',
+    'sponsor-checkout': 'Sponsorship payment — Never Fight or Argue Again',
     'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     'sponsor-paid': 'Sponsorship confirmed — Never Fight or Argue Again',
     invoice: 'Sponsorship invoicing',
@@ -4034,6 +4138,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       if (el) el.hidden = (v !== name);
     });
     if (window.__stickArm) window.__stickArm();
+    if (name === 'sponsor-checkout' && window.__sponsorCheckout) setTimeout(window.__sponsorCheckout, 0);
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
       if (a.dataset.tab === name) a.setAttribute('aria-current', 'page');
@@ -4193,7 +4298,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       // Sponsor-a-Couple feature: pick a number, then either pay by card (Stripe link, if
       // configured) or reserve through the form below.
       // Gift a signed copy: Stripe Checkout handles quantity, payment and the receipt.
-      ['giveBtn', 'giveBtnPublic'].forEach(function (id) { var g = document.getElementById(id); if (g && CONFIG.stripeCoupleLink) { g.href = CONFIG.stripeCoupleLink; g.target = '_blank'; g.rel = 'noopener'; } });
+      ['giveBtn', 'giveBtnPublic'].forEach(function (id) { var g = document.getElementById(id); if (!g) return;
+        if (CONFIG.embeddedCheckout) { g.href = '/gift/checkout/'; g.dataset.tab = 'gift-checkout'; g.removeAttribute('target'); }
+        else if (CONFIG.stripeCoupleLink) { g.href = CONFIG.stripeCoupleLink; g.target = '_blank'; g.rel = 'noopener'; } });
+      document.querySelectorAll('a.giftbtn[href^="https://donate.stripe.com"], a.rh__promo[href^="https://donate.stripe.com"], a.btn[href^="https://donate.stripe.com"]').forEach(function (g) {
+        if (CONFIG.embeddedCheckout) { g.href = '/gift/checkout/'; g.dataset.tab = 'gift-checkout'; g.removeAttribute('target'); }
+      });
 
       // Share box on the gift thank-you page
       (function () {
@@ -4210,16 +4320,71 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         msg.addEventListener('focus', function () { msg.select(); });
       })();
 
+      // ---------------- embedded checkout ----------------
+      var stripeJs = null;
+      function loadStripe(cb) {
+        if (window.Stripe) return cb(window.Stripe(CONFIG.stripePublishableKey));
+        var sc = document.createElement('script'); sc.src = 'https://js.stripe.com/v3/'; sc.async = true;
+        sc.onload = function () { cb(window.Stripe(CONFIG.stripePublishableKey)); };
+        sc.onerror = function () { cb(null); };
+        document.head.appendChild(sc);
+      }
+      var mounted = {};
+      function mountCheckout(mountId, payload, errEl, fallbackHref) {
+        var mountEl = document.getElementById(mountId); if (!mountEl) return;
+        if (mounted[mountId]) { try { mounted[mountId].destroy(); } catch (e) {} mounted[mountId] = null; }
+        mountEl.innerHTML = '<p style="color:var(--ink-soft);font-size:.9375rem">Opening secure payment\u2026</p>';
+        loadStripe(function (stripe) {
+          if (!stripe) { if (fallbackHref) location.href = fallbackHref; else if (errEl) { errEl.textContent = 'Payment could not load. Please refresh and try again.'; errEl.hidden = false; } return; }
+          stripe.initEmbeddedCheckout({
+            fetchClientSecret: function () {
+              return fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/checkout', {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+              }).then(function (r) { return r.json(); }).then(function (d) { if (!d.clientSecret) throw new Error(d.error || 'no secret'); return d.clientSecret; });
+            }
+          }).then(function (co) { mountEl.innerHTML = ''; co.mount('#' + mountId); mounted[mountId] = co; })
+            .catch(function (e) { mountEl.innerHTML = ''; if (errEl) { errEl.textContent = 'Payment could not start. Please try again, or use the backup link: '; var a = document.createElement('a'); a.href = fallbackHref || '#'; a.textContent = 'pay on Stripe'; errEl.appendChild(a); errEl.hidden = false; } });
+        });
+      }
+      // Gift checkout page
+      (function () {
+        var pick = document.getElementById('coPick'), frame = document.getElementById('coFrame'), go = document.getElementById('coGo'), back = document.getElementById('coBack'), custom = document.getElementById('coQty'), err = document.getElementById('coErr');
+        if (!go) return;
+        var q = 3;
+        document.querySelectorAll('.co__opt').forEach(function (o) { o.addEventListener('click', function () {
+          q = parseInt(o.dataset.q, 10); custom.value = '';
+          document.querySelectorAll('.co__opt').forEach(function (x) { x.classList.toggle('is-on', x === o); });
+        }); });
+        custom.addEventListener('input', function () { var v = parseInt(custom.value, 10); if (v >= 1) { q = Math.min(100, v); document.querySelectorAll('.co__opt').forEach(function (x) { x.classList.remove('is-on'); }); } });
+        go.addEventListener('click', function () {
+          err.hidden = true; pick.hidden = true; frame.hidden = false; window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+          mountCheckout('coMount', { kind: 'gift', quantity: q }, err, CONFIG.stripeCoupleLink);
+        });
+        back.addEventListener('click', function (ev) { ev.preventDefault(); frame.hidden = true; pick.hidden = false; if (mounted.coMount) { try { mounted.coMount.destroy(); } catch (e) {} mounted.coMount = null; } });
+      })();
+      // Sponsor checkout page: /sponsor/checkout/?tier=gold
+      window.__sponsorCheckout = function () {
+        var mountEl = document.getElementById('scMount'); if (!mountEl) return;
+        var view = document.getElementById('view-sponsor-checkout'); if (!view || view.hidden) return;
+        var tier = (new URLSearchParams(location.search).get('tier') || '').toLowerCase();
+        var TIERS = { presenting: ['Presenting Sponsor', 2500], gold: ['Gold Sponsor', 1000], silver: ['Silver Sponsor', 500], community: ['Community Sponsor', 250], reception: ['Reception Sponsor', 1500], gift: ['Guest Gift Sponsor', 750] };
+        var box = document.getElementById('scTier'), err = document.getElementById('scErr');
+        if (!TIERS[tier]) { box.innerHTML = 'This link is missing a sponsorship level. Please use the link we sent you, or reply to our email.'; return; }
+        box.innerHTML = '<b>' + TIERS[tier][0] + '</b>$' + TIERS[tier][1].toLocaleString() + ' &middot; one-time';
+        mountCheckout('scMount', { kind: 'sponsor', tier: tier }, err, null);
+      };
+      window.__sponsorCheckout();
+
       // Invoicing tool
       (function () {
-        var LINKS = {"presenting": {"name": "Presenting Sponsor", "amount": 2500, "url": "https://buy.stripe.com/eVq4gAfyaf523l06qv5Vu02"}, "gold": {"name": "Gold Sponsor", "amount": 1000, "url": "https://buy.stripe.com/bJedRaclY9KI6xcg155Vu03"}, "silver": {"name": "Silver Sponsor", "amount": 500, "url": "https://buy.stripe.com/cNifZigCe0a89Jo8yD5Vu04"}, "community": {"name": "Community Sponsor", "amount": 250, "url": "https://buy.stripe.com/eVq7sMadQ1ec7BgbKP5Vu05"}, "reception": {"name": "Reception Sponsor", "amount": 1500, "url": "https://buy.stripe.com/8x2cN6adQg964p4bKP5Vu06"}, "gift": {"name": "Guest Gift Sponsor", "amount": 750, "url": "https://buy.stripe.com/cNiaEY2Lo1ec5t87uz5Vu07"}};
+        var LINKS = {"presenting": {"name": "Presenting Sponsor", "amount": 2500, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=presenting", "stripe": "https://buy.stripe.com/eVq4gAfyaf523l06qv5Vu02"}, "gold": {"name": "Gold Sponsor", "amount": 1000, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=gold", "stripe": "https://buy.stripe.com/bJedRaclY9KI6xcg155Vu03"}, "silver": {"name": "Silver Sponsor", "amount": 500, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=silver", "stripe": "https://buy.stripe.com/cNifZigCe0a89Jo8yD5Vu04"}, "community": {"name": "Community Sponsor", "amount": 250, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=community", "stripe": "https://buy.stripe.com/eVq7sMadQ1ec7BgbKP5Vu05"}, "reception": {"name": "Reception Sponsor", "amount": 1500, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=reception", "stripe": "https://buy.stripe.com/8x2cN6adQg964p4bKP5Vu06"}, "gift": {"name": "Guest Gift Sponsor", "amount": 750, "url": "https://neverfightorargue.com/sponsor/checkout/?tier=gift", "stripe": "https://buy.stripe.com/cNiaEY2Lo1ec5t87uz5Vu07"}};
         var lvl = document.getElementById('inv1'), nm = document.getElementById('inv2'); if (!lvl) return;
         var out = document.getElementById('invOut'), linkIn = document.getElementById('inv3'), open = document.getElementById('invOpen');
         var msgWrap = document.getElementById('invMsgWrap'), msg = document.getElementById('inv4'), mail = document.getElementById('invMail'), sms = document.getElementById('invSms');
         function build() {
           var t = LINKS[lvl.value]; if (!t) { out.hidden = true; msgWrap.hidden = true; return; }
           var first = (nm.value || '').trim();
-          var text = 'Hi ' + (first || 'there') + ',\n\nThank you again for sponsoring the Never Fight or Argue Again book launch on November 1st. As promised, here is the secure link for the ' + t.name + ' ($' + t.amount.toLocaleString() + '):\n\n' + t.url + '\n\nIt takes a card, and Stripe will email you a receipt and invoice right away. If you\'d rather pay by Zelle or check, just reply and I\'ll send the details.\n\nPayment within 7 days holds your place. And whenever you\'re ready, send over your logo (PNG or SVG) so it makes the printed program and the screens.\n\nWith thanks,\nLarry & Rolanda Beacham\nNeverFightOrArgue.com';
+          var text = 'Hi ' + (first || 'there') + ',\n\nThank you again for sponsoring the Never Fight or Argue Again book launch on November 1st. As promised, here is the secure link for the ' + t.name + ' ($' + t.amount.toLocaleString() + '):\n\n' + t.url + '\n\nIt takes a card (secure payment on our site, powered by Stripe), and you\'ll get a receipt and invoice by email right away. If you\'d rather pay by Zelle or check, just reply and I\'ll send the details.\n\nPayment within 7 days holds your place. And whenever you\'re ready, send over your logo (PNG or SVG) so it makes the printed program and the screens.\n\nWith thanks,\nLarry & Rolanda Beacham\nNeverFightOrArgue.com';
           linkIn.value = t.url; open.href = t.url; msg.value = text;
           mail.href = 'mailto:?subject=' + encodeURIComponent('Your ' + t.name + ' — payment link') + '&body=' + encodeURIComponent(text);
           sms.href = 'sms:?&body=' + encodeURIComponent(text);
