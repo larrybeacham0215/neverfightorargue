@@ -1066,6 +1066,14 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .reg__jump a{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ivory);text-decoration:none;border:1px solid rgba(247,243,234,.25);border-radius:999px;padding:.45rem .8rem}
 .reg__jump a:hover{border-color:var(--gold);color:var(--gold)}
 .reg__side{display:grid;gap:1rem}
+#view-registered .reg__grid{align-items:start}
+#view-registered .reg__card{padding:clamp(1.1rem,2vw,1.4rem)}
+#view-registered .reg__date{padding-bottom:.7rem;margin-bottom:.5rem}
+#view-registered .reg__facts{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:.75rem}
+#view-registered .reg__facts > div{padding:.35rem 0;border-top:0}
+#view-registered .reg__cardCta{margin-top:.75rem}
+#view-registered .reg__cardCta .btn{padding-block:.7rem}
+@media(max-width:520px){#view-registered .reg__facts{grid-template-columns:1fr}}
 .reg__give{border:1px solid rgba(195,154,94,.45);background:rgba(195,154,94,.08);padding:clamp(1.25rem,2.5vw,1.6rem)}
 .reg__giveKick{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 .4rem}
 .reg__giveTitle{font-family:var(--f-display);font-size:1.35rem;color:var(--ivory);margin:0 0 .5rem}
@@ -1084,7 +1092,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .stick__txt b{color:var(--ink)}
 .stick__alt{font-size:.8125rem;color:var(--gold-ink);white-space:nowrap}
 .stick__x{background:none;border:0;font-size:1.5rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:.2rem .4rem}
-@media(min-width:901px){.stick{bottom:auto;top:0;transform:translateY(-110%);border-top:0;border-bottom:1px solid rgba(22,38,28,.14);box-shadow:0 12px 30px rgba(22,38,28,.14)}}
+@media(min-width:901px){.stick{bottom:auto;top:var(--navH,4.2rem);transform:translateY(-140%);border-top:0;border-bottom:1px solid rgba(22,38,28,.14);box-shadow:0 12px 30px rgba(22,38,28,.14)}}
 @media(max-width:700px){.stick__txt{display:none}.stick .btn{flex:1;text-align:center}.stick__alt{display:none}}
 .sp__grid--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:52rem;margin-inline:auto}
 /* one view, two doors: /registered/ shows the confirmation header, /sponsor/ the sponsor one */
@@ -4050,6 +4058,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         var f = document.getElementById('sponsorForm'); if (!f || !stick || stick.hidden) return;
         if (f.getBoundingClientRect().top < window.innerHeight * 0.8) stickHide(false);
       }, { passive: true });
+      try { var navEl = document.querySelector('.nav'); if (navEl) document.documentElement.style.setProperty('--navH', navEl.offsetHeight + 'px'); } catch (e) {}
       window.__stickArm();
       var fine = document.getElementById('giveFine');
       if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Sponsors of five or more couples are named in the printed program. Secure card payment through Stripe; you can change the number on the next screen.';
