@@ -891,7 +891,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 /* ==========================================================================
    REGISTERED HERO — cream, two columns, from the supplied design
    ========================================================================== */
-.rh{position:relative;overflow:hidden;background:#F7F2E8 url("/assets/registered-hero-bg.jpg?v=2") center/cover no-repeat;color:var(--ink);border-bottom:1px solid rgba(22,38,28,.08)}
+.rh{position:relative;overflow:hidden;background:#F7F2E8 url("/assets/registered-hero-bg.jpg?v=3") center/cover no-repeat;color:var(--ink);border-bottom:1px solid rgba(22,38,28,.08)}
 .rh__grid{display:grid;grid-template-columns:1fr 1fr;max-width:80rem;margin:0 auto;min-height:36rem}
 .rh__col{padding:clamp(1.5rem,3.5vw,3rem) clamp(1.25rem,4vw,4rem);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .rh__left{border-right:1px solid rgba(195,154,94,.55)}
@@ -917,15 +917,15 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .rh__cal{font-family:var(--f-body);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin:1.25rem 0 0;color:#5C6B60}
 .rh__cal a{color:#173626;text-decoration:none;border-bottom:1px solid rgba(23,54,38,.35)}
 .rh__cal a:hover{color:#8A6330;border-color:#8A6330}
-.giftbtn--hero{width:min(100%,32rem);margin:0 0 -1rem;position:relative;z-index:2}
+.giftbtn--hero{width:min(100%,32rem);margin:0 0 -.75rem;position:relative;z-index:2}
 .giftbtn--hero img{max-width:100%}
-.rh__still{width:min(100%,38rem);height:auto;margin:0 0 -.5rem}
+.rh__still{width:min(100%,38rem);height:auto;margin:0}
 .rh__biz{margin:1rem 0 0;font-family:var(--f-body);font-size:.8125rem}
 .rh__biz a{color:#8A6330;text-decoration:none;border-bottom:1px solid rgba(138,99,48,.4)}
 @media(max-width:900px){
   .rh__grid{grid-template-columns:1fr}
   .rh__left{border-right:0;border-bottom:1px solid rgba(195,154,94,.55)}
-  .rh{background-image:url("/assets/registered-hero-bg-m.jpg?v=2")}
+  .rh{background-image:url("/assets/registered-hero-bg-m.jpg?v=3")}
 }
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
@@ -2654,7 +2654,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   <header class="rh reg__after">
     <div class="rh__grid">
       <div class="rh__col rh__left">
-        <img class="rh__medal" src="/assets/registered-medallion.png" alt="" width="500" height="210">
+        <img class="rh__medal" src="/assets/registered-medallion.png?v=2" alt="" width="500" height="195">
         <p class="rh__kick">You&rsquo;re registered</p>
         <h1 class="rh__h1">We&rsquo;ve Saved You a Seat.</h1>
         <span class="rh__rule" aria-hidden="true"></span>
@@ -2676,7 +2676,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="rh__sub">Help another couple leave with the book.</p>
         <p class="rh__copy rh__copy--r">$20 puts a signed copy of <em>Never Fight or Argue Again</em> in the hands of a couple who couldn&rsquo;t afford one &mdash; given on the night, from us.</p>
         <a class="giftbtn giftbtn--hero" href="#giveBook"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
-        <img class="rh__still" src="/assets/registered-still.png" alt="" width="839" height="475">
+        <img class="rh__still" src="/assets/registered-still.png?v=2" alt="" width="839" height="340">
         <p class="rh__close">A simple way to bless another marriage.</p>
         <span class="rh__heart" aria-hidden="true">&#9825;</span>
         <p class="rh__biz"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
