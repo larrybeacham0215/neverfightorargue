@@ -1134,20 +1134,20 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* [hidden] must beat the display rules above (see "things learned the hard way") */
 .sp__held[hidden],#view-sponsor .field[hidden],#spFormWrap[hidden]{display:none}
 .sp__list{align-content:start}
-.tiers{display:grid;gap:.45rem;max-width:66rem;margin:0 auto}
+.sprows{display:grid;gap:.45rem;max-width:66rem;margin:0 auto}
 #sponsorLevels.band{padding-block:clamp(2rem,4vw,3rem)}
-.tier{display:grid;grid-template-columns:12rem 1fr auto;gap:1.25rem;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(195,154,94,.45);border-radius:.5rem;padding:.75rem 1.1rem;min-width:0}
-.tier--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
-.tier--specific{border-style:dashed}
-.tier__head h3{font-family:var(--f-display);font-size:1.05rem;font-weight:400;margin:0;color:var(--ivory)}
-.tier__head .sp__tierTag{margin-bottom:.15rem;font-size:.625rem;color:var(--gold)}
-.tier__head .sp__price{font-size:1.45rem;margin:0;color:var(--gold)}
-.tier__sum{margin:0;font-size:.9375rem;line-height:1.5;color:#F7F3EA;font-weight:400;min-width:0}
-.tier__sum b{color:#fff;font-weight:700}
+.sprow{display:grid;grid-template-columns:12rem 1fr auto;gap:1.25rem;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(195,154,94,.45);border-radius:.5rem;padding:.75rem 1.1rem;min-width:0}
+.sprow--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
+.sprow--specific{border-style:dashed}
+.sprow__head h3{font-family:var(--f-display);font-size:1.05rem;font-weight:400;margin:0;color:var(--ivory)}
+.sprow__head .sp__tierTag{margin-bottom:.15rem;font-size:.625rem;color:var(--gold)}
+.sprow__head .sp__price{font-size:1.45rem;margin:0;color:var(--gold)}
+.sprow__sum{margin:0;font-size:.9375rem;line-height:1.5;color:#F7F3EA;font-weight:400;min-width:0}
+.sprow__sum b{color:#fff;font-weight:700}
 /* .on-navy p sets the muted colour with higher specificity — override it here */
-.on-navy .tier__sum,#sponsorLevels .tier__sum,.on-navy .sp__howLine,#sponsorLevels .sp__howLine{color:#fff}
-.on-navy .tier__sum b,#sponsorLevels .tier__sum b{color:#fff}
-.tier .btn{padding:.55rem 1.2rem;white-space:nowrap;font-size:.95rem}
+.on-navy .sprow__sum,#sponsorLevels .sprow__sum,.on-navy .sp__howLine,#sponsorLevels .sp__howLine{color:#fff}
+.on-navy .sprow__sum b,#sponsorLevels .sprow__sum b{color:#fff}
+.sprow .btn{padding:.55rem 1.2rem;white-space:nowrap;font-size:.95rem}
 @media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
 .sp__thanks{background:var(--gold);color:var(--navy-deep);font-size:.9375rem;padding:.75rem 0;text-align:center;border-bottom:1px solid rgba(13,45,29,.15)}
 .sp__thanks b{font-weight:700}
@@ -2837,35 +2837,35 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <h2 class="h-md center" style="margin-bottom:.5rem">Choose the level that fits.</h2>
       <p class="sp__howLine center">A full house of married couples, pastors and families from across Tampa Bay. Choose a level &rarr; we call within a business day &rarr; invoice (card, Zelle or check) &rarr; logo by <b>October 18th</b>.</p>
 
-      <div class="tiers">
-        <article class="tier tier--top">
-          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
-          <p class="tier__sum"><b>&ldquo;Presented by&rdquo; on everything</b> &mdash; stage banner, screens, program, website and every email. Two minutes on stage or a short video, a reserved front table for 8, a display table at the reception, a full page in the program, a featured social post, and 10 signed books.</p>
+      <div class="sprows">
+        <article class="sprow sprow--top">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
+          <p class="sprow__sum"><b>&ldquo;Presented by&rdquo; on everything</b> &mdash; stage banner, screens, program, website and every email. Two minutes on stage or a short video, a reserved front table for 8, a display table at the reception, a full page in the program, a featured social post, and 10 signed books.</p>
           <button class="btn" type="button" data-tier="presenting">Secure</button>
         </article>
-        <article class="tier">
-          <div class="tier__head"><p class="sp__tierTag">Three available</p><h3>Gold Sponsor</h3><p class="sp__price">$1,000</p></div>
-          <p class="tier__sum"><b>Logo on the screens, program, website and emails.</b> Reserved seats for 6, a display table at the reception, thanked by name from the stage, a social mention, and 5 signed books.</p>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Three available</p><h3>Gold Sponsor</h3><p class="sp__price">$1,000</p></div>
+          <p class="sprow__sum"><b>Logo on the screens, program, website and emails.</b> Reserved seats for 6, a display table at the reception, thanked by name from the stage, a social mention, and 5 signed books.</p>
           <button class="btn" type="button" data-tier="gold">Secure</button>
         </article>
-        <article class="tier">
-          <div class="tier__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
-          <p class="tier__sum"><b>Name on the screens and in the program,</b> listed on the website, reserved seats for 4, thanked from the stage, and 2 signed books.</p>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
+          <p class="sprow__sum"><b>Name on the screens and in the program,</b> listed on the website, reserved seats for 4, thanked from the stage, and 2 signed books.</p>
           <button class="btn btn--outline" type="button" data-tier="silver">Secure</button>
         </article>
-        <article class="tier">
-          <div class="tier__head"><p class="sp__tierTag">Open</p><h3>Community Sponsor</h3><p class="sp__price">$250</p></div>
-          <p class="tier__sum"><b>For families, small businesses and friends.</b> Name in the program, listed on the website, reserved seats for 2, and a signed book.</p>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Open</p><h3>Community Sponsor</h3><p class="sp__price">$250</p></div>
+          <p class="sprow__sum"><b>For families, small businesses and friends.</b> Name in the program, listed on the website, reserved seats for 2, and a signed book.</p>
           <button class="btn btn--outline" type="button" data-tier="community">Secure</button>
         </article>
-        <article class="tier tier--specific">
-          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
-          <p class="tier__sum"><b>Host the food, the drinks, the hour everyone remembers.</b> &ldquo;Reception hosted by&rdquo; signage at every table, named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening &mdash; plus everything in Gold.</p>
+        <article class="sprow sprow--specific">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
+          <p class="sprow__sum"><b>Host the food, the drinks, the hour everyone remembers.</b> &ldquo;Reception hosted by&rdquo; signage at every table, named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening &mdash; plus everything in Gold.</p>
           <button class="btn btn--outline" type="button" data-tier="reception">Secure</button>
         </article>
-        <article class="tier tier--specific">
-          <div class="tier__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
-          <p class="tier__sum"><b>Your name on the gift every couple takes home.</b> A branded card inside every guest gift, plus everything in Silver.</p>
+        <article class="sprow sprow--specific">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
+          <p class="sprow__sum"><b>Your name on the gift every couple takes home.</b> A branded card inside every guest gift, plus everything in Silver.</p>
           <button class="btn btn--outline" type="button" data-tier="gift">Secure</button>
         </article>
       </div>
