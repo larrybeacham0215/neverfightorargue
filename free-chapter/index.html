@@ -1067,9 +1067,13 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .reg__jump a{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ivory);text-decoration:none;border:1px solid rgba(247,243,234,.25);border-radius:999px;padding:.45rem .8rem}
 .reg__jump a:hover{border-color:var(--gold);color:var(--gold)}
 .reg__side{display:grid;gap:1rem}
-.reg__two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.reg__two{display:grid;grid-template-columns:1fr;gap:1rem}
 .reg__give--biz{border-color:rgba(247,243,234,.25);background:rgba(247,243,234,.04)}
 .reg__give .btn{margin-top:.25rem}
+.reg__give{display:grid;grid-template-columns:1fr auto;gap:.25rem 1.25rem;align-items:center}
+.reg__give .reg__giveKick,.reg__give .reg__giveTitle,.reg__give .reg__giveCopy{grid-column:1}
+.reg__give .btn{grid-column:2;grid-row:1/4;margin:0;white-space:nowrap;display:block}
+@media(max-width:600px){.reg__give{grid-template-columns:1fr}.reg__give .btn{grid-column:1;grid-row:auto;margin-top:.5rem;white-space:normal}}
 .btn--onLightOutline{background:transparent;color:var(--navy);border-color:var(--navy)}
 .btn--onLightOutline:hover{background:var(--navy);color:var(--ivory)}
 .stick__inner{justify-content:center}
@@ -1098,13 +1102,15 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .stick{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:#FAF6EC;border-top:1px solid rgba(22,38,28,.14);box-shadow:0 -12px 30px rgba(22,38,28,.14);transform:translateY(110%);transition:transform .35s ease}
 .stick.is-on{transform:none}
 .stick[hidden]{display:none}
-.stick__inner{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:1rem}
+.stick{overflow:hidden}
+.stick__inner{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:.75rem;min-width:0}
+.stick .btn{min-width:0}
 .stick__txt{flex:1;font-size:.9rem;color:var(--ink-soft)}
 .stick__txt b{color:var(--ink)}
 .stick__alt{font-size:.8125rem;color:var(--gold-ink);white-space:nowrap}
 .stick__x{background:none;border:0;font-size:1.5rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:.2rem .4rem}
 @media(min-width:901px){.stick{bottom:auto;top:var(--navH,4.2rem);transform:translateY(-140%);border-top:0;border-bottom:1px solid rgba(22,38,28,.14);box-shadow:0 12px 30px rgba(22,38,28,.14)}}
-@media(max-width:700px){.stick .btn{flex:1;text-align:center;padding-inline:.6rem;font-size:.75rem}}
+@media(max-width:700px){.stick .btn{flex:1 1 0;text-align:center;padding:.8rem .4rem;font-size:.7rem;letter-spacing:.04em}.stick__x{padding:.2rem}}
 .sp__grid--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:52rem;margin-inline:auto}
 /* one view, two doors: /registered/ shows the confirmation header, /sponsor/ the sponsor one */
 #view-registered .reg__direct{display:none}
@@ -2625,7 +2631,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="btn btn--block" href="#giveBook">Sponsor a couple &mdash; $40</a>
         </aside>
         <aside class="reg__give reg__give--biz">
-          <p class="reg__giveKick">For businesses &amp; ministries</p>
+          <p class="reg__giveKick">For businesses</p>
           <p class="reg__giveTitle">Sponsor the launch</p>
           <p class="reg__giveCopy">Your name on the screens, in the program, and thanked from the stage in front of a full house. Levels from $250.</p>
           <a class="btn btn--block btn--outline" href="#sponsorLevels">See the sponsorship levels</a>
