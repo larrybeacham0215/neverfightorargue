@@ -127,27 +127,34 @@ h1 + .lede,h2 + .lede,h3 + .lede{margin-top:1.25rem}
 .orn--center{margin-inline:auto}
 
 /* ---------- buttons ---------- */
+/* Buttons — the pill style of the gift button, in each context's existing colour.
+   .btn          gold pill (on dark bands)        .btn--outline        gold outline
+   .btn--onLight green pill (on cream bands)      .btn--onLightOutline green outline */
 .btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:var(--f-body);font-size:.875rem;font-weight:700;
-  letter-spacing:.06em;text-transform:uppercase;
-  padding:1rem 1.75rem;border-radius:2px;border:1px solid var(--gold);
-  background:var(--gold);color:var(--navy-deep);
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  font-family:'Playfair Display',var(--f-display);font-size:1.05rem;font-weight:600;
+  letter-spacing:-.01em;text-transform:none;line-height:1.2;
+  padding:.8rem 1.7rem;border-radius:999px;
+  border:2px solid #E2C070;
+  background:radial-gradient(120% 140% at 50% 0%,#D9B679 0%,#C39A5E 55%,#A9834C 100%);
+  color:var(--navy-deep);text-shadow:0 1px 0 rgba(255,255,255,.25);
+  box-shadow:0 0 0 1px #8A6330,0 6px 18px rgba(13,45,29,.35),inset 0 1px 0 rgba(255,255,255,.35);
   text-decoration:none;cursor:pointer;
-  transition:background .2s ease,color .2s ease,transform .2s ease,box-shadow .2s ease;
+  transition:transform .15s ease,filter .15s ease,box-shadow .2s ease;
 }
-.btn:hover{background:var(--gold-light);border-color:var(--gold-light);transform:translateY(-1px);box-shadow:0 8px 20px -10px rgba(195,154,94,.7)}
-.btn--outline{background:transparent;color:var(--gold)}
-.btn--outline:hover{background:var(--gold);color:var(--navy-deep)}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 0 0 1px #8A6330,0 10px 24px rgba(13,45,29,.4),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn--outline{background:transparent;color:var(--gold);border-color:var(--gold);box-shadow:none;text-shadow:none}
+.btn--outline:hover{background:rgba(195,154,94,.12);filter:none}
 .buy__stores{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
 .buy__stores .btn:not([href]){opacity:.38;cursor:default;pointer-events:none}
 .buy__soon{max-width:34rem;margin:2rem auto 0}
 .buy__soon p{font-size:.9375rem;color:rgba(247,243,234,.7);margin:0 0 1rem}
 .buy__soonBtns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
 .buy__soon.is-off{display:none}
-.btn--onLight{background:var(--navy);border-color:var(--navy);color:var(--ivory)}
-.btn--onLight:hover{background:var(--navy-mid);border-color:var(--navy-mid)}
-.btn--lg{padding:1.15rem 2.25rem;font-size:.9375rem}
+.btn--onLight{background:radial-gradient(120% 140% at 50% 0%,#1E5A3A 0%,#0F3B25 55%,#0A2C1B 100%);border-color:#E2C070;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);box-shadow:0 0 0 1px #8A6330,0 6px 18px rgba(13,45,29,.35),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn--onLight:hover{filter:brightness(1.08)}
+.btn--lg{padding:.95rem 2.2rem;font-size:1.2rem}
+.btn--sm{padding:.55rem 1.1rem;font-size:.9rem}
 .btn--block{width:100%}
 
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
@@ -450,8 +457,8 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .view[hidden]{display:none}
 .inlink{color:#8A6330;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(154,122,44,.35)}
 .inlink:hover{border-bottom-color:#8A6330}
-.btn--gold{color:#8A6330;border-color:#8A6330}
-.btn--gold:hover{background:#8A6330;color:var(--ivory);border-color:#8A6330}
+.btn--gold{background:transparent;color:#8A6330;border-color:#8A6330;box-shadow:none;text-shadow:none}
+.btn--gold:hover{background:rgba(138,99,48,.1);filter:none}
 .objection__says{font-family:var(--f-display);font-size:clamp(1.35rem,3vw,1.9rem);line-height:1.5;color:var(--ink-soft)}
 /* Author photo. The frame follows the photograph — it's landscape, so forcing
    a portrait crop would cut one of them out of it. */
@@ -1141,7 +1148,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* .on-navy p sets the muted colour with higher specificity — override it here */
 .on-navy .tier__sum,#sponsorLevels .tier__sum,.on-navy .sp__howLine,#sponsorLevels .sp__howLine{color:#fff}
 .on-navy .tier__sum b,#sponsorLevels .tier__sum b{color:#fff}
-.tier .btn{padding:.6rem 1.1rem;white-space:nowrap;font-size:.75rem}
+.tier .btn{padding:.55rem 1.2rem;white-space:nowrap;font-size:.95rem}
 @media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
 .sp__thanks{background:var(--gold);color:var(--navy-deep);font-size:.9375rem;padding:.75rem 0;text-align:center;border-bottom:1px solid rgba(13,45,29,.15)}
 .sp__thanks b{font-weight:700}
@@ -1167,8 +1174,8 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .reg__give{padding:1.1rem 1.25rem}
 .reg__give .reg__giveCopy{margin-bottom:.75rem}
 .reg__give .btn{padding-block:.75rem}
-.btn--onLightOutline{background:transparent;color:var(--navy);border-color:var(--navy)}
-.btn--onLightOutline:hover{background:var(--navy);color:var(--ivory)}
+.btn--onLightOutline{background:transparent;color:var(--navy);border-color:var(--navy);box-shadow:none;text-shadow:none}
+.btn--onLightOutline:hover{background:rgba(13,45,29,.08);filter:none}
 .stick__inner{justify-content:center}
 .pillbtn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font-family:'Playfair Display',var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;color:#fff;text-decoration:none;white-space:nowrap;padding:.7rem 1.6rem;border-radius:999px;background:radial-gradient(120% 140% at 50% 0%,#1E5A3A 0%,#0F3B25 55%,#0A2C1B 100%);border:2px solid #E2C070;box-shadow:0 0 0 1px #8A6330,0 6px 18px rgba(13,45,29,.35),inset 0 1px 0 rgba(255,255,255,.25);text-shadow:0 1px 2px rgba(0,0,0,.35);transition:transform .15s,filter .15s}
 .pillbtn:hover{transform:translateY(-1px);filter:brightness(1.08)}
@@ -1190,7 +1197,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 @media(max-width:700px){.pillbtn{font-size:.9rem;padding:.6rem 1rem;white-space:normal;text-align:center}.pillbtn--bar{flex:1 1 0;min-width:0;font-size:.85rem;line-height:1.2}}
 .share__msg{width:100%;box-sizing:border-box;font:inherit;font-size:.9375rem;line-height:1.5;color:var(--ivory);background:rgba(247,243,234,.06);border:1px solid rgba(195,154,94,.4);border-radius:.4rem;padding:.8rem .9rem;resize:none;margin:0 0 .75rem}
 .share__btns{display:flex;flex-wrap:wrap;gap:.5rem}
-.share__btns .btn{padding:.6rem .9rem;font-size:.75rem}
+.share__btns .btn{padding:.55rem 1rem;font-size:.9rem}
 .reg__card .giftbtn img{max-width:20rem}
 .giftbtn{display:inline-block;line-height:0;transition:transform .15s,filter .15s}
 .giftbtn img{display:block;width:100%;max-width:22rem;height:auto}
@@ -1359,11 +1366,12 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .grab__row:focus-within{border-color:rgba(143,90,45,.45);box-shadow:0 0 0 3px rgba(143,90,45,.12),0 14px 30px -22px rgba(22,38,28,.5)}
 .grab__row input::placeholder{color:#9AA396}
 .grab__btn{
-  flex:none;border:0;cursor:pointer;border-radius:999px;
-  background:linear-gradient(180deg,#A9743C,#8F5A2D);
-  color:#fff;font:inherit;font-weight:700;font-size:.875rem;
-  letter-spacing:.02em;padding:.85rem 1.4rem;white-space:nowrap;
-  transition:filter .18s ease, transform .18s ease;
+  flex:none;cursor:pointer;border-radius:999px;
+  background:radial-gradient(120% 140% at 50% 0%,#B8803F 0%,#8F5A2D 55%,#6F4520 100%);
+  border:2px solid #E2C070;box-shadow:0 0 0 1px #8A6330,0 6px 18px rgba(13,45,29,.25),inset 0 1px 0 rgba(255,255,255,.25);
+  color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);
+  font-family:'Playfair Display',var(--f-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;
+  padding:.85rem 1.6rem;white-space:nowrap;transition:transform .15s,filter .15s;
 }
 .grab__btn:hover{filter:brightness(1.08)}
 .grab__btn:active{transform:translateY(1px)}
