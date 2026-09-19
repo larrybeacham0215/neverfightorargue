@@ -1136,6 +1136,10 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .pillbtn--block{width:100%;box-sizing:border-box;white-space:normal;text-align:center}
 .pillbtn--bar{font-size:1rem}
 @media(max-width:700px){.pillbtn{font-size:.9rem;padding:.6rem 1rem;white-space:normal;text-align:center}.pillbtn--bar{flex:1 1 0;min-width:0;font-size:.85rem;line-height:1.2}}
+.share__msg{width:100%;box-sizing:border-box;font:inherit;font-size:.9375rem;line-height:1.5;color:var(--ivory);background:rgba(247,243,234,.06);border:1px solid rgba(195,154,94,.4);border-radius:.4rem;padding:.8rem .9rem;resize:none;margin:0 0 .75rem}
+.share__btns{display:flex;flex-wrap:wrap;gap:.5rem}
+.share__btns .btn{padding:.6rem .9rem;font-size:.75rem}
+.reg__card .giftbtn img{max-width:20rem}
 .giftbtn{display:inline-block;line-height:0;transition:transform .15s,filter .15s}
 .giftbtn img{display:block;width:100%;max-width:22rem;height:auto}
 .giftbtn:hover{transform:translateY(-1px);filter:brightness(1.06)}
@@ -2687,24 +2691,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </header>
 
-  <!-- 2) sticky reminder: fades in a few seconds after landing -->
-  <div class="stick" id="stick" hidden>
-    <div class="stick__inner">
-      <a class="pillbtn pillbtn--bar pillbtn--live" href="#sponsorLevels"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a>
-      <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
-    </div>
-  </div>
-
-  <header class="phead sp__head reg__direct">
-    <div class="wrap">
-      <p class="sp__held" id="spHeld" hidden><span aria-hidden="true">&#10003;</span> Your seats for November 1st are reserved &mdash; the confirmation is in your inbox.</p>
-      <p class="eyebrow">Thank you for considering it</p>
-      <h1>Put your name behind<br><em>a night that matters.</em></h1>
-      <p class="sp__lede">On Sunday, November 1st we launch <em>Never Fight or Argue Again</em> and celebrate thirty years of marriage in the same room, at Grace Family Church in Lutz. A full house of couples, pastors and families from across Tampa Bay. Sponsors make the evening free for everyone who walks in &mdash; and are thanked in front of all of them.</p>
-      <p class="sp__cta"><a class="btn btn--lg" href="#sponsorLevels">See the sponsorship levels</a></p>
-    </div>
-  </header>
-
   <section class="band band--paper" id="giveBook">
     <div class="wrap give">
       <div class="give__art" aria-hidden="true">
@@ -2719,11 +2705,48 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="giftbtn giftbtn--lg" id="giveBtn" href="#sponsorForm"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
         </p>
         <p class="give__fine" id="giveFine">Secure card payment through Stripe &mdash; choose how many copies on the next screen. Anyone who gifts five or more is named in the printed program.</p>
-        <p class="give__more"><a class="pillbtn" href="#sponsorLevels">Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
+        <p class="give__more"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
       </div>
     </div>
   </section>
 
+  <section class="band on-navy">
+    <div class="wrap" style="max-width:46rem">
+      <p class="eyebrow center" id="expect">Before the night</p>
+      <h2 class="h-lg center" style="margin-bottom:2rem">What to expect.</h2>
+      <div class="ev__faq ev__faq--dark">
+        <details><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
+        <details><summary>Is childcare available?</summary><p>No &mdash; we're not able to provide childcare for this one, so please plan accordingly. The evening is built for adults and runs about two hours.</p></details>
+        <details><summary>Will there be food?</summary><p>Refreshments will be served. Not a full meal, so eat beforehand if you're coming straight from work.</p></details>
+        <details><summary>Will the book be available?</summary><p>Yes, and we'll be signing copies. Come find us afterward &mdash; we're in no hurry to leave.</p></details>
+        <details><summary>What time should I arrive?</summary><p>Doors open at 5:30&nbsp;pm. Come early if you can; we'd genuinely rather meet you than start on time.</p></details>
+        <details><summary>What should I wear?</summary><p>Whatever you'd wear to church or out to dinner. Nobody is dressing up for this.</p></details>
+        <details><summary>I'm coming on my own. Is that odd?</summary><p>Not at all, and you won't be the only one. Nothing on the night asks you to pair up, speak, or share anything about your marriage in front of anyone.</p></details>
+        <details><summary>Do I need to bring anything?</summary><p>No. There's nothing to print and no ticket to show &mdash; we'll have your name.</p></details>
+        <details><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness in it &mdash; it just frees the seat for someone else.</p></details>
+        <details><summary>I have an accessibility need.</summary><p>Reply to your confirmation email and tell us what you need. We'll sort it with the church and come back to you well before the night.</p></details>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================ SPONSOR =============================== -->
+<!-- Business / church / family sponsorships. Hidden from nav & sitemap.   -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor" hidden>
+
+  <header class="phead sp__head">
+    <div class="wrap">
+      <p class="sp__held" id="spHeld" hidden><span aria-hidden="true">&#10003;</span> Your seats for November 1st are reserved &mdash; the confirmation is in your inbox.</p>
+      <p class="eyebrow">Thank you for considering it</p>
+      <h1>Put your name behind<br><em>a night that matters.</em></h1>
+      <p class="sp__lede">On Sunday, November 1st we launch <em>Never Fight or Argue Again</em> and celebrate thirty years of marriage in the same room, at Grace Family Church in Lutz. A full house of couples, pastors and families from across Tampa Bay. Sponsors make the evening free for everyone who walks in &mdash; and are thanked in front of all of them.</p>
+      <p class="sp__cta"><a class="btn btn--lg" href="#sponsorLevels">See the sponsorship levels</a></p>
+    </div>
+  </header>
 
   <section class="band on-navy" id="sponsorLevels">
     <div class="wrap">
@@ -2829,34 +2852,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </form>
       </div>
 
-      <div class="capture capture--light sp__done" id="spDone" hidden>
-        <p class="eyebrow eyebrow--ink">Reserved</p>
-        <p class="capture__title">Thank you. Truly.</p>
-        <p class="capture__sub" id="spDoneCopy">We've reserved your sponsorship and emailed you the next steps. Larry or Rolanda will call within one business day.</p>
-        <p style="margin:1.25rem 0 0"><a class="btn btn--onLight" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
-      </div>
     </div>
   </section>
 
   <section class="band on-navy">
     <div class="wrap" style="max-width:46rem">
-      <p class="eyebrow center" id="expect">Before the night</p>
-      <h2 class="h-lg center" style="margin-bottom:2rem">What to expect.</h2>
-      <div class="ev__faq ev__faq--dark">
-        <details><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
-        <details><summary>Is childcare available?</summary><p>No &mdash; we're not able to provide childcare for this one, so please plan accordingly. The evening is built for adults and runs about two hours.</p></details>
-        <details><summary>Will there be food?</summary><p>Refreshments will be served. Not a full meal, so eat beforehand if you're coming straight from work.</p></details>
-        <details><summary>Will the book be available?</summary><p>Yes, and we'll be signing copies. Come find us afterward &mdash; we're in no hurry to leave.</p></details>
-        <details><summary>What time should I arrive?</summary><p>Doors open at 5:30&nbsp;pm. Come early if you can; we'd genuinely rather meet you than start on time.</p></details>
-        <details><summary>What should I wear?</summary><p>Whatever you'd wear to church or out to dinner. Nobody is dressing up for this.</p></details>
-        <details><summary>I'm coming on my own. Is that odd?</summary><p>Not at all, and you won't be the only one. Nothing on the night asks you to pair up, speak, or share anything about your marriage in front of anyone.</p></details>
-        <details><summary>Do I need to bring anything?</summary><p>No. There's nothing to print and no ticket to show &mdash; we'll have your name.</p></details>
-        <details><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness in it &mdash; it just frees the seat for someone else.</p></details>
-        <details><summary>I have an accessibility need.</summary><p>Reply to your confirmation email and tell us what you need. We'll sort it with the church and come back to you well before the night.</p></details>
-      </div>
-
-      <p class="eyebrow center" style="margin-top:3rem">Questions sponsors ask</p>
-      <h2 class="h-md center" style="margin-bottom:1.5rem">Good to know.</h2>
+      <p class="eyebrow center">Questions sponsors ask</p>
+      <h2 class="h-lg center" style="margin-bottom:2rem">Good to know.</h2>
       <div class="ev__faq ev__faq--dark">
         <details><summary>Is this tax-deductible?</summary><p>Sponsorships are paid to Larry &amp; Rolanda Beacham, not to a registered charity, so they are generally treated as a marketing or advertising expense for your business rather than a charitable gift. Please check with your accountant.</p></details>
         <details><summary>Can I sponsor more than one thing?</summary><p>Yes &mdash; reserve each one separately, or tell us in the message box and we'll put it on one invoice.</p></details>
@@ -2871,8 +2873,59 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </div>
 
 <!-- ==================================================================== -->
-<!-- ========================== FOR CHURCHES ============================ -->
+<!-- ======================= SPONSOR THANK-YOU ========================== -->
 <!-- ==================================================================== -->
+<div class="view" id="view-sponsor-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">Sponsorship reserved</p>
+        <h1>Thank you.<br><em>Truly.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">We've reserved your sponsorship and emailed you the next steps. Larry or Rolanda will call within one business day to say thank you properly, confirm the details, and get an invoice to you.</p>
+        <ol class="sp__steps" style="margin-top:1.5rem">
+          <li><b>We call you</b> within one business day.</li>
+          <li><b>Invoice</b> by card, Zelle or check &mdash; payment within 7 days holds your place.</li>
+          <li><b>Your logo</b> by October 18th, so it makes the printed program and the screens.</li>
+          <li><b>November 1st.</b> Your seats are waiting.</li>
+        </ol>
+        <p style="margin-top:1.5rem"><a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
+      </div>
+      <aside class="reg__card">
+        <p class="eyebrow">One more thing you can do</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">$20 puts a signed copy of the book in the hands of a couple who couldn't afford one &mdash; given on the night, from us.</p>
+        <a class="giftbtn" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
+      </aside>
+    </div>
+  </header>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================== GIFT ================================ -->
+<!-- Public, shareable: neverfightorargue.com/gift/                        -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift" hidden>
+  <section class="band band--paper" id="giftHero">
+    <div class="wrap give">
+      <div class="give__art" aria-hidden="true">
+        <img src="/assets/book-3d.webp" alt="" width="900" height="1367" loading="lazy">
+      </div>
+      <div class="give__copy">
+        <p class="eyebrow eyebrow--ink">One thing you can do right now</p>
+        <h2 class="h-lg">Gift a signed copy to a couple who can't afford one.</h2>
+        <p class="lede">The evening costs nothing to attend. But some couples will walk out without the book, because twenty dollars is real money this month &mdash; and those are often the couples who need it most.</p>
+        <p><strong>$20 &mdash; the price of the book &mdash; covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
+        <p class="give__cta">
+          <a class="giftbtn giftbtn--lg" id="giveBtnPublic" href="#sponsorForm"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
+        </p>
+        <p class="give__fine">Secure card payment through Stripe &mdash; choose how many copies on the next screen. Anyone who gifts five or more is named in the printed program.</p>
+        <p class="give__more"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
 <!-- ==================================================================== -->
 <!-- ========================= GIFT THANK-YOU =========================== -->
 <!-- Stripe redirects here after a signed-copy gift. noindex.               -->
@@ -2885,20 +2938,25 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="eyebrow">Gift received</p>
         <h1>Thank you.<br><em>Somebody's going home with the book.</em></h1>
         <p class="lede lede--light" style="max-width:34rem">Your gift is confirmed and Stripe has emailed you a receipt. On November 1st we'll hand a signed copy to a couple who couldn't have bought one, with your name on the card inside if you gave one. You won't know who they were. They won't forget that somebody did it.</p>
-        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
+        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center">
           <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
           <a class="btn btn--outline" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener">Gift another copy</a>
         </p>
+        <p style="margin-top:1.75rem"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
       </div>
-      <aside class="reg__card">
+      <aside class="reg__card share">
         <p class="eyebrow">Share the idea</p>
-        <p style="color:var(--on-navy);margin:.5rem 0 1rem">Know someone who'd want to do this too? Send them the link.</p>
-        <p style="word-break:break-all;color:var(--gold);font-size:.9375rem">neverfightorargue.com/registered/#giveBook</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">Know someone who'd want to do this too? Copy the message and send it &mdash; nothing to write.</p>
+        <textarea class="share__msg" id="shareMsg" readonly rows="5">I just gifted a signed copy of "Never Fight or Argue Again" to a couple who couldn't afford one — it gets handed to them at the book launch on November 1st. $20, takes a minute. If you want to do the same: https://neverfightorargue.com/gift/</textarea>
+        <div class="share__btns">
+          <button type="button" class="btn btn--outline" id="shareCopy">Copy message</button>
+          <a class="btn btn--outline" id="shareSms" href="#">Text it</a>
+          <a class="btn btn--outline" id="shareMail" href="#">Email it</a>
+        </div>
       </aside>
     </div>
   </header>
 </div>
-
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -3789,7 +3847,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'gift', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -3807,6 +3865,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/registered/':    'registered',
     '/sponsor/':       'sponsor',       // hidden: not in nav, footer or sitemap
     '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
+    '/gift/':          'gift',          // public, shareable
+    '/sponsor-thank-you/': 'sponsor-thanks',
     '/churches/':      'churches',
     '/speaking/':      'speaking',
     '/about/':         'about',
@@ -3823,6 +3883,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     registered: "You're registered — Never Fight or Argue Again",
     sponsor: 'Sponsor the launch — Never Fight or Argue Again',
     'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
+    'gift': 'Gift a signed copy — Never Fight or Argue Again',
+    'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     churches: 'For Churches & Organizations — Never Fight or Argue Again',
     speaking: 'Speaking — Larry & Rolanda Beacham',
     about: 'About Larry & Rolanda Beacham',
@@ -3849,15 +3911,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     if (VIEWS.indexOf(name) === -1) name = 'home';
     opts = opts || {};
 
-    // /sponsor/ is a second door into the registered page (same markup, different header).
-    var ALIAS = { sponsor: 'registered' };
-    var target = ALIAS[name] || name;
     VIEWS.forEach(function (v) {
       var el = document.getElementById('view-' + v);
-      if (el) el.hidden = (v !== target);
+      if (el) el.hidden = (v !== name);
     });
-    var regView = document.getElementById('view-registered');
-    if (regView) regView.classList.toggle('is-direct', name === 'sponsor');
     if (window.__stickArm) window.__stickArm();
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
@@ -3997,8 +4054,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       document.querySelectorAll('#view-registered [data-tier]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           sel.value = btn.dataset.tier; syncQty();
-          var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
-          if (wrap) wrap.hidden = false; if (done) done.hidden = true;
           document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
           var first = document.getElementById('sp3'); if (first && !first.value) setTimeout(function () { first.focus(); }, 500);
         });
@@ -4020,8 +4075,22 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       // Sponsor-a-Couple feature: pick a number, then either pay by card (Stripe link, if
       // configured) or reserve through the form below.
       // Gift a signed copy: Stripe Checkout handles quantity, payment and the receipt.
-      var giveBtn = document.getElementById('giveBtn');
-      if (giveBtn && CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
+      ['giveBtn', 'giveBtnPublic'].forEach(function (id) { var g = document.getElementById(id); if (g && CONFIG.stripeCoupleLink) { g.href = CONFIG.stripeCoupleLink; g.target = '_blank'; g.rel = 'noopener'; } });
+
+      // Share box on the gift thank-you page
+      (function () {
+        var msg = document.getElementById('shareMsg'), cp = document.getElementById('shareCopy'), sms = document.getElementById('shareSms'), ml = document.getElementById('shareMail');
+        if (!msg) return;
+        var text = msg.value;
+        if (sms) sms.href = 'sms:?&body=' + encodeURIComponent(text);
+        if (ml) ml.href = 'mailto:?subject=' + encodeURIComponent('A signed copy for a couple who needs it') + '&body=' + encodeURIComponent(text);
+        if (cp) cp.addEventListener('click', function () {
+          var done = function () { cp.textContent = 'Copied \u2713'; setTimeout(function () { cp.textContent = 'Copy message'; }, 2200); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { msg.select(); document.execCommand('copy'); done(); });
+          else { msg.select(); document.execCommand('copy'); done(); }
+        });
+        msg.addEventListener('focus', function () { msg.select(); });
+      })();
 
       // Sticky reminder: appears a few seconds after landing on the registered page,
       // hides once they reach the form, and stays dismissed for the session.
@@ -4039,8 +4108,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       // The x only hides it for this page view; a refresh or a new visit brings it back.
       if (stickX) stickX.addEventListener('click', function () { stickDismissed = true; stickHide(); });
       window.__stickArm = function () {
-        var reg = document.getElementById('view-registered');
-        if (!reg || reg.hidden) { stickHide(); return; }
+        var on = ['view-registered', 'view-gift'].some(function (id) { var el = document.getElementById(id); return el && !el.hidden; });
+        if (!on) { stickHide(); return; }
         stickShow();
       };
       try { var navEl = document.querySelector('.nav'); if (navEl) document.documentElement.style.setProperty('--navH', navEl.offsetHeight + 'px'); } catch (e) {}
@@ -4188,9 +4257,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         // Sponsorship commitments confirm in place — there's nothing else to go to.
         if (kind === 'sponsor') {
           form.reset();
-          var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
-          if (wrap) wrap.hidden = true;
-          if (done) { done.hidden = false; done.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+          navigate('sponsor-thanks', true);
+          window.scrollTo(0, 0);
           return;
         }
         if (kind === 'launch') {
