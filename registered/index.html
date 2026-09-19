@@ -2374,7 +2374,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="ev__cta">
           <button class="btn btn--lg" type="button" data-open-rsvp>Reserve your seat &mdash; free</button>
         </p>
-        <p class="ev__seats">Free to attend, no ticket needed. Come with your spouse or on your own &mdash; and if you can't get to Lutz, register anyway and we'll send you what we teach that night.</p>
+        <p class="ev__seats">Free to attend, no ticket needed. Come with your spouse or on your own &mdash; just reserve your seats so we know to expect you.</p>
       </div>
 
       <figure class="ev__stage">
@@ -2439,14 +2439,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <option value="5">Five or more</option>
             </select>
           </div>
-          <div class="field">
-            <label for="l5">Can you be there in person?</label>
-            <select id="l5" name="attending">
-              <option value="in_person" selected>Yes, in Lutz</option>
-              <option value="cannot_attend">Can't travel this time</option>
-            </select>
-          </div>
         </div>
+        <input type="hidden" name="attending" value="in_person">
         <div class="field">
           <label for="l6">Words of encouragement for Larry and Rolanda?</label>
           <textarea id="l6" name="notes" placeholder="A prayer, a verse, a word for the night — or anything we should know…"></textarea>
