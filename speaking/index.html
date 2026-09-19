@@ -940,7 +940,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   max-height:calc(100dvh - 2.5rem);
   background:#FAF6EC;color:var(--ink);
   box-shadow:0 40px 90px -30px rgba(0,0,0,.85);
-  position:relative;overflow:auto;
+  position:relative;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;
   margin:auto;                       /* centre it in the viewport */
 }
 .rsvp::backdrop{background:rgba(4,8,16,.72);backdrop-filter:blur(3px)}
@@ -1012,7 +1012,11 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* A <select> is sized by its longest option, which can push a grid column
    past the viewport. Let the fields shrink instead. */
 .ev__rsvpForm .field,
-.ev__rsvpForm .form__row{min-width:0}
+.ev__rsvpForm .form__row,
+.ev__rsvpForm .sponsor,
+.ev__rsvpForm .sponsor__biz{min-width:0;max-width:100%}
+.ev__rsvpForm .sponsor__check{max-width:100%}
+.ev__rsvpForm .sponsor__check span{overflow-wrap:anywhere}
 .ev__rsvpForm select,
 .ev__rsvpForm input,
 .ev__rsvpForm textarea{width:100%;min-width:0;max-width:100%}
