@@ -925,15 +925,18 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 /* ==========================================================================
    CHECKOUT — embedded Stripe on our own page
    ========================================================================== */
-.co{min-height:70vh}
-.co__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,5vw,4rem);align-items:start}
-.co__side .lede{margin:1rem 0 1.5rem;color:var(--ink-soft)}
-.co__book{width:min(100%,14rem);height:auto;display:block;filter:drop-shadow(0 20px 30px rgba(22,38,28,.25));margin:0 0 1.5rem}
-.co__trust{list-style:none;margin:0;padding:0;display:grid;gap:.5rem;font-size:.9rem;color:var(--ink-soft)}
+.co{min-height:0}
+#view-gift-checkout .band,#view-sponsor-checkout .band{padding-block:clamp(1.5rem,3vw,2.5rem)}
+.co__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
+.co__intro{display:flex;gap:1.25rem;align-items:flex-start;margin:0 0 1.25rem}
+.co__h1{font-family:var(--f-display);font-weight:400;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.1;margin:.25rem 0 .6rem;color:var(--ink)}
+.co__lede{font-size:.9375rem;line-height:1.55;color:var(--ink-soft);margin:0 0 1rem}
+.co__book{width:7.5rem;flex:none;height:auto;display:block;filter:drop-shadow(0 14px 22px rgba(22,38,28,.25));margin:.25rem 0 0}
+.co__trust{list-style:none;margin:0;padding:0;display:grid;gap:.35rem;font-size:.875rem;color:var(--ink-soft)}
 .co__trust li{position:relative;padding-left:1.4rem}
 .co__trust li::before{content:"\2713";position:absolute;left:0;color:var(--gold-ink);font-weight:700}
-.co__main{background:#fff;border:1px solid rgba(195,154,94,.5);border-radius:.75rem;padding:clamp(1.25rem,3vw,2rem);box-shadow:0 20px 50px -30px rgba(22,38,28,.35)}
-.co__label{font-family:var(--f-display);font-size:1.15rem;color:var(--ink);margin:0 0 1rem}
+.co__main{background:#fff;border:1px solid rgba(195,154,94,.5);border-radius:.75rem;padding:clamp(1rem,2.5vw,1.5rem);box-shadow:0 20px 50px -30px rgba(22,38,28,.35)}
+.co__label{font-family:var(--f-display);font-size:1.1rem;color:var(--ink);margin:0 0 .75rem}
 .co__lock{font-size:.85rem;opacity:.7}
 .co__qty{display:flex;gap:.6rem;margin:0 0 1rem}
 .co__opt{font:inherit;cursor:pointer;flex:1 1 0;min-width:0;background:#fff;border:1px solid rgba(22,38,28,.2);border-radius:.6rem;padding:.75rem .5rem;text-align:center;display:grid;gap:.1rem;color:var(--ink)}
@@ -943,10 +946,11 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .co__custom{display:flex;align-items:center;gap:.75rem;font-size:.9375rem;color:var(--ink-soft);margin:0 0 1.25rem}
 .co__custom input{width:6rem;font:inherit;padding:.55rem .7rem;border:1px solid rgba(22,38,28,.2);border-radius:.4rem}
 .co__frame[hidden],#coPick[hidden]{display:none}
-#coMount,#scMount{min-height:24rem}
+#coMount,#scMount{min-height:20rem}
 .co__tier{margin:0 0 1.5rem;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:rgba(195,154,94,.1);font-size:1rem;color:var(--ink)}
 .co__tier b{font-family:var(--f-display);font-size:1.35rem;display:block;color:var(--gold-ink)}
-@media(max-width:900px){.co__grid{grid-template-columns:1fr}.co__book{max-width:9rem}.co__qty{flex-wrap:wrap}.co__opt{flex:1 1 40%}}
+@media(max-width:900px){.co__grid{grid-template-columns:1fr}.co__qty{flex-wrap:wrap}.co__opt{flex:1 1 40%}}
+@media(max-width:520px){.co__book{width:5.5rem}}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -3105,10 +3109,14 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   <section class="band band--paper co">
     <div class="wrap co__grid">
       <div class="co__side">
-        <p class="eyebrow eyebrow--ink">Be a blessing</p>
-        <h1 class="h-lg">Gift a signed copy to a couple.</h1>
-        <p class="lede">$20 &mdash; the price of the book &mdash; puts a signed copy of <em>Never Fight or Argue Again</em> in another couple's hands on November 1st. We hand it to them, from us, with your name on the card inside if you'd like it there.</p>
-        <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367" loading="lazy">
+        <div class="co__intro">
+          <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+          <div>
+            <p class="eyebrow eyebrow--ink">Be a blessing</p>
+            <h1 class="co__h1">Gift a signed copy to a couple.</h1>
+            <p class="co__lede">$20 &mdash; the price of the book &mdash; puts a signed copy in another couple's hands on November 1st. We hand it to them, from us, with your name on the card inside if you'd like.</p>
+          </div>
+        </div>
         <ul class="co__trust">
           <li>Secure payment by Stripe</li>
           <li>Receipt emailed to you</li>
@@ -3148,8 +3156,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap co__grid">
       <div class="co__side">
         <p class="eyebrow eyebrow--ink">Sponsorship payment</p>
-        <h1 class="h-lg" id="scTitle">Thank you for sponsoring the night.</h1>
-        <p class="lede" id="scLede">Complete your sponsorship of the <em>Never Fight or Argue Again</em> book launch &amp; 30-year anniversary celebration, Sunday November 1st at Grace Family Church.</p>
+        <h1 class="co__h1" id="scTitle">Thank you for sponsoring the night.</h1>
+        <p class="co__lede" id="scLede">Complete your sponsorship of the <em>Never Fight or Argue Again</em> book launch &amp; 30-year anniversary celebration, Sunday November 1st at Grace Family Church.</p>
         <div class="co__tier" id="scTier"></div>
         <ul class="co__trust">
           <li>Secure payment by Stripe</li>
