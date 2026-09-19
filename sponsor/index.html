@@ -3952,14 +3952,18 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         });
       });
       // Arrived from the RSVP form: acknowledge the seats and pre-fill what they already typed.
-      try {
-        if (sessionStorage.getItem('nfoaa_rsvp') === '1') { var held = document.getElementById('spHeld'); if (held) held.hidden = false; }
-        var d = JSON.parse(sessionStorage.getItem('nfoaa_sponsor') || 'null');
-        if (d) {
-          var map = { contact: 'sp3', business: 'sp4', email: 'sp5', phone: 'sp6', website: 'sp7' };
-          for (var k in map) { var el = document.getElementById(map[k]); if (el && d[k] && !el.value) el.value = d[k]; }
-        }
-      } catch (e) {}
+      // Runs at load (direct visit / reload) and again right after an RSVP redirect.
+      window.__spArrive = function () {
+        try {
+          if (sessionStorage.getItem('nfoaa_rsvp') === '1') { var held = document.getElementById('spHeld'); if (held) held.hidden = false; }
+          var d = JSON.parse(sessionStorage.getItem('nfoaa_sponsor') || 'null');
+          if (d) {
+            var map = { contact: 'sp3', business: 'sp4', email: 'sp5', phone: 'sp6', website: 'sp7' };
+            for (var k in map) { var el = document.getElementById(map[k]); if (el && d[k] && !el.value) el.value = d[k]; }
+          }
+        } catch (e) {}
+      };
+      window.__spArrive();
     })();
 
     var spChk = document.getElementById('l7'), spBiz = document.getElementById('sponsorBiz');
@@ -4139,7 +4143,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         if (wantsSponsor) {
           var dlgS = form.closest('dialog');
           if (dlgS && dlgS.open) dlgS.close();
+          if (window.__spArrive) window.__spArrive();
           navigate('sponsor', true);
+          window.scrollTo(0, 0);
           return;
         }
 
