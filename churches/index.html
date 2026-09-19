@@ -3619,16 +3619,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   (function () {
     var spChk = document.getElementById('l7'), spBiz = document.getElementById('sponsorBiz');
     if (spChk && spBiz) spChk.addEventListener('change', function () { spBiz.classList.toggle('is-on', spChk.checked); });
-    /* Until the backend stores each sponsor field separately, fold the essentials into
-       sponsor_business as well so nothing is lost. Harmless once the backend catches up. */
-    var spForm = spChk && spChk.form;
-    if (spForm) spForm.addEventListener('submit', function () {
-      if (!spChk.checked) return;
-      var g = function (n) { var el = spForm.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
-      var biz = spForm.querySelector('[name="sponsor_business"]');
-      if (biz && !biz.dataset.raw) { biz.dataset.raw = biz.value; }
-      if (biz) biz.value = [biz.dataset.raw || biz.value, g('sponsor_contact'), g('sponsor_phone'), g('sponsor_email')].filter(Boolean).join(' | ');
-    }, true);
     var dlg = document.getElementById('rsvpModal');
     if (!dlg) return;
 
