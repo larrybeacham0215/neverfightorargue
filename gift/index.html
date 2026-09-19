@@ -1089,7 +1089,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .ev__faq--dark details p{color:var(--on-navy)}
 .ev__faq--dark a{color:var(--gold)}
 /* [hidden] must beat the display rules above (see "things learned the hard way") */
-.sp__held[hidden],#view-registered .field[hidden],#spFormWrap[hidden],#spDone[hidden]{display:none}
+.sp__held[hidden],#view-sponsor .field[hidden],#spFormWrap[hidden]{display:none}
 .sp__list{align-content:start}
 .tiers{display:grid;gap:.45rem;max-width:66rem;margin:0 auto}
 #sponsorLevels.band{padding-block:clamp(2rem,4vw,3rem)}
@@ -1204,11 +1204,11 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 @media(max-width:900px){.give{grid-template-columns:1fr}.give__art img{max-width:12rem}}
 @media(max-width:600px){.sp__grid--2{grid-template-columns:1fr}}
 /* grid children default to min-content — long <select> options pushed the form past the phone edge */
-#view-registered .form{grid-template-columns:minmax(0,1fr)}
-#view-registered .form__row{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(max-width:520px){#view-registered .form__row{grid-template-columns:minmax(0,1fr)}}
-#view-registered .field,#view-registered .form__row{min-width:0;max-width:100%}
-#view-registered .field select,#view-registered .field input,#view-registered .field textarea{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
+#view-sponsor .form{grid-template-columns:minmax(0,1fr)}
+#view-sponsor .form__row{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:520px){#view-sponsor .form__row{grid-template-columns:minmax(0,1fr)}}
+#view-sponsor .field,#view-sponsor .form__row{min-width:0;max-width:100%}
+#view-sponsor .field select,#view-sponsor .field input,#view-sponsor .field textarea{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
 @media(max-width:1100px){.sp__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sp__grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){.sp__why,.sp__how{grid-template-columns:1fr}.sp__grid--3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.sp__grid,.sp__grid--3{grid-template-columns:1fr}.sp__facts{grid-template-columns:1fr 1fr}.sp__held{font-size:.8125rem;border-radius:.6rem}}
@@ -4058,9 +4058,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     (function () {
       var sel = document.getElementById('sp1');
       if (!sel) return;
-      document.querySelectorAll('#view-registered [data-tier]').forEach(function (btn) {
+      document.querySelectorAll('#view-sponsor [data-tier]').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          sel.value = btn.dataset.tier; syncQty();
+          sel.value = btn.dataset.tier;
           document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
           var first = document.getElementById('sp3'); if (first && !first.value) setTimeout(function () { first.focus(); }, 500);
         });
