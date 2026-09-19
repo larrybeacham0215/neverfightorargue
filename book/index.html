@@ -2677,7 +2677,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="rh__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         <p class="rh__close">We can&rsquo;t wait to celebrate with you.</p>
       </div>
-      <a class="rh__promo" href="#giveBook" aria-label="Gift a signed copy — $20. Help another couple leave with the book.">
+      <a class="rh__promo" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener" aria-label="Gift a signed copy — $20. Help another couple leave with the book.">
         <picture>
           <source srcset="/assets/gift-promo.webp" type="image/webp">
           <img src="/assets/gift-promo.jpg" alt="" width="820" height="941">
@@ -2717,7 +2717,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="give__cta">
           <a class="giftbtn giftbtn--lg" id="giveBtn" href="#sponsorForm"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
         </p>
-        <p class="give__fine" id="giveFine">Gift one copy or several &mdash; choose the number on the form. Anyone who gifts five or more is named in the printed program.</p>
+        <p class="give__fine" id="giveFine">Secure card payment through Stripe &mdash; choose how many copies on the next screen. Anyone who gifts five or more is named in the printed program.</p>
         <p class="give__more"><a class="pillbtn" href="#sponsorLevels">Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
       </div>
     </div>
@@ -2769,7 +2769,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap" style="max-width:44rem">
       <div class="capture capture--light" id="spFormWrap">
         <p class="capture__title" id="spFormTitle">Secure your sponsorship</p>
-        <p class="capture__sub">Nothing is charged here. This reserves your level; we confirm by phone and invoice you.</p>
+        <p class="capture__sub">For businesses, churches and families. Nothing is charged here &mdash; this reserves your level; we confirm by phone and send an invoice.</p>
         <form class="form" data-capture data-kind="sponsor" novalidate>
           <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
           <div class="field">
@@ -2782,12 +2782,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <option value="community">Community Sponsor &mdash; $250</option>
               <option value="reception">Reception Sponsor &mdash; $1,500</option>
               <option value="gift">Guest Gift Sponsor &mdash; $750</option>
-              <option value="couple">Gift a signed copy &mdash; $20 each</option>
             </select>
-          </div>
-          <div class="field" id="spQtyWrap" hidden>
-            <label for="sp2">How many copies?</label>
-            <input type="number" id="sp2" name="quantity" min="1" max="200" value="3" inputmode="numeric">
           </div>
           <div class="form__row">
             <div class="field">
@@ -2866,7 +2861,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <details><summary>Can I sponsor more than one thing?</summary><p>Yes &mdash; reserve each one separately, or tell us in the message box and we'll put it on one invoice.</p></details>
         <details><summary>What if the level I want is taken?</summary><p>We'll call you the same day and offer the closest alternative. Nothing is charged until you say yes.</p></details>
         <details><summary>Can I bring a banner or product?</summary><p>Gold, Presenting and Reception sponsors get a display table at the reception. A pull-up banner is welcome; we'll confirm the space with the church.</p></details>
-        <details><summary>Can I sponsor as an individual, not a business?</summary><p>Absolutely. Gifting a signed copy and the Community Sponsor level are built for exactly that.</p></details>
+        <details><summary>Can I sponsor as an individual, not a business?</summary><p>Absolutely. The Community Sponsor level is built for exactly that &mdash; and anyone can gift a signed copy above.</p></details>
         <details><summary>Something else?</summary><p>Email <a href="#" data-mail="Sponsorship question">hello@neverfightorargue.com</a> or reply to any email from us &mdash; it comes straight to Larry.</p></details>
       </div>
     </div>
@@ -2877,6 +2872,32 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <!-- ==================================================================== -->
 <!-- ========================== FOR CHURCHES ============================ -->
 <!-- ==================================================================== -->
+<!-- ==================================================================== -->
+<!-- ========================= GIFT THANK-YOU =========================== -->
+<!-- Stripe redirects here after a signed-copy gift. noindex.               -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">Gift received</p>
+        <h1>Thank you.<br><em>Somebody's going home with the book.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">Your gift is confirmed and Stripe has emailed you a receipt. On November 1st we'll hand a signed copy to a couple who couldn't have bought one, with your name on the card inside if you gave one. You won't know who they were. They won't forget that somebody did it.</p>
+        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
+          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn btn--outline" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener">Gift another copy</a>
+        </p>
+      </div>
+      <aside class="reg__card">
+        <p class="eyebrow">Share the idea</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">Know someone who'd want to do this too? Send them the link.</p>
+        <p style="word-break:break-all;color:var(--gold);font-size:.9375rem">neverfightorargue.com/registered/#giveBook</p>
+      </aside>
+    </div>
+  </header>
+</div>
+
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -3751,7 +3772,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     // 5. Sponsor-a-Couple card payments. Paste the Stripe Payment Link here
     //    and the button on the registered page sends people straight to it.
     //    Empty = the button reserves through the form and Larry follows up.
-    stripeCoupleLink: '',
+    stripeCoupleLink: 'https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00',
 
     retailers: {
       amazon: '',
@@ -3767,7 +3788,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -3784,6 +3805,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/book-launch/':   'launch',
     '/registered/':    'registered',
     '/sponsor/':       'sponsor',       // hidden: not in nav, footer or sitemap
+    '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
     '/churches/':      'churches',
     '/speaking/':      'speaking',
     '/about/':         'about',
@@ -3799,6 +3821,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     launch: 'Book Launch — November 1st, Tampa — Never Fight or Argue Again',
     registered: "You're registered — Never Fight or Argue Again",
     sponsor: 'Sponsor the launch — Never Fight or Argue Again',
+    'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
     churches: 'For Churches & Organizations — Never Fight or Argue Again',
     speaking: 'Speaking — Larry & Rolanda Beacham',
     about: 'About Larry & Rolanda Beacham',
@@ -3968,10 +3991,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   (function () {
     /* ---------------- sponsor page ---------------- */
     (function () {
-      var sel = document.getElementById('sp1'), qty = document.getElementById('spQtyWrap');
+      var sel = document.getElementById('sp1');
       if (!sel) return;
-      function syncQty() { if (qty) qty.hidden = sel.value !== 'couple'; }
-      sel.addEventListener('change', syncQty); syncQty();
       document.querySelectorAll('#view-registered [data-tier]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           sel.value = btn.dataset.tier; syncQty();
@@ -3997,18 +4018,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
       // Sponsor-a-Couple feature: pick a number, then either pay by card (Stripe link, if
       // configured) or reserve through the form below.
+      // Gift a signed copy: Stripe Checkout handles quantity, payment and the receipt.
       var giveBtn = document.getElementById('giveBtn');
       if (giveBtn && CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
-      if (giveBtn) giveBtn.addEventListener('click', function (ev) {
-        if (CONFIG.stripeCoupleLink) return; // off to Stripe
-        ev.preventDefault();
-        sel.value = 'couple'; syncQty();
-        var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
-        if (wrap) wrap.hidden = false; if (done) done.hidden = true;
-        document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-      var fine = document.getElementById('giveFine');
-      if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Secure card payment through Stripe. Choose the number of copies on the next screen; anyone who gifts five or more is named in the printed program.';
 
       // Sticky reminder: appears a few seconds after landing on the registered page,
       // hides once they reach the form, and stays dismissed for the session.
