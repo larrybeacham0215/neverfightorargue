@@ -1182,6 +1182,10 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .pillbtn__ico{display:inline-flex;width:1.1rem;height:1.1rem}
 .pillbtn__ico svg{width:100%;height:100%;fill:#E2C070}
 .pillbtn--block{width:100%;box-sizing:border-box;white-space:normal;text-align:center}
+.pillbtn--xl{font-size:1.3rem;padding:.95rem 2.2rem;border-width:2px;cursor:pointer}
+.pillbtn--xl .pillbtn__ico{width:1.35rem;height:1.35rem}
+.pillbtn--xl .pillbtn__ico svg{fill:none}
+@media(max-width:700px){.pillbtn--xl{font-size:1.05rem;padding:.85rem 1.4rem;width:100%;box-sizing:border-box}}
 .pillbtn--bar{font-size:1rem}
 @media(max-width:700px){.pillbtn{font-size:.9rem;padding:.6rem 1rem;white-space:normal;text-align:center}.pillbtn--bar{flex:1 1 0;min-width:0;font-size:.85rem;line-height:1.2}}
 .share__msg{width:100%;box-sizing:border-box;font:inherit;font-size:.9375rem;line-height:1.5;color:var(--ivory);background:rgba(247,243,234,.06);border:1px solid rgba(195,154,94,.4);border-radius:.4rem;padding:.8rem .9rem;resize:none;margin:0 0 .75rem}
@@ -2632,7 +2636,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h1>The night we stop<br><em>fighting fair.</em></h1>
         <p class="ev__lede">An evening with Larry &amp; Rolanda Beacham for the release of <em>Never Fight or Argue Again</em> &mdash; the case against fighting fair, the two plans that replace it, and time with couples doing the same work you are.</p>
         <p class="ev__cta">
-          <button class="btn btn--lg" type="button" data-open-rsvp>Reserve your seat &mdash; free</button>
+          <button class="pillbtn pillbtn--xl pillbtn--live" type="button" data-open-rsvp><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#E2C070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 15h2M12 15h2M8 18h2M12 18h2"/></svg></span>RSVP &mdash; Reserve Your Seat, It&rsquo;s Free</button>
         </p>
         <p class="ev__seats">Free to attend, no ticket needed. Come with your spouse or on your own &mdash; just reserve your seats so we know to expect you.</p>
       </div>
