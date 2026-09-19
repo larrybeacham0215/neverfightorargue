@@ -1061,18 +1061,19 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* [hidden] must beat the display rules above (see "things learned the hard way") */
 .sp__held[hidden],#view-registered .field[hidden],#spFormWrap[hidden],#spDone[hidden]{display:none}
 .sp__list{align-content:start}
-.tiers{display:grid;gap:.6rem;max-width:64rem;margin:0 auto}
-.tier{display:grid;grid-template-columns:13rem 1fr auto;gap:1.25rem;align-items:center;background:var(--navy);border:1px solid rgba(195,154,94,.28);border-radius:.6rem;padding:1rem 1.25rem;min-width:0}
+.tiers{display:grid;gap:.45rem;max-width:66rem;margin:0 auto}
+#sponsorLevels.band{padding-block:clamp(2rem,4vw,3rem)}
+.tier{display:grid;grid-template-columns:12rem 1fr auto;gap:1.25rem;align-items:center;background:var(--navy);border:1px solid rgba(195,154,94,.28);border-radius:.5rem;padding:.65rem 1.1rem;min-width:0}
 .tier--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
 .tier--specific{border-style:dashed}
-.tier__head h3{font-family:var(--f-display);font-size:1.15rem;font-weight:400;margin:0 0 .15rem;color:var(--ivory)}
-.tier__head .sp__tierTag{margin-bottom:.3rem}
-.tier__head .sp__price{font-size:1.6rem;margin:0}
-.tier__sum{margin:0;font-size:.875rem;line-height:1.5;color:var(--on-navy);min-width:0}
+.tier__head h3{font-family:var(--f-display);font-size:1.05rem;font-weight:400;margin:0;color:var(--ivory)}
+.tier__head .sp__tierTag{margin-bottom:.15rem;font-size:.625rem}
+.tier__head .sp__price{font-size:1.35rem;margin:0}
+.tier__sum{margin:0;font-size:.8125rem;line-height:1.45;color:var(--on-navy);min-width:0}
 .tier__sum b{color:var(--ivory);font-weight:600}
-.tier .btn{padding:.7rem 1.25rem;white-space:nowrap}
+.tier .btn{padding:.6rem 1.1rem;white-space:nowrap;font-size:.75rem}
 @media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
-.sp__howLine{font-size:.9375rem;color:var(--on-navy);max-width:52rem;margin:0 auto 2.5rem;line-height:1.6}
+.sp__howLine{font-size:.875rem;color:var(--on-navy);max-width:52rem;margin:0 auto 1.25rem;line-height:1.55}
 .sp__howLine b{color:var(--gold)}
 .reg__jump{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
 .reg__jump a{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ivory);text-decoration:none;border:1px solid rgba(247,243,234,.25);border-radius:999px;padding:.45rem .8rem}
@@ -2695,10 +2696,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   <section class="band on-navy" id="sponsorLevels">
     <div class="wrap">
-      <p class="eyebrow center">Sponsorship levels</p>
-      <h2 class="h-lg center">Choose the level that fits.</h2>
-      <p class="lede lede--light center" style="margin:1rem auto 1.25rem">For businesses and ministries. A full house of married couples, pastors and families from across Tampa Bay &mdash; local, loyal, and paying attention to who showed up. Every level includes reserved seats and recognition on the night.</p>
-      <p class="sp__howLine center">How it works: choose a level &rarr; we call you within a business day &rarr; invoice (card, Zelle or check, due in 7 days) &rarr; send your logo by <b>October 18th</b> &rarr; see you November 1st.</p>
+      <p class="eyebrow center">Sponsorship levels &middot; for businesses &amp; ministries</p>
+      <h2 class="h-md center" style="margin-bottom:.5rem">Choose the level that fits.</h2>
+      <p class="sp__howLine center">A full house of married couples, pastors and families from across Tampa Bay. Choose a level &rarr; we call within a business day &rarr; invoice (card, Zelle or check) &rarr; logo by <b>October 18th</b>.</p>
 
       <div class="tiers">
         <article class="tier tier--top">
