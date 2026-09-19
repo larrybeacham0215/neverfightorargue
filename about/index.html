@@ -1060,6 +1060,32 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 /* [hidden] must beat the display rules above (see "things learned the hard way") */
 .sp__held[hidden],#view-registered .field[hidden],#spFormWrap[hidden],#spDone[hidden]{display:none}
 .sp__list{align-content:start}
+.sp__howLine{font-size:.9375rem;color:var(--on-navy);max-width:52rem;margin:0 auto 2.5rem;line-height:1.6}
+.sp__howLine b{color:var(--gold)}
+.reg__jump{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.reg__jump a{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ivory);text-decoration:none;border:1px solid rgba(247,243,234,.25);border-radius:999px;padding:.45rem .8rem}
+.reg__jump a:hover{border-color:var(--gold);color:var(--gold)}
+.reg__side{display:grid;gap:1rem}
+.reg__give{border:1px solid rgba(195,154,94,.45);background:rgba(195,154,94,.08);padding:clamp(1.25rem,2.5vw,1.6rem)}
+.reg__giveKick{font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 .4rem}
+.reg__giveTitle{font-family:var(--f-display);font-size:1.35rem;color:var(--ivory);margin:0 0 .5rem}
+.reg__giveCopy{font-size:.875rem;color:var(--on-navy);margin:0 0 .9rem}
+.reg__givePick{display:flex;gap:.5rem;margin:0 0 .8rem}
+.give__opt--dark{background:transparent;border-color:rgba(247,243,234,.25);color:var(--ivory);min-width:0;flex:1;padding:.5rem .6rem;text-align:center}
+.give__opt--dark span{color:var(--on-navy)}
+.give__opt--dark.is-on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(195,154,94,.3);background:rgba(195,154,94,.15)}
+.reg__giveMore{margin:.75rem 0 0;font-size:.8125rem}
+.reg__giveMore a{color:rgba(247,243,234,.6)}
+.stick{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:#FAF6EC;border-top:1px solid rgba(22,38,28,.14);box-shadow:0 -12px 30px rgba(22,38,28,.14);transform:translateY(110%);transition:transform .35s ease}
+.stick.is-on{transform:none}
+.stick[hidden]{display:none}
+.stick__inner{max-width:72rem;margin:0 auto;display:flex;align-items:center;gap:1rem}
+.stick__txt{flex:1;font-size:.9rem;color:var(--ink-soft)}
+.stick__txt b{color:var(--ink)}
+.stick__alt{font-size:.8125rem;color:var(--gold-ink);white-space:nowrap}
+.stick__x{background:none;border:0;font-size:1.5rem;line-height:1;color:var(--ink-soft);cursor:pointer;padding:.2rem .4rem}
+@media(min-width:901px){.stick{bottom:auto;top:0;transform:translateY(-110%);border-top:0;border-bottom:1px solid rgba(22,38,28,.14);box-shadow:0 12px 30px rgba(22,38,28,.14)}}
+@media(max-width:700px){.stick__txt{display:none}.stick .btn{flex:1;text-align:center}.stick__alt{display:none}}
 .sp__grid--2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:52rem;margin-inline:auto}
 /* one view, two doors: /registered/ shows the confirmation header, /sponsor/ the sponsor one */
 #view-registered .reg__direct{display:none}
@@ -2551,8 +2577,14 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="btn btn--lg" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a>
         </p>
         <p class="reg__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
+        <nav class="reg__jump" aria-label="On this page">
+          <a href="#giveBook">Sponsor a couple</a>
+          <a href="#sponsorLevels">Business sponsorships</a>
+          <a href="#expect">What to expect</a>
+        </nav>
       </div>
 
+      <div class="reg__side">
       <aside class="reg__card">
         <div class="reg__date" aria-hidden="true">
           <span class="ev__month">Nov</span><span class="ev__day">1</span><span class="ev__year">2026</span>
@@ -2566,8 +2598,31 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
         </p>
       </aside>
+      <aside class="reg__give">
+        <p class="reg__giveKick">While you're here</p>
+        <p class="reg__giveTitle">Give a couple the book &mdash; $40</p>
+        <p class="reg__giveCopy">Some couples will leave without it because twenty dollars is real money this month. $40 puts a signed copy in one couple's hands on the night.</p>
+        <div class="reg__givePick" role="group" aria-label="How many couples">
+          <button type="button" class="give__opt give__opt--dark" data-couples="1"><b>1</b><span>$40</span></button>
+          <button type="button" class="give__opt give__opt--dark is-on" data-couples="3"><b>3</b><span>$120</span></button>
+          <button type="button" class="give__opt give__opt--dark" data-couples="5"><b>5</b><span>$200</span></button>
+        </div>
+        <a class="btn btn--block" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
+        <p class="reg__giveMore"><a href="#giveBook">How it works &darr;</a></p>
+      </aside>
+      </div>
     </div>
   </header>
+
+  <!-- 2) sticky reminder: fades in a few seconds after landing -->
+  <div class="stick" id="stick" hidden>
+    <div class="stick__inner">
+      <span class="stick__txt"><b>Sponsor a couple &mdash; $40.</b> A signed book for a couple who couldn't buy one.</span>
+      <a class="btn" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
+      <a class="stick__alt" href="#sponsorLevels">Business sponsorships &rarr;</a>
+      <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
 
   <header class="phead sp__head reg__direct">
     <div class="wrap">
@@ -2595,7 +2650,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <button type="button" class="give__opt" data-couples="5"><b>5 couples</b><span>$200</span></button>
         </div>
         <p class="give__cta">
-          <a class="btn btn--lg btn--onLight" id="giveBtn" href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
+          <a class="btn btn--lg btn--onLight" id="giveBtn" data-give-btn href="#sponsorForm">Sponsor 3 couples &mdash; $120</a>
         </p>
         <p class="give__fine" id="giveFine">Sponsors of five or more couples are named in the printed program. Reserve here and we'll send a secure link to pay by card, or Zelle.</p>
         <p class="give__more"><a href="#sponsorLevels">Own a business or ministry? See the sponsorship levels &darr;</a></p>
@@ -2603,27 +2658,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </section>
 
-  <section class="band band--paper">
-    <div class="wrap sp__why">
-      <div>
-        <p class="eyebrow eyebrow--ink">For businesses &amp; ministries</p>
-        <h2 class="h-md">Put your name in front of couples who are ready to invest in their home.</h2>
-        <p>The people in the room are there on purpose: engaged and married couples, small-group leaders, pastors and counselors from churches around the bay, and the friends and family who have walked thirty years with us. They're local, they're loyal, and they notice who shows up for things like this.</p>
-      </div>
-      <ul class="sp__facts">
-        <li><b>Nov 1</b>Sunday evening, doors 5:30 pm</li>
-        <li><b>Free</b>to attend &mdash; sponsors make that possible</li>
-        <li><b>Live</b>book launch, signing &amp; reception</li>
-        <li><b>30 yrs</b>of marriage celebrated the same night</li>
-      </ul>
-    </div>
-  </section>
 
   <section class="band on-navy" id="sponsorLevels">
     <div class="wrap">
       <p class="eyebrow center">Sponsorship levels</p>
       <h2 class="h-lg center">Choose the level that fits.</h2>
-      <p class="lede lede--light center" style="margin:1rem auto 2.5rem">Every level comes with reserved seats, recognition on the night, and our thanks. The higher levels put your name in front of more people, more often.</p>
+      <p class="lede lede--light center" style="margin:1rem auto 1.25rem">For businesses and ministries. A full house of married couples, pastors and families from across Tampa Bay &mdash; local, loyal, and paying attention to who showed up. Every level includes reserved seats and recognition on the night.</p>
+      <p class="sp__howLine center">How it works: choose a level &rarr; we call you within a business day &rarr; invoice (card, Zelle or check, due in 7 days) &rarr; send your logo by <b>October 18th</b> &rarr; see you November 1st.</p>
 
       <div class="sp__grid">
         <article class="sp__tier sp__tier--top">
@@ -2705,7 +2746,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <p class="sp__tierLede">The food, the drinks, the hour everyone remembers.</p>
           <ul class="sp__list">
             <li>&ldquo;Reception hosted by&rdquo; signage at every table</li>
-            <li>Everything in Gold, plus a mention when we invite the room to stay</li>
+            <li>Named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening</li>
+            <li>Everything in Gold</li>
           </ul>
           <button class="btn btn--lg btn--block btn--onLight" type="button" data-tier="reception">Host the reception</button>
         </article>
@@ -2724,21 +2766,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </section>
 
-  <section class="band on-navy">
-    <div class="wrap sp__how">
-      <div>
-        <p class="eyebrow">How it works</p>
-        <h2 class="h-md">Five steps, none of them complicated.</h2>
-      </div>
-      <ol class="sp__steps">
-        <li><b>Choose a level.</b> Pick one above and tell us who to talk to.</li>
-        <li><b>We call you.</b> Larry or Rolanda will phone within one business day &mdash; to say thank you, and to confirm the details.</li>
-        <li><b>Invoice &amp; payment.</b> Pay by card, Zelle or check. Payment within 7 days holds your place.</li>
-        <li><b>Send your logo.</b> By <b>October 18th</b>, so it makes the printed program and the screens.</li>
-        <li><b>November 1st.</b> Your seats are waiting. The week after, you'll get photos and a proper thank-you.</li>
-      </ol>
-    </div>
-  </section>
 
   <section class="band band--paper" id="sponsorForm">
     <div class="wrap" style="max-width:44rem">
@@ -2819,10 +2846,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   <section class="band on-navy">
     <div class="wrap" style="max-width:46rem">
-      <p class="eyebrow center">Before the night</p>
+      <p class="eyebrow center" id="expect">Before the night</p>
       <h2 class="h-lg center" style="margin-bottom:2rem">What to expect.</h2>
       <div class="ev__faq ev__faq--dark">
-        <details open><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
+        <details><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
         <details><summary>Is childcare available?</summary><p>No &mdash; we're not able to provide childcare for this one, so please plan accordingly. The evening is built for adults and runs about two hours.</p></details>
         <details><summary>Will there be food?</summary><p>Refreshments will be served. Not a full meal, so eat beforehand if you're coming straight from work.</p></details>
         <details><summary>Will the book be available?</summary><p>Yes, and we'll be signing copies. Come find us afterward &mdash; we're in no hurry to leave.</p></details>
@@ -3809,6 +3836,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     });
     var regView = document.getElementById('view-registered');
     if (regView) regView.classList.toggle('is-direct', name === 'sponsor');
+    if (window.__stickArm) window.__stickArm();
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
       if (a.dataset.tab === name) a.setAttribute('aria-current', 'page');
@@ -3854,6 +3882,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     if (!a) return;
     if (a.target === '_blank' || a.hasAttribute('download')) return;
 
+    // In-page anchor: smooth scroll, no routing.
+    var hrefA = a.getAttribute('href') || '';
+    if (hrefA.charAt(0) === '#' && hrefA.length > 1 && document.getElementById(hrefA.slice(1))) {
+      ev.preventDefault();
+      document.getElementById(hrefA.slice(1)).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     // A tab link: swap views in place.
     if (a.dataset.tab) {
       ev.preventDefault();
@@ -3964,28 +3999,58 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
       // Sponsor-a-Couple feature: pick a number, then either pay by card (Stripe link, if
       // configured) or reserve through the form below.
-      var giveBtn = document.getElementById('giveBtn'), giveN = 3;
+      var giveBtns = document.querySelectorAll('[data-give-btn]'), giveN = 3;
       function giveSync() {
-        if (!giveBtn) return;
-        giveBtn.textContent = 'Sponsor ' + giveN + (giveN === 1 ? ' couple' : ' couples') + ' \u2014 $' + (giveN * 40);
-        if (CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
+        giveBtns.forEach(function (giveBtn) {
+          giveBtn.textContent = 'Sponsor ' + giveN + (giveN === 1 ? ' couple' : ' couples') + ' \u2014 $' + (giveN * 40);
+          if (CONFIG.stripeCoupleLink) { giveBtn.href = CONFIG.stripeCoupleLink; giveBtn.target = '_blank'; giveBtn.rel = 'noopener'; }
+        });
       }
       document.querySelectorAll('.give__opt').forEach(function (o) {
         o.addEventListener('click', function () {
-          document.querySelectorAll('.give__opt').forEach(function (x) { x.classList.remove('is-on'); });
-          o.classList.add('is-on'); giveN = parseInt(o.dataset.couples, 10) || 1; giveSync();
+          giveN = parseInt(o.dataset.couples, 10) || 1;
+          document.querySelectorAll('.give__opt').forEach(function (x) { x.classList.toggle('is-on', parseInt(x.dataset.couples, 10) === giveN); });
+          giveSync();
         });
       });
-      if (giveBtn) giveBtn.addEventListener('click', function (ev) {
-        if (CONFIG.stripeCoupleLink) return; // off to Stripe
-        ev.preventDefault();
-        sel.value = 'couple'; syncQty();
-        var q = document.getElementById('sp2'); if (q) q.value = giveN;
-        var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
-        if (wrap) wrap.hidden = false; if (done) done.hidden = true;
-        document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      giveBtns.forEach(function (giveBtn) {
+        giveBtn.addEventListener('click', function (ev) {
+          if (CONFIG.stripeCoupleLink) return; // off to Stripe
+          ev.preventDefault();
+          sel.value = 'couple'; syncQty();
+          var q = document.getElementById('sp2'); if (q) q.value = giveN;
+          var wrap = document.getElementById('spFormWrap'), done = document.getElementById('spDone');
+          if (wrap) wrap.hidden = false; if (done) done.hidden = true;
+          document.getElementById('sponsorForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       });
       giveSync();
+
+      // Sticky reminder: appears a few seconds after landing on the registered page,
+      // hides once they reach the form, and stays dismissed for the session.
+      var stick = document.getElementById('stick'), stickX = document.getElementById('stickX'), stickTimer;
+      function stickShow() {
+        try { if (sessionStorage.getItem('nfoaa_stick') === 'off') return; } catch (e) {}
+        if (!stick) return;
+        stick.hidden = false; requestAnimationFrame(function () { stick.classList.add('is-on'); });
+      }
+      function stickHide(remember) {
+        if (!stick) return;
+        stick.classList.remove('is-on'); setTimeout(function () { stick.hidden = true; }, 400);
+        if (remember) { try { sessionStorage.setItem('nfoaa_stick', 'off'); } catch (e) {} }
+      }
+      if (stickX) stickX.addEventListener('click', function () { stickHide(true); });
+      window.__stickArm = function () {
+        clearTimeout(stickTimer);
+        var reg = document.getElementById('view-registered');
+        if (!reg || reg.hidden) { stickHide(false); return; }
+        stickTimer = setTimeout(stickShow, 3500);
+      };
+      window.addEventListener('scroll', function () {
+        var f = document.getElementById('sponsorForm'); if (!f || !stick || stick.hidden) return;
+        if (f.getBoundingClientRect().top < window.innerHeight * 0.8) stickHide(false);
+      }, { passive: true });
+      window.__stickArm();
       var fine = document.getElementById('giveFine');
       if (fine && CONFIG.stripeCoupleLink) fine.textContent = 'Sponsors of five or more couples are named in the printed program. Secure card payment through Stripe; you can change the number on the next screen.';
     })();
