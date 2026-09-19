@@ -1133,7 +1133,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 @media(max-width:600px){.sp__grid--2{grid-template-columns:1fr}}
 /* grid children default to min-content — long <select> options pushed the form past the phone edge */
 #view-registered .field,#view-registered .form__row{min-width:0}
-#view-registered .field select,#view-registered .field input,#view-registered .field textarea{width:100%;min-width:0;max-width:100%}
+#view-registered .field select,#view-registered .field input,#view-registered .field textarea{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
 @media(max-width:1100px){.sp__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sp__grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){.sp__why,.sp__how{grid-template-columns:1fr}.sp__grid--3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.sp__grid,.sp__grid--3{grid-template-columns:1fr}.sp__facts{grid-template-columns:1fr 1fr}.sp__held{font-size:.8125rem;border-radius:.6rem}}
