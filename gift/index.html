@@ -920,6 +920,10 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .rh__alt{margin:0 0 1.5rem;font-size:.8125rem}
 .rh__alt a{color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px}
 .rh__close{font-family:var(--f-display);font-style:italic;color:var(--gold-ink);font-size:1.25rem;margin:0}
+.rh__chapter{border:1px solid rgba(195,154,94,.55);background:rgba(255,255,255,.55);border-radius:.9rem;padding:clamp(1.5rem,3vw,2.25rem);box-shadow:0 30px 60px -30px rgba(22,38,28,.35)}
+.rh__chapterTitle{font-family:var(--f-display);font-size:1.6rem;color:var(--ink);margin:.35rem 0 .6rem;line-height:1.15}
+.rh__chapterCopy{color:var(--ink-soft);margin:0 0 1.25rem;font-size:1rem;line-height:1.55}
+.rh__chapterFine{font-size:.8125rem;color:var(--ink-soft);margin:.75rem 0 0}
 .rh__promo{display:block;border-radius:.9rem;overflow:hidden;border:1px solid rgba(195,154,94,.55);box-shadow:0 30px 60px -30px rgba(22,38,28,.45),0 0 0 6px rgba(255,255,255,.5);transition:transform .2s,box-shadow .2s;background:#FBF7EE}
 .rh__promo:hover{transform:translateY(-3px);box-shadow:0 36px 70px -30px rgba(22,38,28,.5),0 0 0 6px rgba(255,255,255,.6)}
 .rh__promo img{display:block;width:100%;height:auto}
@@ -2753,33 +2757,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="rh__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         <p class="rh__close">We can&rsquo;t wait to celebrate with you.</p>
       </div>
-      <a class="rh__promo" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener" aria-label="Gift a signed copy — $20. Help another couple leave with the book.">
-        <picture>
-          <source srcset="/assets/gift-promo.webp" type="image/webp">
-          <img src="/assets/gift-promo.jpg" alt="" width="820" height="941">
-        </picture>
-      </a>
+      <aside class="rh__chapter">
+        <p class="eyebrow eyebrow--ink">While you wait</p>
+        <p class="rh__chapterTitle">Haven&rsquo;t read Chapter One yet?</p>
+        <p class="rh__chapterCopy">Read it on your own before November 1st &mdash; the case against fighting fair, and the first look at the two plans that replace it. Free, 30 pages, no sign-up needed.</p>
+        <a class="btn btn--onLight btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download><span aria-hidden="true">&#8659;</span> Download Chapter One</a>
+        <p class="rh__chapterFine">PDF &middot; opens on any phone or computer</p>
+      </aside>
     </div>
   </header>
 
-  <section class="band band--paper" id="giveBook">
-    <div class="wrap give">
-      <div class="give__art" aria-hidden="true">
-        <img src="/assets/book-3d.webp" alt="" width="900" height="1367" loading="lazy">
-      </div>
-      <div class="give__copy">
-        <p class="eyebrow eyebrow--ink">One thing you can do right now</p>
-        <h2 class="h-lg">Be a blessing and gift a signed copy to a couple.</h2>
-        <p class="lede">The evening costs nothing to attend. Not every couple will leave with the book &mdash; and some of the couples who'd benefit most are the ones who'd never ask.</p>
-        <p><strong>$20 &mdash; the price of the book &mdash; covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
-        <p class="give__cta">
-          <a class="giftbtn giftbtn--lg" id="giveBtn" href="#sponsorForm"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
-        </p>
-        <p class="give__fine" id="giveFine">Secure card payment through Stripe &mdash; choose how many copies on the next screen. Anyone who gifts five or more is named in the printed program.</p>
-        <p class="give__more"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
-      </div>
-    </div>
-  </section>
 
   <section class="band on-navy">
     <div class="wrap" style="max-width:46rem">
