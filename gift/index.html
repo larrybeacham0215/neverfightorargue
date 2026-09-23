@@ -1068,6 +1068,47 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   .bl__leaf--tl,.bl__leaf--bl{display:none}
   .bl__panel{padding:1.5rem 1.25rem}
 }
+
+/* ==========================================================================
+   PICKUP PASS + EXPRESS TABLE
+   ========================================================================== */
+.pass{text-align:center;border:2px solid var(--gold);border-radius:1rem;padding:1.5rem;background:rgba(247,243,234,.04)}
+.pass--light{background:#fff;border-color:rgba(195,154,94,.7);box-shadow:0 30px 60px -30px rgba(22,38,28,.35)}
+.pass__kick{font-size:.6875rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 .35rem}
+.pass--light .pass__kick{color:var(--gold-ink)}
+.pass__title{font-family:var(--f-display);color:var(--ink);margin:0 0 1rem;font-size:1.05rem}
+.pass__qr{width:min(100%,15rem);aspect-ratio:1;margin:0 auto 1rem;background:#fff;border:6px solid #fff;border-radius:.6rem;display:grid;place-items:center;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.pass__qr svg{width:100%;height:100%;display:block}
+.pass__wait{font-size:.875rem;color:var(--ink-soft);margin:0}
+.pass__name{font-family:var(--f-display);font-size:1.5rem;color:var(--ivory);margin:0 0 .15rem}
+.pass--light .pass__name{color:var(--ink)}
+.pass__meta{color:var(--on-navy);font-size:.9375rem;margin:0 0 1rem}
+.pass--light .pass__meta{color:var(--ink-soft)}
+.pass__how{font-size:.875rem;color:var(--on-navy);margin:0;line-height:1.5}
+.pass--light .pass__how{color:var(--ink-soft)}
+.pass__how b{color:var(--ivory)}
+.pass--light .pass__how b{color:var(--ink)}
+.pass__link{margin:.9rem 0 0;font-size:.8125rem}
+.pass__link a{color:var(--gold)}
+.pass__status{margin:1rem 0 0;padding:.6rem .9rem;border-radius:.5rem;background:rgba(13,45,29,.08);color:var(--ink);font-weight:600;font-size:.9375rem}
+.pass__status.is-done{background:#0D2D1D;color:#F7F3EA}
+.pass__vol{margin-top:1.25rem;border-top:1px dashed rgba(22,38,28,.25);padding-top:1rem}
+.pass__volKick{font-size:.625rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .5rem}
+.ex__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin:0 0 1rem}
+.ex__totals{font-size:1rem;color:var(--ink-soft)}
+.ex__totals b{color:var(--ink);font-family:var(--f-display);font-size:1.4rem}
+.ex__tools{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;margin:0 0 .5rem}
+.ex__tools input[type=search]{flex:1 1 14rem;font:inherit;font-size:1.05rem;padding:.8rem 1rem;border:1px solid rgba(22,38,28,.25);border-radius:.5rem;background:#fff}
+.ex__toggle{display:inline-flex;align-items:center;gap:.4rem;font-size:.9375rem;color:var(--ink-soft)}
+.ex__tip{font-size:.8125rem;color:var(--ink-soft);margin:0 0 1rem}
+.ex__list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.ex__row{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;background:#fff;border:1px solid rgba(22,38,28,.14);border-radius:.6rem;padding:.9rem 1rem}
+.ex__row.is-done{background:rgba(13,45,29,.05);border-color:rgba(13,45,29,.2)}
+.ex__row b{font-size:1.1rem;color:var(--ink);display:block}
+.ex__row.is-done b{text-decoration:line-through;color:var(--ink-soft)}
+.ex__row small{display:block;color:var(--ink-soft);font-size:.875rem;line-height:1.45}
+.ex__row .btn{padding:.65rem 1.1rem;font-size:.95rem;white-space:nowrap}
+.ex__empty{text-align:center;color:var(--ink-soft);padding:2rem 0}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -1265,6 +1306,7 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .sp__how2Title{font-family:var(--f-display);color:var(--gold);margin:0 0 .75rem;font-size:1.1rem;text-align:center}
 .sp__steps--center{padding-left:1.4rem}
 #view-invoice .field[hidden]{display:none}
+#exLogin[hidden],#exApp[hidden],#passVol[hidden],.pass__status[hidden]{display:none}
 #view-invoice .form{grid-template-columns:minmax(0,1fr)}
 #view-invoice .field input,#view-invoice .field select,#view-invoice .field textarea{box-sizing:border-box;width:100%;min-width:0;max-width:100%}
 #view-invoice .field,#view-invoice .form__row{min-width:0}
@@ -3364,19 +3406,87 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
         <p class="eyebrow">You beat the line</p>
         <h1>Your copy is spoken for.<br><em>See you up front.</em></h1>
-        <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and pick up your signed copy and the laminated Frameworks Bundle at the express table &mdash; no line.</p>
+        <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and show your pickup pass at the express table for your signed copy and the laminated Frameworks Bundle &mdash; no line.</p>
         <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
           <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
           <a class="btn btn--outline" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Read Chapter One now</a>
         </p>
       </div>
-      <aside class="reg__card">
-        <p class="eyebrow">Doors 5:30 pm</p>
-        <p style="color:var(--on-navy);margin:.5rem 0 0"><b style="color:var(--ivory)">Grace Family Church</b><br>22920 FL-54, Lutz, FL 33549<br>Sunday, November 1, 2026</p>
-        <p style="margin:1rem 0 0"><a class="btn btn--outline btn--sm" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a></p>
+      <aside class="pass" id="passThanks" data-pass>
+        <p class="pass__kick">Your express pickup pass</p>
+        <div class="pass__qr" data-qr><p class="pass__wait">Preparing your pass&hellip;</p></div>
+        <p class="pass__name" data-name></p>
+        <p class="pass__meta" data-meta></p>
+        <p class="pass__how"><b>Save this.</b> Screenshot it, or use the link in your confirmation email &mdash; then show it at the express table on the night.</p>
+        <p class="pass__link"><a data-link href="#">Open my pass in its own page &rarr;</a></p>
       </aside>
     </div>
   </header>
+</div>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= PICKUP PASS ============================== -->
+<!-- /pickup/?t=<token> — the buyer's QR pass. noindex.                    -->
+<!-- ==================================================================== -->
+<div class="view" id="view-pass" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:30rem">
+      <div class="pass pass--light" id="passPage" data-pass>
+        <p class="pass__kick">Express pickup pass</p>
+        <p class="pass__title">Never Fight or Argue Again &middot; Book launch</p>
+        <div class="pass__qr" data-qr><p class="pass__wait">Loading your pass&hellip;</p></div>
+        <p class="pass__name" data-name></p>
+        <p class="pass__meta" data-meta></p>
+        <p class="pass__how">Show this screen at the <b>express table</b> on Sunday, November 1st (doors 5:30 pm, Grace Family Church, Lutz). Your signed copy and the laminated Frameworks Bundle are waiting.</p>
+        <p class="pass__status" data-status hidden></p>
+        <div class="pass__vol" id="passVol" hidden>
+          <p class="pass__volKick">Volunteer</p>
+          <button type="button" class="btn btn--onLight btn--block" id="passMark">Mark as picked up</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= EXPRESS TABLE ============================ -->
+<!-- /express/ — volunteer check-in list. PIN-protected. noindex.          -->
+<!-- ==================================================================== -->
+<div class="view" id="view-express" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:52rem">
+      <div id="exLogin">
+        <p class="eyebrow eyebrow--ink">Express table &middot; volunteers</p>
+        <h1 class="h-lg" style="margin-bottom:.5rem">Pickup check-in</h1>
+        <p class="lede" style="margin-bottom:1.25rem">Enter the PIN Larry gave you. The list updates itself as people pre-order, so there&rsquo;s nothing to print.</p>
+        <div class="capture capture--light" style="max-width:24rem">
+          <div class="form">
+            <div class="field"><label for="exPin">PIN</label><input type="password" id="exPin" inputmode="numeric" autocomplete="one-time-code" placeholder="4 digits"></div>
+            <p class="form__error" id="exErr" hidden></p>
+            <button type="button" class="btn btn--onLight btn--block" id="exGo">Open the list</button>
+          </div>
+        </div>
+      </div>
+      <div id="exApp" hidden>
+        <div class="ex__head">
+          <div>
+            <p class="eyebrow eyebrow--ink">Express table</p>
+            <h1 class="h-md" style="margin:0">Pre-order pickups</h1>
+          </div>
+          <div class="ex__totals"><b id="exPicked">0</b> of <b id="exTotal">0</b> collected &middot; <span id="exCopies">0</span> copies</div>
+        </div>
+        <div class="ex__tools">
+          <input type="search" id="exSearch" placeholder="Search by name or email&hellip;" autocomplete="off">
+          <label class="ex__toggle"><input type="checkbox" id="exHide"> Hide collected</label>
+          <button type="button" class="btn btn--onLightOutline btn--sm" id="exRefresh">Refresh</button>
+        </div>
+        <p class="ex__tip">Tip: scanning someone&rsquo;s QR with this phone opens their pass with a &ldquo;Mark as picked up&rdquo; button.</p>
+        <ul class="ex__list" id="exList"></ul>
+        <p class="form__error" id="exAppErr" hidden></p>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="view" id="view-churches" hidden>
@@ -4272,7 +4382,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'pass', 'express', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4294,6 +4404,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/gift/checkout/': 'gift-checkout',
     '/book/checkout/': 'preorder-checkout',
     '/preorder-thank-you/': 'preorder-thanks',
+    '/pickup/':        'pass',
+    '/express/':       'express',
     '/sponsor/checkout/': 'sponsor-checkout',
     '/sponsor-thank-you/': 'sponsor-thanks',
     '/sponsor-paid/':  'sponsor-paid',
@@ -4318,6 +4430,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     'gift-checkout': 'Gift a signed copy — secure payment',
     'preorder-checkout': 'Pre-order your signed copy — Beat the Line',
     'preorder-thanks': 'You beat the line — Never Fight or Argue Again',
+    pass: 'Your express pickup pass — Never Fight or Argue Again',
+    express: 'Express table — pickup check-in',
     'sponsor-checkout': 'Sponsorship payment — Never Fight or Argue Again',
     'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     'sponsor-paid': 'Sponsorship confirmed — Never Fight or Argue Again',
@@ -4354,6 +4468,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     });
     if (window.__stickArm) window.__stickArm();
     if (name === 'sponsor-checkout' && window.__sponsorCheckout) setTimeout(window.__sponsorCheckout, 0);
+    if ((name === 'pass' || name === 'preorder-thanks') && window.__passInit) setTimeout(window.__passInit, 0);
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
       if (a.dataset.tab === name) a.setAttribute('aria-current', 'page');
@@ -4605,6 +4720,77 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         mountCheckout('scMount', { kind: 'sponsor', tier: tier }, err, null);
       };
       window.__sponsorCheckout();
+
+      // ---------------- pickup passes + express table ----------------
+      var PICKUP_API = 'https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/pickup';
+      function drawQr(el, text) {
+        var render = function () {
+          try {
+            var q = window.qrcode(0, 'M'); q.addData(text); q.make();
+            el.innerHTML = q.createSvgTag({ cellSize: 6, margin: 2, scalable: true });
+            var sv = el.querySelector('svg'); if (sv) { sv.setAttribute('width', '100%'); sv.setAttribute('height', '100%'); }
+          } catch (e) { el.innerHTML = '<p class="pass__wait">Open the link below to see your pass.</p>'; }
+        };
+        if (window.qrcode) return render();
+        var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js'; sc.onload = render; document.head.appendChild(sc);
+      }
+      function fillPass(box, t) {
+        var url = 'https://neverfightorargue.com/pickup/?t=' + t.token;
+        drawQr(box.querySelector('[data-qr]'), url);
+        box.querySelector('[data-name]').textContent = t.name || t.email || '';
+        box.querySelector('[data-meta]').textContent = t.quantity + (t.quantity === 1 ? ' signed copy' : ' signed copies') + (t.inscription ? ' \u00b7 signed to ' + t.inscription : '') + ' \u00b7 laminated Frameworks Bundle';
+        var l = box.querySelector('[data-link]'); if (l) l.href = url;
+        var st = box.querySelector('[data-status]'); if (st) { st.hidden = false; if (t.picked_up_at) { st.textContent = 'Collected \u2713 ' + new Date(t.picked_up_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); st.classList.add('is-done'); } else { st.textContent = 'Not collected yet'; st.classList.remove('is-done'); } }
+      }
+      function fetchPass(query, box, tries) {
+        fetch(PICKUP_API + '?' + query).then(function (r) { return r.status === 202 ? null : r.json(); }).then(function (t) {
+          if (!t) { if (tries < 20) setTimeout(function () { fetchPass(query, box, tries + 1); }, 2500); else box.querySelector('[data-qr]').innerHTML = '<p class="pass__wait">Your pass is on its way by email.</p>'; return; }
+          fillPass(box, t); box.dataset.token = t.token;
+        }).catch(function () { box.querySelector('[data-qr]').innerHTML = '<p class="pass__wait">Could not load. Check your email for the pass.</p>'; });
+      }
+      window.__passInit = function () {
+        var qs = new URLSearchParams(location.search);
+        var thanks = document.getElementById('passThanks'), page = document.getElementById('passPage');
+        if (thanks && !document.getElementById('view-preorder-thanks').hidden && qs.get('session_id')) fetchPass('session=' + encodeURIComponent(qs.get('session_id')), thanks, 0);
+        if (page && !document.getElementById('view-pass').hidden && qs.get('t')) {
+          fetchPass('t=' + encodeURIComponent(qs.get('t')), page, 0);
+          var vol = document.getElementById('passVol'), pin = null;
+          try { pin = sessionStorage.getItem('nfoaa_express_pin'); } catch (e) {}
+          if (pin) { vol.hidden = false; document.getElementById('passMark').onclick = function () {
+            fetch(PICKUP_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: pin, action: 'mark', token: qs.get('t'), picked: true }) })
+              .then(function (r) { return r.json(); }).then(function (t) { if (t.ok) { fillPass(page, t); document.getElementById('passMark').textContent = 'Collected \u2713'; } });
+          }; }
+        }
+      };
+      window.__passInit();
+      // Express table list
+      (function () {
+        var go = document.getElementById('exGo'); if (!go) return;
+        var pinIn = document.getElementById('exPin'), err = document.getElementById('exErr'), login = document.getElementById('exLogin'), app = document.getElementById('exApp'), list = document.getElementById('exList'), search = document.getElementById('exSearch'), hide = document.getElementById('exHide'), appErr = document.getElementById('exAppErr');
+        var pin = null, rows = [];
+        function api(body) { return fetch(PICKUP_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ pin: pin }, body)) }).then(function (r) { return r.json(); }); }
+        function render() {
+          var q = (search.value || '').toLowerCase().trim();
+          var shown = rows.filter(function (r) { return (!hide.checked || !r.picked_up_at) && (!q || (r.name || '').toLowerCase().indexOf(q) >= 0 || (r.email || '').toLowerCase().indexOf(q) >= 0 || (r.inscription || '').toLowerCase().indexOf(q) >= 0); });
+          document.getElementById('exTotal').textContent = rows.length; document.getElementById('exPicked').textContent = rows.filter(function (r) { return r.picked_up_at; }).length; document.getElementById('exCopies').textContent = rows.reduce(function (a, r) { return a + r.quantity; }, 0);
+          list.innerHTML = shown.length ? '' : '<li class="ex__empty">Nobody matches.</li>';
+          shown.forEach(function (r) {
+            var li = document.createElement('li'); li.className = 'ex__row' + (r.picked_up_at ? ' is-done' : '');
+            li.innerHTML = '<div><b></b><small></small></div>';
+            li.querySelector('b').textContent = r.name || r.email;
+            li.querySelector('small').textContent = r.quantity + (r.quantity === 1 ? ' copy' : ' copies') + (r.inscription ? ' \u00b7 signed to ' + r.inscription : '') + ' \u00b7 ' + r.email + (r.picked_up_at ? ' \u00b7 collected ' + new Date(r.picked_up_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
+            var btn = document.createElement('button'); btn.type = 'button'; btn.className = r.picked_up_at ? 'btn btn--onLightOutline' : 'btn btn--onLight'; btn.textContent = r.picked_up_at ? 'Undo' : 'Picked up \u2713';
+            btn.onclick = function () { btn.disabled = true; api({ action: 'mark', id: r.id, picked: !r.picked_up_at }).then(function (t) { if (t.ok) { r.picked_up_at = t.picked_up_at; render(); } else { btn.disabled = false; } }); };
+            li.appendChild(btn); list.appendChild(li);
+          });
+        }
+        function load() { api({ action: 'list' }).then(function (d) { if (d.rows) { rows = d.rows; render(); appErr.hidden = true; } else { appErr.textContent = d.error || 'Could not load.'; appErr.hidden = false; } }); }
+        function enter(p) { pin = p; api({ action: 'verify' }).then(function (d) { if (d.ok) { try { sessionStorage.setItem('nfoaa_express_pin', pin); } catch (e) {} login.hidden = true; app.hidden = false; load(); setInterval(load, 30000); } else { err.textContent = 'That PIN isn\'t right.'; err.hidden = false; } }); }
+        go.addEventListener('click', function () { enter(pinIn.value.trim()); });
+        pinIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(pinIn.value.trim()); });
+        search.addEventListener('input', render); hide.addEventListener('change', render); document.getElementById('exRefresh').addEventListener('click', load);
+        try { var saved = sessionStorage.getItem('nfoaa_express_pin'); if (saved && !document.getElementById('view-express').hidden) enter(saved); } catch (e) {}
+      })();
 
       // Invoicing tool
       (function () {
