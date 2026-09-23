@@ -1344,7 +1344,20 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .on-navy .sprow__sum,#sponsorLevels .sprow__sum,.on-navy .sp__howLine,#sponsorLevels .sp__howLine{color:#fff}
 .on-navy .sprow__sum b,#sponsorLevels .sprow__sum b{color:#fff}
 .sprow .btn{padding:.55rem 1.2rem;white-space:nowrap;font-size:.95rem}
-@media(max-width:900px){.tier{grid-template-columns:1fr;gap:.6rem}.tier .btn{justify-self:start}}
+@media(max-width:900px){
+  .sprow{grid-template-columns:1fr;gap:.6rem;padding:.9rem 1rem}
+  .sprow__head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.2rem .75rem}
+  .sprow__head .sp__tierTag{flex:1 1 100%;order:0;margin:0}
+  .sprow__head h3{font-size:1.15rem;order:1}
+  .sprow__head .sp__price{font-size:1.35rem;order:2}
+  .sprow .btn{justify-self:stretch;width:100%;box-sizing:border-box;padding:.75rem 1rem;font-size:1rem}
+  .sp__thanks{font-size:.875rem;padding:.6rem 0}
+  .sp__thanks .wrap{padding-inline:1rem}
+  .sp__head--center .sp__lede{font-size:1rem}
+  .sp__how2{padding:1rem 1rem;margin-top:1.25rem}
+  .sp__howLine{font-size:.875rem}
+  #sponsorLevels .h-md{font-size:1.6rem}
+}
 .sp__thanks{background:var(--gold);color:var(--navy-deep);font-size:.9375rem;padding:.75rem 0;text-align:center;border-bottom:1px solid rgba(13,45,29,.15)}
 .sp__thanks b{font-weight:700}
 .sp__thanksMark{display:inline-block;width:1.35rem;height:1.35rem;line-height:1.35rem;border-radius:50%;background:var(--navy-deep);color:var(--gold);font-size:.75rem;margin-right:.35rem;text-align:center}
