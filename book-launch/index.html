@@ -5870,7 +5870,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               }).then(function (r) { return r.json(); }).then(function (d) { if (!d.clientSecret) throw new Error(d.error || 'no secret'); return d.clientSecret; });
             }
           }).then(function (co) { mountEl.innerHTML = ''; co.mount('#' + mountId); mounted[mountId] = co; })
-            .catch(function (e) { mountEl.innerHTML = ''; if (errEl) { errEl.textContent = 'Payment could not start. Please try again, or use the backup link: '; var a = document.createElement('a'); a.href = fallbackHref || '#'; a.textContent = 'pay on Stripe'; errEl.appendChild(a); errEl.hidden = false; } });
+            .catch(function (e) { console.error('embedded checkout failed', e); mountEl.innerHTML = '<p class="form__error" style="display:block">Payment could not start (' + ((e && e.message) || 'unknown') + '). Please <a href="#" onclick="location.reload();return false">refresh and try again</a>' + (fallbackHref ? ', or <a href="' + fallbackHref + '">pay on Stripe</a>' : '') + '.</p>'; });
         });
       }
       // Gift checkout page
