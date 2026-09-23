@@ -1095,6 +1095,12 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .bl__cta svg{width:1.6rem;height:1.6rem;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .bl__arrow{font-size:1.2em;opacity:.9}
 .bl__script--side{position:absolute;right:1.25rem;bottom:.9rem;font-size:clamp(1rem,1.4vw,1.3rem);transform:rotate(-12deg);text-align:center;line-height:1}
+.bl--solo{padding-top:1.5rem}
+.bl__solo{position:relative;z-index:1;max-width:52rem;margin:0 auto}
+.bl__solo .bl__panel{padding:clamp(1.25rem,2.5vw,2rem) clamp(1.25rem,3vw,2.5rem)}
+.bl__solo .bl__book{max-width:15rem}
+.bl__solo .bl__cta{max-width:none}
+.bl__solo .bl__oms{max-width:none}
 .bl__foot{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;gap:1rem;font-family:var(--f-body);font-size:.6875rem;letter-spacing:.26em;text-transform:uppercase;color:#5C6B60;margin:.6rem 0 0}
 .bl__foot::before,.bl__foot::after{content:"";width:clamp(2rem,10vw,9rem);height:1px;background:#C39A5E}
 .bl__foot i{color:#C39A5E;font-style:normal}
@@ -3537,6 +3543,1147 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   </section>
 </div>
 
+<!-- ==================================================================== -->
+<!-- ========================= PRE-ORDER PROMO ========================== -->
+<!-- /pre-order/ — the Beat the Line panel on its own. Hidden, noindex.    -->
+<!-- ==================================================================== -->
+<div class="view" id="view-preorder-promo" hidden>
+  <header class="bl bl--solo">
+    <img class="bl__leaf bl__leaf--tl" src="/assets/btl-leaf-tl.png?v=2" alt="" width="262" height="200">
+    <img class="bl__leaf bl__leaf--tr" src="/assets/btl-leaf-tr.png?v=2" alt="" width="106" height="118">
+    <img class="bl__leaf bl__leaf--bl" src="/assets/btl-leaf-bl.png?v=2" alt="" width="105" height="206">
+    <img class="bl__leaf bl__leaf--br" src="/assets/btl-leaf-br.png?v=2" alt="" width="113" height="161">
+    <div class="bl__solo">
+      <div class="bl__panel">
+        <p class="bl__pill"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8c-2-4-6-3-6-1s3 1 6 1zm0 0c2-4 6-3 6-1s-3 1-6 1z"/></svg>Beat The Line At The Launch</p>
+        <div class="bl__panelGrid">
+          <div class="bl__panelText">
+            <h2 class="bl__h2">Pre-Order Your Copy<br><em>TODAY!</em></h2>
+            <p class="bl__lede">Secure your copy before the event and enjoy exclusive event-night perks when you arrive.</p>
+            <ul class="bl__perks">
+              <li><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Express pickup</b></li>
+              <li class="bl__perk--vip"><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Reserved VIP seating</b></li>
+              <li><span class="bl__chk" aria-hidden="true">&#10003;</span><div><b>Laminated frameworks bundle</b><i>Not included in the book and normally only available in classroom settings.</i></div></li>
+            </ul>
+          </div>
+          <div class="bl__art">
+            <img class="bl__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+            <img class="bl__seal" src="/assets/btl-seal.png" alt="A stronger marriage starts now" width="138" height="136">
+          </div>
+        </div>
+        <div class="bl__oms">
+          <img class="bl__omsLeaf" src="/assets/btl-leaf-quote.png" alt="" width="88" height="74">
+          <p class="bl__omsTitle">Order More &amp; Save</p>
+          <p class="bl__omsSub">Buy one copy or save more when you order multiple.</p>
+          <table class="bl__omsTable">
+            <tr><td>1 Copy</td><td><b>$20</b> total</td><td><b>$20</b> each</td><td><span class="bl__omsTag bl__omsTag--std">Standard Price</span></td></tr>
+            <tr><td>2 Copies</td><td><b>$38</b> total</td><td><b>$19</b> each</td><td><span class="bl__omsTag">Save $2</span></td></tr>
+            <tr><td>3 Copies</td><td><b>$54</b> total</td><td><b>$18</b> each</td><td><span class="bl__omsTag">Save $6</span></td></tr>
+            <tr><td>4 Copies</td><td><b>$64</b> total</td><td><b>$16</b> each</td><td><span class="bl__omsTag">Save $16</span></td></tr>
+            <tr class="is-best"><td><span class="bl__crown" aria-hidden="true">&#9819;</span> 5 Copies</td><td><b>$75</b> total</td><td><b>$15</b> each</td><td><span class="bl__omsTag bl__omsTag--best">Save $25<small>Best value</small></span></td></tr>
+          </table>
+          <p class="bl__omsFoot">More copies. Bigger savings. A stronger tomorrow together.</p>
+        </div>
+        <a class="bl__cta" href="/book/checkout/" data-tab="preorder-checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 11h11L21 7H6.5"/></svg>Pre-Order Now<span class="bl__arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+    <p class="bl__foot"><span>Biblical Wisdom</span><i>|</i><span>Practical Tools</span><i>|</i><span>Real Change</span></p>
+  </header>
+
+
+
+  <section class="band on-navy">
+    <div class="wrap" style="max-width:46rem">
+      <p class="eyebrow center" id="expect">Before the night</p>
+      <h2 class="h-lg center" style="margin-bottom:2rem">What to expect.</h2>
+      <div class="ev__faq ev__faq--dark">
+        <details><summary>Can I bring someone with me?</summary><p>Please do. If your headcount has changed since you registered, just reply to your confirmation email and tell us the new number &mdash; it helps us set out the right number of chairs.</p></details>
+        <details><summary>Is childcare available?</summary><p>No &mdash; we're not able to provide childcare for this one, so please plan accordingly. The evening is built for adults and runs about two hours.</p></details>
+        <details><summary>Will there be food?</summary><p>Refreshments will be served. Not a full meal, so eat beforehand if you're coming straight from work.</p></details>
+        <details><summary>Will the book be available?</summary><p>Yes, and we'll be signing copies. Come find us afterward &mdash; we're in no hurry to leave.</p></details>
+        <details><summary>What time should I arrive?</summary><p>Doors open at 5:30&nbsp;pm. Come early if you can; we'd genuinely rather meet you than start on time.</p></details>
+        <details><summary>What should I wear?</summary><p>Whatever you'd wear to church or out to dinner. Nobody is dressing up for this.</p></details>
+        <details><summary>I'm coming on my own. Is that odd?</summary><p>Not at all, and you won't be the only one. Nothing on the night asks you to pair up, speak, or share anything about your marriage in front of anyone.</p></details>
+        <details><summary>Do I need to bring anything?</summary><p>No. There's nothing to print and no ticket to show &mdash; we'll have your name.</p></details>
+        <details><summary>What if my plans change?</summary><p>Every email we send has a link to let us know. No awkwardness in it &mdash; it just frees the seat for someone else.</p></details>
+        <details><summary>I have an accessibility need.</summary><p>Reply to your confirmation email and tell us what you need. We'll sort it with the church and come back to you well before the night.</p></details>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================ SPONSOR =============================== -->
+<!-- Business / church / family sponsorships. Hidden from nav & sitemap.   -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor" hidden>
+
+  <div class="sp__thanks" role="status">
+    <div class="wrap"><span class="sp__thanksMark" aria-hidden="true">&#10003;</span> <b>Thank you for considering being a sponsor.</b> You're now on the sponsorship page &mdash; everything you need to decide is below.</div>
+  </div>
+  <header class="phead sp__head sp__head--center">
+    <div class="wrap">
+      <p class="sp__held" id="spHeld" hidden><span aria-hidden="true">&#10003;</span> Your seats for November 1st are reserved &mdash; the confirmation is in your inbox.</p>
+      <p class="eyebrow">Sponsor the night &amp; be recognized</p>
+      <h1>Put your name behind<br><em>a night that matters.</em></h1>
+      <p class="sp__lede">On Sunday, November 1st we launch <em>Never Fight or Argue Again</em> and celebrate thirty years of marriage in the same room, at Grace Family Church in Lutz. A full house of couples, pastors and families from across Tampa Bay. Sponsors make the evening free for everyone who walks in &mdash; and are thanked in front of all of them.</p>
+      <div class="sp__how2">
+        <p class="sp__how2Title">How this works</p>
+        <ol class="sp__steps sp__steps--center">
+          <li><b>Choose a level below</b> and tell us who to talk to. <b>No payment is taken on this page</b> &mdash; it's a reservation, nothing more.</li>
+          <li><b>We call you</b> within one business day to say thank you, answer questions, and confirm the details.</li>
+          <li><b>Then we collect payment</b> &mdash; a secure card link, Zelle, or check, whichever you prefer. Payment within 7 days holds your place.</li>
+          <li><b>You send your logo</b> by October 18th, and on November 1st your seats are waiting.</li>
+        </ol>
+      </div>
+      <p class="sp__cta"><a class="btn btn--lg" href="#sponsorLevels">See the sponsorship levels</a></p>
+    </div>
+  </header>
+
+  <section class="band on-navy" id="sponsorLevels">
+    <div class="wrap">
+      <p class="eyebrow center">Sponsorship levels &middot; for businesses &amp; ministries</p>
+      <h2 class="h-md center" style="margin-bottom:.5rem">Choose the level that fits.</h2>
+      <p class="sp__howLine center">A full house of married couples, pastors and families from across Tampa Bay. Choose a level &rarr; we call within a business day &rarr; invoice (card, Zelle or check) &rarr; logo by <b>October 18th</b>.</p>
+
+      <div class="sprows">
+        <article class="sprow sprow--top">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
+          <p class="sprow__sum"><b>&ldquo;Presented by&rdquo; on everything</b> &mdash; stage banner, screens, program, website and every email. Two minutes on stage or a short video, a reserved front table for 8, a display table at the reception, a full page in the program, a featured social post, and 10 signed books.</p>
+          <button class="btn" type="button" data-tier="presenting">Secure</button>
+        </article>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Three available</p><h3>Gold Sponsor</h3><p class="sp__price">$1,000</p></div>
+          <p class="sprow__sum"><b>Logo on the screens, program, website and emails.</b> Reserved seats for 6, a display table at the reception, thanked by name from the stage, a social mention, and 5 signed books.</p>
+          <button class="btn" type="button" data-tier="gold">Secure</button>
+        </article>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
+          <p class="sprow__sum"><b>Name on the screens and in the program,</b> listed on the website, reserved seats for 4, thanked from the stage, and 2 signed books.</p>
+          <button class="btn btn--outline" type="button" data-tier="silver">Secure</button>
+        </article>
+        <article class="sprow">
+          <div class="sprow__head"><p class="sp__tierTag">Open</p><h3>Community Sponsor</h3><p class="sp__price">$250</p></div>
+          <p class="sprow__sum"><b>For families, small businesses and friends.</b> Name in the program, listed on the website, reserved seats for 2, and a signed book.</p>
+          <button class="btn btn--outline" type="button" data-tier="community">Secure</button>
+        </article>
+        <article class="sprow sprow--specific">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
+          <p class="sprow__sum"><b>Host the food, the drinks, the hour everyone remembers.</b> &ldquo;Reception hosted by&rdquo; signage at every table, named from the stage as the host when we invite everyone to the reception &mdash; the one moment the whole room is listening &mdash; plus everything in Gold.</p>
+          <button class="btn btn--outline" type="button" data-tier="reception">Secure</button>
+        </article>
+        <article class="sprow sprow--specific">
+          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
+          <p class="sprow__sum"><b>Your name on the gift every couple takes home.</b> A branded card inside every guest gift, plus everything in Silver.</p>
+          <button class="btn btn--outline" type="button" data-tier="gift">Secure</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--paper" id="sponsorForm">
+    <div class="wrap" style="max-width:44rem">
+      <div class="capture capture--light" id="spFormWrap">
+        <p class="capture__title" id="spFormTitle">Secure your sponsorship</p>
+        <p class="capture__sub"><b>No payment is taken here.</b> This reserves your level; we call to confirm, then send a secure payment link, Zelle details, or an invoice &mdash; your choice.</p>
+        <form class="form" data-capture data-kind="sponsor" novalidate>
+          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+          <div class="field">
+            <label for="sp1">Sponsorship level</label>
+            <select id="sp1" name="tier">
+              <option value="">Choose a level&hellip;</option>
+              <option value="presenting">Presenting Sponsor &mdash; $2,500</option>
+              <option value="gold">Gold Sponsor &mdash; $1,000</option>
+              <option value="silver">Silver Sponsor &mdash; $500</option>
+              <option value="community">Community Sponsor &mdash; $250</option>
+              <option value="reception">Reception Sponsor &mdash; $1,500</option>
+              <option value="gift">Guest Gift Sponsor &mdash; $750</option>
+            </select>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="sp3">Contact name</label>
+              <input type="text" id="sp3" name="contact" placeholder="Full name" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="sp4">Business or organization</label>
+              <input type="text" id="sp4" name="business" placeholder="Business name" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="sp5">Email</label>
+              <input type="email" id="sp5" name="email" placeholder="you@yourbusiness.com" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="sp6">Phone</label>
+              <input type="tel" id="sp6" name="phone" placeholder="(813) 555-0100" autocomplete="tel">
+            </div>
+          </div>
+          <div class="field">
+            <label for="sp7">Website or social <span class="sponsor__opt">(optional)</span></label>
+            <input type="text" id="sp7" name="website" placeholder="yourbusiness.com or @handle">
+          </div>
+          <div class="field">
+            <label for="sp8">How would you like to pay?</label>
+            <select id="sp8" name="pay_pref">
+              <option value="invoice">Send me an invoice (card, Zelle or check)</option>
+              <option value="card">Card &mdash; send me a payment link</option>
+              <option value="zelle">Zelle</option>
+              <option value="check">Check</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sp9">Anything we should know? <span class="sponsor__opt">(optional)</span></label>
+            <textarea id="sp9" name="message" placeholder="Who to address the invoice to, a question, or how you'd like to be recognized"></textarea>
+          </div>
+          <input type="hidden" name="first_name" value="Sponsor">
+          <p class="form__error" hidden></p>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve this sponsorship &mdash; no payment now</button>
+          <p class="form__fine" style="color:var(--ink-soft)">Nothing is charged on this page. We'll confirm by phone and collect payment afterwards.</p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="band on-navy">
+    <div class="wrap" style="max-width:46rem">
+      <p class="eyebrow center">Questions sponsors ask</p>
+      <h2 class="h-lg center" style="margin-bottom:2rem">Good to know.</h2>
+      <div class="ev__faq ev__faq--dark">
+        <details><summary>Is this tax-deductible?</summary><p>Sponsorships are paid to Larry &amp; Rolanda Beacham, not to a registered charity, so they are generally treated as a marketing or advertising expense for your business rather than a charitable gift. Please check with your accountant.</p></details>
+        <details><summary>Can I sponsor more than one thing?</summary><p>Yes &mdash; reserve each one separately, or tell us in the message box and we'll put it on one invoice.</p></details>
+        <details><summary>What if the level I want is taken?</summary><p>We'll call you the same day and offer the closest alternative. Nothing is charged until you say yes.</p></details>
+        <details><summary>Can I bring a banner or product?</summary><p>Gold, Presenting and Reception sponsors get a display table at the reception. A pull-up banner is welcome; we'll confirm the space with the church.</p></details>
+        <details><summary>Can I sponsor as an individual, not a business?</summary><p>Absolutely. The Community Sponsor level is built for exactly that &mdash; and anyone can gift a signed copy above.</p></details>
+        <details><summary>Something else?</summary><p>Email <a href="#" data-mail="Sponsorship question">larry@kdmcommunity.com</a> or reply to any email from us &mdash; it comes straight to Larry.</p></details>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= SPONSOR THANK-YOU ========================== -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">Sponsorship reserved</p>
+        <h1>Thank you.<br><em>Truly.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">We've reserved your sponsorship and emailed you the next steps. Larry or Rolanda will call within one business day to say thank you properly, confirm the details, and get an invoice to you.</p>
+        <ol class="sp__steps" style="margin-top:1.5rem">
+          <li><b>We call you</b> within one business day.</li>
+          <li><b>Invoice</b> by card, Zelle or check &mdash; payment within 7 days holds your place.</li>
+          <li><b>Your logo</b> by October 18th, so it makes the printed program and the screens.</li>
+          <li><b>November 1st.</b> Your seats are waiting.</li>
+        </ol>
+        <p style="margin-top:1.5rem"><a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
+      </div>
+      <aside class="reg__card">
+        <p class="eyebrow">One more thing you can do</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">$20 puts a signed copy of the book in the hands of another couple &mdash; given on the night, from us.</p>
+        <a class="giftbtn" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
+      </aside>
+    </div>
+  </header>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================== GIFT ================================ -->
+<!-- Public, shareable: neverfightorargue.com/gift/                        -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift" hidden>
+  <section class="band band--paper" id="giftHero">
+    <div class="wrap give">
+      <div class="give__art" aria-hidden="true">
+        <img src="/assets/book-3d.webp" alt="" width="900" height="1367" loading="lazy">
+      </div>
+      <div class="give__copy">
+        <p class="eyebrow eyebrow--ink">One thing you can do right now</p>
+        <h2 class="h-lg">Be a blessing and gift a signed copy to a couple.</h2>
+        <p class="lede">The evening costs nothing to attend. Not every couple will leave with the book &mdash; and some of the couples who'd benefit most are the ones who'd never ask.</p>
+        <p><strong>$20 &mdash; the price of the book &mdash; covers one signed copy.</strong> We hand it to a couple on the night, from us, with your name on the card inside if you'd like it there. You'll never know who they were. They'll never forget somebody did it.</p>
+        <p class="give__cta">
+          <a class="giftbtn giftbtn--lg" id="giveBtnPublic" href="#sponsorForm"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
+        </p>
+        <p class="give__fine">Secure card payment through Stripe &mdash; choose how many copies on the next screen. Anyone who gifts five or more is named in the printed program.</p>
+        
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= GIFT THANK-YOU =========================== -->
+<!-- Stripe redirects here after a signed-copy gift. noindex.               -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">Gift received</p>
+        <h1>Thank you.<br><em>Somebody's going home with the book.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">Your gift is confirmed and Stripe has emailed you a receipt. On November 1st we'll hand a signed copy to a couple, with your name on the card inside if you gave one. You won't know who they were. They won't forget that somebody did it.</p>
+        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center">
+          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn btn--outline" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener">Gift another copy</a>
+        </p>
+        <p style="margin-top:1.75rem"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
+      </div>
+      <aside class="reg__card share">
+        <p class="eyebrow">Share the idea</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">Know someone who'd want to do this too? Copy the message and send it &mdash; nothing to write.</p>
+        <textarea class="share__msg" id="shareMsg" readonly rows="5">I just gifted a signed copy of "Never Fight or Argue Again" to a couple I'll never meet — it gets handed to them at the book launch on November 1st. $20, takes a minute. If you want to do the same: https://neverfightorargue.com/gift/</textarea>
+        <div class="share__btns">
+          <button type="button" class="btn btn--outline" id="shareCopy">Copy message</button>
+          <a class="btn btn--outline" id="shareSms" href="#">Text it</a>
+          <a class="btn btn--outline" id="shareMail" href="#">Email it</a>
+        </div>
+      </aside>
+    </div>
+  </header>
+</div>
+<!-- ==================================================================== -->
+<!-- =========================== INVOICING ============================== -->
+<!-- Hidden tool for Larry. noindex, not linked anywhere.                  -->
+<!-- ==================================================================== -->
+<div class="view" id="view-invoice" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:46rem">
+      <p class="eyebrow eyebrow--ink">Internal &middot; sponsorship invoicing</p>
+      <h1 class="h-lg" style="margin-bottom:.5rem">Send a sponsor their payment link.</h1>
+      <p class="lede" style="margin-bottom:1.5rem">Pick the level they reserved. You'll get the secure Stripe link for that amount and a message to paste into a text or email. Stripe emails them a receipt and an invoice automatically, and the payment shows in your dashboard.</p>
+      <div class="capture capture--light">
+        <div class="form">
+          <div class="form__row">
+            <div class="field">
+              <label for="inv1">Sponsorship level</label>
+              <select id="inv1">
+                <option value="">Choose a level&hellip;</option>
+                <option value="presenting">Presenting Sponsor &mdash; $2,500</option>
+                <option value="gold">Gold Sponsor &mdash; $1,000</option>
+                <option value="silver">Silver Sponsor &mdash; $500</option>
+                <option value="community">Community Sponsor &mdash; $250</option>
+                <option value="reception">Reception Sponsor &mdash; $1,500</option>
+                <option value="gift">Guest Gift Sponsor &mdash; $750</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="inv2">Sponsor's first name <span class="sponsor__opt">(for the message)</span></label>
+              <input type="text" id="inv2" placeholder="e.g. Marcus">
+            </div>
+          </div>
+          <div class="field" id="invOut" hidden>
+            <label for="inv3">Secure payment link</label>
+            <input type="text" id="inv3" readonly>
+            <div class="share__btns" style="margin-top:.5rem">
+              <button type="button" class="btn btn--onLight" id="invCopyLink">Copy link</button>
+              <a class="btn btn--outline btn--onLightOutline" id="invOpen" href="#" target="_blank" rel="noopener">Open link</a>
+            </div>
+          </div>
+          <div class="field" id="invMsgWrap" hidden>
+            <label for="inv4">Message to send</label>
+            <textarea id="inv4" rows="9" readonly></textarea>
+            <div class="share__btns" style="margin-top:.5rem">
+              <button type="button" class="btn btn--onLight" id="invCopyMsg">Copy message</button>
+              <a class="btn btn--outline btn--onLightOutline" id="invMail" href="#">Open in email</a>
+              <a class="btn btn--outline btn--onLightOutline" id="invSms" href="#">Open in Messages</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="form__fine" style="color:var(--ink-soft);margin-top:1rem">Zelle or check instead? Reply to their reservation email with the details, and mark the row paid in Supabase when it lands.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= SPONSOR PAID ============================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor-paid" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">Payment received</p>
+        <h1>You're in.<br><em>Thank you.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">Your sponsorship is confirmed and paid. Stripe has emailed your receipt and invoice. Two things left: reply to any of our emails with your <strong>logo</strong> (PNG or SVG) by <strong>October 18th</strong>, and we'll see you on <strong>November 1st</strong> &mdash; your seats will be waiting.</p>
+        <p style="margin-top:1.5rem"><a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
+      </div>
+      <aside class="reg__card">
+        <p class="eyebrow">One more thing you can do</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 1rem">$20 puts a signed copy of the book in the hands of another couple &mdash; given on the night, from us.</p>
+        <a class="giftbtn" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener"><img src="/assets/gift-signed-copy.png" alt="Gift a signed copy — $20" width="2020" height="629"></a>
+      </aside>
+    </div>
+  </header>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= GIFT CHECKOUT ============================ -->
+<!-- Embedded Stripe checkout on our own page.                             -->
+<!-- ==================================================================== -->
+<div class="view" id="view-gift-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <div class="co__intro">
+          <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+          <div class="co__text">
+            <p class="eyebrow eyebrow--ink">Be a blessing</p>
+            <h1 class="co__h1">Gift a signed copy to a couple.</h1>
+            <p class="co__lede">$20 &mdash; the price of the book &mdash; puts a signed copy in another couple's hands on November 1st. We hand it to them, from us, with your name on the card inside if you'd like.</p>
+            <ul class="co__trust">
+              <li>Secure payment by Stripe</li>
+              <li>Receipt emailed to you</li>
+              <li>Gift five or more and you're named in the printed program</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="co__main">
+        <div class="co__step" id="coPick">
+          <p class="co__label">How many copies?</p>
+          <div class="co__qty" role="group" aria-label="Number of copies">
+            <button type="button" class="co__opt" data-q="1"><b>1</b><span>$20</span></button>
+            <button type="button" class="co__opt is-on" data-q="3"><b>3</b><span>$60</span></button>
+            <button type="button" class="co__opt" data-q="5"><b>5</b><span>$100</span></button>
+            <button type="button" class="co__opt" data-q="10"><b>10</b><span>$200</span></button>
+          </div>
+          <label class="co__custom">Or another number: <input type="number" id="coQty" min="1" max="100" inputmode="numeric" placeholder="e.g. 7"></label>
+          <button type="button" class="btn btn--onLight btn--lg btn--block" id="coGo">Continue to secure payment</button>
+          <p class="form__fine" style="color:var(--ink-soft)">You can still change the number on the next step.</p>
+          <p class="form__error" id="coErr" hidden></p>
+        </div>
+        <div class="co__frame" id="coFrame" hidden>
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="coMount"></div>
+          <p class="form__fine" style="color:var(--ink-soft);margin-top:.75rem"><a href="#" id="coBack">&larr; Change the number of copies</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= SPONSOR CHECKOUT =========================== -->
+<!-- /sponsor/checkout/?tier=gold — used by the invoicing tool             -->
+<!-- ==================================================================== -->
+<div class="view" id="view-sponsor-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <p class="eyebrow eyebrow--ink">Sponsorship payment</p>
+        <h1 class="co__h1" id="scTitle">Thank you for sponsoring the night.</h1>
+        <p class="co__lede" id="scLede">Complete your sponsorship of the <em>Never Fight or Argue Again</em> book launch &amp; 30-year anniversary celebration, Sunday November 1st at Grace Family Church.</p>
+        <div class="co__tier" id="scTier"></div>
+        <ul class="co__trust">
+          <li>Secure payment by Stripe</li>
+          <li>Receipt and invoice emailed to you</li>
+          <li>Next: send us your logo by October 18th</li>
+        </ul>
+      </div>
+      <div class="co__main">
+        <div class="co__frame">
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="scMount"></div>
+          <p class="form__error" id="scErr" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= PRE-ORDER CHECKOUT ========================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-preorder-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <div class="co__intro">
+          <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+          <div class="co__text">
+            <p class="eyebrow eyebrow--ink">Beat the line</p>
+            <h1 class="co__h1">Pre-order your signed copy.</h1>
+            <p class="co__lede">$20 &mdash; the same as at the table &mdash; and you skip the line on November 1st.</p>
+            <ul class="co__trust">
+              <li>Express pickup, signed to whoever you like</li>
+              <li>Reserved front-section seating</li>
+              <li>Laminated Frameworks Bundle &mdash; classroom only</li>
+              <li>Secure payment by Stripe &middot; pickup at the event</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="co__main">
+        <div class="co__step" id="poPick">
+          <p class="co__label">How many copies? <span class="co__save">Buy more, pay less per copy</span></p>
+          <div class="co__qty co__qty--5" role="group" aria-label="Number of copies">
+            <button type="button" class="co__opt is-on" data-q="1"><b>1</b><span>$20</span><em>&nbsp;</em></button>
+            <button type="button" class="co__opt" data-q="2"><b>2</b><span>$38</span><em>$19 each &middot; save $2</em></button>
+            <button type="button" class="co__opt" data-q="3"><b>3</b><span>$54</span><em>$18 each &middot; save $6</em></button>
+            <button type="button" class="co__opt" data-q="4"><b>4</b><span>$64</span><em>$16 each &middot; save $16</em></button>
+            <button type="button" class="co__opt co__opt--best" data-q="5"><b>5</b><span>$75</span><em>$15 each &middot; save $25</em><i>Best value</i></button>
+          </div>
+          <label class="co__custom">Or another number: <input type="number" id="poQty" min="1" max="20" inputmode="numeric" placeholder="e.g. 8"></label>
+          <p class="co__total" id="poTotal"><b>1 copy &mdash; $20</b></p>
+          <button type="button" class="btn btn--onLight btn--lg btn--block" id="poGo">Continue to secure payment</button>
+          <p class="form__fine" style="color:var(--ink-soft)">$20 for one. 2 copies $19 each, 3 for $18, 4 for $16, and 5 or more just $15 each. You&rsquo;ll be asked who to sign them to on the next step.</p>
+          <p class="form__error" id="poErr" hidden></p>
+        </div>
+        <div class="co__frame" id="poFrame" hidden>
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="poMount"></div>
+          <p class="form__fine" style="color:var(--ink-soft);margin-top:.75rem"><a href="#" id="poBack">&larr; Change the number of copies</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= PRE-ORDER THANK-YOU ======================== -->
+<!-- ==================================================================== -->
+<div class="view" id="view-preorder-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">You beat the line</p>
+        <h1>Your copy is spoken for.<br><em>See you up front.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and show your pickup pass at the express table for your signed copy and the laminated Frameworks Bundle &mdash; no line.</p>
+        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
+          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn btn--outline" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Read Chapter One now</a>
+        </p>
+      </div>
+      <aside class="pass" id="passThanks" data-pass>
+        <p class="pass__kick">Your express pickup pass</p>
+        <div class="pass__qr" data-qr><p class="pass__wait">Preparing your pass&hellip;</p></div>
+        <p class="pass__name" data-name></p>
+        <p class="pass__meta" data-meta></p>
+        <p class="pass__how"><b>Save this.</b> Screenshot it, or use the link in your confirmation email &mdash; then show it at the express table on the night.</p>
+        <p class="pass__link"><a data-link href="#">Open my pass in its own page &rarr;</a></p>
+      </aside>
+    </div>
+  </header>
+</div>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= PICKUP PASS ============================== -->
+<!-- /pickup/?t=<token> — the buyer's QR pass. noindex.                    -->
+<!-- ==================================================================== -->
+<div class="view" id="view-pass" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:30rem">
+      <div class="pass pass--light" id="passPage" data-pass>
+        <p class="pass__kick">Express pickup pass</p>
+        <p class="pass__title">Never Fight or Argue Again &middot; Book launch</p>
+        <div class="pass__qr" data-qr><p class="pass__wait">Loading your pass&hellip;</p></div>
+        <p class="pass__name" data-name></p>
+        <p class="pass__meta" data-meta></p>
+        <p class="pass__how">Show this screen at the <b>express table</b> on Sunday, November 1st (doors 5:30 pm, Grace Family Church, Lutz). Your signed copy and the laminated Frameworks Bundle are waiting.</p>
+        <p class="pass__status" data-status hidden></p>
+        <div class="pass__vol" id="passVol" hidden>
+          <p class="pass__volKick">Volunteer</p>
+          <button type="button" class="btn btn--onLight btn--block" id="passMark">Mark as picked up</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ========================= EXPRESS TABLE ============================ -->
+<!-- /express/ — volunteer check-in list. PIN-protected. noindex.          -->
+<!-- ==================================================================== -->
+<div class="view" id="view-express" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:52rem">
+      <div id="exLogin">
+        <p class="eyebrow eyebrow--ink">Express table &middot; volunteers</p>
+        <h1 class="h-lg" style="margin-bottom:.5rem">Pickup check-in</h1>
+        <p class="lede" style="margin-bottom:1.25rem">Enter the PIN Larry gave you. The list updates itself as people pre-order, so there&rsquo;s nothing to print.</p>
+        <div class="capture capture--light" style="max-width:24rem">
+          <div class="form">
+            <div class="field"><label for="exPin">PIN</label><input type="password" id="exPin" inputmode="numeric" autocomplete="one-time-code" placeholder="4 digits"></div>
+            <p class="form__error" id="exErr" hidden></p>
+            <button type="button" class="btn btn--onLight btn--block" id="exGo">Open the list</button>
+          </div>
+        </div>
+      </div>
+      <div id="exApp" hidden>
+        <div class="ex__head">
+          <div>
+            <p class="eyebrow eyebrow--ink">Express table</p>
+            <h1 class="h-md" style="margin:0">Pre-order pickups</h1>
+          </div>
+          <div class="ex__totals"><b id="exPicked">0</b> of <b id="exTotal">0</b> collected &middot; <span id="exCopies">0</span> copies</div>
+        </div>
+        <div class="ex__tools">
+          <input type="search" id="exSearch" placeholder="Search by name or email&hellip;" autocomplete="off">
+          <label class="ex__toggle"><input type="checkbox" id="exHide"> Hide collected</label>
+          <button type="button" class="btn btn--onLightOutline btn--sm" id="exRefresh">Refresh</button>
+        </div>
+        <p class="ex__tip">Tip: scanning someone&rsquo;s QR with this phone opens their pass with a &ldquo;Mark as picked up&rdquo; button.</p>
+        <ul class="ex__list" id="exList"></ul>
+        <p class="form__error" id="exAppErr" hidden></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="view" id="view-churches" hidden>
+
+  <header class="phead phead--portrait phead--wide">
+    <div class="wrap phead__inner">
+      <div class="phead__words">
+        <p class="eyebrow">For churches &amp; organizations</p>
+        <h1>Marriage curriculum couples will actually finish.</h1>
+        <p>Most marriage studies teach couples to communicate better inside the same old pattern. This one changes the pattern — and it gives each spouse something specific to do, which is usually the difference between a group that shows up week four and a group that doesn't.</p>
+      </div>
+      <figure class="portrait portrait--head portrait--wide">
+        <picture>
+          <source srcset="/assets/churches-group.webp" type="image/webp">
+          <img src="/assets/churches-group.jpg"
+               alt="Couples working through the study together around a table in a small group"
+               width="1400" height="788" loading="eager">
+        </picture>
+      </figure>
+    </div>
+  </header>
+
+  <section class="band band--paper">
+    <div class="wrap grid-2">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Why leaders reach for this</p>
+        <h2 class="h-lg">The couples in your church aren't short on principles.</h2>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <blockquote class="quote">
+          <p>You can win the argument — or you can be the place they never have to argue again.</p>
+          <footer>From the book</footer>
+        </blockquote>
+      </div>
+      <div class="reveal">
+        <p>They've heard the sermons. They know the verses. What they're missing is a sequence — something concrete enough that a husband knows exactly what to do on Thursday night when he can tell his wife is hurt and he doesn't know what to say.</p>
+        <p>This material gives both spouses their own assignment. The one carrying the hurt works a Safety Plan. The one who caused it works a Readiness Plan. Neither is waiting on the other to go first, which removes the standoff that stalls most marriage ministry.</p>
+        <p>It's Scripture-anchored throughout, written by a couple who needed it themselves first, and it doesn't require a licensed counselor in the room to lead well.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--light">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--ink reveal">The curriculum</p>
+      <h2 class="h-lg reveal">A complete curriculum, ready to run.</h2>
+      <p class="lede reveal" style="margin-bottom:clamp(2.5rem,5vw,3.5rem)">Three pieces that work on their own or together. Take the book to a small group, add the workbook when couples are ready to do the exercises, or run the whole thing with the video course and let us carry the teaching.</p>
+
+      <div class="ladder">
+        <div class="tier tier--now reveal">
+          <p class="tier__status">Start here</p>
+          <h3>The Book</h3>
+          <p>The complete plan, with a chapter-by-chapter discussion guide already built in for group study.</p>
+          <ul class="tier__list">
+            <li>Paperback &amp; ebook</li>
+            <li>Bulk and church pricing</li>
+            <li>Discussion guide included</li>
+            <li>Signed copies on request</li>
+          </ul>
+          <p style="margin-top:auto;padding-top:1.75rem"><a class="btn btn--onLight btn--block" href="#inquire">Request bulk pricing</a></p>
+        </div>
+        <div class="tier reveal">
+          <p class="tier__status">Go deeper</p>
+          <h3>The Workbook</h3>
+          <p>Guided exercises for each plan, worked separately by each spouse and then brought together.</p>
+          <ul class="tier__list">
+            <li>Safety Plan worksheets</li>
+            <li>Readiness Plan worksheets</li>
+            <li>Stop Loss agreement page</li>
+            <li>Session-by-session pacing</li>
+          </ul>
+          <p style="margin-top:auto;padding-top:1.75rem"><a class="btn btn--outline btn--gold btn--block" href="#inquire">Request pricing</a></p>
+        </div>
+        <div class="tier reveal">
+          <p class="tier__status">Run the series</p>
+          <h3>The Video Course</h3>
+          <p>Session videos with Larry and Ro, plus everything a facilitator needs to run the study without prep-heavy weeks.</p>
+          <ul class="tier__list">
+            <li>Teaching video per session</li>
+            <li>Leader guide &amp; discussion prompts</li>
+            <li>Streaming or download</li>
+            <li>Church-wide licensing</li>
+          </ul>
+          <p style="margin-top:auto;padding-top:1.75rem"><a class="btn btn--outline btn--gold btn--block" href="#inquire">Request pricing</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band on-navy">
+    <div class="wrap">
+      <p class="eyebrow reveal">Ways churches are using it</p>
+      <h2 class="h-lg reveal">Built to flex to whatever you already run.</h2>
+      <div class="cards reveal" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+        <div class="card">
+          <div class="card__name">Small group study</div>
+          <div class="card__gloss">6–12 weeks</div>
+          <p>Work through the book using the built-in discussion guide. Homes, campus, or online. Couples read between sessions and practice one tool at a time.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Marriage retreat</div>
+          <div class="card__gloss">One weekend</div>
+          <p>The two preparation plans taught side by side, with guided practice time so couples leave having already had one conversation the new way.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Premarital track</div>
+          <div class="card__gloss">Before the pattern sets</div>
+          <p>Engaged couples learn the plan before they've built ten years of habits to unlearn. Pairs naturally with existing premarital counseling.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Counseling ministry</div>
+          <div class="card__gloss">Between sessions</div>
+          <p>Give couples structured homework that reinforces what happens in the room, and a shared vocabulary your counselors can reference by name.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Church-wide series</div>
+          <div class="card__gloss">All-in</div>
+          <p>Weekend messages paired with group study, so the whole congregation is working the same material at the same time.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Leadership &amp; staff</div>
+          <div class="card__gloss">Start at the top</div>
+          <p>Ministry marriages carry unusual pressure and unusually little permission to say so. Several churches start here before rolling it out.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--paper" id="inquire">
+    <div class="wrap grid-2">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Talk to us</p>
+        <h2 class="h-lg">Tell us what you're planning.</h2>
+        <p class="lede">Whether you need twelve copies for a small group or you're mapping out a church-wide series, send the details and we'll come back with pricing, timing, and the format we'd recommend for your group.</p>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <ul class="ticks" style="margin-top:0">
+          <li><strong>Bulk pricing</strong> on ten copies or more</li>
+          <li><strong>Workbook and course licensing</strong> for groups of any size</li>
+          <li><strong>Leader support</strong> from Larry and Ro as you launch</li>
+        </ul>
+        <p style="margin-top:1.75rem;font-size:.9375rem;color:var(--ink-soft)">Prefer email? <a class="inlink" href="#" data-mail="Curriculum inquiry">churches@neverfightorargue.com</a></p>
+      </div>
+
+      <div class="capture capture--light reveal">
+        <p class="capture__title">Curriculum &amp; bulk inquiry</p>
+        <p class="capture__sub">We read every one of these ourselves.</p>
+        <form class="form" data-capture data-kind="church" novalidate>
+          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+          <div class="form__row">
+            <div class="field">
+              <label for="c1">First name</label>
+              <input type="text" id="c1" name="first_name" placeholder="First name" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="c2">Last name</label>
+              <input type="text" id="c2" name="last_name" placeholder="Last name" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="field">
+            <label for="c3">Email</label>
+            <input type="email" id="c3" name="email" placeholder="you@yourchurch.org" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="c4">Church or organization</label>
+            <input type="text" id="c4" name="organization" placeholder="Name of your church or ministry" autocomplete="organization">
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="c5">Interested in</label>
+              <select id="c5" name="interest">
+                <option>Bulk book order</option>
+                <option>Workbook order</option>
+                <option>Video course licensing</option>
+                <option>Church-wide series</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="c6">Approx. couples</label>
+              <select id="c6" name="group_size">
+                <option>Under 10</option>
+                <option>10–25</option>
+                <option>25–75</option>
+                <option>75–200</option>
+                <option>200+</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="c7">Anything we should know</label>
+            <textarea id="c7" name="notes" placeholder="Timing, format, what you've tried before…"></textarea>
+          </div>
+          <p class="form__error" hidden></p>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send inquiry</button>
+          <p class="form__fine">We'll reply personally, usually within two business days.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================ SPEAKING ============================== -->
+<!-- ==================================================================== -->
+<div class="view" id="view-speaking" hidden>
+
+  <header class="phead">
+    <div class="wrap phead__inner">
+      <p class="eyebrow">Speaking &amp; couples ministry</p>
+      <h1>Bring the plan to your church, retreat, or group.</h1>
+      <p>Larry and Ro teach this material the way they learned it — plainly, as two people who needed it first. No performance, no polished couple on a stage pretending the hard years didn't happen.</p>
+    </div>
+  </header>
+
+  <section class="band band--paper">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--ink reveal">Formats</p>
+      <h2 class="h-lg reveal">Four ways to have us in.</h2>
+      <div class="cards reveal" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
+        <div class="card">
+          <div class="card__name">Sunday message</div>
+          <div class="card__gloss">One service</div>
+          <p>A single message on conflict versus fighting, and what changes in a home when a marriage stops keeping score. Works as a stand-alone or as the launch of a group series.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Marriage retreat</div>
+          <div class="card__gloss">A weekend</div>
+          <p>The Safety Plan and Readiness Plan taught side by side, with protected practice time so couples leave having already had one conversation the new way.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Small-group series</div>
+          <div class="card__gloss">Multiple weeks</div>
+          <p>A multi-week study built on the book's discussion guide, for groups meeting in homes or on campus. We can teach it or train your leaders to.</p>
+        </div>
+        <div class="card">
+          <div class="card__name">Couples intensive</div>
+          <div class="card__gloss">Private</div>
+          <p>Focused private sessions for couples who need to work through the plan with someone in the room. Limited availability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band on-navy">
+    <div class="wrap grid-2 grid-2--center">
+      <div class="reveal">
+        <p class="eyebrow">What it sounds like</p>
+        <blockquote class="quote">
+          <p>Peace isn't found in avoiding conflict. It's found in choosing connection — even inside it.</p>
+          <footer>From the book</footer>
+        </blockquote>
+        <p style="margin-top:2rem">Larry and Ro don't teach conflict resolution as a set of techniques. They teach it as something two people become, then hand the room the specific steps to get there. Expect honesty about their own marriage, Scripture that isn't decorative, and tools people can use before they get home.</p>
+      </div>
+      <div class="reveal">
+        <ul class="ticks" style="margin-top:0">
+          <li>Available for <strong>churches, conferences, retreats, and ministry leadership teams</strong></li>
+          <li>Based in <strong>Odessa, Florida</strong>; available to travel</li>
+          <li>Book sales, signings, and bulk copies can be arranged alongside the event</li>
+          <li>Happy to <strong>train your leaders</strong> so the material continues after we leave</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--light" id="book-us">
+    <div class="wrap grid-2">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Check availability</p>
+        <h2 class="h-lg">Tell us about your event.</h2>
+        <p class="lede">Send the date, the format, and roughly who'll be in the room. We'll come back with availability and what we'd suggest for your group.</p>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <p style="font-size:.9375rem;color:var(--ink-soft)">Prefer email? <a class="inlink" href="#" data-mail="Speaking inquiry">speaking@neverfightorargue.com</a></p>
+      </div>
+
+      <div class="capture capture--light reveal">
+        <p class="capture__title">Speaking inquiry</p>
+        <p class="capture__sub">We'll reply within two business days.</p>
+        <form class="form" data-capture data-kind="speaking" novalidate>
+          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+          <div class="form__row">
+            <div class="field">
+              <label for="s1">First name</label>
+              <input type="text" id="s1" name="first_name" placeholder="First name" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="s2">Last name</label>
+              <input type="text" id="s2" name="last_name" placeholder="Last name" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="field">
+            <label for="s3">Email</label>
+            <input type="email" id="s3" name="email" placeholder="you@yourchurch.org" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="s4">Church or organization</label>
+            <input type="text" id="s4" name="organization" placeholder="Where you're inviting us" autocomplete="organization">
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="s5">Format</label>
+              <select id="s5" name="format">
+                <option>Sunday message</option>
+                <option>Marriage retreat</option>
+                <option>Small-group series</option>
+                <option>Couples intensive</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="s6">Target date</label>
+              <input type="date" id="s6" name="event_date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="s7">About your group</label>
+            <textarea id="s7" name="notes" placeholder="Size, setting, what you're hoping people walk away with…"></textarea>
+          </div>
+          <p class="form__error" hidden></p>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send inquiry</button>
+          <p class="form__fine">No obligation. We'll be straight with you about fit and availability.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============================= ABOUT ================================ -->
+<!-- ==================================================================== -->
+<div class="view" id="view-about" hidden>
+
+  <header class="phead phead--portrait">
+    <div class="wrap phead__inner">
+      <div class="phead__words">
+        <p class="eyebrow">About the authors</p>
+        <h1>Larry &amp; Rolanda Beacham</h1>
+        <p>A husband-and-wife team devoted to helping couples move from conflict to real connection — starting with the years they spent learning it the hard way themselves.</p>
+      </div>
+      <figure class="portrait portrait--head">
+        <img src="/assets/larry-rolanda.jpg"
+             alt="Larry and Rolanda Beacham, smiling together"
+             width="1400" height="1050" loading="eager">
+      </figure>
+    </div>
+  </header>
+
+  <section class="band band--paper">
+    <div class="wrap grid-2">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Their story</p>
+        <h2 class="h-lg">Fighting fair still wasn't the same as not fighting.</h2>
+        <div class="orn orn--short" aria-hidden="true"><span></span></div>
+        <blockquote class="quote">
+          <p>They did what the books said. And they still kept ending up on opposite sides of the same room.</p>
+        </blockquote>
+      </div>
+      <div class="reveal">
+        <p>Larry and Rolanda learned that the long way. They stayed calm, listened actively, kept it clean — everything the advice told them to do.</p>
+        <p>What eventually changed things wasn't a better technique. It was realizing that both of them were walking into hard conversations unprepared — one carrying pain with nowhere safe to put it, the other bracing for impact and reaching for a defense. Out of those years came the Safety Plan and Anti-Fight Plan framework at the center of this book.</p>
+        <p>It has since shaped how they lead their own marriage and how they walk alongside other couples. They live in Odessa, Florida, and are parents to Taylor, Bryant, Lauryn, Manny, Ari, and Trey. <em>Never Fight or Argue Again</em> is their first book.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band on-navy">
+    <div class="wrap" style="max-width:48rem">
+      <p class="eyebrow reveal">In their words</p>
+      <blockquote class="quote reveal">
+        <p>And above all, to God, who never once taught us how to fight better. Only how to stop.</p>
+        <footer>From the acknowledgments</footer>
+      </blockquote>
+      <p class="reveal" style="margin-top:2.5rem">They're quick to name the people who got them here: mentors, pastors, and counselors who told them the truth they needed instead of the thing they wanted to hear. Chris and Vanessa Davis, who laid a foundation and taught them what resolving conflict in a godly way actually looks like. Pastor Ralph Johnson of Grace Family Church in Tampa, whose wisdom carried them through some of their toughest moments. And their six children, who lived through the years their parents were still figuring it out.</p>
+    </div>
+  </section>
+
+  <section class="band band--light">
+    <div class="wrap grid-2 grid-2--center">
+      <div class="reveal">
+        <p class="eyebrow eyebrow--ink">Work with Larry &amp; Ro</p>
+        <h2 class="h-lg">Have them in, or take the plan to your church.</h2>
+        <p class="lede">They speak at weekend services, marriage retreats, and small-group series, and work with churches building marriage ministry from the ground up.</p>
+        <p style="margin-top:1.75rem;display:flex;gap:.75rem;flex-wrap:wrap">
+          <a class="btn btn--onLight" href="/speaking/" data-tab="speaking">Speaking &amp; retreats</a>
+          <a class="btn btn--outline btn--gold" href="/churches/" data-tab="churches">Curriculum for churches</a>
+        </p>
+      </div>
+      <div class="capture capture--light reveal">
+        <p class="capture__title">Send Me Chapter One</p>
+        <p class="capture__sub">Free to read tonight. Sent the moment you hit send.</p>
+        <form class="form" data-capture novalidate>
+          <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
+          <div class="field">
+            <label for="a1">First name</label>
+            <input type="text" id="a1" name="first_name" placeholder="Your first name" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="a2">Email</label>
+            <input type="email" id="a2" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <p class="form__error" hidden></p>
+          <button class="btn btn--onLight btn--lg btn--block" type="submit">Send my free chapter</button>
+          <p class="form__fine">Unsubscribe any time. We never share your address.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+
+<!-- ==================================================================== -->
+<!-- ========================= TESTIMONIALS ============================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-testimonials" hidden>
+
+  <header class="phead phead--portrait phead--slider">
+    <div class="wrap phead__inner">
+      <div class="phead__words">
+        <p class="eyebrow">Testimonials</p>
+        <h1>Couples who got what they'd stopped hoping for.</h1>
+        <p>These are couples we've walked with. We're grateful they were willing to say out loud what most of us keep quiet.</p>
+      </div>
+      <div class="phead__media">
+  <div class="slider reveal" id="vidSlider" aria-roledescription="carousel" aria-label="Video testimonials">
+    <div class="slider__frame">
+      <div class="slider__track" id="vidTrack">
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 1">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Harrisons" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 1 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Harrisons</p>
+          <p class="slide__meta">Married 14 years</p>
+          <blockquote class="slide__quote">Placeholder caption — a line or two from what this couple says on camera. Replace with their own words once the videos are cut.</blockquote>
+          <p class="slide__len">Runtime 2:41</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 2">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Alvarezes" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 2 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Alvarezes</p>
+          <p class="slide__meta">Married 6 years</p>
+          <blockquote class="slide__quote">Placeholder caption — the moment in their story that made the plan click. Swap this text with a real pull quote from the interview.</blockquote>
+          <p class="slide__len">Runtime 3:12</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 3">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Whitfields" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 3 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Whitfields</p>
+          <p class="slide__meta">Married 22 years</p>
+          <blockquote class="slide__quote">Placeholder caption — what changed at home after they worked both plans. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 2:05</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 4">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Nkemelus" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 4 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Nkemelus</p>
+          <p class="slide__meta">Married 9 years</p>
+          <blockquote class="slide__quote">Placeholder caption — the objection they had going in, and what answered it. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 3:48</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="Testimonial 5">
+      <div class="slide__grid">
+        <!-- SWAP: replace the whole .vid block with your embed, e.g.
+             <div class="vid"><iframe src="https://player.vimeo.com/video/XXXXXXX"
+               title="The Brookses" allow="autoplay; fullscreen; picture-in-picture"
+               allowfullscreen loading="lazy"></iframe></div> -->
+        <div class="vid">
+          <div class="vid__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <p class="vid__note">Video 5 · Add embed here</p>
+        </div>
+        <div>
+          <p class="slide__who">The Brookses</p>
+          <p class="slide__meta">Small group leaders</p>
+          <blockquote class="slide__quote">Placeholder caption — what happened when they ran this with their group. Replace with their words.</blockquote>
+          <p class="slide__len">Runtime 2:27</p>
+        </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <div class="slider__bar">
+      <div class="slider__dots" id="vidDots">
+      <button type="button" data-go="0" aria-label="Go to testimonial 1" aria-current="true"></button>
+      <button type="button" data-go="1" aria-label="Go to testimonial 2"></button>
+      <button type="button" data-go="2" aria-label="Go to testimonial 3"></button>
+      <button type="button" data-go="3" aria-label="Go to testimonial 4"></button>
+      <button type="button" data-go="4" aria-label="Go to testimonial 5"></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:1.25rem">
+        <span class="slider__count" id="vidCount">1 / 5</span>
+        <div class="slider__arrows">
+          <button type="button" id="vidPrev" aria-label="Previous testimonial"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button type="button" id="vidNext" aria-label="Next testimonial"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+    </div>
+    <p class="bl__foot"><span>Biblical Wisdom</span><i>|</i><span>Practical Tools</span><i>|</i><span>Real Change</span></p>
+  </header>
+</div>
+
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -4430,7 +5577,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'pass', 'express', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4451,6 +5598,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/gift/':          'gift',          // public, shareable
     '/gift/checkout/': 'gift-checkout',
     '/book/checkout/': 'preorder-checkout',
+    '/pre-order/':     'preorder-promo',   // hidden promo page for emails
     '/preorder-thank-you/': 'preorder-thanks',
     '/pickup/':        'pass',
     '/express/':       'express',
@@ -4477,6 +5625,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     'gift': 'Gift a signed copy — Never Fight or Argue Again',
     'gift-checkout': 'Gift a signed copy — secure payment',
     'preorder-checkout': 'Pre-order your signed copy — Beat the Line',
+    'preorder-promo': 'Beat the Line at the Launch — Pre-order your signed copy',
     'preorder-thanks': 'You beat the line — Never Fight or Argue Again',
     pass: 'Your express pickup pass — Never Fight or Argue Again',
     express: 'Express table — pickup check-in',
