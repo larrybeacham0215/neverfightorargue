@@ -1142,6 +1142,17 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .pass__status.is-done{background:#0D2D1D;color:#F7F3EA}
 .pass__vol{margin-top:1.25rem;border-top:1px dashed rgba(22,38,28,.25);padding-top:1rem}
 .pass__volKick{font-size:.625rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .5rem}
+.gu__stats{display:flex;gap:1.25rem}
+.gu__stats div{text-align:center}
+.gu__stats b{display:block;font-family:var(--f-display);font-size:1.6rem;color:var(--ink);line-height:1}
+.gu__stats span{font-size:.6875rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.gu__row{grid-template-columns:1fr auto auto}
+.gu__row .gu__seats{font-family:var(--f-display);font-size:1.3rem;color:var(--ink)}
+.gu__row .gu__seats small{display:block;font-family:var(--f-body);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+.gu__pre{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;background:#0D2D1D;color:#F7F3EA;padding:.3rem .55rem;border-radius:999px;white-space:nowrap}
+.gu__pre--none{background:transparent;color:transparent}
+.gu__spon{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);margin-left:.5rem}
+@media(max-width:600px){.gu__stats{gap:.9rem}.gu__stats b{font-size:1.3rem}.gu__row{grid-template-columns:1fr auto}.gu__pre--none{display:none}}
 .ex__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin:0 0 1rem}
 .ex__totals{font-size:1rem;color:var(--ink-soft)}
 .ex__totals b{color:var(--ink);font-family:var(--f-display);font-size:1.4rem}
@@ -3603,6 +3614,36 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   </header>
 </div>
 
+<!-- ==================================================================== -->
+<!-- ============================= GUESTS =============================== -->
+<!-- /guests/ — live list of launch registrations. Hidden, noindex.        -->
+<!-- ==================================================================== -->
+<div class="view" id="view-guests" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:52rem">
+      <div class="ex__head">
+        <div>
+          <p class="eyebrow eyebrow--ink">Book launch &middot; November 1</p>
+          <h1 class="h-md" style="margin:0">Who&rsquo;s coming</h1>
+        </div>
+        <div class="gu__stats">
+          <div><b id="guParties">&ndash;</b><span>parties</span></div>
+          <div><b id="guSeats">&ndash;</b><span>seats</span></div>
+          <div><b id="guPre">&ndash;</b><span>pre-ordered copies</span></div>
+        </div>
+      </div>
+      <div class="ex__tools">
+        <input type="search" id="guSearch" placeholder="Search by name&hellip;" autocomplete="off">
+        <label class="ex__toggle"><input type="checkbox" id="guPreOnly"> Pre-ordered only</label>
+        <button type="button" class="btn btn--onLightOutline btn--sm" id="guRefresh">Refresh</button>
+      </div>
+      <p class="ex__tip" id="guUpdated">Updates itself every 60 seconds as people register.</p>
+      <ul class="ex__list" id="guList"><li class="ex__empty">Loading&hellip;</li></ul>
+      <p class="ex__tip" id="guCancelled" hidden></p>
+    </div>
+  </section>
+</div>
+
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -4496,7 +4537,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'guests', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4521,6 +4562,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/preorder-thank-you/': 'preorder-thanks',
     '/pickup/':        'pass',
     '/express/':       'express',
+    '/guests/':        'guests',
     '/sponsor/checkout/': 'sponsor-checkout',
     '/sponsor-thank-you/': 'sponsor-thanks',
     '/sponsor-paid/':  'sponsor-paid',
@@ -4548,6 +4590,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     'preorder-thanks': 'You beat the line — Never Fight or Argue Again',
     pass: 'Your express pickup pass — Never Fight or Argue Again',
     express: 'Express table — pickup check-in',
+    guests: 'Who\u2019s coming — November 1 launch',
     'sponsor-checkout': 'Sponsorship payment — Never Fight or Argue Again',
     'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     'sponsor-paid': 'Sponsorship confirmed — Never Fight or Argue Again',
@@ -4585,6 +4628,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     if (window.__stickArm) window.__stickArm();
     if (name === 'sponsor-checkout' && window.__sponsorCheckout) setTimeout(window.__sponsorCheckout, 0);
     if ((name === 'pass' || name === 'preorder-thanks') && window.__passInit) setTimeout(window.__passInit, 0);
+    if (name === 'guests' && window.__guestsInit) setTimeout(window.__guestsInit, 0);
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
       if (a.dataset.tab === name) a.setAttribute('aria-current', 'page');
@@ -4912,6 +4956,40 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         pinIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(pinIn.value.trim()); });
         search.addEventListener('input', render); hide.addEventListener('change', render); document.getElementById('exRefresh').addEventListener('click', load);
         try { var saved = sessionStorage.getItem('nfoaa_express_pin'); if (saved && !document.getElementById('view-express').hidden) enter(saved); } catch (e) {}
+      })();
+
+      // Guests list
+      (function () {
+        var list = document.getElementById('guList'); if (!list) return;
+        var search = document.getElementById('guSearch'), preOnly = document.getElementById('guPreOnly'), rows = [];
+        function render() {
+          var q = (search.value || '').toLowerCase().trim();
+          var shown = rows.filter(function (r) { return !r.cancelled && (!preOnly.checked || r.preordered) && (!q || r.name.toLowerCase().indexOf(q) >= 0); });
+          list.innerHTML = shown.length ? '' : '<li class="ex__empty">Nobody matches.</li>';
+          shown.forEach(function (r) {
+            var li = document.createElement('li'); li.className = 'ex__row gu__row';
+            var d = new Date(r.registered_at);
+            li.innerHTML = '<div><b></b><small></small></div><div class="gu__seats"><span></span><small>' + (r.seats === 1 ? 'seat' : 'seats') + '</small></div><span class="gu__pre' + (r.preordered ? '' : ' gu__pre--none') + '">' + (r.preordered ? 'Pre-ordered ' + r.preordered : '&nbsp;') + '</span>';
+            li.querySelector('b').textContent = r.name || '(no name)';
+            li.querySelector('small').textContent = 'Registered ' + d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + (r.sponsor ? '' : '');
+            if (r.sponsor) { var sp = document.createElement('span'); sp.className = 'gu__spon'; sp.textContent = 'Sponsor interest'; li.querySelector('small').appendChild(sp); }
+            li.querySelector('.gu__seats span').textContent = r.seats;
+            list.appendChild(li);
+          });
+        }
+        function load() {
+          fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/guests').then(function (r) { return r.json(); }).then(function (d) {
+            rows = d.rows || [];
+            document.getElementById('guParties').textContent = d.parties; document.getElementById('guSeats').textContent = d.seats; document.getElementById('guPre').textContent = d.preorder_copies;
+            document.getElementById('guUpdated').textContent = 'Updated ' + new Date(d.updated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' \u00b7 refreshes every minute as people register.';
+            var c = document.getElementById('guCancelled'); if (d.cancelled) { c.textContent = d.cancelled + ' cancelled registration' + (d.cancelled === 1 ? '' : 's') + ' not shown.'; c.hidden = false; }
+            render();
+          }).catch(function () { list.innerHTML = '<li class="ex__empty">Could not load the list. Try Refresh.</li>'; });
+        }
+        search.addEventListener('input', render); preOnly.addEventListener('change', render); document.getElementById('guRefresh').addEventListener('click', load);
+        window.__guestsInit = load;
+        if (!document.getElementById('view-guests').hidden) load();
+        setInterval(function () { if (!document.getElementById('view-guests').hidden) load(); }, 60000);
       })();
 
       // Invoicing tool
