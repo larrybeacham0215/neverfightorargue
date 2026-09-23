@@ -30,7 +30,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:ital,wght@0,600..900;1,600..800&family=Karla:ital,wght@0,300..700;1,400..600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:ital,wght@0,600..900;1,600..800&family=Karla:ital,wght@0,300..700;1,400..600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
    Never Fight or Argue Again — site styles
@@ -998,6 +998,76 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .btlx__row--total b{font-size:1.5rem}
 .btlx__fine{font-size:.8125rem;color:rgba(247,243,234,.7);margin:.9rem 0 0;text-align:center}
 @media(max-width:900px){.btlx__grid{grid-template-columns:1fr}}
+
+/* ==========================================================================
+   REGISTERED — "You're Registered / Beat the Line" (from the supplied design)
+   ========================================================================== */
+.bl{position:relative;overflow:hidden;background:radial-gradient(60rem 30rem at 85% 60%,rgba(195,154,94,.16),transparent 65%),linear-gradient(180deg,#FDFAF3 0%,#F7F1E4 100%);color:var(--ink);padding:1.25rem clamp(1rem,4vw,3.5rem) 1.5rem;border-bottom:1px solid rgba(22,38,28,.08)}
+.bl__leaf{position:absolute;pointer-events:none;z-index:0;height:auto}
+.bl__leaf--tl{left:0;top:0;width:clamp(10rem,22vw,21rem)}
+.bl__leaf--tr{right:0;top:0;width:clamp(5rem,10vw,10rem)}
+.bl__leaf--bl{left:0;bottom:0;width:clamp(8rem,18vw,17rem)}
+.bl__leaf--br{right:0;bottom:0;width:clamp(7rem,14vw,13.5rem)}
+.bl__top{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;align-items:start;max-width:80rem;margin:0 auto .5rem}
+.bl__script{font-family:'Dancing Script',cursive;color:#8A6330;line-height:1.2;margin:0}
+.bl__script--tl{font-size:clamp(1.1rem,1.8vw,1.5rem);transform:rotate(-6deg);justify-self:center;margin-top:1rem;opacity:.85}
+.bl__brand{justify-self:center;text-align:center}
+.bl__lct{display:flex;justify-content:center;align-items:center;gap:.8rem;font-family:var(--f-body);font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:#8A6330;margin:.6rem 0 0;position:relative}
+.bl__lct::before,.bl__lct::after{content:"";width:clamp(1.5rem,6vw,7rem);height:1px;background:#C39A5E}
+.bl__lct i{color:#C39A5E;font-style:normal}
+.bl__rings{display:block;margin:.35rem auto .1rem;width:4.4rem;height:auto}
+.bl__names{font-family:var(--f-body);font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;color:#173626;margin:0}
+.bl__grid{position:relative;z-index:1;display:grid;grid-template-columns:.9fr 1.35fr;gap:clamp(1.5rem,4vw,3.5rem);max-width:80rem;margin:0 auto;align-items:center}
+.bl__left{text-align:center;padding:1.5rem 0}
+.bl__kick{font-family:var(--f-body);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:#2E3A47;margin:0 0 .6rem}
+.bl__h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(3rem,6.4vw,5.6rem);line-height:.95;letter-spacing:-.03em;color:#173626;margin:0}
+.bl__sub{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;color:#8A6330;font-size:clamp(1.4rem,2.4vw,2rem);margin:.6rem 0 .6rem;letter-spacing:-.02em}
+.bl__copy{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(1.1rem,1.5vw,1.3rem);line-height:1.4;color:#2E3A47;margin:0 0 1.25rem}
+.bl__card{display:inline-grid;gap:.9rem;text-align:left;border:1px solid rgba(195,154,94,.75);background:rgba(255,255,255,.6);border-radius:.5rem;padding:1.25rem 1.6rem;min-width:min(100%,26rem);box-shadow:0 10px 30px rgba(22,38,28,.06)}
+.bl__card > div{display:flex;gap:1.1rem;align-items:flex-start;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(1.05rem,1.4vw,1.3rem);color:#2E3A47;line-height:1.3}
+.bl__card small{display:block;font-weight:500;font-size:.92em}
+.bl__card svg{width:1.6rem;height:1.6rem;flex:none;fill:none;stroke:#8A6330;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bl__links{font-family:var(--f-body);font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin:1rem 0 0;color:#5C6B60}
+.bl__links a{color:#173626;text-decoration:none;border-bottom:1px solid rgba(23,54,38,.35)}
+.bl__orn{display:block;width:5rem;height:1px;background:#C39A5E;margin:1.5rem auto .9rem;position:relative}
+.bl__orn::after{content:"";position:absolute;left:50%;top:-3px;width:7px;height:7px;background:#C39A5E;transform:translateX(-50%) rotate(45deg)}
+.bl__close{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;color:#173626;font-size:clamp(1.05rem,1.5vw,1.35rem);margin:0 0 .75rem}
+.bl__tiny{font-family:var(--f-body);font-size:.6875rem;letter-spacing:.28em;text-transform:uppercase;color:#8A6330;line-height:1.7;margin:0}
+.bl__panel{position:relative;background:linear-gradient(180deg,#FFFDF9,#FBF6EC);border:1px solid rgba(195,154,94,.35);border-radius:1.5rem;padding:clamp(1.5rem,3vw,2.5rem) clamp(1.25rem,3vw,2.75rem) clamp(1.5rem,3vw,2.25rem);box-shadow:0 30px 60px -30px rgba(22,38,28,.35)}
+.bl__pill{display:inline-flex;align-items:center;gap:.7rem;background:linear-gradient(90deg,#B98A4E,#8F6A32);color:#fff;font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.05rem,1.5vw,1.35rem);letter-spacing:.14em;text-transform:uppercase;padding:.55rem 1.6rem;border-radius:999px;margin:0 0 1.25rem;box-shadow:0 8px 20px rgba(143,106,50,.35)}
+.bl__pill svg{width:1.3rem;height:1.3rem;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bl__panelGrid{display:grid;grid-template-columns:1.05fr .95fr;gap:1.5rem;align-items:start}
+.bl__h2{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.02;letter-spacing:-.03em;color:#173626;margin:0 0 .9rem}
+.bl__h2 em{font-style:italic;color:#8A6330}
+.bl__lede{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(1.05rem,1.4vw,1.25rem);line-height:1.4;color:#2E3A47;margin:0 0 1rem;max-width:26rem}
+.bl__perks{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.bl__perks li{display:flex;gap:.8rem;align-items:flex-start;font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(1rem,1.4vw,1.25rem);color:#173626}
+.bl__perks i{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:.85em;line-height:1.35;color:#2E3A47;margin-top:.2rem;font-style:italic}
+.bl__chk{flex:none;width:1.5rem;height:1.5rem;border-radius:50%;background:radial-gradient(circle at 35% 30%,#D9B679,#8F6A32);color:#fff;font-size:.85rem;display:grid;place-items:center;margin-top:.1rem;box-shadow:0 3px 8px rgba(143,106,50,.35)}
+.bl__art{position:relative;padding:.5rem .5rem 0 0}
+.bl__book{width:100%;max-width:22rem;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 24px 34px rgba(22,38,28,.32))}
+.bl__seal{position:absolute;right:-.25rem;bottom:2%;width:clamp(5rem,8vw,8rem);height:auto;filter:drop-shadow(0 8px 16px rgba(0,0,0,.25))}
+.bl__quote{display:flex;align-items:center;gap:1rem;border:1px solid rgba(195,154,94,.5);background:rgba(247,241,228,.8);border-radius:.6rem;padding:.75rem 1.25rem;margin:1.25rem 0 1rem;max-width:36rem}
+.bl__quote img{width:4.5rem;height:auto;flex:none}
+.bl__quote p{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(1.05rem,1.4vw,1.3rem);color:#173626;margin:0;line-height:1.3}
+.bl__cta{display:flex;align-items:center;justify-content:center;gap:1rem;max-width:36rem;font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(1.4rem,2.2vw,2rem);color:#fff;text-decoration:none;background:radial-gradient(120% 140% at 50% 0%,#1E5A3A 0%,#0F3B25 55%,#0A2C1B 100%);border:2px solid #E2C070;border-radius:.6rem;padding:.9rem 1.5rem;box-shadow:0 0 0 1px #8A6330,0 12px 28px rgba(13,45,29,.35),inset 0 1px 0 rgba(255,255,255,.25);text-shadow:0 1px 2px rgba(0,0,0,.35);transition:transform .15s,filter .15s}
+.bl__cta:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.bl__cta svg{width:1.6rem;height:1.6rem;fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bl__arrow{font-size:1.2em;opacity:.9}
+.bl__script--side{position:absolute;right:-5.5rem;bottom:1.25rem;font-size:clamp(1.3rem,2vw,1.8rem);transform:rotate(-14deg);text-align:center;line-height:1}
+.bl__foot{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;gap:1rem;font-family:var(--f-body);font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;color:#5C6B60;margin:1.75rem 0 0}
+.bl__foot::before,.bl__foot::after{content:"";width:clamp(2rem,10vw,9rem);height:1px;background:#C39A5E}
+.bl__foot i{color:#C39A5E;font-style:normal}
+@media(max-width:1180px){.bl__script--side{display:none}}
+@media(max-width:900px){
+  .bl__grid{grid-template-columns:1fr}
+  .bl__top{grid-template-columns:1fr;justify-items:center}
+  .bl__script--tl{display:none}
+  .bl__panelGrid{grid-template-columns:1fr}
+  .bl__book{max-width:14rem}
+  .bl__leaf--tl,.bl__leaf--bl{display:none}
+  .bl__panel{padding:1.5rem 1.25rem}
+}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -2772,77 +2842,61 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <!-- ==================================================================== -->
 <div class="view" id="view-registered" hidden>
 
-  <header class="rh reg__after">
-    <div class="wrap rh__grid">
-      <div class="rh__left">
-        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
-        <p class="eyebrow eyebrow--ink">You&rsquo;re registered</p>
-        <h1 class="rh__h1">We&rsquo;ve saved you<br><em>a seat.</em></h1>
-        <p class="rh__copy">A confirmation is on its way to your inbox. Nothing else is needed from you &mdash; just show up. We&rsquo;ll send a reminder as the date gets close.</p>
-        <dl class="rh__facts">
-          <div><dt>When</dt><dd>Sunday, November 1, 2026<br><strong>Doors 5:30 pm</strong></dd></div>
-          <div><dt>Where</dt><dd><strong>Grace Family Church</strong><br>22920 FL-54, Lutz, FL 33549</dd></div>
-        </dl>
-        <p class="rh__cta">
-          <a class="btn btn--onLight" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to Google Calendar</a>
-          <a class="btn btn--outline btn--onLightOutline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
-        </p>
-        <p class="rh__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
-        <p class="rh__close">We can&rsquo;t wait to celebrate with you.</p>
+  <header class="bl reg__after">
+    <img class="bl__leaf bl__leaf--tl" src="/assets/btl-leaf-tl.png" alt="" width="340" height="200">
+    <img class="bl__leaf bl__leaf--tr" src="/assets/btl-leaf-tr.png" alt="" width="158" height="130">
+    <img class="bl__leaf bl__leaf--bl" src="/assets/btl-leaf-bl.png" alt="" width="280" height="226">
+    <img class="bl__leaf bl__leaf--br" src="/assets/btl-leaf-br.png" alt="" width="218" height="236">
+    <div class="bl__top">
+      <p class="bl__script bl__script--tl">Stronger Marriages<br>Brighter Tomorrows.</p>
+      <div class="bl__brand">
+        <p class="bl__lct"><span>Love</span><i>|</i><span>Communicate</span><i>|</i><span>Thrive</span></p>
+        <img src="/assets/btl-rings.png" alt="" width="78" height="50" class="bl__rings">
+        <p class="bl__names">Larry &amp; Rolanda Beacham</p>
       </div>
-      <aside class="btl">
-        <p class="btl__tag"><span>&#9889;</span> Beat the Line</p>
-        <p class="btl__title">Pre-order your signed copy &mdash; $20</p>
-        <p class="btl__copy">Walk in on November 1st and skip the queue. Pre-orders get three things nobody else in the room gets:</p>
-        <ul class="btl__list">
-          <li><b>Express pickup</b> &mdash; your signed copy is waiting with your name on it</li>
-          <li><b>Reserved seating</b> &mdash; front section, held for you</li>
-          <li><b>The laminated Frameworks Bundle</b> &mdash; the tools we teach in the classroom that aren&rsquo;t printed in the book</li>
-        </ul>
-        <a class="btn btn--onLight btn--lg btn--block" href="/book/checkout/" data-tab="preorder-checkout">Pre-order &amp; beat the line</a>
-        <p class="btl__fine">Same $20 as the book at the table. Nothing is shipped &mdash; everything is handed to you on the night.</p>
-        <p class="btl__alt"><a href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Haven&rsquo;t read Chapter One yet? Download it free &darr;</a></p>
-      </aside>
     </div>
+    <div class="bl__grid">
+      <div class="bl__left">
+        <p class="bl__kick">Thank you for registering</p>
+        <h1 class="bl__h1">You&rsquo;re<br>Registered</h1>
+        <p class="bl__sub">We&rsquo;ve saved you a seat.</p>
+        <p class="bl__copy">A confirmation is on its way to your inbox.<br>Nothing else is needed from you &mdash;<br>just show up.</p>
+        <div class="bl__card">
+          <div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Sunday, November 1, 2026</span></div>
+          <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Doors 5:30 pm</span></div>
+          <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span>Grace Family Church<br><small>22920 FL-54, Lutz, FL 33549</small></span></div>
+        </div>
+        <p class="bl__links"><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York" target="_blank" rel="noopener">Add to calendar</a> &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Directions</a> &middot; <a href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Chapter One (free)</a></p>
+        <span class="bl__orn" aria-hidden="true"></span>
+        <p class="bl__close">We can&rsquo;t wait to celebrate with you.</p>
+        <p class="bl__tiny">Better conversations.<br>A brighter tomorrow.</p>
+      </div>
+      <div class="bl__panel">
+        <p class="bl__pill"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v9h14v-9M12 8v13M12 8c-2-4-6-3-6-1s3 1 6 1zm0 0c2-4 6-3 6-1s-3 1-6 1z"/></svg>Beat the Line</p>
+        <div class="bl__panelGrid">
+          <div class="bl__panelText">
+            <h2 class="bl__h2">Pre-Order<br>Never Fight <em>or</em><br>Argue Again</h2>
+            <p class="bl__lede">Secure your copy before the event and enjoy exclusive event-night perks when you arrive.</p>
+            <ul class="bl__perks">
+              <li><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Express pickup</b></li>
+              <li><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Reserved seating</b></li>
+              <li><span class="bl__chk" aria-hidden="true">&#10003;</span><div><b>Laminated frameworks bundle</b><i>Not included in the book and normally only available in classroom settings.</i></div></li>
+            </ul>
+          </div>
+          <div class="bl__art">
+            <img class="bl__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+            <img class="bl__seal" src="/assets/btl-seal.png" alt="A stronger marriage starts now" width="138" height="136">
+          </div>
+        </div>
+        <div class="bl__quote"><img src="/assets/btl-leaf-quote.png" alt="" width="88" height="74"><p>Pre-ordering makes your night easier, faster, and more rewarding.</p></div>
+        <a class="bl__cta" href="/book/checkout/" data-tab="preorder-checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 11h11L21 7H6.5"/></svg>Pre-Order Now<span class="bl__arrow" aria-hidden="true">&rarr;</span></a>
+        <p class="bl__script bl__script--side">Same<br>Team<br>Brighter<br>Days</p>
+      </div>
+    </div>
+    <p class="bl__foot"><span>Biblical Wisdom</span><i>|</i><span>Practical Tools</span><i>|</i><span>Real Change</span></p>
   </header>
 
 
-  <section class="band on-navy btlx" id="beatTheLine">
-    <div class="wrap">
-      <p class="eyebrow center">Beat the line &middot; pre-order bonus</p>
-      <h2 class="h-lg center">Skip the line. Sit up front.<br>Take home what isn&rsquo;t in the book.</h2>
-      <p class="lede lede--light center" style="margin:1rem auto 2.5rem;max-width:40rem">On the night, most people will queue at the book table after the program. Pre-order now and you won&rsquo;t &mdash; and you&rsquo;ll leave with something we only ever hand out in the classroom.</p>
-
-      <div class="btlx__grid">
-        <article class="btlx__card">
-          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h12M11 6l6 6-6 6"/><path d="M19 4v16"/></svg></div>
-          <h3>Express pickup</h3>
-          <p>Your signed copy is bagged and waiting at the express table with your name on it. Show your name, take your book, done &mdash; while the line forms behind you.</p>
-        </article>
-        <article class="btlx__card">
-          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6"/><path d="M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M4 18h16M6 18v2M18 18v2"/></svg></div>
-          <h3>Reserved seating</h3>
-          <p>A seat in the front section, held for you and whoever you registered. Give your name at the door and go straight to it.</p>
-        </article>
-        <article class="btlx__card btlx__card--star">
-          <p class="btlx__only">Classroom only &middot; not in the book</p>
-          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></svg></div>
-          <h3>The laminated Frameworks Bundle</h3>
-          <p>The one-page frameworks we teach when we&rsquo;re in a room with couples &mdash; the Safety Plan, the Readiness Plan and the Stop Loss on laminated cards you keep on the fridge. They aren&rsquo;t printed in the book and they&rsquo;re not for sale. Pre-order and they&rsquo;re yours.</p>
-        </article>
-      </div>
-
-      <div class="btlx__stack">
-        <div class="btlx__row"><span>Signed paperback</span><b>$20</b></div>
-        <div class="btlx__row"><span>Express pickup</span><b>Included</b></div>
-        <div class="btlx__row"><span>Reserved front-section seating</span><b>Included</b></div>
-        <div class="btlx__row"><span>Laminated Frameworks Bundle <em>(classroom only)</em></span><b>Included</b></div>
-        <div class="btlx__row btlx__row--total"><span>You pay</span><b>$20</b></div>
-        <a class="btn btn--lg btn--block" href="/book/checkout/" data-tab="preorder-checkout">Pre-order &amp; beat the line &mdash; $20</a>
-        <p class="btlx__fine">One or several copies &mdash; choose at checkout. Signed to whoever you like. Pickup only, at the event.</p>
-      </div>
-    </div>
-  </section>
 
   <section class="band on-navy">
     <div class="wrap" style="max-width:46rem">
