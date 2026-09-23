@@ -1055,6 +1055,11 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .bl__art{position:relative;padding:.5rem .5rem 0 0}
 .bl__book{width:100%;max-width:16rem;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 24px 34px rgba(22,38,28,.32))}
 .bl__seal{position:absolute;right:0;bottom:2%;width:clamp(4rem,6vw,5.5rem);height:auto;filter:drop-shadow(0 8px 16px rgba(0,0,0,.25))}
+.bl__deal{display:flex;align-items:center;gap:.9rem;margin:.75rem 0 0;padding:.6rem 1rem;border-radius:.6rem;background:radial-gradient(120% 140% at 50% 0%,#1E5A3A 0%,#0F3B25 55%,#0A2C1B 100%);border:1px solid #E2C070;box-shadow:0 0 0 1px #8A6330,0 10px 24px rgba(13,45,29,.3);max-width:36rem}
+.bl__dealTag{flex:none;font-family:var(--f-body);font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--navy-deep);background:linear-gradient(90deg,#E2C070,#C39A5E);padding:.35rem .6rem;border-radius:999px;white-space:nowrap}
+.bl__deal p{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(1rem,1.3vw,1.15rem);line-height:1.35;color:#F7F3EA}
+.bl__deal b{color:#fff;font-weight:700}
+@media(max-width:600px){.bl__deal{flex-direction:column;align-items:flex-start;gap:.4rem}}
 .bl__quote{display:flex;align-items:center;gap:.9rem;border:1px solid rgba(195,154,94,.5);background:rgba(247,241,228,.8);border-radius:.6rem;padding:.5rem 1rem;margin:.75rem 0 .7rem;max-width:36rem}
 .bl__quote img{width:3.25rem;height:auto;flex:none}
 .bl__quote p{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(.95rem,1.2vw,1.1rem);color:#173626;margin:0;line-height:1.3}
@@ -2926,7 +2931,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="bl__panelGrid">
           <div class="bl__panelText">
             <h2 class="bl__h2">Pre-Order<br>Never Fight <em>or</em><br>Argue Again</h2>
-            <p class="bl__lede">Secure your copy before the event and enjoy exclusive event-night perks when you arrive. <b>Buying for friends? 2+ copies are discounted &mdash; 5 for $75.</b></p>
+            <p class="bl__lede">Secure your copy before the event and enjoy exclusive event-night perks when you arrive.</p>
             <ul class="bl__perks">
               <li><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Express pickup</b></li>
               <li><span class="bl__chk" aria-hidden="true">&#10003;</span><b>Reserved seating</b></li>
@@ -2938,6 +2943,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <img class="bl__seal" src="/assets/btl-seal.png" alt="A stronger marriage starts now" width="138" height="136">
           </div>
         </div>
+        <div class="bl__deal"><span class="bl__dealTag">Multi-copy discount</span><p><b>Buy more, pay less per copy.</b> 2 copies $19 each &middot; 3 for $18 &middot; 4 for $17 &middot; <b>5 or more just $15 each &mdash; save $25.</b></p></div>
         <div class="bl__quote"><img src="/assets/btl-leaf-quote.png" alt="" width="88" height="74"><p>Pre-ordering makes your night easier, faster, and more rewarding.</p></div>
         <a class="bl__cta" href="/book/checkout/" data-tab="preorder-checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 11h11L21 7H6.5"/></svg>Pre-Order Now<span class="bl__arrow" aria-hidden="true">&rarr;</span></a>
         <p class="bl__script bl__script--side">Same<br>Team<br>Brighter<br>Days</p>
