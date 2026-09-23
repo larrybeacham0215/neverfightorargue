@@ -1011,7 +1011,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 /* ==========================================================================
    REGISTERED — "You're Registered / Beat the Line" (from the supplied design)
    ========================================================================== */
-.bl{position:relative;overflow:hidden;background:radial-gradient(60rem 30rem at 85% 60%,rgba(195,154,94,.16),transparent 65%),linear-gradient(180deg,#FDFAF3 0%,#F7F1E4 100%);color:var(--ink);padding:.75rem clamp(1rem,4vw,3rem) 1rem;border-bottom:1px solid rgba(22,38,28,.08)}
+.bl{position:relative;overflow:hidden;background:radial-gradient(60rem 30rem at 85% 60%,rgba(195,154,94,.16),transparent 65%),linear-gradient(180deg,#FDFAF3 0%,#F7F1E4 100%);color:var(--ink);padding:1.25rem clamp(1rem,4vw,3rem) 1rem;border-bottom:1px solid rgba(22,38,28,.08)}
 .bl__leaf{position:absolute;pointer-events:none;z-index:0;height:auto}
 .bl__leaf--tl{left:0;top:0;width:clamp(8rem,17vw,16.5rem)}
 .bl__leaf--tr{right:0;top:0;width:clamp(3.5rem,7vw,6.5rem)}
@@ -1061,6 +1061,23 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .bl__deal p{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(1rem,1.3vw,1.15rem);line-height:1.35;color:#F7F3EA}
 .bl__deal b{color:#fff;font-weight:700}
 @media(max-width:600px){.bl__deal{flex-direction:column;align-items:flex-start;gap:.4rem}}
+.bl__oms{position:relative;border:1px solid rgba(195,154,94,.6);background:linear-gradient(180deg,#FFFDF8,#F8F2E6);border-radius:.7rem;padding:.8rem 1rem .7rem;margin:.6rem 0 .7rem;text-align:center}
+.bl__omsLeaf{position:absolute;left:.5rem;top:.4rem;width:3rem;height:auto}
+.bl__omsTitle{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:-.02em;color:#173626;margin:0}
+.bl__omsSub{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(.95rem,1.2vw,1.05rem);color:#2E3A47;margin:.05rem 0 .45rem}
+.bl__omsTable{width:100%;border-collapse:separate;border-spacing:0 .25rem;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:clamp(.95rem,1.2vw,1.1rem);color:#173626}
+.bl__omsTable td{background:#fff;padding:.3rem .6rem;text-align:center;border-top:1px solid rgba(195,154,94,.25);border-bottom:1px solid rgba(195,154,94,.25)}
+.bl__omsTable td:first-child{text-align:left;border-left:1px solid rgba(195,154,94,.25);border-radius:.35rem 0 0 .35rem;white-space:nowrap}
+.bl__omsTable td:last-child{border-right:1px solid rgba(195,154,94,.25);border-radius:0 .35rem .35rem 0}
+.bl__omsTable b{font-weight:700}
+.bl__omsTag{display:inline-block;min-width:6.5rem;padding:.15rem .6rem;border-radius:.3rem;background:#DDE8DD;color:#173626;font-size:.85em}
+.bl__omsTag--std{background:#EEE7DA;color:#5C6B60}
+.bl__omsTag--best{background:linear-gradient(90deg,#B98A4E,#8F6A32);color:#fff;font-weight:700;line-height:1.05;padding:.25rem .6rem}
+.bl__omsTag--best small{display:block;font-size:.7em;letter-spacing:.08em;text-transform:uppercase}
+.bl__omsTable tr.is-best td{background:linear-gradient(180deg,#FFF6E3,#F6E8CC);border-color:#C39A5E;font-size:1.12em}
+.bl__crown{color:#8F6A32;font-size:.9em;margin-right:.15rem}
+.bl__omsFoot{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.9rem,1.1vw,1rem);color:#173626;margin:.4rem 0 0}
+@media(max-width:600px){.bl__omsTable td:nth-child(3){display:none}.bl__omsLeaf{display:none}}
 .bl__quote{display:flex;align-items:center;gap:.8rem;border:1px solid rgba(195,154,94,.5);background:rgba(247,241,228,.8);border-radius:.6rem;padding:.35rem .9rem;margin:.5rem 0 .5rem;max-width:36rem}
 .bl__quote img{width:2.75rem;height:auto;flex:none}
 .bl__quote p{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(.95rem,1.2vw,1.1rem);color:#173626;margin:0;line-height:1.3}
@@ -2903,13 +2920,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <img class="bl__leaf bl__leaf--tr" src="/assets/btl-leaf-tr.png?v=2" alt="" width="106" height="118">
     <img class="bl__leaf bl__leaf--bl" src="/assets/btl-leaf-bl.png?v=2" alt="" width="105" height="206">
     <img class="bl__leaf bl__leaf--br" src="/assets/btl-leaf-br.png?v=2" alt="" width="113" height="161">
-    <div class="bl__top">
-      <p class="bl__script bl__script--tl">Stronger Marriages<br>Brighter Tomorrows.</p>
-      <div class="bl__brand">
-        <p class="bl__lct"><span>Love</span><i>|</i><span>Communicate</span><i>|</i><span>Thrive</span></p>
-        <img src="/assets/btl-rings.png" alt="" width="78" height="50" class="bl__rings">
-        <p class="bl__names">Larry &amp; Rolanda Beacham</p>
-      </div>
     </div>
     <div class="bl__grid">
       <div class="bl__left">
@@ -2944,10 +2954,20 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <img class="bl__seal" src="/assets/btl-seal.png" alt="A stronger marriage starts now" width="138" height="136">
           </div>
         </div>
-        <div class="bl__deal"><span class="bl__dealTag">Multi-copy discount</span><p><b>Buy more, pay less per copy.</b> 2 copies $19 each &middot; 3 for $18 &middot; 4 for $17 &middot; <b>5 or more just $15 each &mdash; save $25.</b></p></div>
-        <div class="bl__quote"><img src="/assets/btl-leaf-quote.png" alt="" width="88" height="74"><p>Pre-ordering makes your night easier, faster, and more rewarding.</p></div>
+        <div class="bl__oms">
+          <img class="bl__omsLeaf" src="/assets/btl-leaf-quote.png" alt="" width="88" height="74">
+          <p class="bl__omsTitle">Order More &amp; Save</p>
+          <p class="bl__omsSub">Buy one copy or save more when you order multiple.</p>
+          <table class="bl__omsTable">
+            <tr><td>1 Copy</td><td><b>$20</b> total</td><td><b>$20</b> each</td><td><span class="bl__omsTag bl__omsTag--std">Standard Price</span></td></tr>
+            <tr><td>2 Copies</td><td><b>$38</b> total</td><td><b>$19</b> each</td><td><span class="bl__omsTag">Save $2</span></td></tr>
+            <tr><td>3 Copies</td><td><b>$54</b> total</td><td><b>$18</b> each</td><td><span class="bl__omsTag">Save $6</span></td></tr>
+            <tr><td>4 Copies</td><td><b>$64</b> total</td><td><b>$16</b> each</td><td><span class="bl__omsTag">Save $16</span></td></tr>
+            <tr class="is-best"><td><span class="bl__crown" aria-hidden="true">&#9819;</span> 5 Copies</td><td><b>$75</b> total</td><td><b>$15</b> each</td><td><span class="bl__omsTag bl__omsTag--best">Save $25<small>Best value</small></span></td></tr>
+          </table>
+          <p class="bl__omsFoot">More copies. Bigger savings. A stronger tomorrow together.</p>
+        </div>
         <a class="bl__cta" href="/book/checkout/" data-tab="preorder-checkout"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 11h11L21 7H6.5"/></svg>Pre-Order Now<span class="bl__arrow" aria-hidden="true">&rarr;</span></a>
-        <p class="bl__script bl__script--side">Same<br>Team<br>Brighter<br>Days</p>
       </div>
     </div>
     <p class="bl__foot"><span>Biblical Wisdom</span><i>|</i><span>Practical Tools</span><i>|</i><span>Real Change</span></p>
@@ -3394,13 +3414,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <button type="button" class="co__opt is-on" data-q="1"><b>1</b><span>$20</span><em>&nbsp;</em></button>
             <button type="button" class="co__opt" data-q="2"><b>2</b><span>$38</span><em>$19 each &middot; save $2</em></button>
             <button type="button" class="co__opt" data-q="3"><b>3</b><span>$54</span><em>$18 each &middot; save $6</em></button>
-            <button type="button" class="co__opt" data-q="4"><b>4</b><span>$68</span><em>$17 each &middot; save $12</em></button>
+            <button type="button" class="co__opt" data-q="4"><b>4</b><span>$64</span><em>$16 each &middot; save $16</em></button>
             <button type="button" class="co__opt co__opt--best" data-q="5"><b>5</b><span>$75</span><em>$15 each &middot; save $25</em><i>Best value</i></button>
           </div>
           <label class="co__custom">Or another number: <input type="number" id="poQty" min="1" max="20" inputmode="numeric" placeholder="e.g. 8"></label>
           <p class="co__total" id="poTotal"><b>1 copy &mdash; $20</b></p>
           <button type="button" class="btn btn--onLight btn--lg btn--block" id="poGo">Continue to secure payment</button>
-          <p class="form__fine" style="color:var(--ink-soft)">$20 for one. 2 copies $19 each, 3 for $18, 4 for $17, and 5 or more just $15 each. You&rsquo;ll be asked who to sign them to on the next step.</p>
+          <p class="form__fine" style="color:var(--ink-soft)">$20 for one. 2 copies $19 each, 3 for $18, 4 for $16, and 5 or more just $15 each. You&rsquo;ll be asked who to sign them to on the next step.</p>
           <p class="form__error" id="poErr" hidden></p>
         </div>
         <div class="co__frame" id="poFrame" hidden>
@@ -4713,7 +4733,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       (function () {
         var pick = document.getElementById('poPick'), frame = document.getElementById('poFrame'), go = document.getElementById('poGo'), back = document.getElementById('poBack'), custom = document.getElementById('poQty'), err = document.getElementById('poErr');
         if (!go) return;
-        var q = 1, UNIT = { 1: 20, 2: 19, 3: 18, 4: 17, 5: 15 }, total = document.getElementById('poTotal');
+        var q = 1, UNIT = { 1: 20, 2: 19, 3: 18, 4: 16, 5: 15 }, total = document.getElementById('poTotal');
         function unit(n) { return UNIT[Math.min(5, Math.max(1, n))]; }
         function showTotal() {
           var u = unit(q), t = u * q, save = (20 - u) * q;
