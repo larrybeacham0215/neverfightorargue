@@ -960,12 +960,44 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .co__opt.is-on{border-color:var(--gold-ink);box-shadow:0 0 0 2px rgba(138,99,48,.25);background:rgba(195,154,94,.1)}
 .co__custom{display:flex;align-items:center;gap:.75rem;font-size:.9375rem;color:var(--ink-soft);margin:0 0 1.25rem}
 .co__custom input{width:6rem;font:inherit;padding:.55rem .7rem;border:1px solid rgba(22,38,28,.2);border-radius:.4rem}
-.co__frame[hidden],#coPick[hidden]{display:none}
-#coMount,#scMount{min-height:20rem}
+.co__frame[hidden],#coPick[hidden],#poPick[hidden]{display:none}
+#coMount,#scMount,#poMount{min-height:20rem}
 .co__tier{margin:0 0 1.5rem;padding:1rem 1.25rem;border-left:3px solid var(--gold);background:rgba(195,154,94,.1);font-size:1rem;color:var(--ink)}
 .co__tier b{font-family:var(--f-display);font-size:1.35rem;display:block;color:var(--gold-ink)}
 @media(max-width:900px){.co__grid{grid-template-columns:1fr}.co__qty{flex-wrap:wrap}.co__opt{flex:1 1 40%}}
 @media(max-width:520px){.co__intro{grid-template-columns:6.5rem 1fr;gap:1rem}}
+
+/* ==========================================================================
+   BEAT THE LINE — pre-order promo on the registered page
+   ========================================================================== */
+.btl{border:1px solid rgba(195,154,94,.6);background:linear-gradient(180deg,#FFFDF8,#F7F1E4);border-radius:.9rem;padding:clamp(1.4rem,3vw,2rem);box-shadow:0 30px 60px -30px rgba(22,38,28,.4),0 0 0 6px rgba(195,154,94,.12);position:relative}
+.btl__tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.6875rem;letter-spacing:.2em;text-transform:uppercase;color:#fff;background:var(--navy);padding:.4rem .8rem;border-radius:999px;margin:0 0 .9rem}
+.btl__tag span{color:var(--gold)}
+.btl__title{font-family:var(--f-display);font-size:1.55rem;line-height:1.15;color:var(--ink);margin:0 0 .6rem}
+.btl__copy{color:var(--ink-soft);font-size:.9375rem;margin:0 0 .9rem}
+.btl__list{list-style:none;margin:0 0 1.25rem;padding:0;display:grid;gap:.55rem}
+.btl__list li{position:relative;padding-left:1.5rem;font-size:.9375rem;line-height:1.45;color:var(--ink-soft)}
+.btl__list li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--gold-ink);font-weight:700}
+.btl__list b{color:var(--ink)}
+.btl__fine{font-size:.8125rem;color:var(--ink-soft);margin:.75rem 0 0}
+.btl__alt{margin:.9rem 0 0;font-size:.8125rem}
+.btl__alt a{color:var(--gold-ink);text-decoration:none;border-bottom:1px solid rgba(138,99,48,.4)}
+.btlx__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.25rem;margin:0 0 2.5rem}
+.btlx__card{background:rgba(255,255,255,.04);border:1px solid rgba(195,154,94,.35);border-radius:.75rem;padding:1.5rem;position:relative}
+.btlx__card--star{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 24px 50px -30px rgba(0,0,0,.6);background:linear-gradient(180deg,rgba(195,154,94,.14),rgba(255,255,255,.03))}
+.btlx__only{position:absolute;top:-.75rem;left:1.25rem;background:var(--gold);color:var(--navy-deep);font-size:.625rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:.35rem .7rem;border-radius:999px;margin:0}
+.btlx__ico{width:2.5rem;height:2.5rem;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;margin:0 0 1rem}
+.btlx__ico svg{width:1.3rem;height:1.3rem;fill:none;stroke:var(--gold);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btlx__card h3{font-family:var(--f-display);font-weight:400;font-size:1.3rem;color:var(--ivory);margin:0 0 .5rem}
+.btlx__card p{color:#F7F3EA;font-size:.9375rem;line-height:1.55;margin:0}
+.btlx__stack{max-width:34rem;margin:0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(195,154,94,.45);border-radius:.75rem;padding:1.5rem}
+.btlx__row{display:flex;justify-content:space-between;gap:1rem;padding:.6rem 0;border-bottom:1px solid rgba(247,243,234,.12);color:#F7F3EA;font-size:.9375rem}
+.btlx__row em{color:var(--gold);font-style:normal;font-size:.8125rem}
+.btlx__row b{color:var(--gold);font-weight:600}
+.btlx__row--total{border-bottom:0;font-family:var(--f-display);font-size:1.2rem;padding:.9rem 0 1.25rem}
+.btlx__row--total b{font-size:1.5rem}
+.btlx__fine{font-size:.8125rem;color:rgba(247,243,234,.7);margin:.9rem 0 0;text-align:center}
+@media(max-width:900px){.btlx__grid{grid-template-columns:1fr}}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -2758,16 +2790,59 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="rh__alt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
         <p class="rh__close">We can&rsquo;t wait to celebrate with you.</p>
       </div>
-      <aside class="rh__chapter">
-        <p class="eyebrow eyebrow--ink">While you wait</p>
-        <p class="rh__chapterTitle">Haven&rsquo;t read Chapter One yet?</p>
-        <p class="rh__chapterCopy">Read it on your own before November 1st &mdash; the case against fighting fair, and the first look at the two plans that replace it. Free, 30 pages, no sign-up needed.</p>
-        <a class="btn btn--onLight btn--lg" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download><span aria-hidden="true">&#8659;</span> Download Chapter One</a>
-        <p class="rh__chapterFine">PDF &middot; opens on any phone or computer</p>
+      <aside class="btl">
+        <p class="btl__tag"><span>&#9889;</span> Beat the Line</p>
+        <p class="btl__title">Pre-order your signed copy &mdash; $20</p>
+        <p class="btl__copy">Walk in on November 1st and skip the queue. Pre-orders get three things nobody else in the room gets:</p>
+        <ul class="btl__list">
+          <li><b>Express pickup</b> &mdash; your signed copy is waiting with your name on it</li>
+          <li><b>Reserved seating</b> &mdash; front section, held for you</li>
+          <li><b>The laminated Frameworks Bundle</b> &mdash; the tools we teach in the classroom that aren&rsquo;t printed in the book</li>
+        </ul>
+        <a class="btn btn--onLight btn--lg btn--block" href="/book/checkout/" data-tab="preorder-checkout">Pre-order &amp; beat the line</a>
+        <p class="btl__fine">Same $20 as the book at the table. Nothing is shipped &mdash; everything is handed to you on the night.</p>
+        <p class="btl__alt"><a href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Haven&rsquo;t read Chapter One yet? Download it free &darr;</a></p>
       </aside>
     </div>
   </header>
 
+
+  <section class="band on-navy btlx" id="beatTheLine">
+    <div class="wrap">
+      <p class="eyebrow center">Beat the line &middot; pre-order bonus</p>
+      <h2 class="h-lg center">Skip the line. Sit up front.<br>Take home what isn&rsquo;t in the book.</h2>
+      <p class="lede lede--light center" style="margin:1rem auto 2.5rem;max-width:40rem">On the night, most people will queue at the book table after the program. Pre-order now and you won&rsquo;t &mdash; and you&rsquo;ll leave with something we only ever hand out in the classroom.</p>
+
+      <div class="btlx__grid">
+        <article class="btlx__card">
+          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h12M11 6l6 6-6 6"/><path d="M19 4v16"/></svg></div>
+          <h3>Express pickup</h3>
+          <p>Your signed copy is bagged and waiting at the express table with your name on it. Show your name, take your book, done &mdash; while the line forms behind you.</p>
+        </article>
+        <article class="btlx__card">
+          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6"/><path d="M6 10V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M4 18h16M6 18v2M18 18v2"/></svg></div>
+          <h3>Reserved seating</h3>
+          <p>A seat in the front section, held for you and whoever you registered. Give your name at the door and go straight to it.</p>
+        </article>
+        <article class="btlx__card btlx__card--star">
+          <p class="btlx__only">Classroom only &middot; not in the book</p>
+          <div class="btlx__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h10M7 17h6"/></svg></div>
+          <h3>The laminated Frameworks Bundle</h3>
+          <p>The one-page frameworks we teach when we&rsquo;re in a room with couples &mdash; the Safety Plan, the Readiness Plan and the Stop Loss on laminated cards you keep on the fridge. They aren&rsquo;t printed in the book and they&rsquo;re not for sale. Pre-order and they&rsquo;re yours.</p>
+        </article>
+      </div>
+
+      <div class="btlx__stack">
+        <div class="btlx__row"><span>Signed paperback</span><b>$20</b></div>
+        <div class="btlx__row"><span>Express pickup</span><b>Included</b></div>
+        <div class="btlx__row"><span>Reserved front-section seating</span><b>Included</b></div>
+        <div class="btlx__row"><span>Laminated Frameworks Bundle <em>(classroom only)</em></span><b>Included</b></div>
+        <div class="btlx__row btlx__row--total"><span>You pay</span><b>$20</b></div>
+        <a class="btn btn--lg btn--block" href="/book/checkout/" data-tab="preorder-checkout">Pre-order &amp; beat the line &mdash; $20</a>
+        <p class="btlx__fine">One or several copies &mdash; choose at checkout. Signed to whoever you like. Pickup only, at the event.</p>
+      </div>
+    </div>
+  </section>
 
   <section class="band on-navy">
     <div class="wrap" style="max-width:46rem">
@@ -3177,6 +3252,77 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       </div>
     </div>
   </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= PRE-ORDER CHECKOUT ========================= -->
+<!-- ==================================================================== -->
+<div class="view" id="view-preorder-checkout" hidden>
+  <section class="band band--paper co">
+    <div class="wrap co__grid">
+      <div class="co__side">
+        <div class="co__intro">
+          <img class="co__book" src="/assets/book-3d.webp" alt="" width="900" height="1367">
+          <div class="co__text">
+            <p class="eyebrow eyebrow--ink">Beat the line</p>
+            <h1 class="co__h1">Pre-order your signed copy.</h1>
+            <p class="co__lede">$20 &mdash; the same as at the table &mdash; and you skip the line on November 1st.</p>
+            <ul class="co__trust">
+              <li>Express pickup, signed to whoever you like</li>
+              <li>Reserved front-section seating</li>
+              <li>Laminated Frameworks Bundle &mdash; classroom only</li>
+              <li>Secure payment by Stripe &middot; pickup at the event</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="co__main">
+        <div class="co__step" id="poPick">
+          <p class="co__label">How many copies?</p>
+          <div class="co__qty" role="group" aria-label="Number of copies">
+            <button type="button" class="co__opt is-on" data-q="1"><b>1</b><span>$20</span></button>
+            <button type="button" class="co__opt" data-q="2"><b>2</b><span>$40</span></button>
+            <button type="button" class="co__opt" data-q="3"><b>3</b><span>$60</span></button>
+            <button type="button" class="co__opt" data-q="5"><b>5</b><span>$100</span></button>
+          </div>
+          <label class="co__custom">Or another number: <input type="number" id="poQty" min="1" max="20" inputmode="numeric" placeholder="e.g. 4"></label>
+          <button type="button" class="btn btn--onLight btn--lg btn--block" id="poGo">Continue to secure payment</button>
+          <p class="form__fine" style="color:var(--ink-soft)">You&rsquo;ll be asked who to sign it to on the next step.</p>
+          <p class="form__error" id="poErr" hidden></p>
+        </div>
+        <div class="co__frame" id="poFrame" hidden>
+          <p class="co__label">Secure payment <span class="co__lock" aria-hidden="true">&#128274;</span></p>
+          <div id="poMount"></div>
+          <p class="form__fine" style="color:var(--ink-soft);margin-top:.75rem"><a href="#" id="poBack">&larr; Change the number of copies</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ======================= PRE-ORDER THANK-YOU ======================== -->
+<!-- ==================================================================== -->
+<div class="view" id="view-preorder-thanks" hidden>
+  <header class="phead reg__head">
+    <div class="wrap reg__grid">
+      <div>
+        <div class="reg__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
+        <p class="eyebrow">You beat the line</p>
+        <h1>Your copy is spoken for.<br><em>See you up front.</em></h1>
+        <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and pick up your signed copy and the laminated Frameworks Bundle at the express table &mdash; no line.</p>
+        <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
+          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn btn--outline" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Read Chapter One now</a>
+        </p>
+      </div>
+      <aside class="reg__card">
+        <p class="eyebrow">Doors 5:30 pm</p>
+        <p style="color:var(--on-navy);margin:.5rem 0 0"><b style="color:var(--ivory)">Grace Family Church</b><br>22920 FL-54, Lutz, FL 33549<br>Sunday, November 1, 2026</p>
+        <p style="margin:1rem 0 0"><a class="btn btn--outline btn--sm" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a></p>
+      </aside>
+    </div>
+  </header>
 </div>
 
 <div class="view" id="view-churches" hidden>
@@ -4072,7 +4218,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4092,6 +4238,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
     '/gift/':          'gift',          // public, shareable
     '/gift/checkout/': 'gift-checkout',
+    '/book/checkout/': 'preorder-checkout',
+    '/preorder-thank-you/': 'preorder-thanks',
     '/sponsor/checkout/': 'sponsor-checkout',
     '/sponsor-thank-you/': 'sponsor-thanks',
     '/sponsor-paid/':  'sponsor-paid',
@@ -4114,6 +4262,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
     'gift': 'Gift a signed copy — Never Fight or Argue Again',
     'gift-checkout': 'Gift a signed copy — secure payment',
+    'preorder-checkout': 'Pre-order your signed copy — Beat the Line',
+    'preorder-thanks': 'You beat the line — Never Fight or Argue Again',
     'sponsor-checkout': 'Sponsorship payment — Never Fight or Argue Again',
     'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     'sponsor-paid': 'Sponsorship confirmed — Never Fight or Argue Again',
@@ -4362,16 +4512,32 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         var pick = document.getElementById('coPick'), frame = document.getElementById('coFrame'), go = document.getElementById('coGo'), back = document.getElementById('coBack'), custom = document.getElementById('coQty'), err = document.getElementById('coErr');
         if (!go) return;
         var q = 3;
-        document.querySelectorAll('.co__opt').forEach(function (o) { o.addEventListener('click', function () {
+        pick.querySelectorAll('.co__opt').forEach(function (o) { o.addEventListener('click', function () {
           q = parseInt(o.dataset.q, 10); custom.value = '';
-          document.querySelectorAll('.co__opt').forEach(function (x) { x.classList.toggle('is-on', x === o); });
+          pick.querySelectorAll('.co__opt').forEach(function (x) { x.classList.toggle('is-on', x === o); });
         }); });
-        custom.addEventListener('input', function () { var v = parseInt(custom.value, 10); if (v >= 1) { q = Math.min(100, v); document.querySelectorAll('.co__opt').forEach(function (x) { x.classList.remove('is-on'); }); } });
+        custom.addEventListener('input', function () { var v = parseInt(custom.value, 10); if (v >= 1) { q = Math.min(100, v); pick.querySelectorAll('.co__opt').forEach(function (x) { x.classList.remove('is-on'); }); } });
         go.addEventListener('click', function () {
           err.hidden = true; pick.hidden = true; frame.hidden = false; window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
           mountCheckout('coMount', { kind: 'gift', quantity: q }, err, CONFIG.stripeCoupleLink);
         });
         back.addEventListener('click', function (ev) { ev.preventDefault(); frame.hidden = true; pick.hidden = false; if (mounted.coMount) { try { mounted.coMount.destroy(); } catch (e) {} mounted.coMount = null; } });
+      })();
+      // Pre-order checkout page
+      (function () {
+        var pick = document.getElementById('poPick'), frame = document.getElementById('poFrame'), go = document.getElementById('poGo'), back = document.getElementById('poBack'), custom = document.getElementById('poQty'), err = document.getElementById('poErr');
+        if (!go) return;
+        var q = 1;
+        pick.querySelectorAll('.co__opt').forEach(function (o) { o.addEventListener('click', function () {
+          q = parseInt(o.dataset.q, 10); custom.value = '';
+          pick.querySelectorAll('.co__opt').forEach(function (x) { x.classList.toggle('is-on', x === o); });
+        }); });
+        custom.addEventListener('input', function () { var v = parseInt(custom.value, 10); if (v >= 1) { q = Math.min(20, v); pick.querySelectorAll('.co__opt').forEach(function (x) { x.classList.remove('is-on'); }); } });
+        go.addEventListener('click', function () {
+          err.hidden = true; pick.hidden = true; frame.hidden = false; window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+          mountCheckout('poMount', { kind: 'preorder', quantity: q }, err, null);
+        });
+        back.addEventListener('click', function (ev) { ev.preventDefault(); frame.hidden = true; pick.hidden = false; if (mounted.poMount) { try { mounted.poMount.destroy(); } catch (e) {} mounted.poMount = null; } });
       })();
       // Sponsor checkout page: /sponsor/checkout/?tier=gold
       window.__sponsorCheckout = function () {
