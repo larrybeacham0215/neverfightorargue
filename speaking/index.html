@@ -4827,7 +4827,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         showTotal();
         go.addEventListener('click', function () {
           err.hidden = true; pick.hidden = true; frame.hidden = false; window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
-          mountCheckout('poMount', { kind: 'preorder', quantity: q }, err, null);
+          mountCheckout('poMount', { kind: 'preorder', quantity: q, test: new URLSearchParams(location.search).get('test') || '' }, err, null);
         });
         back.addEventListener('click', function (ev) { ev.preventDefault(); frame.hidden = true; pick.hidden = false; if (mounted.poMount) { try { mounted.poMount.destroy(); } catch (e) {} mounted.poMount = null; } });
       })();
