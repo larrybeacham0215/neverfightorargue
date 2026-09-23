@@ -1150,9 +1150,11 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .gu__row .gu__seats{font-family:var(--f-display);font-size:1.3rem;color:var(--ink)}
 .gu__row .gu__seats small{display:block;font-family:var(--f-body);font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
 .gu__pre{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;background:#0D2D1D;color:#F7F3EA;padding:.3rem .55rem;border-radius:999px;white-space:nowrap}
-.gu__pre--none{background:transparent;color:transparent}
+.gu__pre--none{display:none}
+.gu__row{grid-template-columns:1fr auto;align-items:center;padding:.7rem 1rem}
+.gu__row:has(.gu__pre){grid-template-columns:1fr auto auto}
 .gu__spon{font-size:.6875rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);margin-left:.5rem}
-@media(max-width:600px){.gu__stats{gap:.9rem}.gu__stats b{font-size:1.3rem}.gu__row{grid-template-columns:1fr auto}.gu__pre--none{display:none}}
+@media(max-width:600px){.gu__stats{gap:.9rem}.gu__stats b{font-size:1.3rem}}
 .ex__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1rem;margin:0 0 1rem}
 .ex__totals{font-size:1rem;color:var(--ink-soft)}
 .ex__totals b{color:var(--ink);font-family:var(--f-display);font-size:1.4rem}
