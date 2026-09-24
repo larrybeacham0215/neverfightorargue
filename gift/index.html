@@ -1351,6 +1351,12 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .sprow__head h3{font-family:var(--f-display);font-size:1.05rem;font-weight:400;margin:0;color:var(--ivory)}
 .sprow__head .sp__tierTag{margin-bottom:.15rem;font-size:.625rem;color:var(--gold)}
 .sprow__head .sp__price{font-size:1.45rem;margin:0;color:var(--gold)}
+.sprow__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25rem .9rem;min-width:0}
+.sprow__list li{position:relative;padding-left:1.1rem;font-size:.9375rem;line-height:1.35;color:#fff}
+.sprow__list li::before{content:"\2713";position:absolute;left:0;top:0;color:var(--gold);font-weight:700;font-size:.85em}
+.sprow{align-items:start}
+.sprow .btn{align-self:center}
+@media(max-width:900px){.sprow__list{grid-template-columns:1fr;gap:.3rem}.sprow__list li{font-size:1rem}}
 .sprow__sum{margin:0;font-size:.9375rem;line-height:1.5;color:#F7F3EA;font-weight:400;min-width:0}
 .sprow__sum b{color:#fff;font-weight:700}
 /* .on-navy p sets the muted colour with higher specificity — override it here */
@@ -3076,27 +3082,61 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="sprows">
         <article class="sprow sprow--top">
           <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
-          <p class="sprow__sum"><b>Two minutes on stage and your name on the night.</b> Stage banner (provided by you), large featured logo on the screens, thanked by name from the stage, logo on the digital program, reserved front table for 8, table displays on every table, and 10 signed books.</p>
+          <ul class="sprow__list">
+            <li>Stage time (2 minutes)</li>
+            <li>Stage banner (provided by you)</li>
+            <li>Large featured logo on screens</li>
+            <li>Thanked by name from the stage</li>
+            <li>Logo on the digital program</li>
+            <li>Reserved front table (8)</li>
+            <li>Table displays on all tables</li>
+            <li>10 signed books</li>
+          </ul>
           <button class="btn" type="button" data-tier="presenting">Secure</button>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
-          <p class="sprow__sum"><b>Host the food and drinks.</b> Displays at the food table, thanked by name from the stage, logo on the digital program, reserved front table for 6, and 5 signed books.</p>
+          <ul class="sprow__list">
+            <li>Host the food &amp; drinks</li>
+            <li>Displays at the food table</li>
+            <li>Thanked by name from the stage</li>
+            <li>Logo on the digital program</li>
+            <li>Reserved front table (6)</li>
+            <li>5 signed books</li>
+          </ul>
           <button class="btn" type="button" data-tier="reception">Secure</button>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">Three available</p><h3>Gold Sponsor</h3><p class="sp__price">$1,000</p></div>
-          <p class="sprow__sum"><b>Logo on the screens and the digital program.</b> Thanked by name from the stage, table display on every table, and 3 signed books.</p>
+          <ul class="sprow__list">
+            <li>Thanked by name from the stage</li>
+            <li>Logo on screens</li>
+            <li>Logo on the digital program</li>
+            <li>Table display on all tables</li>
+            <li>3 signed books</li>
+          </ul>
           <button class="btn" type="button" data-tier="gold">Secure</button>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
-          <p class="sprow__sum"><b>Your name on the gift everyone takes home.</b> A branded card inside every guest gift, logo on the screens and the digital program, thanked from the stage, and 2 signed books.</p>
+          <ul class="sprow__list">
+            <li>Your name on the gift everyone takes home</li>
+            <li>Branded card inside every guest gift</li>
+            <li>Thanked from the stage</li>
+            <li>Logo on screens</li>
+            <li>Logo on the digital program</li>
+            <li>2 signed books</li>
+          </ul>
           <button class="btn btn--outline" type="button" data-tier="gift">Secure</button>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
-          <p class="sprow__sum"><b>Logo on the screens and the digital program,</b> thanked from the stage, and 2 signed books.</p>
+          <ul class="sprow__list">
+            <li>Logo on screens</li>
+            <li>Logo on the digital program</li>
+            <li>Thanked from the stage</li>
+            <li>2 signed books</li>
+          </ul>
           <button class="btn btn--outline" type="button" data-tier="silver">Secure</button>
         </article>
       </div>
