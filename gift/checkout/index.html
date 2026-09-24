@@ -1143,6 +1143,9 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .pass__status.is-done{background:#0D2D1D;color:#F7F3EA}
 .pass__vol{margin-top:1.25rem;border-top:1px dashed rgba(22,38,28,.25);padding-top:1rem}
 .pass__volKick{font-size:.625rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 .5rem}
+.gu__note{grid-column:1/-1;margin:.4rem 0 0;padding:.6rem .9rem;border-left:3px solid var(--gold);background:rgba(195,154,94,.08);font-family:'Cormorant Garamond',Georgia,serif;font-size:1.05rem;font-style:italic;line-height:1.45;color:var(--ink);white-space:pre-line}
+.gu__note::before{content:"\201C";color:var(--gold-ink);margin-right:.15rem}
+.gu__note::after{content:"\201D";color:var(--gold-ink);margin-left:.15rem}
 .gu__stats{display:flex;gap:1.25rem}
 .gu__stats div{text-align:center}
 .gu__stats b{display:block;font-family:var(--f-display);font-size:1.6rem;color:var(--ink);line-height:1}
@@ -3671,6 +3674,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="ex__tools">
         <input type="search" id="guSearch" placeholder="Search by name&hellip;" autocomplete="off">
         <label class="ex__toggle"><input type="checkbox" id="guPreOnly"> Pre-ordered only</label>
+        <label class="ex__toggle"><input type="checkbox" id="guNotesOnly"> With a note</label>
         <button type="button" class="btn btn--onLightOutline btn--sm" id="guRefresh">Refresh</button>
       </div>
       <p class="ex__tip" id="guUpdated">Updates itself every 60 seconds as people register.</p>
@@ -4997,10 +5001,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       // Guests list
       (function () {
         var list = document.getElementById('guList'); if (!list) return;
-        var search = document.getElementById('guSearch'), preOnly = document.getElementById('guPreOnly'), rows = [];
+        var search = document.getElementById('guSearch'), preOnly = document.getElementById('guPreOnly'), notesOnly = document.getElementById('guNotesOnly'), rows = [];
         function render() {
           var q = (search.value || '').toLowerCase().trim();
-          var shown = rows.filter(function (r) { return !r.cancelled && (!preOnly.checked || r.preordered) && (!q || r.name.toLowerCase().indexOf(q) >= 0); });
+          var shown = rows.filter(function (r) { return !r.cancelled && (!preOnly.checked || r.preordered) && (!notesOnly.checked || r.note) && (!q || r.name.toLowerCase().indexOf(q) >= 0 || (r.note || '').toLowerCase().indexOf(q) >= 0); });
           list.innerHTML = shown.length ? '' : '<li class="ex__empty">Nobody matches.</li>';
           shown.forEach(function (r) {
             var li = document.createElement('li'); li.className = 'ex__row gu__row';
@@ -5010,6 +5014,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             li.querySelector('small').textContent = 'Registered ' + d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + (r.sponsor ? '' : '');
             if (r.sponsor) { var sp = document.createElement('span'); sp.className = 'gu__spon'; sp.textContent = 'Sponsor interest'; li.querySelector('small').appendChild(sp); }
             li.querySelector('.gu__seats span').textContent = r.seats;
+            if (r.note) { var q = document.createElement('blockquote'); q.className = 'gu__note'; q.textContent = r.note; li.appendChild(q); }
             list.appendChild(li);
           });
         }
@@ -5022,7 +5027,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             render();
           }).catch(function () { list.innerHTML = '<li class="ex__empty">Could not load the list. Try Refresh.</li>'; });
         }
-        search.addEventListener('input', render); preOnly.addEventListener('change', render); document.getElementById('guRefresh').addEventListener('click', load);
+        search.addEventListener('input', render); preOnly.addEventListener('change', render); notesOnly.addEventListener('change', render); document.getElementById('guRefresh').addEventListener('click', load);
         window.__guestsInit = load;
         if (!document.getElementById('view-guests').hidden) load();
         setInterval(function () { if (!document.getElementById('view-guests').hidden) load(); }, 60000);
