@@ -1551,7 +1551,14 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .hero__qr{position:absolute;right:clamp(.6rem,2.2%,1.6rem);top:50%;transform:translateY(-50%);width:clamp(4.6rem,9.5%,7.2rem);background:#fff;border:1px solid #C39A5E;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 8px 22px rgba(13,45,29,.22);border-radius:.45rem;padding:.35rem .35rem .25rem;text-align:center}
 .hero__qr img{display:block;width:100%;height:auto}
 .hero__qr b{display:block;font-family:var(--f-body);font-size:clamp(.5rem,.75vw,.6rem);letter-spacing:.14em;text-transform:uppercase;color:#0D2D1D;margin-top:.25rem;font-weight:700;white-space:nowrap}
-@media(max-width:640px){.hero__qr{display:none}}
+@media(max-width:640px){
+  .hero__banner{display:flex;flex-direction:column}
+  .hero__banner picture{order:0}
+  .hero__qr{order:1;position:static;transform:none;width:auto;display:flex;align-items:center;gap:.75rem;border:0;border-top:1px solid rgba(195,154,94,.45);border-radius:0;box-shadow:none;background:#FBF7EE;padding:.6rem .9rem;text-align:left}
+  .hero__qr img{width:3.4rem;flex:none;border:1px solid #C39A5E;border-radius:.3rem;background:#fff;padding:.15rem}
+  .hero__qr b{margin:0;font-size:.6875rem;letter-spacing:.1em;white-space:normal;line-height:1.35}
+  .hero__qr b::after{content:" — show this to a friend and they can scan it";font-weight:400;letter-spacing:0;text-transform:none;color:#5C6B60}
+}
 .hero--light .hero__grid{
   align-items:center;
   grid-template-columns:1.22fr .78fr;      /* the words need the room */
