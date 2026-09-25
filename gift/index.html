@@ -1545,6 +1545,12 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .hero__banner{display:block;width:min(100% - 2rem, 72rem);margin:0 auto clamp(1.25rem,3vw,2rem);border-radius:.6rem;overflow:hidden;box-shadow:0 10px 30px rgba(22,38,28,.10);border:1px solid rgba(195,154,94,.35);transition:transform .2s,box-shadow .2s}
 .hero__banner:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(22,38,28,.14)}
 .hero__banner img{display:block;width:100%;height:auto}
+.hero__banner{position:relative}
+/* QR to the launch page, tucked into the banner's right edge (desktop/tablet only — pointless on a phone) */
+.hero__qr{position:absolute;right:clamp(.6rem,2.2%,1.6rem);top:50%;transform:translateY(-50%);width:clamp(4.6rem,9.5%,7.2rem);background:#fff;border:1px solid #C39A5E;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 8px 22px rgba(13,45,29,.22);border-radius:.45rem;padding:.35rem .35rem .25rem;text-align:center}
+.hero__qr img{display:block;width:100%;height:auto}
+.hero__qr b{display:block;font-family:var(--f-body);font-size:clamp(.5rem,.75vw,.6rem);letter-spacing:.14em;text-transform:uppercase;color:#0D2D1D;margin-top:.25rem;font-weight:700;white-space:nowrap}
+@media(max-width:640px){.hero__qr{display:none}}
 .hero--light .hero__grid{
   align-items:center;
   grid-template-columns:1.22fr .78fr;      /* the words need the room */
@@ -2479,6 +2485,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   <header class="hero hero--light" id="free">
     <a class="hero__banner" href="/book-launch/" data-tab="launch" aria-label="You're invited: Book Launch and 30-Year Wedding Anniversary Celebration. RSVP to join the celebration.">
+      <span class="hero__qr" aria-hidden="true"><img src="/assets/rsvp-qr.svg" alt="" width="296" height="296"><b>Scan to RSVP</b></span>
       <picture>
         <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.webp?v=3" type="image/webp">
         <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.jpg?v=3">
