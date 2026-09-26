@@ -3698,6 +3698,36 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   </section>
 </div>
 
+<!-- ==================================================================== -->
+<!-- ============================= READERS ============================== -->
+<!-- /readers/ — live list of Chapter One opt-ins. Hidden, noindex.        -->
+<!-- ==================================================================== -->
+<div class="view" id="view-readers" hidden>
+  <section class="band band--paper" style="min-height:70vh">
+    <div class="wrap" style="max-width:52rem">
+      <div class="ex__head">
+        <div>
+          <p class="eyebrow eyebrow--ink">Free chapter</p>
+          <h1 class="h-md" style="margin:0">Chapter One readers</h1>
+        </div>
+        <div class="gu__stats">
+          <div><b id="rdTotal">&ndash;</b><span>opted in</span></div>
+          <div><b id="rdReg">&ndash;</b><span>registered</span></div>
+          <div><b id="rdPre">&ndash;</b><span>pre-ordered</span></div>
+        </div>
+      </div>
+      <div class="ex__tools">
+        <input type="search" id="rdSearch" placeholder="Search by name&hellip;" autocomplete="off">
+        <label class="ex__toggle"><input type="checkbox" id="rdNotReg"> Not yet registered</label>
+        <button type="button" class="btn btn--onLightOutline btn--sm" id="rdRefresh">Refresh</button>
+      </div>
+      <p class="ex__tip" id="rdUpdated">Updates itself every 60 seconds as people opt in.</p>
+      <ul class="ex__list" id="rdList"><li class="ex__empty">Loading&hellip;</li></ul>
+      <p class="ex__tip" id="rdUnsub" hidden></p>
+    </div>
+  </section>
+</div>
+
 <div class="view" id="view-churches" hidden>
 
   <header class="phead phead--portrait phead--wide">
@@ -4590,7 +4620,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'guests', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'guests', 'readers', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4616,6 +4646,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/pickup/':        'pass',
     '/express/':       'express',
     '/guests/':        'guests',
+    '/readers/':       'readers',
     '/sponsor/checkout/': 'sponsor-checkout',
     '/sponsor-thank-you/': 'sponsor-thanks',
     '/sponsor-paid/':  'sponsor-paid',
@@ -4644,6 +4675,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     pass: 'Your express pickup pass — Never Fight or Argue Again',
     express: 'Express table — pickup check-in',
     guests: 'Who\u2019s coming — November 1 launch',
+    readers: 'Chapter One readers — free chapter opt-ins',
     'sponsor-checkout': 'Sponsorship payment — Never Fight or Argue Again',
     'sponsor-thanks': 'Thank you — Never Fight or Argue Again',
     'sponsor-paid': 'Sponsorship confirmed — Never Fight or Argue Again',
@@ -4682,6 +4714,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     if (name === 'sponsor-checkout' && window.__sponsorCheckout) setTimeout(window.__sponsorCheckout, 0);
     if ((name === 'pass' || name === 'preorder-thanks') && window.__passInit) setTimeout(window.__passInit, 0);
     if (name === 'guests' && window.__guestsInit) setTimeout(window.__guestsInit, 0);
+    if (name === 'readers' && window.__readersInit) setTimeout(window.__readersInit, 0);
 
     document.querySelectorAll('.nav__tabs a[data-tab]').forEach(function (a) {
       if (a.dataset.tab === name) a.setAttribute('aria-current', 'page');
@@ -5044,6 +5077,38 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         window.__guestsInit = load;
         if (!document.getElementById('view-guests').hidden) load();
         setInterval(function () { if (!document.getElementById('view-guests').hidden) load(); }, 60000);
+      })();
+
+      // Readers list (Chapter One opt-ins)
+      (function () {
+        var list = document.getElementById('rdList'); if (!list) return;
+        var search = document.getElementById('rdSearch'), notReg = document.getElementById('rdNotReg'), rows = [];
+        function render() {
+          var q = (search.value || '').toLowerCase().trim();
+          var shown = rows.filter(function (r) { return !r.unsubscribed && (!notReg.checked || !r.registered) && (!q || r.name.toLowerCase().indexOf(q) >= 0); });
+          list.innerHTML = shown.length ? '' : '<li class="ex__empty">Nobody matches.</li>';
+          shown.forEach(function (r) {
+            var li = document.createElement('li'); li.className = 'ex__row gu__row';
+            var d = new Date(r.opted_in);
+            li.innerHTML = '<div><b></b><small></small></div><span class="gu__pre' + (r.registered || r.preordered ? '' : ' gu__pre--none') + '">' + (r.preordered ? 'Pre-ordered ' + r.preordered : r.registered ? 'Registered' : '&nbsp;') + '</span>';
+            li.querySelector('b').textContent = r.name;
+            li.querySelector('small').textContent = 'Opted in ' + d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+            list.appendChild(li);
+          });
+        }
+        function load() {
+          fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/readers').then(function (r) { return r.json(); }).then(function (d) {
+            rows = d.rows || [];
+            document.getElementById('rdTotal').textContent = d.total; document.getElementById('rdReg').textContent = d.registered; document.getElementById('rdPre').textContent = d.preordered;
+            document.getElementById('rdUpdated').textContent = 'Updated ' + new Date(d.updated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' \u00b7 refreshes every minute as people opt in.';
+            var u = document.getElementById('rdUnsub'); if (d.unsubscribed) { u.textContent = d.unsubscribed + ' unsubscribed, not shown.'; u.hidden = false; }
+            render();
+          }).catch(function () { list.innerHTML = '<li class="ex__empty">Could not load the list. Try Refresh.</li>'; });
+        }
+        search.addEventListener('input', render); notReg.addEventListener('change', render); document.getElementById('rdRefresh').addEventListener('click', load);
+        window.__readersInit = load;
+        if (!document.getElementById('view-readers').hidden) load();
+        setInterval(function () { if (!document.getElementById('view-readers').hidden) load(); }, 60000);
       })();
 
       // Invoicing tool
