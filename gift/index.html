@@ -1547,9 +1547,22 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .hero__banner img{display:block;width:100%;height:auto}
 .hero__banner{position:relative}
 /* QR to the launch page, tucked into the banner's right edge (desktop/tablet only — pointless on a phone) */
-.hero__qr{position:absolute;right:clamp(.6rem,2.2%,1.6rem);top:50%;transform:translateY(-50%);width:clamp(4.6rem,9.5%,7.2rem);background:#fff;border:1px solid #C39A5E;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 8px 22px rgba(13,45,29,.22);border-radius:.45rem;padding:.35rem .35rem .25rem;text-align:center}
+.hero__qr{position:absolute;right:clamp(.6rem,1.6%,1.2rem);bottom:clamp(.5rem,1.6%,1rem);top:auto;transform:none;width:clamp(4.2rem,8%,6.2rem);cursor:zoom-in;background:#fff;border:1px solid #C39A5E;box-shadow:0 0 0 3px rgba(255,255,255,.7),0 8px 22px rgba(13,45,29,.22);border-radius:.45rem;padding:.35rem .35rem .25rem;text-align:center}
 .hero__qr img{display:block;width:100%;height:auto}
 .hero__qr b{display:block;font-family:var(--f-body);font-size:clamp(.5rem,.75vw,.6rem);letter-spacing:.14em;text-transform:uppercase;color:#0D2D1D;margin-top:.25rem;font-weight:700;white-space:nowrap}
+.qrbox{position:fixed;inset:0;z-index:200;background:rgba(13,45,29,.92);display:grid;place-items:center;padding:1rem}
+.qrbox[hidden]{display:none}
+.qrbox__card{background:#FBF7EE;border:1px solid #C39A5E;border-radius:1rem;padding:clamp(1.25rem,3vw,2.5rem);text-align:center;max-width:min(92vw,34rem);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.qrbox__card img{display:block;width:min(70vh,26rem);max-width:100%;height:auto;margin:0 auto 1rem;background:#fff;border:8px solid #fff;border-radius:.6rem}
+.qrbox:fullscreen{background:#0D2D1D}
+.qrbox:fullscreen .qrbox__card{max-width:none;border:0;background:transparent;box-shadow:none}
+.qrbox:fullscreen .qrbox__card img{width:min(78vh,80vw)}
+.qrbox:fullscreen .qrbox__title,.qrbox:fullscreen .qrbox__url{color:#F7F3EA}
+.qrbox:fullscreen .qrbox__sub{color:rgba(247,243,234,.75)}
+.qrbox__title{font-family:var(--f-display);font-size:clamp(1.6rem,4vw,2.6rem);color:var(--ink);margin:0 0 .25rem}
+.qrbox__sub{color:var(--ink-soft);font-size:.9375rem;margin:0 0 .5rem}
+.qrbox__url{font-family:var(--f-body);letter-spacing:.06em;color:var(--gold-ink);font-size:1rem;margin:0 0 1.25rem}
+.qrbox__btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
 @media(max-width:640px){
   .hero__banner{display:flex;flex-direction:column}
   .hero__banner picture{order:0}
@@ -2476,6 +2489,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </nav>
 
 <main id="main">
+  <!-- QR lightbox: click the banner QR to show it big / full screen -->
+  <div class="qrbox" id="qrBox" hidden role="dialog" aria-label="Scan to RSVP">
+    <div class="qrbox__card">
+      <img src="/assets/rsvp-qr.svg" alt="QR code for the launch registration page" width="296" height="296">
+      <p class="qrbox__title">Scan to RSVP</p>
+      <p class="qrbox__sub">Book Launch &amp; 30-Year Anniversary Celebration &middot; Sunday, November 1 &middot; Grace Family Church, Lutz</p>
+      <p class="qrbox__url">neverfightorargue.com/book-launch</p>
+      <div class="qrbox__btns"><button type="button" class="btn btn--onLight" id="qrFull">Full screen</button><button type="button" class="btn btn--onLightOutline" id="qrClose">Close</button></div>
+    </div>
+  </div>
   <!-- sticky reminder (shown on the registered and gift pages) -->
   <div class="stick" id="stick" hidden>
     <div class="stick__inner">
@@ -5145,6 +5168,19 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           var wrap = g.parentElement, alt = wrap && wrap.parentElement ? wrap.parentElement.querySelector('a[href="/assets/launch-nov-1.ics"]:not([data-gcal])') : null;
           if (alt) { alt.setAttribute('href', gUrl); alt.textContent = 'Google Calendar instead'; }
         });
+      })();
+
+      // Banner QR → lightbox / full screen
+      (function () {
+        var qr = document.querySelector('.hero__qr'), box = document.getElementById('qrBox'); if (!qr || !box) return;
+        function open(ev) { ev.preventDefault(); ev.stopPropagation(); box.hidden = false; document.body.style.overflow = 'hidden'; }
+        function close() { if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (e) {} } box.hidden = true; document.body.style.overflow = ''; }
+        qr.addEventListener('click', open);
+        document.getElementById('qrClose').addEventListener('click', close);
+        document.getElementById('qrFull').addEventListener('click', function () { if (box.requestFullscreen) box.requestFullscreen().catch(function () {}); else if (box.webkitRequestFullscreen) box.webkitRequestFullscreen(); });
+        box.addEventListener('click', function (ev) { if (ev.target === box) close(); });
+        document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && !box.hidden) close(); });
+        document.addEventListener('fullscreenchange', function () { if (!document.fullscreenElement && !box.hidden) { /* stay in the lightbox after leaving full screen */ } });
       })();
 
       // Sticky reminder: appears a few seconds after landing on the registered page,
