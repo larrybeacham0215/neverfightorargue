@@ -1239,6 +1239,10 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
   font-family:var(--f-display);font-size:clamp(1.5rem,3vw,2rem);
   line-height:1.1;margin:0 0 .5rem;color:var(--ink);
 }
+.rsvp__when{display:grid;gap:.55rem;margin:.9rem 0 1rem;padding:.9rem 1rem;border:1px solid rgba(195,154,94,.6);border-radius:.6rem;background:rgba(195,154,94,.09)}
+.rsvp__when > div{display:flex;gap:.7rem;align-items:flex-start;font-size:.9375rem;line-height:1.35;color:var(--ink-soft)}
+.rsvp__when b{color:var(--ink);font-weight:600}
+.rsvp__when svg{width:1.15rem;height:1.15rem;flex:none;margin-top:.1rem;fill:none;stroke:var(--gold-ink);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .rsvp__sub{color:var(--ink-soft);font-size:.9375rem;margin:0 0 1.5rem}
 .rsvp__close{position:absolute;top:0;right:0;margin:0}
 .rsvp__close button{
@@ -2951,6 +2955,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="rsvp__inner capture capture--light">
       <p class="eyebrow eyebrow--ink">Reserve your seat</p>
       <h2 id="rsvpHeading" class="rsvp__title">Register for November 1st</h2>
+      <div class="rsvp__when">
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span><b>Sunday, November 1, 2026</b></span></div>
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Doors 5:30 pm</b></span></div>
+        <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span><b>Grace Family Church</b><br>22920 FL-54, Lutz, FL 33549</span></div>
+      </div>
       <p class="rsvp__sub">Free, and it takes about twenty seconds. We'll confirm by email straight away.</p>
 
       <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
