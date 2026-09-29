@@ -1359,8 +1359,10 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .sprow--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
 .sprow--specific{border-style:dashed}
 .sprow--sold{position:relative;overflow:hidden}
-.sprow--sold>*{opacity:.4}
-.sprow--sold::after{content:"SOLD";position:absolute;left:-5%;right:-5%;top:50%;transform:translateY(-50%) rotate(-4deg);background:var(--gold);color:var(--navy);text-align:center;font-family:var(--f-display);font-weight:700;font-size:clamp(1.5rem,4vw,2.25rem);letter-spacing:.5em;text-indent:.5em;padding:.35rem 0;box-shadow:0 4px 14px rgba(0,0,0,.35);border-block:2px solid #fff;pointer-events:none;z-index:2}
+.sprow--sold>*:not(.sprow__banner){opacity:.35}
+.sprow__banner{position:absolute;left:-5%;right:-5%;top:50%;transform:translateY(-50%) rotate(-3deg);background:var(--gold);color:var(--navy);text-align:center;padding:.4rem 1rem .5rem;box-shadow:0 4px 14px rgba(0,0,0,.35);border-block:2px solid #fff;pointer-events:none;z-index:2;line-height:1.15}
+.sprow__banner b{display:block;font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,3.6vw,2rem);letter-spacing:.5em;text-indent:.5em}
+.sprow__banner span{display:block;font-size:clamp(.8rem,2.2vw,.95rem);font-weight:600;letter-spacing:.06em;margin-top:.1rem}
 .sprow__soldBtn{cursor:default;pointer-events:none;opacity:.7}
 .sprow__head h3{font-family:var(--f-display);font-size:1.05rem;font-weight:400;margin:0;color:var(--ivory)}
 .sprow__head .sp__tierTag{margin-bottom:.15rem;font-size:.625rem;color:var(--gold)}
@@ -3134,7 +3136,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p class="sp__howLine center">A full house of married couples, pastors and families from across Tampa Bay. Choose a level &rarr; we call within a business day &rarr; invoice (card, Zelle or check) &rarr; logo by <b>October 18th</b>.</p>
 
       <div class="sprows">
-        <article class="sprow sprow--top sprow--sold" aria-label="Presenting Sponsor — sold">
+        <article class="sprow sprow--top sprow--sold" aria-label="Presenting Sponsor — sold to Replace Your University">
           <div class="sprow__head"><p class="sp__tierTag">Secured</p><h3>Presenting Sponsor</h3><p class="sp__price">$2,500</p></div>
           <ul class="sprow__list">
             <li>Stage time (2 minutes)</li>
@@ -3147,6 +3149,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <li>10 signed books</li>
           </ul>
           <span class="btn sprow__soldBtn" aria-disabled="true">Sold</span>
+          <div class="sprow__banner" aria-hidden="true"><b>SOLD</b><span>Presented by Replace Your University</span></div>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Reception Sponsor</h3><p class="sp__price">$1,500</p></div>
