@@ -1357,6 +1357,15 @@ body:has(#view-launch:not([hidden])) .foot{display:none}
 .sprow{display:grid;grid-template-columns:12rem 1fr auto;gap:1.25rem;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(195,154,94,.45);border-radius:.5rem;padding:.75rem 1.1rem;min-width:0}
 .sprow--top{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:linear-gradient(90deg,rgba(195,154,94,.12),transparent 45%),var(--navy)}
 .sprow--specific{border-style:dashed}
+.presby{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:.15rem .5rem;text-align:center;line-height:1.2}
+.presby span{font-size:.6875rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-ink,#8A6330);font-weight:700}
+.presby b{font-family:var(--f-display);font-weight:400;font-size:1.15rem;color:var(--ink,#16261C)}
+.presby--hero{padding:.55rem 1rem .1rem}
+.presby--launch{margin-top:1.1rem;padding-top:1rem;border-top:1px solid rgba(195,154,94,.35)}
+.presby--launch span{color:var(--gold)}
+.presby--launch b{color:var(--ivory,#F7F3EA);font-size:clamp(1.3rem,2.6vw,1.6rem)}
+.presby--rsvp{margin:.2rem 0 .9rem}
+.presby--reg{margin:.9rem 0 .2rem}
 .sprow--sold{position:relative;overflow:hidden}
 .sprow--sold>*:not(.sprow__banner){opacity:.35}
 .sprow__banner{position:absolute;left:-5%;right:-5%;top:50%;transform:translateY(-50%) rotate(-3deg);background:var(--gold);color:var(--navy);text-align:center;padding:.4rem 1rem .5rem;box-shadow:0 4px 14px rgba(0,0,0,.35);border-block:2px solid #fff;pointer-events:none;z-index:2;line-height:1.15}
@@ -2506,7 +2515,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="qrbox__card">
       <img src="/assets/rsvp-qr.svg" alt="QR code for the launch registration page" width="296" height="296">
       <p class="qrbox__title">Scan to RSVP</p>
-      <p class="qrbox__sub">Book Launch &amp; 30-Year Anniversary Celebration &middot; Sunday, November 1 &middot; Grace Family Church, Lutz</p>
+      <p class="qrbox__sub">Book Launch &amp; 30-Year Anniversary Celebration &middot; Sunday, November 1 &middot; Grace Family Church, Lutz<br>Presented by Replace Your University</p>
       <p class="qrbox__url">neverfightorargue.com/book-launch</p>
       <div class="qrbox__btns"><button type="button" class="btn btn--onLight" id="qrFull">Full screen</button><button type="button" class="btn btn--onLightOutline" id="qrClose">Close</button></div>
     </div>
@@ -2535,6 +2544,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <img src="/assets/launch-banner.jpg?v=3" alt="" width="2172" height="435">
       </picture>
     </a>
+    <p class="presby presby--hero"><span>Presented by</span> <b>Replace Your University</b></p>
     <div class="wrap hero__grid">
       <div class="hero__col">
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
@@ -2949,6 +2959,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
         </div>
       </dl>
+      <p class="presby presby--launch"><span>Presented by</span> <b>Replace Your University</b></p>
     </div>
   </header>
 
@@ -2965,6 +2976,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Starts promptly at 5:30 pm</b></span></div>
         <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span><b>Grace Family Church</b><br>22920 FL-54, Lutz, FL 33549</span></div>
       </div>
+      <p class="presby presby--rsvp"><span>Presented by</span> <b>Replace Your University</b></p>
       <p class="rsvp__sub">Free, and it takes about twenty seconds. We'll confirm by email straight away.</p>
 
       <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
@@ -3036,6 +3048,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span>Grace Family Church<br><small>22920 FL-54, Lutz, FL 33549</small></span></div>
         </div>
         <p class="bl__links"><a data-gcal href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York">Add to calendar</a> &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Directions</a> &middot; <a href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Chapter One (free)</a></p>
+        <p class="presby presby--reg"><span>Presented by</span> <b>Replace Your University</b></p>
         <span class="bl__orn" aria-hidden="true"></span>
         <p class="bl__close">We can&rsquo;t wait to celebrate with you.</p>
         <p class="bl__tiny">Better conversations.<br>A brighter tomorrow.</p>
