@@ -3173,8 +3173,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           </ul>
           <button class="btn" type="button" data-tier="gold">Secure</button>
         </article>
-        <article class="sprow">
-          <div class="sprow__head"><p class="sp__tierTag">One available</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
+        <article class="sprow sprow--sold" aria-label="Guest Gift Sponsor — sold to LeAnne&rsquo;s Old Fashioned Cookies">
+          <div class="sprow__head"><p class="sp__tierTag">Secured</p><h3>Guest Gift Sponsor</h3><p class="sp__price">$750</p></div>
           <ul class="sprow__list">
             <li>Your name on the gift everyone takes home</li>
             <li>Branded card inside every guest gift</li>
@@ -3183,7 +3183,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <li>Logo on the digital program</li>
             <li>2 signed books</li>
           </ul>
-          <button class="btn btn--outline" type="button" data-tier="gift">Secure</button>
+          <span class="btn btn--outline sprow__soldBtn" aria-disabled="true">Sold</span>
+          <div class="sprow__banner" aria-hidden="true"><b>SOLD</b><span>Guest gifts by LeAnne&rsquo;s Old Fashioned Cookies</span></div>
         </article>
         <article class="sprow">
           <div class="sprow__head"><p class="sp__tierTag">Six available</p><h3>Silver Sponsor</h3><p class="sp__price">$500</p></div>
@@ -3213,7 +3214,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <option value="presenting" disabled>Presenting Sponsor &mdash; SOLD</option>
               <option value="reception">Reception Sponsor &mdash; $1,500</option>
               <option value="gold">Gold Sponsor &mdash; $1,000</option>
-              <option value="gift">Guest Gift Sponsor &mdash; $750</option>
+              <option value="gift" disabled>Guest Gift Sponsor &mdash; SOLD</option>
               <option value="silver">Silver Sponsor &mdash; $500</option>
             </select>
           </div>
@@ -3386,7 +3387,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
                 <option value="presenting" disabled>Presenting Sponsor &mdash; SOLD</option>
                 <option value="reception">Reception Sponsor &mdash; $1,500</option>
                 <option value="gold">Gold Sponsor &mdash; $1,000</option>
-                <option value="gift">Guest Gift Sponsor &mdash; $750</option>
+                <option value="gift" disabled>Guest Gift Sponsor &mdash; SOLD</option>
                 <option value="silver">Silver Sponsor &mdash; $500</option>
               </select>
             </div>
