@@ -5096,6 +5096,53 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         try { var saved = sessionStorage.getItem('nfoaa_express_pin'); if (saved && !document.getElementById('view-express').hidden) enter(saved); } catch (e) {}
       })();
 
+      // Password gate for /guests/ and /readers/. The Edge Function checks the
+      // password on every request; nothing secret lives in this file.
+      window.__listFetch = (function () {
+        var KEY = 'nfoaa_lists_pw', waiting = {};
+        var st = document.createElement('style');
+        st.textContent = '.lg-gate{display:none}.lg-locked>.lg-gate{display:block}.lg-locked>:not(.lg-gate){display:none !important}';
+        document.head.appendChild(st);
+        function getPw() { try { return sessionStorage.getItem(KEY) || ''; } catch (e) { return ''; } }
+        function setPw(v) { try { if (v) sessionStorage.setItem(KEY, v); else sessionStorage.removeItem(KEY); } catch (e) {} }
+        function post(url, pw) {
+          return fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { status: r.status, body: j }; }); });
+        }
+        function lock(view, url, msg) {
+          var wrap = document.querySelector('#' + view + ' .wrap'), g = wrap.querySelector('.lg-gate');
+          if (!g) {
+            g = document.createElement('div'); g.className = 'lg-gate';
+            g.innerHTML = '<p class="eyebrow eyebrow--ink">Private list</p><h1 class="h-lg" style="margin-bottom:1.25rem">Enter the password</h1><div class="capture capture--light" style="max-width:24rem"><div class="form"><div class="field"><label for="' + view + 'Pw">Password</label><input type="password" id="' + view + 'Pw" autocomplete="current-password"></div><p class="form__error" hidden></p><button type="button" class="btn btn--onLight btn--block">Open the list</button></div></div>';
+            wrap.insertBefore(g, wrap.firstChild);
+            var input = g.querySelector('input'), err = g.querySelector('.form__error'), btn = g.querySelector('button');
+            var go = function () {
+              var pw = input.value; if (!pw) return;
+              btn.disabled = true; err.hidden = true;
+              post(url, pw).then(function (res) {
+                btn.disabled = false;
+                if (res.status === 200) { setPw(pw); input.value = ''; wrap.classList.remove('lg-locked'); var w = waiting[view]; waiting[view] = null; if (w) w(res.body); }
+                else { err.textContent = (res.body && res.body.error) || 'Could not check the password.'; err.hidden = false; }
+              }).catch(function () { btn.disabled = false; err.textContent = 'Network error. Try again.'; err.hidden = false; });
+            };
+            btn.addEventListener('click', go);
+            input.addEventListener('keydown', function (e) { if (e.key === 'Enter') go(); });
+          }
+          if (msg) { var e2 = g.querySelector('.form__error'); e2.textContent = msg; e2.hidden = false; }
+          wrap.classList.add('lg-locked');
+          return new Promise(function (resolve) { waiting[view] = resolve; });
+        }
+        return function (view, url) {
+          var pw = getPw();
+          if (!pw) return lock(view, url);
+          return post(url, pw).then(function (res) {
+            if (res.status === 200) return res.body;
+            if (res.status === 401) setPw('');
+            return lock(view, url, res.body && res.body.error);
+          });
+        };
+      })();
+
       // Guests list
       (function () {
         var list = document.getElementById('guList'); if (!list) return;
@@ -5117,7 +5164,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           });
         }
         function load() {
-          fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/guests').then(function (r) { return r.json(); }).then(function (d) {
+          window.__listFetch('view-guests', 'https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/guests').then(function (d) {
             rows = d.rows || [];
             document.getElementById('guParties').textContent = d.parties; document.getElementById('guSeats').textContent = d.seats; document.getElementById('guPre').textContent = d.preorder_copies;
             document.getElementById('guUpdated').textContent = 'Updated ' + new Date(d.updated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' \u00b7 refreshes every minute as people register.';
@@ -5149,7 +5196,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           });
         }
         function load() {
-          fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/readers').then(function (r) { return r.json(); }).then(function (d) {
+          window.__listFetch('view-readers', 'https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/readers').then(function (d) {
             rows = d.rows || [];
             document.getElementById('rdTotal').textContent = d.total; document.getElementById('rdReg').textContent = d.registered; document.getElementById('rdPre').textContent = d.preordered;
             document.getElementById('rdUpdated').textContent = 'Updated ' + new Date(d.updated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' \u00b7 refreshes every minute as people opt in.';
