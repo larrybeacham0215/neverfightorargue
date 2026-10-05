@@ -112,7 +112,7 @@ async function send(to: string, subject: string, html: string) {
       to: [{ email: to }],
       subject,
       htmlContent: html,
-      replyTo: { email: FROM_EMAIL },
+      replyTo: { email: FROM_EMAIL }, // hello@ — never inherit Brevo account default (e.g. KDM)
     }),
   });
   if (!res.ok) console.error("Brevo error", res.status, await res.text());
