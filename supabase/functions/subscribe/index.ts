@@ -24,6 +24,10 @@ const FROM_NAME = Deno.env.get("FROM_NAME") ?? "Larry & Ro";
 // your own database, just not pushed to Brevo's contact list.
 const BREVO_LIST_ID = Deno.env.get("BREVO_LIST_ID");
 const NOTIFY_EMAIL = Deno.env.get("NOTIFY_EMAIL") ?? "hello@neverfightorargue.com";
+// Reply-To must stay on neverfightorargue.com (not larry@kdmcommunity.com / KDM).
+// Optional overrides via secrets; defaults match Larry's Oct 5 inbound-mail decision.
+const REPLY_TO_CHURCHES = Deno.env.get("REPLY_TO_CHURCHES") ?? "churches@neverfightorargue.com";
+const REPLY_TO_SPEAKING = Deno.env.get("REPLY_TO_SPEAKING") ?? "speaking@neverfightorargue.com";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const CHAPTER_PATH = "/assets/never-fight-or-argue-again-chapter-1.pdf";
 
@@ -304,6 +308,7 @@ Deno.serve(async (req) => {
         email,
         "Your free chapter is here",
         chaptersEmail(first_name, row.unsubscribe_token),
+        FROM_EMAIL, // hello@ — never inherit a Brevo account default Reply-To
       );
       if (sent) {
         await db.from("subscribers").update({ chapters_sent_at: new Date().toISOString() }).eq("email", email);
@@ -368,6 +373,7 @@ Deno.serve(async (req) => {
           ? "You're registered — November 1st, Tampa"
           : "You're on the list for November 1st",
         launchConfirmEmail(first_name, guests, inPerson, saved?.manage_token ?? ""),
+        FROM_EMAIL, // hello@ — explicit Reply-To
       );
 
       // Keep them on the main list too, so they get the book news.
@@ -416,12 +422,15 @@ Deno.serve(async (req) => {
 
       // Confirm to the person who submitted, so they know it arrived and
       // roughly when to expect a reply.
+      // Receipt Reply-To: churches@ or speaking@ so pastor replies land in ministry inbound
+      // (not KDM). Notify-to-Larry above keeps Reply-To = the submitter.
       const receipted = await sendEmail(
         email,
         kind === "church"
           ? "We got your inquiry — Never Fight or Argue Again"
           : "We got your speaking inquiry — Larry & Ro",
         inquiryReceipt(kind, first_name),
+        kind === "church" ? REPLY_TO_CHURCHES : REPLY_TO_SPEAKING,
       );
 
       return new Response(JSON.stringify({ ok: true, receipted }), { headers });
