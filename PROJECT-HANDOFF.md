@@ -215,7 +215,7 @@ matter — the emails greet people by name.
 | File | What |
 |---|---|
 | `book-3d.webp/.png` | Current paperback mockup, spine visible, 900×1367 |
-| `launch-stage.webp/.jpg` | Staged launch room — **shows the OLD navy cover** |
+| `launch-stage.webp/.jpg` | Staged launch room, shows the current photo cover |
 | `larry-rolanda.jpg` | About page portrait |
 | `churches-group.webp/.jpg` | For Churches header |
 | `never-fight-or-argue-again-chapter-1.pdf` | The giveaway, 21 pages |
@@ -229,9 +229,7 @@ background removal on an already-transparent PNG chewed the page edges once.
 
 ## 11. Outstanding
 
-1. **The staged launch render still shows the old navy cover** on the banner,
-   side screens and floor projection. It is the hero of `/book-launch/` and the
-   last old branding on the site. Needs re-rendering — can't be edited.
+1. ~~Staged launch render showed the old navy cover~~ Resolved: the render now shows the photo cover, and the old `cover.jpg` has been removed.
 2. **The free-chapter PDF's closing page still says "Time and location coming
    soon."** Both are now known. Worth updating in the source and re-exporting.
 3. **Retailer links** — the buy buttons still point at `#`.
