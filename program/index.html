@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f4ee">
+<title>Launch Night Program | Never Fight or Argue Again</title>
+<meta name="description" content="The digital program for the Never Fight or Argue Again book launch and Larry & Ro's 30th wedding anniversary celebration.">
+<style>
+  :root{
+    --paper:#f7f4ee;
+    --paper-deep:#eee8dd;
+    --ink:#24241f;
+    --muted:#69685f;
+    --line:#d9d1c4;
+    --accent:#8c6a45;
+    --accent-dark:#62482e;
+    --white:#fffefa;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Avenir Next", Avenir, "Segoe UI", Arial, sans-serif;
+    --shadow:0 16px 44px rgba(48,39,27,.07);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .announcement{background:var(--ink);color:#f9f5ed;text-align:center;padding:9px 18px;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase}
+  .site-header{position:sticky;top:0;z-index:10;background:rgba(247,244,238,.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(217,209,196,.8)}
+  .nav{max-width:1160px;margin:auto;padding:15px 24px;display:flex;align-items:center;justify-content:space-between;gap:22px}
+  .brand{font-family:var(--serif);font-size:1rem;line-height:1.15;text-decoration:none;font-weight:700;max-width:210px}
+  .brand span{display:block;font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{font-size:.78rem;text-decoration:none;color:#4f4d46}
+  .nav-links a:hover{color:var(--accent-dark)}
+  .nav-cta,.button{display:inline-flex;justify-content:center;align-items:center;gap:8px;text-decoration:none;border:1px solid var(--ink);padding:11px 17px;font-size:.77rem;letter-spacing:.04em;transition:.2s}
+  .nav-cta,.button-dark{background:var(--ink);color:white}
+  .nav-cta:hover,.button-dark:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+  .button-light{background:transparent;color:var(--ink);border-color:var(--line)}
+  .button-light:hover{border-color:var(--accent)}
+  .hero{position:relative;overflow:hidden;background:var(--ink);color:#faf6ed;padding:86px 24px 78px}
+  .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(220,195,157,.25);border-radius:50%;pointer-events:none}
+  .hero:before{width:530px;height:530px;right:-130px;top:-250px}
+  .hero:after{width:380px;height:380px;right:-55px;top:-175px}
+  .hero-inner{max-width:1080px;margin:auto;position:relative;z-index:1}
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:56px;align-items:center}
+  .hero-copy{min-width:0}
+  .hero-photo{margin:0;justify-self:end;width:100%;max-width:380px;position:relative}
+  .hero-mat{position:relative}
+  .hero-mat:before{content:"";position:absolute;inset:0;transform:translate(16px,16px);border:1px solid #b08d62;pointer-events:none}
+  .hero-frame{position:relative;background:#f7f1e6;padding:14px;border:1px solid #c9a978;box-shadow:0 22px 50px rgba(0,0,0,.38)}
+  .hero-frame:after{content:"";position:absolute;inset:8px;border:1px solid rgba(140,106,69,.45);pointer-events:none}
+  .hero-frame img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%}
+  .hero-photo figcaption{margin-top:26px;text-align:center;font-family:var(--serif);font-style:italic;color:#d8bd99;font-size:1rem}
+  .eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#cbb18f;font-weight:600}
+  h1,h2,h3,p{margin-top:0}
+  h1{font-family:var(--serif);font-weight:400;letter-spacing:-.045em;line-height:.98;font-size:clamp(3.2rem,8vw,6.7rem);max-width:850px;margin:22px 0}
+  h1 em{font-weight:400;color:#d8bd99}
+  .hero-subtitle{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.7rem);color:#e6dfd3;margin-bottom:28px}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px 25px;color:#e0d9cd;font-size:.86rem;margin:30px 0 32px}
+  .hero-meta span{display:flex;align-items:center;gap:9px}
+  .hero-meta .dot{color:#cbb18f}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .hero .button-dark{background:var(--accent);border-color:var(--accent)}
+  .hero .button-dark:hover{background:var(--accent-dark);border-color:var(--accent-dark)}
+  .hero .button-light{border-color:#777168;color:#f9f5ed}
+  .hero .button-light:hover{border-color:#d8bd99}
+  .presented{font-size:.72rem;color:#bdb5a9;margin-top:35px;letter-spacing:.05em}
+  .presented strong{display:block;color:#f9f5ed;font-size:.9rem;font-weight:500;margin-top:4px}
+  .container{max-width:1080px;margin:0 auto;padding:0 24px}
+  section{padding:78px 0}
+  .section-head{max-width:650px;margin-bottom:36px}
+  .kicker{font-size:.69rem;letter-spacing:.19em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:12px}
+  h2{font-family:var(--serif);font-weight:400;letter-spacing:-.035em;font-size:clamp(2.25rem,5vw,3.65rem);line-height:1.08;margin-bottom:16px}
+  h3{font-family:var(--serif);font-weight:400;font-size:1.45rem;line-height:1.2;margin-bottom:9px}
+  .lead{font-size:1.04rem;color:#55534b;max-width:660px}
+  .welcome-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:54px;align-items:center}
+  .welcome-copy{font-family:var(--serif);font-size:1.12rem;line-height:1.9;color:#454239}
+  .welcome-copy p:last-child{margin-bottom:0}
+  .signature{font-family:var(--serif);font-style:italic;font-size:1.55rem;color:var(--accent-dark);margin-top:20px}
+  .welcome-note{background:var(--white);border:1px solid var(--line);padding:34px;box-shadow:var(--shadow);position:relative}
+  .welcome-note:before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent)}
+  .note-label{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .welcome-note blockquote{font-family:var(--serif);font-size:1.7rem;line-height:1.35;margin:18px 0 0}
+  .schedule{background:var(--paper-deep)}
+  .timeline{border-top:1px solid #cfc4b4}
+  .event{display:grid;grid-template-columns:100px 1fr;gap:24px;padding:23px 0;border-bottom:1px solid #cfc4b4}
+  .event-time{font-size:.78rem;letter-spacing:.07em;font-weight:700;color:var(--accent-dark);padding-top:5px}
+  .event h3{font-size:1.32rem;margin-bottom:5px}
+  .event p{color:var(--muted);font-size:.91rem;margin:0}
+  .event-number{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;border:1px solid #c9b79e;border-radius:50%;font-size:.7rem;margin-right:10px;color:var(--accent-dark);vertical-align:2px}
+  .sponsors-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:30px}
+  .sponsor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .sponsor-card{background:var(--white);border:1px solid var(--line);padding:28px 25px;min-height:195px;display:flex;flex-direction:column}
+  .sponsor-type{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:700;margin-bottom:20px}
+  .sponsor-card h3{font-size:1.45rem;margin-bottom:12px}
+  .sponsor-card p{font-size:.85rem;color:var(--muted);margin-bottom:0}
+  .sponsor-logo{background:#fff;border:1px solid var(--line);height:150px;display:flex;align-items:center;justify-content:center;padding:16px 20px;margin-bottom:20px}
+  .sponsor-logo img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .sponsor-logo-name span{font-family:var(--serif);font-size:1.7rem;letter-spacing:-.02em;color:var(--accent-dark);text-align:center;line-height:1.1;border-top:1px solid #c9a978;border-bottom:1px solid #c9a978;padding:10px 4px}
+  .sponsor-featured{grid-column:1/-1;flex-direction:row;align-items:center;gap:40px;padding:32px;border-color:#c9a978;box-shadow:var(--shadow);position:relative}
+  .sponsor-featured:before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent)}
+  .sponsor-featured .sponsor-logo-lg{flex:0 0 340px;height:230px;margin:0}
+  .sponsor-featured .sponsor-logo-lg img{max-width:280px}
+  .sponsor-featured h3{font-size:2rem}
+  .logo-placeholder{margin-top:auto;padding-top:24px;font-size:.68rem;letter-spacing:.08em;color:#a29a8e;text-transform:uppercase}
+  .book-section{background:#e8e0d4}
+  .book-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:center}
+  .book-art{min-height:400px;display:flex;align-items:center;justify-content:center;position:relative}
+  .book-cover{width:235px;min-height:330px;background:#292a24;color:#f7f1e6;padding:30px 24px;box-shadow:18px 18px 0 rgba(99,74,46,.18);display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-3deg);border:1px solid #a38c6b;text-align:center}
+  .book-cover .cover-small{font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:#d7c5a7}
+  .book-cover .cover-title{font-family:var(--serif);font-size:2.1rem;line-height:.98;letter-spacing:-.04em}
+  .book-cover .cover-title em{color:#d7b88d;font-style:normal}
+  .cover-rule{height:1px;background:#a58b66;width:48px;margin:18px auto}
+  .book-cover .cover-authors{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase}
+  .book-real{width:260px;max-width:70%;height:auto;filter:drop-shadow(18px 22px 24px rgba(48,39,27,.28))}
+  .price{font-family:var(--serif);font-size:2.4rem;margin:20px 0 4px}
+  .small-note{font-size:.8rem;color:var(--muted)}
+  .button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .resource-strip{display:flex;align-items:center;justify-content:space-between;gap:30px;padding:30px 0;border-bottom:1px solid var(--line)}
+  .resource-strip:first-of-type{border-top:1px solid var(--line)}
+  .resource-strip p{margin:0;color:var(--muted);font-size:.9rem}
+  .resource-strip .button{white-space:nowrap;flex-shrink:0}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .about-card{padding:32px;background:var(--white);border:1px solid var(--line)}
+  .about-card p{color:var(--muted);margin-bottom:0}
+  .scripture{background:var(--ink);color:#f8f2e8;text-align:center;padding:75px 24px}
+  .scripture blockquote{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);line-height:1.3;max-width:850px;margin:20px auto}
+  .scripture cite{font-style:normal;color:#cbb18f;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase}
+  .footer{padding:30px 24px;text-align:center;color:var(--muted);font-size:.76rem}
+  .footer a{color:var(--accent-dark);text-decoration:none}
+  .footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:18px;margin:12px 0}
+  @media(max-width:760px){
+    .nav{padding:13px 18px}.nav-links{display:none}.brand{font-size:.92rem}
+    .hero{padding:66px 0 60px}.hero:before{right:-310px}.hero:after{right:-260px}
+    .container{padding:0 20px}section{padding:58px 0}
+    .welcome-grid,.book-grid,.about-grid{grid-template-columns:1fr;gap:30px}
+    .welcome-note{padding:27px}.welcome-note blockquote{font-size:1.45rem}
+    .event{grid-template-columns:72px 1fr;gap:14px;padding:19px 0}
+    .sponsors-intro{display:block}.sponsor-grid{grid-template-columns:1fr}
+    .sponsor-card{min-height:0}.sponsor-featured{flex-direction:column;align-items:stretch;gap:22px;padding:24px 20px}.sponsor-featured .sponsor-logo-lg{flex:none;height:210px}.sponsor-featured .sponsor-logo-lg img{max-width:min(280px,100%)}.sponsor-featured h3{font-size:1.7rem}.sponsor-logo{height:130px}.book-grid{gap:20px}.book-art{min-height:360px}
+    .resource-strip{align-items:flex-start;flex-direction:column;gap:15px}
+    .hero{padding:44px 0 56px}.hero-inner{padding:0 20px}
+    .hero-grid{grid-template-columns:1fr;gap:34px}
+    .hero-photo{order:-1;justify-self:center;max-width:min(250px,64vw)}
+    .hero-mat:before{transform:translate(10px,10px)}
+    .hero-frame{padding:10px}.hero-frame:after{inset:5px}
+    .hero-frame img{max-height:52vh}
+    .hero-photo figcaption{margin-top:18px;font-size:.95rem}
+    h1{font-size:clamp(2.7rem,13vw,3.6rem)}
+    .hero-meta{flex-direction:column;gap:8px;font-size:.9rem}
+    .hero-actions{flex-direction:column}.hero-actions .button{width:100%}
+    .button,.nav-cta{min-height:44px}
+    .nav-cta{padding:10px 13px;font-size:.72rem;white-space:nowrap}
+    .footer-links a{display:inline-flex;align-items:center;min-height:44px}
+    .event h3{font-size:1.2rem}
+    .brand{min-height:44px;display:flex;flex-direction:column;justify-content:center}.brand span{font-size:.66rem}
+    .eyebrow,.presented,.kicker,.note-label,.sponsor-type,.logo-placeholder,.nav-cta{font-size:.76rem}
+    .event-number{font-size:.76rem}
+  }
+  .sponsor-band{background:var(--ink);color:#f9f5ed;border-bottom:2px solid #b08d62;padding:22px 20px 24px}
+  .sponsor-band-inner{max-width:1080px;margin:auto;display:flex;align-items:center;justify-content:center;gap:34px}
+  .sb-text{text-align:left}
+  .sb-label{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:#cbb18f;margin-bottom:6px}
+  .sb-name{font-family:var(--serif);font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.1;color:#f9f5ed}
+  .sb-sub{font-size:.8rem;color:#bdb5a9;margin-top:6px;letter-spacing:.04em}
+  .sb-logo{background:#fffefa;border:1px solid #c9a978;padding:12px 18px;box-shadow:0 10px 26px rgba(0,0,0,.35);flex:none}
+  .sb-logo img{display:block;width:200px;max-width:100%;height:auto}
+  @media(max-width:760px){.hero{padding-top:30px}.hero-grid{gap:22px}.hero-photo{max-width:min(200px,52vw)}.hero-photo figcaption{margin-top:12px}.sponsor-band{padding:16px 18px 18px}.sponsor-band-inner{flex-direction:column;gap:10px;text-align:center}.sb-text{text-align:center}.sb-label{font-size:.72rem;margin-bottom:2px}.sb-name{font-size:1.65rem}.sb-sub{display:none}.sb-logo{padding:8px 14px}.sb-logo img{width:min(190px,56vw)}}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="announcement">Book Launch &amp; 30-Year Anniversary Celebration · November 1, 2026</div>
+<aside class="sponsor-band" aria-label="Event sponsor">
+  <div class="sponsor-band-inner">
+    <div class="sb-logo"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University logo" width="300" height="193" fetchpriority="high"></div>
+    <div class="sb-text"><div class="sb-label">Sponsored by</div><div class="sb-name">Replace Your University</div><div class="sb-sub">Event Sponsor · Book Launch &amp; Celebration</div></div>
+  </div>
+</aside>
+<header class="site-header">
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="https://neverfightorargue.com/">Never Fight or Argue Again<span>Larry &amp; Rolanda Beacham</span></a>
+    <div class="nav-links">
+      <a href="#welcome">Welcome</a><a href="#schedule">Order of Events</a><a href="#sponsors">Sponsors</a><a href="#book">Get the Book</a><a href="#resources">Free Resources</a>
+    </div>
+    <a class="nav-cta" href="#schedule">Tonight’s Program ↓</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner hero-grid">
+      <div class="hero-copy">
+      <div class="eyebrow">A night of love, legacy &amp; new beginnings</div>
+      <h1>Never Fight<br>or <em>Argue Again</em></h1>
+      <p class="hero-subtitle">Celebrating Larry &amp; Ro’s 30th Wedding Anniversary</p>
+      <div class="hero-meta">
+        <span><b class="dot">✦</b> Sunday, November 1, 2026</span>
+        <span><b class="dot">✦</b> 5:30–7:30 PM</span>
+        <span><b class="dot">✦</b> Grace Family Church · Land O’ Lakes Campus</span>
+      </div>
+      <div class="hero-actions">
+        <a class="button button-dark" href="#schedule">Explore Tonight’s Program ↓</a>
+        <a class="button button-light" href="https://neverfightorargue.com/">Visit the Website ↗</a>
+      </div>
+      </div>
+      <figure class="hero-photo">
+        <div class="hero-mat"><div class="hero-frame"><picture><source srcset="../assets/program/larry-ro-hero.webp" type="image/webp"><img src="../assets/program/larry-ro-hero.jpg" alt="Larry and Ro Beacham" width="720" height="900" fetchpriority="high"></picture></div></div>
+        <figcaption>Larry &amp; Ro · 30 years</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="welcome">
+    <div class="container welcome-grid">
+      <div>
+        <div class="kicker">A personal welcome</div>
+        <h2>We’re so glad<br>you’re here.</h2>
+        <div class="welcome-copy">
+          <p>Thank you for being here tonight. We’re launching a book and celebrating thirty years of marriage on the same night, and we wanted to share both with the people who matter to us.</p>
+          <p>Our prayer is that you leave tonight with hope for your own marriage and a few tools to take home.</p>
+          <p>Enjoy the food, the music and the company. We are so glad you came.</p>
+        </div>
+        <div class="signature">With love, Larry &amp; Ro</div>
+      </div>
+      <aside class="welcome-note">
+        <div class="note-label">The heart behind tonight</div>
+        <blockquote>“Conflict is inevitable. Fighting is a choice.”</blockquote>
+      </aside>
+    </div>
+  </section>
+
+  <section class="schedule" id="schedule">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">The evening at a glance</div>
+        <h2>Order of events</h2>
+        <p class="lead">Settle in, enjoy the evening, and celebrate the people and partnerships that made this night possible.</p>
+      </div>
+      <div class="timeline">
+        <article class="event"><div class="event-time">5:30 PM</div><div><h3><span class="event-number">01</span>Guests Arrive</h3><p>Appetizers, refreshments &amp; music · Pre-order pickup opens</p></div></article>
+        <article class="event"><div class="event-time">5:50 PM</div><div><h3><span class="event-number">02</span>Welcome</h3><p>Host: Taylor Akinola</p></div></article>
+        <article class="event"><div class="event-time">5:55 PM</div><div><h3><span class="event-number">03</span>Opening Prayer</h3><p>A moment to begin the evening with gratitude.</p></div></article>
+        <article class="event"><div class="event-time">6:00 PM</div><div><h3><span class="event-number">04</span>Thank You to Our Sponsors</h3><p>Recognizing the partners who helped make tonight possible.</p></div></article>
+        <article class="event"><div class="event-time">6:05 PM</div><div><h3><span class="event-number">05</span>30th Anniversary Blessing</h3><p>A special blessing for Larry &amp; Ro.</p></div></article>
+        <article class="event"><div class="event-time">6:10 PM</div><div><h3><span class="event-number">06</span>Conversation with Larry &amp; Ro Beacham</h3><p>The story, the lessons, and the heart behind the book.</p></div></article>
+        <article class="event"><div class="event-time">6:35 PM</div><div><h3><span class="event-number">07</span>Raffle</h3><p>Stay close for the evening’s raffle.</p></div></article>
+        <article class="event"><div class="event-time">6:45–7:30 PM</div><div><h3><span class="event-number">08</span>Book Sales, Signing, Photos &amp; Music</h3><p>Pick up your copy, meet Larry &amp; Ro, and capture a memory.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sponsors">
+    <div class="container">
+      <div class="sponsors-intro">
+        <div class="section-head" style="margin-bottom:0">
+          <div class="kicker">Made possible together</div>
+          <h2>With gratitude to<br>our sponsors.</h2>
+          <p class="lead">Tonight is free for every guest because of these generous partners.</p>
+        </div>
+      </div>
+      <div class="sponsor-grid">
+        <article class="sponsor-card sponsor-featured">
+          <div class="sponsor-logo sponsor-logo-lg"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University" width="300" height="193" loading="lazy"></div>
+          <div class="sponsor-featured-copy">
+            <div class="sponsor-type">Presenting Sponsor</div>
+            <h3>Replace Your University</h3>
+            <p>Thank you for helping bring this celebration to life.</p>
+          </div>
+        </article>
+        <article class="sponsor-card">
+          <div class="sponsor-type">Gold Sponsor</div>
+          <div class="sponsor-logo"><img src="../assets/program/sponsors/mason-sells-real-estate.jpg" alt="Mason Sells Real Estate" width="640" height="462" loading="lazy"></div>
+          <h3>Mason Sells Real Estate</h3>
+          <p>Thank you for supporting a message that strengthens relationships.</p>
+        </article>
+        <article class="sponsor-card">
+          <div class="sponsor-type">Gold Sponsor</div>
+          <div class="sponsor-logo sponsor-logo-name"><span>Higher Momentum</span></div>
+          <h3>Higher Momentum</h3>
+          <p>Thank you for supporting a message that strengthens relationships.</p>
+        </article>
+        <article class="sponsor-card">
+          <div class="sponsor-type">Guest Gift Sponsor</div>
+          <div class="sponsor-logo"><img src="../assets/program/sponsors/leannes-cookies.png" alt="LeAnne’s Old Fashioned Cookies" width="640" height="320" loading="lazy"></div>
+          <h3>LeAnne’s Old Fashioned Cookies</h3>
+          <p>Providing tonight’s guest gifts.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="book-section" id="book">
+    <div class="container book-grid">
+      <div class="book-art">
+        <img class="book-real" src="https://neverfightorargue.com/assets/book-3d.png" alt="Never Fight or Argue Again by Larry &amp; Rolanda Beacham" width="900" height="1367">
+      </div>
+      <div>
+        <div class="kicker">Take the message home</div>
+        <h2>A better way to handle the hard conversations.</h2>
+        <p class="lead">Discover biblical conflict resolution for couples who have tried everything. Learn practical tools to create safety, restore connection, and communicate without destructive conflict.</p>
+        <div class="price">$20 <span style="font-family:var(--sans);font-size:.85rem;color:var(--muted)">per book tonight</span></div>
+        <p class="small-note">Pay on your phone, then show your receipt at the book table to pick up your copies.</p>
+        <div class="button-row">
+          <a class="button button-dark" href="https://neverfightorargue.com/buy/">Buy on Your Phone ↗</a>
+          <a class="button button-light" href="https://neverfightorargue.com/book/">Learn About the Book ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resources">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">Keep growing together</div>
+        <h2>Free companion resources</h2>
+        <p class="lead">The book is a starting point. These resources help you put the ideas into practice—together.</p>
+      </div>
+      <div class="resource-strip">
+        <div><h3>Tools for the journey</h3><p>Download, print, and use the free companion resources alongside the book.</p></div>
+        <a class="button button-light" href="https://neverfightorargue.com/downloads/">Open Free Resources ↗</a>
+      </div>
+      <div class="resource-strip">
+        <div><h3>Meet Larry &amp; Rolanda</h3><p>Learn more about their story, their marriage, and why they wrote this book.</p></div>
+        <a class="button button-light" href="https://neverfightorargue.com/about/">Read Their Story ↗</a>
+      </div>
+      <div class="resource-strip">
+        <div><h3>Stay connected</h3><p>Get the first chapter free and hear from Larry &amp; Ro about what comes next.</p></div>
+        <a class="button button-dark" href="https://neverfightorargue.com/free-chapter/">Get Chapter One ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="scripture">
+    <div class="eyebrow">A word to carry with you</div>
+    <blockquote>“A soft answer turneth away wrath: but grievous words stir up anger.”</blockquote>
+    <cite>Proverbs 15:1 · King James Version</cite>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="https://neverfightorargue.com/">NeverFightOrArgue.com</a>
+    <a href="https://neverfightorargue.com/book/">About the Book</a>
+    <a href="https://neverfightorargue.com/downloads/">Free Resources</a>
+  </div>
+  <div>© 2026 Larry &amp; Rolanda Beacham · Made with gratitude.</div>
+</footer>
+</body>
+</html>
