@@ -157,11 +157,26 @@
     .eyebrow,.presented,.kicker,.note-label,.sponsor-type,.logo-placeholder,.nav-cta{font-size:.76rem}
     .event-number{font-size:.76rem}
   }
+  .sponsor-band{background:var(--ink);color:#f9f5ed;border-bottom:2px solid #b08d62;padding:22px 20px 24px}
+  .sponsor-band-inner{max-width:1080px;margin:auto;display:flex;align-items:center;justify-content:center;gap:34px}
+  .sb-text{text-align:left}
+  .sb-label{font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:#cbb18f;margin-bottom:6px}
+  .sb-name{font-family:var(--serif);font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.1;color:#f9f5ed}
+  .sb-sub{font-size:.8rem;color:#bdb5a9;margin-top:6px;letter-spacing:.04em}
+  .sb-logo{background:#fffefa;border:1px solid #c9a978;padding:12px 18px;box-shadow:0 10px 26px rgba(0,0,0,.35);flex:none}
+  .sb-logo img{display:block;width:200px;max-width:100%;height:auto}
+  @media(max-width:760px){.hero{padding-top:30px}.hero-grid{gap:22px}.hero-photo{max-width:min(200px,52vw)}.hero-photo figcaption{margin-top:12px}.sponsor-band{padding:16px 18px 18px}.sponsor-band-inner{flex-direction:column;gap:10px;text-align:center}.sb-text{text-align:center}.sb-label{font-size:.72rem;margin-bottom:2px}.sb-name{font-size:1.65rem}.sb-sub{display:none}.sb-logo{padding:8px 14px}.sb-logo img{width:min(190px,56vw)}}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="announcement">Book Launch &amp; 30-Year Anniversary Celebration · November 1, 2026</div>
+<aside class="sponsor-band" aria-label="Event sponsor">
+  <div class="sponsor-band-inner">
+    <div class="sb-logo"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University logo" width="300" height="193" fetchpriority="high"></div>
+    <div class="sb-text"><div class="sb-label">Sponsored by</div><div class="sb-name">Replace Your University</div><div class="sb-sub">Event Sponsor · Book Launch &amp; Celebration</div></div>
+  </div>
+</aside>
 <header class="site-header">
   <nav class="nav" aria-label="Main navigation">
     <a class="brand" href="https://neverfightorargue.com/">Never Fight or Argue Again<span>Larry &amp; Rolanda Beacham</span></a>
@@ -188,7 +203,6 @@
         <a class="button button-dark" href="#schedule">Explore Tonight’s Program ↓</a>
         <a class="button button-light" href="https://neverfightorargue.com/">Visit the Website ↗</a>
       </div>
-      <div class="presented">PRESENTED BY<strong>Replace Your University</strong></div>
       </div>
       <figure class="hero-photo">
         <div class="hero-mat"><div class="hero-frame"><picture><source srcset="../assets/program/larry-ro-hero.webp" type="image/webp"><img src="../assets/program/larry-ro-hero.jpg" alt="Larry and Ro Beacham" width="720" height="900" fetchpriority="high"></picture></div></div>
