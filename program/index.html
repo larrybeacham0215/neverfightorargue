@@ -167,6 +167,11 @@
   .sb-logo img{display:block;width:200px;max-width:100%;height:auto}
   @media(max-width:760px){.hero{padding-top:30px}.hero-grid{gap:22px}.hero-photo{max-width:min(200px,52vw)}.hero-photo figcaption{margin-top:12px}.sponsor-band{padding:16px 18px 18px}.sponsor-band-inner{flex-direction:column;gap:10px;text-align:center}.sb-text{text-align:center}.sb-label{font-size:.72rem;margin-bottom:2px}.sb-name{font-size:1.65rem}.sb-sub{display:none}.sb-logo{padding:8px 14px}.sb-logo img{width:min(190px,56vw)}}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  /* sponsors: RYU full row, others 2 per row at matching sizes (all widths) */
+  .sponsor-grid{grid-template-columns:repeat(2,1fr)!important}
+  .sponsor-grid .sponsor-card:not(.sponsor-featured){min-height:0}
+  .sponsor-grid .sponsor-card:not(.sponsor-featured):last-child:nth-child(even){grid-column:1/-1;justify-self:center;width:calc(50% - 8px)}
+  @media(max-width:760px){.sponsor-grid{gap:10px}.sponsor-grid .sponsor-card:not(.sponsor-featured){padding:14px 12px}.sponsor-grid .sponsor-card:not(.sponsor-featured) .sponsor-logo{height:110px;padding:8px;margin-bottom:12px}.sponsor-grid .sponsor-card:not(.sponsor-featured) .sponsor-type{font-size:.62rem;letter-spacing:.1em;margin-bottom:10px}.sponsor-grid .sponsor-card:not(.sponsor-featured) h3{font-size:1.05rem;margin-bottom:6px}.sponsor-grid .sponsor-card:not(.sponsor-featured) p{font-size:.74rem}.sponsor-grid .sponsor-card:not(.sponsor-featured):last-child:nth-child(even){width:calc(50% - 5px)}}
 </style>
 </head>
 <body>
