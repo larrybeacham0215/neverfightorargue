@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get your signed copy tonight | Never Fight or Argue Again</title>
+<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book. Pay on your phone and pick up at the book table.">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://neverfightorargue.com/buy/">
+<meta name="theme-color" content="#0D2D1D">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:wght@600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#0D2D1D;--green2:#1A4229;--gold:#C39A5E;--gold-ink:#8A6330;--ivory:#F8F4E9;--ink:#16261C;--soft:#4B5A50}
+*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.55 Karla,-apple-system,sans-serif}
+.top{background:var(--green);color:var(--ivory);text-align:center;padding:1.6rem 1.25rem 2.4rem}
+.top small{display:block;font:700 .6875rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.top h1{font:400 clamp(1.8rem,7vw,2.6rem)/1.1 Marcellus,serif;margin:.6rem 0 .5rem}
+.top p{margin:0 auto;max-width:28rem;color:rgba(247,243,234,.8)}
+.wrap{max-width:30rem;margin:-1.5rem auto 2rem;padding:0 1rem}
+.card{background:#fff;border:1px solid rgba(22,38,28,.12);border-radius:1rem;padding:1.4rem;box-shadow:0 10px 30px rgba(13,45,29,.08)}
+.book{display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem}
+.book img{width:6.5rem;height:auto}
+.book h2{font:700 1.2rem/1.25 'Playfair Display',serif;margin:0 0 .3rem}
+.price{font:400 1.9rem Marcellus,serif;color:var(--gold-ink)}.price span{font:500 1rem Karla;color:var(--soft)}
+label{display:block;font:700 .7rem Karla;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:1rem 0 .35rem}
+select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;border:1px solid rgba(22,38,28,.25);border-radius:.55rem;background:#fff;color:var(--ink)}
+.total{margin:1.2rem 0 0;padding:1rem;border-radius:.6rem;background:var(--ivory);display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.total b{font:400 1.7rem Marcellus,serif;color:var(--green)}
+.btn{display:block;width:100%;margin-top:1.2rem;border:0;border-radius:.6rem;background:var(--green);color:var(--ivory);font:700 1.1rem Karla;padding:1rem;cursor:pointer}
+.btn:hover{background:var(--green2)}
+.fine{font-size:.875rem;color:var(--soft);text-align:center;margin:.9rem 0 0}
+.err{color:#b3261e;font-size:.9rem;margin:.6rem 0 0}
+#pay{margin-top:.5rem}.back{display:inline-block;margin:0 0 .8rem;color:var(--gold-ink);font-size:.9rem}
+.verse{text-align:center;font-style:italic;color:var(--soft);font-size:.95rem;margin:1.6rem 1rem 0}
+</style>
+</head>
+<body>
+<header class="top">
+  <small>Launch Night &middot; At the book table</small>
+  <h1>Take it home tonight.</h1>
+  <p>We are so glad you are here. Grab your signed copy right from your phone, then pick it up at the book table.</p>
+</header>
+<main class="wrap">
+  <div class="card" id="form">
+    <div class="book">
+      <img src="/assets/book-3d.webp" alt="Never Fight or Argue Again book cover" width="104">
+      <div><h2>Never Fight or Argue Again</h2><div class="price">$20 <span>per book</span></div></div>
+    </div>
+    <label for="qty">How many books?</label>
+    <select id="qty"></select>
+    <label for="nm">Your name</label>
+    <input id="nm" autocomplete="name" placeholder="First and last name">
+    <label for="em">Email for your receipt</label>
+    <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
+    <div class="total"><span id="tq">1 book</span><b id="tt">$20</b></div>
+    <p class="err" id="err" hidden></p>
+    <button class="btn" id="go" type="button">Continue to secure payment</button>
+    <p class="fine">Secure payment by Stripe. After you pay, your receipt QR appears on screen and in your email. Show it at the book table to pick up your books.</p>
+  </div>
+  <div class="card" id="frame" hidden>
+    <a href="#" class="back" id="back">&larr; Change quantity</a>
+    <div id="pay"></div>
+  </div>
+  <p class="verse">&ldquo;A soft answer turneth away wrath.&rdquo; Proverbs 15:1</p>
+</main>
+<script>
+(function(){
+  var PK='pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC', API='https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/checkout';
+  var sel=document.getElementById('qty'), err=document.getElementById('err'), co=null;
+  for(var i=1;i<=10;i++){var o=document.createElement('option');o.value=i;o.textContent=i+(i===1?' book, $20':' books, $'+(i*20));sel.appendChild(o);}
+  function show(){var q=+sel.value;document.getElementById('tq').textContent=q+(q===1?' book':' books');document.getElementById('tt').textContent='$'+(q*20);}
+  sel.addEventListener('change',show);show();
+  function fail(m){err.textContent=m;err.hidden=false;document.getElementById('frame').hidden=true;document.getElementById('form').hidden=false;}
+  document.getElementById('go').addEventListener('click',function(){
+    var nm=document.getElementById('nm').value.trim(), em=document.getElementById('em').value.trim();
+    err.hidden=true;
+    if(!nm){return fail('Please enter your name.');}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){return fail('Please enter a valid email so we can send your receipt.');}
+    document.getElementById('form').hidden=true;document.getElementById('frame').hidden=false;
+    var pay=document.getElementById('pay');pay.innerHTML='<p class="fine">Opening secure payment...</p>';
+    var start=function(){
+      var stripe=window.Stripe(PK);
+      stripe.initEmbeddedCheckout({fetchClientSecret:function(){
+        return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'preorder',src:'event',quantity:+sel.value,name:nm,email:em})})
+          .then(function(r){return r.json();}).then(function(d){if(!d.clientSecret)throw new Error(d.error||'no session');return d.clientSecret;});
+      }}).then(function(c){co=c;pay.innerHTML='';c.mount('#pay');}).catch(function(){fail('Payment could not start. Please try again.');});
+    };
+    if(window.Stripe)return start();
+    var s=document.createElement('script');s.src='https://js.stripe.com/v3/';s.onload=start;s.onerror=function(){fail('Payment could not load. Please check your connection and try again.');};document.head.appendChild(s);
+  });
+  document.getElementById('back').addEventListener('click',function(e){e.preventDefault();if(co){try{co.destroy();}catch(x){}co=null;}document.getElementById('frame').hidden=true;document.getElementById('form').hidden=false;});
+})();
+</script>
+</body>
+</html>

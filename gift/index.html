@@ -5022,13 +5022,14 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         if (!go) return;
         var q = 1, UNIT = { 1: 20, 2: 19, 3: 18, 4: 16, 5: 15 }, total = document.getElementById('poTotal');
         var SRC = new URLSearchParams(location.search).get('src') === 'event' ? 'event' : '';
+        if (SRC && /^\/book\/checkout/.test(location.pathname)) { location.replace('/buy/'); return; }
         if (SRC) {
           var cv = document.getElementById('view-preorder-checkout');
           cv.querySelector('.eyebrow').textContent = 'At the book table';
           cv.querySelector('.co__h1').textContent = 'Get your signed copy tonight.';
-          cv.querySelector('.co__lede').textContent = 'Pay here on your phone, then pick up at the book table now. The more copies you take home, the less each one costs.';
-          cv.querySelector('.co__trust').innerHTML = '<li>Signed copies of Never Fight or Argue Again</li><li>Buy more, pay less per copy</li><li>Secure payment by Stripe</li><li>Show your receipt QR at the book table</li>';
-          var fine = pick.querySelector('.form__fine'); if (fine) fine.textContent = '$20 for one. 2 copies $19 each, 3 for $18, 4 for $16, and 5 or more just $15 each. After you pay, your receipt QR appears on screen. Show it at the book table to pick up your books.';
+          cv.querySelector('.co__lede').textContent = 'Pay here on your phone, then pick up at the book table now. $20 per book.';
+          cv.querySelector('.co__trust').innerHTML = '<li>Signed copies of Never Fight or Argue Again</li><li>$20 per book</li><li>Secure payment by Stripe</li><li>Show your receipt QR at the book table</li>';
+          var fine = pick.querySelector('.form__fine'); if (fine) fine.textContent = '$20 per book. After you pay, your receipt QR appears on screen. Show it at the book table to pick up your books.';
         }
         function unit(n) { return UNIT[Math.min(5, Math.max(1, n))]; }
         function showTotal() {
