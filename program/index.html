@@ -94,6 +94,14 @@
   .sponsor-type{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--accent);font-weight:700;margin-bottom:20px}
   .sponsor-card h3{font-size:1.45rem;margin-bottom:12px}
   .sponsor-card p{font-size:.85rem;color:var(--muted);margin-bottom:0}
+  .sponsor-logo{background:#fff;border:1px solid var(--line);height:150px;display:flex;align-items:center;justify-content:center;padding:16px 20px;margin-bottom:20px}
+  .sponsor-logo img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+  .sponsor-logo-name span{font-family:var(--serif);font-size:1.7rem;letter-spacing:-.02em;color:var(--accent-dark);text-align:center;line-height:1.1;border-top:1px solid #c9a978;border-bottom:1px solid #c9a978;padding:10px 4px}
+  .sponsor-featured{grid-column:1/-1;flex-direction:row;align-items:center;gap:40px;padding:32px;border-color:#c9a978;box-shadow:var(--shadow);position:relative}
+  .sponsor-featured:before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--accent)}
+  .sponsor-featured .sponsor-logo-lg{flex:0 0 340px;height:230px;margin:0}
+  .sponsor-featured .sponsor-logo-lg img{max-width:280px}
+  .sponsor-featured h3{font-size:2rem}
   .logo-placeholder{margin-top:auto;padding-top:24px;font-size:.68rem;letter-spacing:.08em;color:#a29a8e;text-transform:uppercase}
   .book-section{background:#e8e0d4}
   .book-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:center}
@@ -129,7 +137,7 @@
     .welcome-note{padding:27px}.welcome-note blockquote{font-size:1.45rem}
     .event{grid-template-columns:72px 1fr;gap:14px;padding:19px 0}
     .sponsors-intro{display:block}.sponsor-grid{grid-template-columns:1fr}
-    .sponsor-card{min-height:0}.book-grid{gap:20px}.book-art{min-height:360px}
+    .sponsor-card{min-height:0}.sponsor-featured{flex-direction:column;align-items:stretch;gap:22px;padding:24px 20px}.sponsor-featured .sponsor-logo-lg{flex:none;height:210px}.sponsor-featured .sponsor-logo-lg img{max-width:min(280px,100%)}.sponsor-featured h3{font-size:1.7rem}.sponsor-logo{height:130px}.book-grid{gap:20px}.book-art{min-height:360px}
     .resource-strip{align-items:flex-start;flex-direction:column;gap:15px}
     .hero{padding:44px 0 56px}.hero-inner{padding:0 20px}
     .hero-grid{grid-template-columns:1fr;gap:34px}
@@ -238,23 +246,31 @@
         </div>
       </div>
       <div class="sponsor-grid">
-        <article class="sponsor-card">
-          <div class="sponsor-type">Presenting Sponsor</div>
-          <h3>Replace Your University</h3>
-          <p>Thank you for helping bring this celebration to life.</p>
-          <div class="logo-placeholder">Sponsor logo</div>
+        <article class="sponsor-card sponsor-featured">
+          <div class="sponsor-logo sponsor-logo-lg"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University" width="300" height="193" loading="lazy"></div>
+          <div class="sponsor-featured-copy">
+            <div class="sponsor-type">Presenting Sponsor</div>
+            <h3>Replace Your University</h3>
+            <p>Thank you for helping bring this celebration to life.</p>
+          </div>
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Gold Sponsor</div>
+          <div class="sponsor-logo"><img src="../assets/program/sponsors/mason-sells-real-estate.jpg" alt="Mason Sells Real Estate" width="640" height="462" loading="lazy"></div>
+          <h3>Mason Sells Real Estate</h3>
+          <p>Thank you for supporting a message that strengthens relationships.</p>
+        </article>
+        <article class="sponsor-card">
+          <div class="sponsor-type">Gold Sponsor</div>
+          <div class="sponsor-logo sponsor-logo-name"><span>Higher Momentum</span></div>
           <h3>Higher Momentum</h3>
           <p>Thank you for supporting a message that strengthens relationships.</p>
-          <div class="logo-placeholder">Sponsor logo</div>
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Guest Gift Sponsor</div>
+          <div class="sponsor-logo"><img src="../assets/program/sponsors/leannes-cookies.png" alt="LeAnne’s Old Fashioned Cookies" width="640" height="320" loading="lazy"></div>
           <h3>LeAnne’s Old Fashioned Cookies</h3>
           <p>Providing tonight’s guest gifts.</p>
-          <div class="logo-placeholder">Sponsor logo</div>
         </article>
       </div>
     </div>
