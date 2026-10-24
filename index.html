@@ -1175,6 +1175,22 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid var(--gold-light)
 .ex__row small{display:block;color:var(--ink-soft);font-size:.875rem;line-height:1.45}
 .ex__row .btn{padding:.65rem 1.1rem;font-size:.95rem;white-space:nowrap}
 .ex__empty{text-align:center;color:var(--ink-soft);padding:2rem 0}
+.ex__scan{background:#fff;border:1px solid rgba(22,38,28,.14);border-radius:.8rem;padding:1rem;margin:0 0 1rem}
+.ex__scan .btn{width:100%}
+.ex__scanRow{display:flex;gap:.5rem;margin-top:.6rem}
+.ex__scanRow input{flex:1;font:inherit;font-size:1rem;padding:.7rem .9rem;border:1px solid rgba(22,38,28,.25);border-radius:.5rem}
+#exReader{max-width:22rem;margin:0 auto}
+.ex__big{font:900 2.4rem/1.1 system-ui,sans-serif;text-align:center;padding:1.1rem .75rem;border-radius:.8rem;color:#fff;margin:.75rem 0 .5rem}
+.ex__big small{display:block;font-size:1.05rem;font-weight:700;margin-top:.35rem;opacity:.95}
+.ex__big--ok{background:#1e7a3c}.ex__big--bad{background:#b3261e}
+.ex__res{margin:0 0 1rem}
+.ex__res p{margin:.25rem 0;color:var(--ink);font-size:1rem}
+.ex__res .ex__log{font-size:.875rem;color:var(--ink-soft)}
+.ex__res .btn{width:100%;margin-top:.6rem;font-size:1.1rem;padding:.9rem}
+.ex__tag{display:inline-block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:.15rem .5rem;border-radius:1rem;margin-right:.4rem;vertical-align:middle;background:rgba(195,154,94,.22);color:#6b4a1f}
+.ex__tag--event{background:#0D2D1D;color:#F7F3EA}
+.ex__btns{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:flex-end}
+.ex__tools select,.ex__tools .ex__staff{font:inherit;font-size:1rem;padding:.7rem .8rem;border:1px solid rgba(22,38,28,.25);border-radius:.5rem;background:#fff}
 .reg__head{padding-block:clamp(2.25rem,4.5vw,3.5rem)}
 .reg__grid{
   display:grid;grid-template-columns:1.1fr .9fr;
@@ -3626,7 +3642,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="pass__status" data-status hidden></p>
         <div class="pass__vol" id="passVol" hidden>
           <p class="pass__volKick">Volunteer</p>
-          <button type="button" class="btn btn--onLight btn--block" id="passMark">Mark as picked up</button>
+          <button type="button" class="btn btn--onLight btn--block" id="passMark">Hand out 1 copy</button>
         </div>
       </div>
     </div>
@@ -3662,10 +3678,18 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         </div>
         <div class="ex__tools">
           <input type="search" id="exSearch" placeholder="Search by name or email&hellip;" autocomplete="off">
+          <select id="exChan" aria-label="Show"><option value="">All orders</option><option value="preorder">Pre-orders</option><option value="event">Event sales</option></select>
+          <input type="text" class="ex__staff" id="exStaff" placeholder="Your name" autocomplete="name" style="max-width:10rem">
           <label class="ex__toggle"><input type="checkbox" id="exHide"> Hide collected</label>
           <button type="button" class="btn btn--onLightOutline btn--sm" id="exRefresh">Refresh</button>
         </div>
-        <p class="ex__tip">Tip: scanning someone&rsquo;s QR with this phone opens their pass with a &ldquo;Mark as picked up&rdquo; button.</p>
+        <div class="ex__scan">
+          <div id="exReader"></div>
+          <button type="button" class="btn btn--onLight" id="exScan">Scan receipt</button>
+          <div class="ex__scanRow"><input type="text" id="exCode" placeholder="Or paste a pass link or code" autocomplete="off"><button type="button" class="btn btn--onLightOutline btn--sm" id="exLook">Check</button></div>
+        </div>
+        <div class="ex__res" id="exRes"></div>
+        <p class="ex__tip">Scan a pre-order pass or an event receipt. Green means hand out the book. Red means stop.</p>
         <ul class="ex__list" id="exList"></ul>
         <p class="form__error" id="exAppErr" hidden></p>
       </div>
@@ -4997,10 +5021,19 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         var pick = document.getElementById('poPick'), frame = document.getElementById('poFrame'), go = document.getElementById('poGo'), back = document.getElementById('poBack'), custom = document.getElementById('poQty'), err = document.getElementById('poErr');
         if (!go) return;
         var q = 1, UNIT = { 1: 20, 2: 19, 3: 18, 4: 16, 5: 15 }, total = document.getElementById('poTotal');
+        var SRC = new URLSearchParams(location.search).get('src') === 'event' ? 'event' : '';
+        if (SRC) {
+          var cv = document.getElementById('view-preorder-checkout');
+          cv.querySelector('.eyebrow').textContent = 'At the book table';
+          cv.querySelector('.co__h1').textContent = 'Get your signed copy tonight.';
+          cv.querySelector('.co__lede').textContent = 'Pay here on your phone, then pick up at the book table now. The more copies you take home, the less each one costs.';
+          cv.querySelector('.co__trust').innerHTML = '<li>Signed copies of Never Fight or Argue Again</li><li>Buy more, pay less per copy</li><li>Secure payment by Stripe</li><li>Show your receipt QR at the book table</li>';
+          var fine = pick.querySelector('.form__fine'); if (fine) fine.textContent = '$20 for one. 2 copies $19 each, 3 for $18, 4 for $16, and 5 or more just $15 each. After you pay, your receipt QR appears on screen. Show it at the book table to pick up your books.';
+        }
         function unit(n) { return UNIT[Math.min(5, Math.max(1, n))]; }
         function showTotal() {
           var u = unit(q), t = u * q, save = (20 - u) * q;
-          total.innerHTML = '<b>' + q + (q === 1 ? ' copy' : ' copies') + ' \u2014 $' + t + '</b>' + (save ? ' <span>$' + u + ' each \u00b7 you save $' + save + '</span>' : '');
+          total.innerHTML = '<b>' + q + (q === 1 ? ' copy' : ' copies') + (SRC ? ', $' : ' \u2014 $') + t + '</b>' + (save ? ' <span>$' + u + ' each \u00b7 you save $' + save + '</span>' : '');
         }
         pick.querySelectorAll('.co__opt').forEach(function (o) { o.addEventListener('click', function () {
           q = parseInt(o.dataset.q, 10); custom.value = '';
@@ -5010,7 +5043,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         showTotal();
         go.addEventListener('click', function () {
           err.hidden = true; pick.hidden = true; frame.hidden = false; window.scrollTo({ top: frame.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
-          mountCheckout('poMount', { kind: 'preorder', quantity: q, test: new URLSearchParams(location.search).get('test') || '' }, err, null);
+          var pl = { kind: 'preorder', quantity: q, test: new URLSearchParams(location.search).get('test') || '' }; if (SRC) pl.src = SRC;
+          mountCheckout('poMount', pl, err, null);
         });
         back.addEventListener('click', function (ev) { ev.preventDefault(); frame.hidden = true; pick.hidden = false; if (mounted.poMount) { try { mounted.poMount.destroy(); } catch (e) {} mounted.poMount = null; } });
       })();
@@ -5044,7 +5078,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         var url = 'https://neverfightorargue.com/pickup/?t=' + t.token;
         drawQr(box.querySelector('[data-qr]'), url);
         box.querySelector('[data-name]').textContent = t.name || t.email || '';
-        box.querySelector('[data-meta]').textContent = t.quantity + (t.quantity === 1 ? ' signed copy' : ' signed copies') + (t.inscription ? ' \u00b7 signed to ' + t.inscription : '') + ' \u00b7 laminated Frameworks Bundle';
+        var ev = t.channel === 'event', given = t.redeemed_qty || 0;
+        box.querySelector('[data-meta]').textContent = t.quantity + (t.quantity === 1 ? ' signed copy' : ' signed copies') + (t.inscription ? ' \u00b7 signed to ' + t.inscription : '') + (ev ? '' : ' \u00b7 laminated Frameworks Bundle') + (given && given < t.quantity ? ' \u00b7 ' + given + ' of ' + t.quantity + ' picked up' : '');
+        if (ev) { var kk = box.querySelector('.pass__kick'); if (kk) kk.textContent = 'Your book table receipt'; var hw = box.querySelector('.pass__how'); if (hw) hw.innerHTML = '<b>Show this QR at the book table</b> to pick up your book' + (t.quantity === 1 ? '' : 's') + '. A copy of this receipt is also in your email.'; }
         var l = box.querySelector('[data-link]'); if (l) l.href = url;
         var st = box.querySelector('[data-status]'); if (st) { st.hidden = false; if (t.picked_up_at) { st.textContent = 'Collected \u2713 ' + new Date(t.picked_up_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); st.classList.add('is-done'); } else { st.textContent = 'Not collected yet'; st.classList.remove('is-done'); } }
       }
@@ -5057,14 +5093,23 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       window.__passInit = function () {
         var qs = new URLSearchParams(location.search);
         var thanks = document.getElementById('passThanks'), page = document.getElementById('passPage');
+        if (thanks && !document.getElementById('view-preorder-thanks').hidden && qs.get('src') === 'event') {
+          var th = document.getElementById('view-preorder-thanks');
+          th.querySelector('.eyebrow').textContent = 'Thank you';
+          th.querySelector('h1').innerHTML = 'Your books are paid for.<br><em>Pick them up now.</em>';
+          th.querySelector('.lede').textContent = 'Show the QR code on this screen at the book table and we will hand you your signed copies right away. A copy of your receipt is on its way to your inbox too.';
+          var tk = thanks.querySelector('.pass__kick'); if (tk) tk.textContent = 'Your book table receipt';
+          var tw = thanks.querySelector('.pass__how'); if (tw) tw.innerHTML = '<b>Show this at the book table.</b> It works once per copy, so keep it handy until you have all your books.';
+        }
         if (thanks && !document.getElementById('view-preorder-thanks').hidden && qs.get('session_id')) fetchPass('session=' + encodeURIComponent(qs.get('session_id')), thanks, 0);
         if (page && !document.getElementById('view-pass').hidden && qs.get('t')) {
           fetchPass('t=' + encodeURIComponent(qs.get('t')), page, 0);
           var vol = document.getElementById('passVol'), pin = null;
           try { pin = sessionStorage.getItem('nfoaa_express_pin'); } catch (e) {}
           if (pin) { vol.hidden = false; document.getElementById('passMark').onclick = function () {
-            fetch(PICKUP_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: pin, action: 'mark', token: qs.get('t'), picked: true }) })
-              .then(function (r) { return r.json(); }).then(function (t) { if (t.ok) { fillPass(page, t); document.getElementById('passMark').textContent = 'Collected \u2713'; } });
+            var staffName = ''; try { staffName = localStorage.getItem('nfoaa_staff') || ''; } catch (e) {}
+            fetch(PICKUP_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pin: pin, action: 'handout', token: qs.get('t'), qty: 1, staff: staffName }) })
+              .then(function (r) { return r.json(); }).then(function (d) { var b = document.getElementById('passMark'); if (d.order) fillPass(page, d.order); if (d.ok) b.textContent = d.order.left ? 'Handed out \u2713 (' + d.order.left + ' left, tap for next)' : 'All copies handed out \u2713'; else b.textContent = d.verdict === 'ALREADY_REDEEMED' ? 'ALREADY REDEEMED' : (d.error || 'Not valid'); });
           }; }
         }
       };
@@ -5073,28 +5118,80 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       (function () {
         var go = document.getElementById('exGo'); if (!go) return;
         var pinIn = document.getElementById('exPin'), err = document.getElementById('exErr'), login = document.getElementById('exLogin'), app = document.getElementById('exApp'), list = document.getElementById('exList'), search = document.getElementById('exSearch'), hide = document.getElementById('exHide'), appErr = document.getElementById('exAppErr');
+        var chan = document.getElementById('exChan'), staffIn = document.getElementById('exStaff'), resBox = document.getElementById('exRes'), scanBtn = document.getElementById('exScan'), codeIn = document.getElementById('exCode'), scanner = null;
+        try { staffIn.value = localStorage.getItem('nfoaa_staff') || ''; } catch (e) {}
+        staffIn.addEventListener('change', function () { try { localStorage.setItem('nfoaa_staff', staffIn.value.trim()); } catch (e) {} });
+        function staff() { return staffIn.value.trim() || 'Staff'; }
+        function tm(s) { return new Date(s).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+        function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+        function showResult(d, key) {
+          var h = '';
+          if (d.error && !d.verdict) { resBox.innerHTML = '<p class="form__error" style="display:block">' + esc(d.error) + '</p>'; return; }
+          if (d.verdict === 'INVALID') { resBox.innerHTML = '<div class="ex__big ex__big--bad">INVALID<small>Not a receipt we know. Do not hand out a book.</small></div>'; return; }
+          if (d.verdict === 'PENDING') { resBox.innerHTML = '<div class="ex__big ex__big--bad">PAYMENT NOT FINISHED<small>Ask them to wait a moment, refresh their receipt, then scan again.</small></div>'; return; }
+          var o = d.order, ev = o.channel === 'event';
+          if (d.verdict === 'VALID') h += '<div class="ex__big ex__big--ok">VALID<small>' + o.left + ' of ' + o.quantity + ' left</small></div>';
+          else h += '<div class="ex__big ex__big--bad">ALREADY REDEEMED<small>All ' + o.quantity + ' handed out</small></div>';
+          if (d.ok && d.handed) h = '<p style="text-align:center;font-weight:700;color:#1e7a3c">Recorded. Hand over ' + d.handed + (d.handed === 1 ? ' book.' : ' books.') + '</p>' + h;
+          if (d.ok === false && d.error) h = '<p class="form__error" style="display:block">' + esc(d.error) + '</p>' + h;
+          h += '<p><span class="ex__tag' + (ev ? ' ex__tag--event' : '') + '">' + (ev ? 'Event sale' : 'Pre-order') + '</span><b>' + esc(o.name || o.email) + '</b></p>';
+          h += '<p>' + o.quantity + (o.quantity === 1 ? ' copy' : ' copies') + ' paid \u00b7 ' + o.redeemed_qty + ' handed out' + (o.inscription ? ' \u00b7 sign to ' + esc(o.inscription) : '') + (ev ? '' : ' \u00b7 plus Frameworks Bundle') + '</p>';
+          (d.log || []).forEach(function (x) { h += '<p class="ex__log">' + (x.action === 'undo' ? 'Undid ' : 'Gave ') + x.qty + ' at ' + tm(x.created_at) + ' by ' + esc(x.staff || 'Staff') + '</p>'; });
+          if (!(d.log || []).length && o.picked_up_at) h += '<p class="ex__log">Collected at ' + tm(o.picked_up_at) + '</p>';
+          if (o.left > 0) {
+            h += '<button type="button" class="btn btn--onLight" data-h="1">Hand out 1 copy</button>';
+            if (o.left > 1) h += '<button type="button" class="btn btn--onLightOutline" data-h="' + o.left + '">Hand out all ' + o.left + '</button>';
+          }
+          resBox.innerHTML = h;
+          resBox.querySelectorAll('[data-h]').forEach(function (b) { b.onclick = function () {
+            resBox.querySelectorAll('[data-h]').forEach(function (x) { x.disabled = true; });
+            api({ action: 'handout', id: o.id, qty: parseInt(b.dataset.h, 10), staff: staff() }).then(function (x) { showResult(x); load(); });
+          }; });
+          resBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function lookup(code) { resBox.innerHTML = '<p>Checking\u2026</p>'; api({ action: 'lookup', token: code }).then(function (d) { showResult(d); }).catch(function () { resBox.innerHTML = '<p class="form__error" style="display:block">No connection. Try again.</p>'; }); }
+        function stopScan() { if (scanner) { try { scanner.stop().catch(function () {}); } catch (e) {} scanner = null; } scanBtn.textContent = 'Scan receipt'; }
+        function startScan() {
+          if (scanner) return stopScan();
+          var go2 = function () {
+            scanner = new window.Html5Qrcode('exReader'); scanBtn.textContent = 'Stop camera';
+            scanner.start({ facingMode: 'environment' }, { fps: 10, qrbox: 230 }, function (txt) { stopScan(); lookup(txt); })
+              .catch(function () { scanner = null; scanBtn.textContent = 'Scan receipt'; resBox.innerHTML = '<p class="form__error" style="display:block">Camera blocked. Allow camera access in your browser settings, or paste the code below.</p>'; });
+          };
+          if (window.Html5Qrcode) return go2();
+          var sc = document.createElement('script'); sc.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js'; sc.onload = go2; sc.onerror = function () { resBox.innerHTML = '<p class="form__error" style="display:block">Scanner could not load. Check the connection.</p>'; }; document.head.appendChild(sc);
+        }
+        scanBtn.addEventListener('click', startScan);
+        document.getElementById('exLook').addEventListener('click', function () { if (codeIn.value.trim()) lookup(codeIn.value.trim()); });
+        codeIn.addEventListener('keydown', function (e) { if (e.key === 'Enter' && codeIn.value.trim()) lookup(codeIn.value.trim()); });
         var pin = null, rows = [];
         function api(body) { return fetch(PICKUP_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({ pin: pin }, body)) }).then(function (r) { return r.json(); }); }
         function render() {
           var q = (search.value || '').toLowerCase().trim();
-          var shown = rows.filter(function (r) { return (!hide.checked || !r.picked_up_at) && (!q || (r.name || '').toLowerCase().indexOf(q) >= 0 || (r.email || '').toLowerCase().indexOf(q) >= 0 || (r.inscription || '').toLowerCase().indexOf(q) >= 0); });
+          var shown = rows.filter(function (r) { return (!chan.value || (r.channel || 'preorder') === chan.value) && (!hide.checked || !r.picked_up_at) && (!q || (r.name || '').toLowerCase().indexOf(q) >= 0 || (r.email || '').toLowerCase().indexOf(q) >= 0 || (r.inscription || '').toLowerCase().indexOf(q) >= 0); });
           document.getElementById('exTotal').textContent = rows.length; document.getElementById('exPicked').textContent = rows.filter(function (r) { return r.picked_up_at; }).length; document.getElementById('exCopies').textContent = rows.reduce(function (a, r) { return a + r.quantity; }, 0);
           list.innerHTML = shown.length ? '' : '<li class="ex__empty">Nobody matches.</li>';
           shown.forEach(function (r) {
             var li = document.createElement('li'); li.className = 'ex__row' + (r.picked_up_at ? ' is-done' : '');
-            li.innerHTML = '<div><b></b><small></small></div>';
+            var ev = r.channel === 'event', given = r.redeemed_qty || 0, left = r.quantity - given;
+            li.innerHTML = '<div><span class="ex__tag' + (ev ? ' ex__tag--event' : '') + '">' + (ev ? 'Event' : 'Pre-order') + '</span><b style="display:inline"></b><small></small></div>';
             li.querySelector('b').textContent = r.name || r.email;
-            li.querySelector('small').textContent = r.quantity + (r.quantity === 1 ? ' copy' : ' copies') + (r.inscription ? ' \u00b7 signed to ' + r.inscription : '') + ' \u00b7 ' + r.email + (r.picked_up_at ? ' \u00b7 collected ' + new Date(r.picked_up_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
-            var btn = document.createElement('button'); btn.type = 'button'; btn.className = r.picked_up_at ? 'btn btn--onLightOutline' : 'btn btn--onLight'; btn.textContent = r.picked_up_at ? 'Undo' : 'Picked up \u2713';
-            btn.onclick = function () { btn.disabled = true; api({ action: 'mark', id: r.id, picked: !r.picked_up_at }).then(function (t) { if (t.ok) { r.picked_up_at = t.picked_up_at; render(); } else { btn.disabled = false; } }); };
-            li.appendChild(btn); list.appendChild(li);
+            li.querySelector('small').textContent = r.quantity + (r.quantity === 1 ? ' copy' : ' copies') + ' \u00b7 ' + given + ' of ' + r.quantity + ' handed out' + (r.inscription ? ' \u00b7 signed to ' + r.inscription : '') + ' \u00b7 ' + r.email + (r.picked_up_at ? ' \u00b7 collected ' + new Date(r.picked_up_at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '');
+            var btns = document.createElement('div'); btns.className = 'ex__btns';
+            if (left > 0) { var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn btn--onLight'; btn.textContent = left === r.quantity && r.quantity === 1 ? 'Picked up \u2713' : 'Hand out 1 (' + left + ' left)';
+              btn.onclick = function () { btn.disabled = true; api({ action: 'handout', id: r.id, qty: 1, staff: staff() }).then(function (d) { if (d.order) { r.redeemed_qty = d.order.redeemed_qty; r.picked_up_at = d.order.picked_up_at; } if (!d.ok) showResult(d); render(); }); };
+              btns.appendChild(btn); }
+            if (given > 0) { var ub = document.createElement('button'); ub.type = 'button'; ub.className = 'btn btn--onLightOutline'; ub.textContent = 'Undo';
+              ub.onclick = function () { if (!confirm('Undo the last handout for ' + (r.name || r.email) + '? This is logged.')) return; ub.disabled = true; api({ action: 'undo', id: r.id, qty: 1, staff: staff() }).then(function (d) { if (d.order) { r.redeemed_qty = d.order.redeemed_qty; r.picked_up_at = d.order.picked_up_at; } render(); }); };
+              btns.appendChild(ub); }
+            li.appendChild(btns); list.appendChild(li);
           });
         }
         function load() { api({ action: 'list' }).then(function (d) { if (d.rows) { rows = d.rows; render(); appErr.hidden = true; } else { appErr.textContent = d.error || 'Could not load.'; appErr.hidden = false; } }); }
         function enter(p) { pin = p; api({ action: 'verify' }).then(function (d) { if (d.ok) { try { sessionStorage.setItem('nfoaa_express_pin', pin); } catch (e) {} login.hidden = true; app.hidden = false; load(); setInterval(load, 30000); } else { err.textContent = 'That PIN isn\'t right.'; err.hidden = false; } }); }
         go.addEventListener('click', function () { enter(pinIn.value.trim()); });
         pinIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') enter(pinIn.value.trim()); });
-        search.addEventListener('input', render); hide.addEventListener('change', render); document.getElementById('exRefresh').addEventListener('click', load);
+        search.addEventListener('input', render); hide.addEventListener('change', render); chan.addEventListener('change', render); document.getElementById('exRefresh').addEventListener('click', load);
         try { var saved = sessionStorage.getItem('nfoaa_express_pin'); if (saved && !document.getElementById('view-express').hidden) enter(saved); } catch (e) {}
       })();
 
