@@ -174,13 +174,17 @@
   @media(max-width:760px){.sponsor-grid{gap:10px}.sponsor-grid .sponsor-card:not(.sponsor-featured){padding:14px 12px}.sponsor-grid .sponsor-card:not(.sponsor-featured) .sponsor-logo{height:110px;padding:8px;margin-bottom:12px}.sponsor-grid .sponsor-card:not(.sponsor-featured) .sponsor-type{font-size:.62rem;letter-spacing:.1em;margin-bottom:10px}.sponsor-grid .sponsor-card:not(.sponsor-featured) h3{font-size:1.05rem;margin-bottom:6px}.sponsor-grid .sponsor-card:not(.sponsor-featured) p{font-size:.74rem}.sponsor-grid .sponsor-card:not(.sponsor-featured):last-child:nth-child(even){width:calc(50% - 5px)}}
   .sponsor-logo-wide{padding-left:6px;padding-right:6px}.sponsor-logo-wide img{width:100%}
   .sponsor-logo-dark{background:var(--ink);border-color:#b08d62}
+  .sponsor-link,.sponsor-link:hover,.sponsor-link:visited{color:inherit;text-decoration:none;border:0}
+  .sponsor-logo .sponsor-link,.sb-logo .sponsor-link{display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+  .sponsor-card{position:relative}.sponsor-card .sponsor-link:after{content:"";position:absolute;inset:0;z-index:1}
+  .sponsor-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 </style>
 </head>
 <body>
 <div class="announcement">Book Launch &amp; 30-Year Anniversary Celebration · November 1, 2026</div>
 <aside class="sponsor-band" aria-label="Event sponsor">
   <div class="sponsor-band-inner">
-    <div class="sb-logo"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University logo" width="300" height="193" fetchpriority="high"></div>
+    <div class="sb-logo"><a class="sponsor-link" href="https://replaceyouruniversity.com" target="_blank" rel="noopener" aria-label="Visit Replace Your University website"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University logo" width="300" height="193" fetchpriority="high"></a></div>
     <div class="sb-text"><div class="sb-label">Sponsored by</div><div class="sb-name">Replace Your University</div><div class="sb-sub">Event Sponsor · Book Launch &amp; Celebration</div></div>
   </div>
 </aside>
@@ -268,7 +272,7 @@
       </div>
       <div class="sponsor-grid">
         <article class="sponsor-card sponsor-featured">
-          <div class="sponsor-logo sponsor-logo-lg"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University" width="300" height="193" loading="lazy"></div>
+          <div class="sponsor-logo sponsor-logo-lg"><a class="sponsor-link" href="https://replaceyouruniversity.com" target="_blank" rel="noopener" aria-label="Visit Replace Your University website"><img src="../assets/program/sponsors/replace-your-university.png" alt="Replace Your University" width="300" height="193" loading="lazy"></a></div>
           <div class="sponsor-featured-copy">
             <div class="sponsor-type">Presenting Sponsor</div>
             <h3>Replace Your University</h3>
@@ -277,25 +281,25 @@
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Gold Sponsor</div>
-          <div class="sponsor-logo"><img src="../assets/program/sponsors/mason-sells-real-estate.jpg" alt="Mason Sells Real Estate" width="640" height="462" loading="lazy"></div>
+          <div class="sponsor-logo"><a class="sponsor-link" href="https://www.homes.com/real-estate-agents/steven-mason/r54jx82/" target="_blank" rel="noopener" aria-label="Visit Mason Sells Real Estate website"><img src="../assets/program/sponsors/mason-sells-real-estate.jpg" alt="Mason Sells Real Estate" width="640" height="462" loading="lazy"></a></div>
           <h3>Mason Sells Real Estate</h3>
           <p>Thank you for supporting a message that strengthens relationships.</p>
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Gold Sponsor</div>
-          <div class="sponsor-logo"><img src="../assets/program/sponsors/lion-and-lamb-productions.webp" alt="Lion &amp; Lamb Productions" width="551" height="600" loading="lazy"></div>
+          <div class="sponsor-logo"><a class="sponsor-link" href="https://bestchristiandj.com/" target="_blank" rel="noopener" aria-label="Visit Lion &amp; Lamb Productions website"><img src="../assets/program/sponsors/lion-and-lamb-productions.webp" alt="Lion &amp; Lamb Productions" width="551" height="600" loading="lazy"></a></div>
           <h3>Lion &amp; Lamb Productions</h3>
           <p>Thank you for supporting a message that strengthens relationships.</p>
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Guest Gift Sponsor</div>
-          <div class="sponsor-logo"><img src="../assets/program/sponsors/leannes-cookies.png" alt="LeAnne’s Old Fashioned Cookies" width="640" height="320" loading="lazy"></div>
+          <div class="sponsor-logo"><a class="sponsor-link" href="https://leannescookies.com/" target="_blank" rel="noopener" aria-label="Visit LeAnne’s Old Fashioned Cookies website"><img src="../assets/program/sponsors/leannes-cookies.png" alt="LeAnne’s Old Fashioned Cookies" width="640" height="320" loading="lazy"></a></div>
           <h3>LeAnne’s Old Fashioned Cookies</h3>
           <p>Providing tonight’s guest gifts.</p>
         </article>
         <article class="sponsor-card">
           <div class="sponsor-type">Gold Sponsor</div>
-          <div class="sponsor-logo sponsor-logo-wide sponsor-logo-dark"><img src="../assets/program/sponsors/kingdom-influencer.webp" alt="Kingdom Influencer" width="600" height="137" loading="lazy"></div>
+          <div class="sponsor-logo sponsor-logo-wide sponsor-logo-dark"><a class="sponsor-link" href="https://kingdom-influencer.com/" target="_blank" rel="noopener" aria-label="Visit Kingdom Influencer website"><img src="../assets/program/sponsors/kingdom-influencer.webp" alt="Kingdom Influencer" width="600" height="137" loading="lazy"></a></div>
           <h3>Kingdom Influencer</h3>
           <p>Thank you for supporting a message that strengthens relationships.</p>
         </article>
