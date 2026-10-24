@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Companion Resources | Never Fight or Argue Again</title>
+<meta name="description" content="Free resources to go with Never Fight or Argue Again. Download them, print them, and use them together.">
+<link rel="canonical" href="https://neverfightorargue.com/downloads/">
+<meta name="theme-color" content="#0D2D1D">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:wght@600;700&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green-deep:#0D2D1D;--green:#12351F;--gold:#C39A5E;--gold-ink:#8A6330;--ivory:#F8F4E9;--ivory-deep:#EFE8D8;--ink:#16261C;--ink-soft:#4B5A50}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Karla",-apple-system,"Segoe UI",sans-serif;font-size:1.0625rem;line-height:1.6;color:var(--ink);background:var(--ivory)}
+a{color:inherit}
+.top{background:var(--green-deep);color:var(--ivory);padding:.9rem 1.25rem;text-align:center}
+.top a{text-decoration:none;font-family:"Marcellus",Georgia,serif;letter-spacing:.06em;text-transform:uppercase;font-size:.875rem}
+.top a i{font-style:normal;color:var(--gold)}
+.hero{background:var(--green);color:var(--ivory);text-align:center;padding:2.25rem 1.25rem 2.5rem}
+.hero img{width:140px;height:auto;display:block;margin:0 auto 1.25rem}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:clamp(2rem,7vw,3rem);line-height:1.1;margin:0 0 .5rem}
+.sub{font-family:"Marcellus",Georgia,serif;color:var(--gold);font-size:1.125rem;margin:0}
+main{max-width:40rem;margin:0 auto;padding:2rem 1.25rem 3rem}
+.intro{color:var(--ink-soft);margin:0 0 1.75rem}
+.card{background:#fff;border:1px solid var(--ivory-deep);border-top:4px solid var(--gold);border-radius:6px;padding:1.5rem 1.25rem;margin-bottom:1rem;box-shadow:0 2px 10px rgba(13,45,29,.06)}
+.card h2{font-family:"Playfair Display",Georgia,serif;font-size:1.5rem;margin:0 0 .4rem;color:var(--green-deep)}
+.card p{margin:0 0 1.1rem;color:var(--ink-soft)}
+.btn{display:block;width:100%;text-align:center;padding:.95rem 1rem;border-radius:4px;font-weight:700;font-size:1rem;text-decoration:none;border:0;font-family:inherit}
+.btn--dl{background:var(--green-deep);color:var(--ivory)}
+.btn--soon{background:var(--ivory-deep);color:var(--ink-soft);cursor:not-allowed}
+.note{text-align:center;font-style:italic;color:var(--ink-soft);margin:1.5rem 0 2rem}
+.more{text-align:center;border-top:1px solid var(--ivory-deep);padding-top:1.75rem}
+.more p{margin:0 0 .9rem}
+.btn--gold{display:inline-block;width:auto;background:var(--gold);color:var(--green-deep);padding:.85rem 1.6rem}
+footer{background:var(--green-deep);color:rgba(247,243,234,.7);text-align:center;font-size:.8125rem;padding:1.5rem 1.25rem}
+footer a{color:var(--gold)}
+@media(min-width:720px){.btn{display:inline-block;width:auto;padding:.85rem 1.8rem}.hero img{width:170px}}
+</style>
+</head>
+<body>
+<header class="top"><a href="/">Never Fight <i>or</i> Argue Again</a></header>
+<section class="hero">
+  <img src="/assets/book-3d.png" alt="Never Fight or Argue Again book" width="170" height="227">
+  <h1>Free Companion Resources</h1>
+  <p class="sub">Tools to go with Never Fight or Argue Again</p>
+</section>
+<main>
+  <p class="intro">Thanks for reading. These free resources go hand in hand with the book. Download them, print them, and use them together.</p>
+
+  <!--
+    RESOURCES: to publish a PDF, put the file in /downloads/files/ and set its
+    "file" below, e.g. file: "/downloads/files/stop-loss-strategy.pdf".
+    Leave file empty ("") to show the disabled "Coming soon" button.
+    Add more resources by adding more entries.
+  -->
+  <div id="resources"></div>
+  <noscript><div class="card"><h2>The Stop-Loss Strategy</h2><p>Protect the conversation before it becomes destructive.</p></div></noscript>
+
+  <p class="note">More resources are on the way. Check back soon.</p>
+
+  <div class="more">
+    <p>Don't have your own copy yet?</p>
+    <a class="btn btn--gold" href="/pre-order/">Get the book</a>
+  </div>
+</main>
+<footer>&copy; Larry &amp; Rolanda Beacham &middot; <a href="/">neverfightorargue.com</a></footer>
+<script>
+var RESOURCES = [
+  { title: "The Stop-Loss Strategy",
+    description: "Protect the conversation before it becomes destructive.",
+    file: "" }
+];
+(function(){
+  var box = document.getElementById("resources");
+  RESOURCES.forEach(function(r){
+    var c = document.createElement("div"); c.className = "card";
+    var h = document.createElement("h2"); h.textContent = r.title;
+    var p = document.createElement("p"); p.textContent = r.description;
+    var b;
+    if (r.file) { b = document.createElement("a"); b.className = "btn btn--dl"; b.href = r.file; b.setAttribute("download",""); b.textContent = "Download PDF"; }
+    else { b = document.createElement("button"); b.className = "btn btn--soon"; b.disabled = true; b.textContent = "Coming soon"; }
+    c.appendChild(h); c.appendChild(p); c.appendChild(b); box.appendChild(c);
+  });
+})();
+</script>
+</body>
+</html>
