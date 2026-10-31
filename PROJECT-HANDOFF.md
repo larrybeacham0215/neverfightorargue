@@ -115,7 +115,7 @@ and the 404 map. A comment in the code lists the four steps to restore either.
 ## 6. The event
 
 **Sunday 1 November 2026, doors 5:30 pm**
-**Grace Family Church, 22920 FL-54, Lutz, FL 33549**
+**Grace Family Church, Land O Lakes Campus, 22920 FL-54, Lutz, FL 33549**
 
 Free, registration required. Pastor Ralph Johnson's church — acknowledged in the
 book, which is why it was chosen.

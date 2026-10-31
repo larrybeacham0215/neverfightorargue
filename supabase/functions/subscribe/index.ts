@@ -158,24 +158,21 @@ function chaptersEmail(firstName, token) {
      <a href="${SITE_URL}/unsubscribe/?t=${token}" style="color:#5C6B60;">Unsubscribe</a>`);
 }
 // ---------------------------------------------------------------------------
-// Launch RSVPs — the 1 November event in Tampa.
+// Launch RSVPs — the 1 November event at Grace Family Church, Land O' Lakes Campus.
 // ---------------------------------------------------------------------------
-const GCAL_LAUNCH = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101T223000Z/20261102T003000Z&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&ctz=America/New_York";
-const DIRECTIONS = "https://www.google.com/maps/dir/?api=1&destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549";
+const GCAL_LAUNCH = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&dates=20261101T223000Z/20261102T003000Z&details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&location=Grace%20Family%20Church%2C%20Land%20O%27%20Lakes%20Campus%2C%2022920%20State%20Road%2054%2C%20Lutz%2C%20FL%2033549&ctz=America/New_York";
+const DIRECTIONS = "https://www.google.com/maps/dir/?api=1&destination=22920+State+Road+54%2C+Lutz%2C+FL+33549";
 function launchConfirmEmail(firstName, guests, inPerson, token) {
   const name = firstName ? `${firstName},` : "there,";
   const seats = guests > 1 ? `${guests} seats are` : "a seat is";
   const body = inPerson ? `
       <p style="margin:0 0 18px;">Hi ${name}</p>
       <p style="margin:0 0 18px;">You're registered for the launch of <em>Never Fight or Argue Again</em> &mdash; ${seats} held for you.</p>
-      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border:1px solid #E0D8C4;background:#FBF7EE;margin:0 0 22px;">
-        <tr><td style="padding:18px 20px;font-family:Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#16261C;">
-          <strong style="font-size:17px;">Sunday, November 1st &middot; 5:30&nbsp;pm</strong><br>
-          <strong>Grace Family Church</strong><br>
-          22920 FL-54, Lutz, FL 33549<br>
-          <a href="${DIRECTIONS}" style="color:#8A6330;">Get directions</a>
-        </td></tr>
-      </table>
+      <p style="margin:0 0 18px;">Sunday, November 1 &middot; 5:30&nbsp;PM<br>
+        Grace Family Church, Land O' Lakes Campus<br>
+        22920 State Road 54, Lutz, FL 33549<br>
+        <a href="${DIRECTIONS}" style="color:#8A6330;">Get directions</a></p>
+      <p style="margin:0 0 22px;">If you call Grace home, just note that we're at the Land O' Lakes Campus that night.</p>
       <p style="margin:0 0 22px;">Doors open at 5:30. Come a little early if you can so you can mingle and get a comfortable seat. Put it somewhere you'll see it:</p>
       <p style="margin:0 0 8px;text-align:center;">
         <a href="${GCAL_LAUNCH}" style="display:inline-block;background:#C39A5E;color:#0D2D1D;text-decoration:none;padding:15px 30px;font-weight:bold;font-size:14px;letter-spacing:.06em;text-transform:uppercase;">Add to Google Calendar</a>
@@ -194,7 +191,7 @@ function launchConfirmEmail(firstName, guests, inPerson, token) {
       </table>
       <p style="margin:0;">&mdash; Larry &amp; Ro</p>` : `
       <p style="margin:0 0 18px;">Hi ${name}</p>
-      <p style="margin:0 0 18px;">You're on the list for November 1st. You told us Tampa isn't reachable, so here's what that means for you.</p>
+      <p style="margin:0 0 18px;">You're on the list for November 1st. You told us the Land O' Lakes Campus isn't reachable, so here's what that means for you.</p>
       <p style="margin:0 0 18px;">On launch day you'll get the book link in the morning. A couple of days later we'll send what we taught from the stage that night, so the evening isn't lost on you just because you couldn't be in the room.</p>
       <p style="margin:0 0 18px;">And if things change and you can make it after all, just reply to this email and we'll add you back to the headcount.</p>
       <p style="margin:0;">&mdash; Larry &amp; Ro</p>`;
@@ -449,7 +446,7 @@ Deno.serve(async (req)=>{
         Name: `${first_name} ${clean(body.last_name, 100)}`.trim(),
         Email: email,
         Guests: String(guests),
-        Attending: inPerson ? "In person, Tampa" : "Cannot travel",
+        Attending: inPerson ? "In person, Land O' Lakes Campus" : "Cannot travel",
         Encouragement: clean(body.notes),
         Sponsorship: sponsor ? "Interested" : "",
         "Sponsor contact": sponsor ? clean(body.sponsor_contact, 120) : "",
@@ -460,7 +457,7 @@ Deno.serve(async (req)=>{
         "Sponsor message": sponsor ? clean(body.sponsor_message, 1000) : ""
       }).filter(([, v])=>v).map(([k, v])=>`<tr><td style="padding:6px 12px 6px 0;color:#5C6B60;white-space:nowrap;">${k}</td><td style="padding:6px 0;">${v}</td></tr>`).join("");
       await sendEmail(NOTIFY_EMAIL, `Launch RSVP — ${first_name || email}${guests > 1 ? ` (+${guests - 1})` : ""}${inPerson ? "" : " [remote]"}${sponsor ? " [SPONSOR]" : ""}`, launchNotifyEmail(pretty), email);
-      const confirmed = await sendEmail(email, inPerson ? "You're registered — November 1st, Tampa" : "You're on the list for November 1st", launchConfirmEmail(first_name, guests, inPerson, saved?.manage_token ?? ""), FROM_EMAIL);
+      const confirmed = await sendEmail(email, inPerson ? "You're registered: November 1st, Land O' Lakes Campus" : "You're on the list for November 1st", launchConfirmEmail(first_name, guests, inPerson, saved?.manage_token ?? ""), FROM_EMAIL);
       if (sponsor) {
         await sendEmail(clean(body.sponsor_email, 200) || email, "Thank you — and about sponsoring the launch", sponsorInviteEmail(clean(body.sponsor_contact, 120).split(" ")[0] || first_name), FROM_EMAIL);
         await sendEmail(NOTIFY_EMAIL, `SPONSOR LEAD — ${first_name} ${clean(body.last_name, 100)} (${email})`, sponsorLeadEmail(first_name, clean(body.last_name, 100), email, clean(body.sponsor_phone, 40), guests, clean(body.notes)), email);
