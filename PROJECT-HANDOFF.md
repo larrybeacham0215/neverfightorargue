@@ -271,6 +271,7 @@ background removal on an already-transparent PNG chewed the page edges once.
 ## Guests list hardening (Nov 1, 2026)
 The public /guests/ list (password removed Oct 31 at Larry's request) was locked down per Ray:
 - `guests` Edge Function v5 returns only: name (first name + last initial), seats, sponsor (yes/no), preordered (copy count), plus totals parties, seats, preorder_copies. No emails, phones, notes, dates, IDs or cancelled rows. Filtering happens in the function, not the page.
+- Nov 1 2026 (Ray): `guests` v6 drops per-row sponsor and preordered. Each row is now ONLY name + seats; totals parties, seats, preorder_copies unchanged. Page guest-list code updated in 21 page copies (sponsor badge, pre-order pill and "Pre-ordered only" filter removed). Readers list unchanged. Note: book/checkout, gift/checkout and sponsor/checkout carry an older stale copy of the guest-list code and were not touched.
 - GET only (anything else gets 405). Responses are cached 5 minutes (Cache-Control: public, max-age=300) and carry X-Robots-Tag noindex.
 - /guests/ page has robots noindex,nofollow; notes, registration dates and the "With a note" filter were removed from the page.
 - /readers/ and nfoa_admin_check were not changed.
