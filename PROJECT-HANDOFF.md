@@ -275,3 +275,15 @@ The public /guests/ list (password removed Oct 31 at Larry's request) was locked
 - GET only (anything else gets 405). Responses are cached 5 minutes (Cache-Control: public, max-age=300) and carry X-Robots-Tag noindex.
 - /guests/ page has robots noindex,nofollow; notes, registration dates and the "With a note" filter were removed from the page.
 - /readers/ and nfoa_admin_check were not changed.
+
+## Free downloads page (QR stickers), added Nov 1, 2026
+
+- The printed QR stickers point to https://neverfightorargue.com/downloads (no trailing slash). GitHub Pages sends that on to /downloads/, which is this page.
+- Visitors type their first name and email, and then the free companion PDFs open on the page, each with a preview picture and a Download button. The phone remembers they signed up, so returning visitors go straight to the list.
+- The PDFs live in /downloads/files/ and the preview pictures in /downloads/thumbs/. To add one, drop the PDF and a picture there and add a line to the RESOURCES list near the bottom of downloads/index.html.
+- Current PDFs: The Safety Plan (color), The Safety Plan (print friendly), The Anti-Fight Plan, The Stop-Loss Strategy (one page), The Stop-Loss Strategy: Full Guide (six pages).
+- Signups go into the same readers list as the free chapter (the subscribers table, shown on /readers/). There is no separate list. The Supabase function "downloads-signup" handles it.
+  - Same email twice (any capitals) = still one person. If they are already on the list, we just add the tag "downloads-qr" and leave their original sign-up source alone.
+  - New people get source "downloads-qr". Every person now has a "tags" list and a "last_seen_source" field.
+  - This page sends NO emails. New people from this page are not put into the free-chapter email series, because that series only follows people who were sent the free chapter. If Larry wants them to get emails, that is a separate decision.
+- Note: the PDF files themselves can be opened by anyone with the direct link. The form is a friendly sign-up step, not a lock.

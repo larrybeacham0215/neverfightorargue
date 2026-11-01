@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex,follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Free Companion Resources | Never Fight or Argue Again</title>
 <meta name="description" content="Free resources to go with Never Fight or Argue Again. Download them, print them, and use them together.">
@@ -41,53 +42,104 @@ main{max-width:40rem;margin:0 auto;padding:2rem 1.25rem 3rem}
 footer{background:var(--green-deep);color:rgba(247,243,234,.7);text-align:center;font-size:.8125rem;padding:1.5rem 1.25rem}
 footer a{color:var(--gold)}
 @media(min-width:720px){.btn{display:inline-block;width:auto;padding:.85rem 1.8rem}.hero img{width:170px}}
+
+.gate{background:#fff;border:1px solid var(--ivory-deep);border-top:4px solid var(--gold);border-radius:6px;padding:1.5rem 1.25rem;box-shadow:0 2px 10px rgba(13,45,29,.06)}
+.gate h2{font-family:"Playfair Display",Georgia,serif;color:var(--green-deep);font-size:1.5rem;margin:0 0 .4rem}
+.gate p{color:var(--ink-soft);margin:0 0 1rem}
+label{display:block;font-weight:700;font-size:.95rem;margin:.8rem 0 .3rem}
+input[type=text],input[type=email]{width:100%;padding:.85rem .9rem;font-size:1rem;font-family:inherit;border:1px solid #cfc6b0;border-radius:4px;background:var(--ivory)}
+input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+.gate .btn{margin-top:1.1rem;cursor:pointer;background:var(--green-deep);color:var(--ivory)}
+.err{color:#9b2c1f;font-weight:600;min-height:1.2em;margin:.6rem 0 0}
+.small{font-size:.85rem;color:var(--ink-soft);margin-top:.8rem}
+.hp{position:absolute;left:-9999px}
+.res{display:flex;gap:1rem;align-items:flex-start}
+.res img{width:96px;flex:0 0 96px;border:1px solid var(--ivory-deep);border-radius:3px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.res .txt{flex:1;min-width:0}
+.card .btn{margin-top:.2rem}
+.thanks{font-family:"Playfair Display",Georgia,serif;color:var(--green-deep);font-size:1.35rem;margin:0 0 1rem}
+[hidden]{display:none!important}
+@media(min-width:720px){.res img{width:130px;flex-basis:130px}}
 </style>
 </head>
 <body>
-<header class="top"><a href="/">Never Fight <i>or</i> Argue Again</a></header>
+<header class="top"><a href="/">Never Fight or Argue Again</a></header>
 <section class="hero">
-  <img src="/assets/book-3d.png" alt="Never Fight or Argue Again book" width="170" height="227">
+  <img src="/assets/book-3d.png" alt="Never Fight or Argue Again book" width="140" height="187">
   <h1>Free Companion Resources</h1>
   <p class="sub">Tools to go with Never Fight or Argue Again</p>
 </section>
 <main>
-  <p class="intro">Thanks for reading. These free resources go hand in hand with the book. Download them, print them, and use them together.</p>
+<p class="intro">Tools to go with <em>Never Fight or Argue Again</em> by Larry and Rolanda Beacham. Print them, keep them close, and use them together.</p>
 
-  <!--
-    RESOURCES: to publish a PDF, put the file in /downloads/files/ and set its
-    "file" below, e.g. file: "/downloads/files/stop-loss-strategy.pdf".
-    Leave file empty ("") to show the disabled "Coming soon" button.
-    Add more resources by adding more entries.
-  -->
+<section id="gate" class="gate">
+  <h2>Get your free downloads</h2>
+  <p>Enter your name and email and every resource opens right here on this page.</p>
+  <form id="f" novalidate>
+    <label for="fn">First name</label>
+    <input id="fn" name="first_name" type="text" autocomplete="given-name" required maxlength="100">
+    <label for="em">Email</label>
+    <input id="em" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="200">
+    <input class="hp" type="text" name="company-website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="btn" type="submit" id="go">Unlock the downloads</button>
+    <p class="err" id="err" role="alert"></p>
+    <p class="small">We will only send you things about the book and the ministry. You can unsubscribe at any time.</p>
+  </form>
+</section>
+
+<section id="list" hidden>
+  <p class="thanks" id="thanks">Here you go. Enjoy these together.</p>
   <div id="resources"></div>
-  <noscript><div class="card"><h2>The Stop-Loss Strategy</h2><p>Protect the conversation before it becomes destructive.</p></div></noscript>
+</section>
 
-  <p class="note">More resources are on the way. Check back soon.</p>
-
-  <div class="more">
-    <p>Don't have your own copy yet?</p>
-    <a class="btn btn--gold" href="/pre-order/">Get the book</a>
-  </div>
+<div class="more" style="margin-top:2rem">
+  <p>Don't have your own copy yet?</p>
+  <a class="btn btn--gold" href="/book/">Get the book</a>
+</div>
 </main>
 <footer>&copy; Larry &amp; Rolanda Beacham &middot; <a href="/">neverfightorargue.com</a></footer>
 <script>
 var RESOURCES = [
-  { title: "The Stop-Loss Strategy",
-    description: "Protect the conversation before it becomes destructive.",
-    file: "" }
+ { title:"The Safety Plan", desc:"Seven steps to walk through before you speak, from Pray First to the Final Rule.", file:"safety-plan.pdf" },
+ { title:"The Safety Plan (Print Friendly)", desc:"The same seven steps in black and white, easy to print at home.", file:"safety-plan-print-friendly.pdf" },
+ { title:"The Anti-Fight Plan", desc:"A fill-in checklist for non-combative conflict resolution. Use it before and after a hard conversation.", file:"anti-fight-plan.pdf" },
+ { title:"The Stop-Loss Strategy", desc:"Protect the conversation before it becomes destructive. A one-page visual guide.", file:"stop-loss-strategy.pdf" },
+ { title:"The Stop-Loss Strategy: Full Guide", desc:"The complete six-page walkthrough of the Stop-Loss Strategy.", file:"stop-loss-strategy-guide.pdf" }
 ];
-(function(){
-  var box = document.getElementById("resources");
+var FN_URL = "https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/downloads-signup";
+var KEY = "nfoa_downloads_unlocked";
+function show(){
+  var box=document.getElementById("resources"); box.innerHTML="";
   RESOURCES.forEach(function(r){
-    var c = document.createElement("div"); c.className = "card";
-    var h = document.createElement("h2"); h.textContent = r.title;
-    var p = document.createElement("p"); p.textContent = r.description;
-    var b;
-    if (r.file) { b = document.createElement("a"); b.className = "btn btn--dl"; b.href = r.file; b.setAttribute("download",""); b.textContent = "Download PDF"; }
-    else { b = document.createElement("button"); b.className = "btn btn--soon"; b.disabled = true; b.textContent = "Coming soon"; }
-    c.appendChild(h); c.appendChild(p); c.appendChild(b); box.appendChild(c);
+    var base=r.file.replace(".pdf","");
+    var c=document.createElement("div"); c.className="card";
+    c.innerHTML='<div class="res"><a href="/downloads/files/'+r.file+'" target="_blank" rel="noopener"><img loading="lazy" alt="" src="/downloads/thumbs/'+base+'.webp"></a><div class="txt"><h2></h2><p></p><a class="btn btn--dl" download href="/downloads/files/'+r.file+'">Download PDF</a></div></div>';
+    c.querySelector("h2").textContent=r.title; c.querySelector("p").textContent=r.desc;
+    c.querySelector("img").alt="Preview of "+r.title;
+    box.appendChild(c);
   });
-})();
+  document.getElementById("gate").hidden=true;
+  document.getElementById("list").hidden=false;
+}
+try{ if(localStorage.getItem(KEY)==="1") show(); }catch(e){}
+document.getElementById("f").addEventListener("submit",function(ev){
+  ev.preventDefault();
+  var f=ev.target, err=document.getElementById("err"), go=document.getElementById("go");
+  var name=f.first_name.value.trim(), email=f.email.value.trim();
+  err.textContent="";
+  if(!name){err.textContent="Please enter your first name.";return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){err.textContent="Please enter a valid email address.";return;}
+  go.disabled=true; go.textContent="One moment...";
+  fetch(FN_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({first_name:name,email:email,"company-website":f["company-website"].value})})
+   .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
+   .then(function(x){
+     if(!x.ok||!x.j.ok){throw new Error(x.j.error||"Something went wrong. Please try again.");}
+     try{localStorage.setItem(KEY,"1");}catch(e){}
+     document.getElementById("thanks").textContent="Thank you, "+name+". Here are your downloads.";
+     show(); window.scrollTo(0,0);
+   })
+   .catch(function(e){err.textContent=e.message; go.disabled=false; go.textContent="Unlock the downloads";});
+});
 </script>
 </body>
 </html>
