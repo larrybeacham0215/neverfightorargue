@@ -267,3 +267,10 @@ background removal on an already-transparent PNG chewed the page edges once.
 - The `guests` Edge Function (version 4) no longer checks a password. It shares names, seats, registration dates, notes, sponsor interest and pre-order counts. It never shares emails or phone numbers.
 - The /readers/ page is unchanged and still needs the password. The `readers` function and the `nfoa_admin_check` database check were not touched.
 - To put the password back on /guests/, restore the `gate(...)` call in supabase/functions/guests/index.ts and the `window.__listFetch('view-guests', ...)` call in the site pages (see commit 1c2a181).
+
+## Guests list hardening (Nov 1, 2026)
+The public /guests/ list (password removed Oct 31 at Larry's request) was locked down per Ray:
+- `guests` Edge Function v5 returns only: name (first name + last initial), seats, sponsor (yes/no), preordered (copy count), plus totals parties, seats, preorder_copies. No emails, phones, notes, dates, IDs or cancelled rows. Filtering happens in the function, not the page.
+- GET only (anything else gets 405). Responses are cached 5 minutes (Cache-Control: public, max-age=300) and carry X-Robots-Tag noindex.
+- /guests/ page has robots noindex,nofollow; notes, registration dates and the "With a note" filter were removed from the page.
+- /readers/ and nfoa_admin_check were not changed.
