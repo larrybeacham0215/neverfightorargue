@@ -261,3 +261,9 @@ background removal on an already-transparent PNG chewed the page edges once.
   on mobile because grid areas from the previous version still applied.
 - **Don't hide content to win a layout constraint.** Rules hiding the supporting
   paragraph on short phones were the wrong trade and had to be undone.
+
+## Guests list is public (Oct 31, 2026)
+- Larry chose to make the /guests/ page public. It no longer asks for a password.
+- The `guests` Edge Function (version 4) no longer checks a password. It shares names, seats, registration dates, notes, sponsor interest and pre-order counts. It never shares emails or phone numbers.
+- The /readers/ page is unchanged and still needs the password. The `readers` function and the `nfoa_admin_check` database check were not touched.
+- To put the password back on /guests/, restore the `gate(...)` call in supabase/functions/guests/index.ts and the `window.__listFetch('view-guests', ...)` call in the site pages (see commit 1c2a181).

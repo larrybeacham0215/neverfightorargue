@@ -5264,7 +5264,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           });
         }
         function load() {
-          window.__listFetch('view-guests', 'https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/guests').then(function (d) {
+          fetch('https://' + CONFIG.supabaseProjectRef + '.supabase.co/functions/v1/guests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).then(function (r) { return r.json(); }).then(function (d) {
             rows = d.rows || [];
             document.getElementById('guParties').textContent = d.parties; document.getElementById('guSeats').textContent = d.seats; document.getElementById('guPre').textContent = d.preorder_copies;
             document.getElementById('guUpdated').textContent = 'Updated ' + new Date(d.updated).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) + ' \u00b7 refreshes every minute as people register.';
