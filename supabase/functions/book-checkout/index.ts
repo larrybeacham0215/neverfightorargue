@@ -1,3 +1,4 @@
+// Ray Round 2: card-save disclosure (Larry chose "disclosed", Nov 2, 2026) plus optional_items.
 // book-checkout: Never Fight or Argue Again, signed copy shipped to the buyer.
 // POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
 // Round 2: a missing Origin is refused; rate-limit IP from cf-connecting-ip or the last proxy hop; fail-open is logged.
@@ -36,6 +37,13 @@ async function rateOk(db: any, bucket: string, req: Request, max: number, window
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 const jres = (b: unknown, status: number, cors: Record<string, string>) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" } });
 
+const CARD_SAVE_MODE = (Deno.env.get("CARD_SAVE_MODE") ?? "disclosed").toLowerCase(); // disclosed | opt_in | off
+// Larry's live prices (created Nov 2, 2026). Env secrets override; IDs are not secret.
+const GIFT_COPY_PRICE_ID = Deno.env.get("GIFT_COPY_PRICE_ID") || "price_1UXTPSLCCdJWrOprt7wE8MTs";         // $15 Extra Signed Gift Copy
+const COMPANION_SET_PRICE_ID = Deno.env.get("COMPANION_SET_PRICE_ID") || "price_1UXTQcLCCdJWrOprsG3rGD4a"; // $9 Printed Companion Set
+// On by default (no secrets access); set OPTIONAL_ITEMS=off to hide the checkboxes.
+const OPTIONAL_ITEMS = (Deno.env.get("OPTIONAL_ITEMS") ?? "on") === "on" && !!GIFT_COPY_PRICE_ID && !!COMPANION_SET_PRICE_ID;
+
 Deno.serve(async (req) => {
   const cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -43,7 +51,12 @@ Deno.serve(async (req) => {
   if (!originOk(req)) return jres({ error: "Not allowed" }, 403, cors);
   if (!(await rateOk(db, "book-checkout", req, 10, 600))) return jres({ error: "Too many tries. Please wait a few minutes and try again." }, 429, cors);
   let qty = 1;
-  try { const b = await req.json(); qty = parseInt(String(b.quantity ?? "1"), 10) || 1; } catch { /* default 1 */ }
+  let wantsSave = false;
+  try {
+    const b = await req.json();
+    qty = parseInt(String(b.quantity ?? "1"), 10) || 1;
+    wantsSave = b.save_card === true;
+  } catch { /* default 1 */ }
   qty = Math.max(1, Math.min(20, qty));
 
   const p: Record<string, string> = {
@@ -75,7 +88,9 @@ Deno.serve(async (req) => {
     "custom_fields[0][text][maximum_length]": "100",
     "custom_fields[1][key]": "gift_note",
     "custom_fields[1][label][type]": "custom",
-    "custom_fields[1][label][custom]": "Is it a gift? Add a short note (optional)",
+    "custom_fields[1][label][custom]": OPTIONAL_ITEMS
+      ? "Gift note, and names to sign any gift copies to (optional)"
+      : "Is it a gift? Add a short note (optional)",
     "custom_fields[1][type]": "text",
     "custom_fields[1][optional]": "true",
     "custom_fields[1][text][maximum_length]": "255",
@@ -93,9 +108,27 @@ Deno.serve(async (req) => {
     "metadata[kind]": "book_order",
     "metadata[source]": "web",
     "payment_intent_data[metadata][kind]": "book_order",
-    // Saves the card to the Stripe Customer so the thank-you page add-ons are one click (book-upsell).
-    "payment_intent_data[setup_future_usage]": "off_session",
   };
+  // Card saving (Ray Round 2, must-fix 1). HELD: Larry is choosing a mode.
+  //   "disclosed": always save, and say so above the Pay button. book-upsell detaches it after 30 minutes.
+  //   "opt_in":    save only when the book page sent {save_card:true} from a checked box.
+  //   "off":       never save; thank-you add-ons always use a short Checkout page.
+  const saveCard = CARD_SAVE_MODE === "disclosed" || (CARD_SAVE_MODE === "opt_in" && wantsSave);
+  if (saveCard) {
+    p["payment_intent_data[setup_future_usage]"] = "off_session";
+    p["custom_text[submit][message]"] =
+      "We keep your card on file for 30 minutes only, so you can add a gift copy or the companion set on the next page with one click. After that it is deleted.";
+  }
+  // optional_items variant (HELD): extra items offered right on the Checkout page. Needs real Price IDs.
+  if (OPTIONAL_ITEMS) {
+    p["optional_items[0][price]"] = GIFT_COPY_PRICE_ID;
+    p["optional_items[0][quantity]"] = "1";
+    p["optional_items[0][adjustable_quantity][enabled]"] = "true";
+    p["optional_items[0][adjustable_quantity][minimum]"] = "0";
+    p["optional_items[0][adjustable_quantity][maximum]"] = "3";
+    p["optional_items[1][price]"] = COMPANION_SET_PRICE_ID;
+    p["optional_items[1][quantity]"] = "1";
+  }
   const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },

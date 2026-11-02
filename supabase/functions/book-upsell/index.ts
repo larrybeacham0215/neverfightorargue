@@ -1,3 +1,4 @@
+// Ray Round 2 must-fix 1: detach the saved card after the 30 minute window (deployed Nov 2, 2026).
 // book-upsell: one-time add-ons on the order thank-you page (Larry, Nov 2, 2026).
 //   Offer 1 gift_copy:     extra signed copy in the same box, $15 each, 1 to 3, optional name per copy.
 //   Offer 2 companion_set: printed laminated companion set, $9.
@@ -164,6 +165,46 @@ async function markPaid(order: any, rowId: string, fields: Record<string, unknow
   return true;
 }
 
+// Ray Round 2 must-fix 1 (HELD): remove the saved card once it is no longer needed.
+// Needs the restricted key to have PaymentMethods: Write. Records book_orders.card_detached_at (held migration).
+let SWEEP_SECRET = Deno.env.get("SWEEP_SECRET") ?? "";
+async function sweepSecret() {
+  // Falls back to the Vault secret nfoa_sweep_secret (service-role-only RPC), shared with the pg_cron job.
+  if (!SWEEP_SECRET) { const { data } = await db.rpc("nfoa_sweep_secret"); SWEEP_SECRET = typeof data === "string" ? data : ""; }
+  return SWEEP_SECRET;
+}
+async function detachCard(order: any, s: any) {
+  if (order.card_detached_at) return "already";
+  const pi = s.payment_intent && typeof s.payment_intent === "object" ? s.payment_intent : null;
+  const pm = pi?.payment_method; const pmId = typeof pm === "string" ? pm : pm?.id;
+  if (!pmId || pi?.setup_future_usage !== "off_session") {
+    await db.from("book_orders").update({ card_detached_at: new Date().toISOString() }).eq("id", order.id);
+    return "none_saved";
+  }
+  const r = await stripe(`payment_methods/${pmId}/detach`, {});
+  const gone = r.ok || r.body?.error?.code === "payment_method_unexpected_state" || /not attached/i.test(r.body?.error?.message ?? "");
+  if (gone) await db.from("book_orders").update({ card_detached_at: new Date().toISOString() }).eq("id", order.id);
+  else console.error("detach failed", r.status, r.body?.error?.code);
+  return gone ? "detached" : "failed";
+}
+
+async function sweepCards() {
+  // Web orders 31 minutes to 7 days old whose saved card has not been removed yet.
+  const now = Date.now();
+  const { data: rows } = await db.from("book_orders").select("*").eq("source", "web").is("card_detached_at", null)
+    .lt("created_at", new Date(now - (WINDOW_SEC + 60) * 1000).toISOString())
+    .gt("created_at", new Date(now - 7 * 86400 * 1000).toISOString()).limit(50);
+  const out: Record<string, number> = {};
+  for (const o of rows ?? []) {
+    if (!o.stripe_session) continue;
+    const r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
+    if (!r.ok) { out.lookup_failed = (out.lookup_failed ?? 0) + 1; continue; }
+    const k = await detachCard(o, r.body);
+    out[k] = (out[k] ?? 0) + 1;
+  }
+  return out;
+}
+
 async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean, keepOpen = false) {
   const o = OFFERS[row.offer];
   const p: Record<string, string> = {
@@ -231,6 +272,12 @@ Deno.serve(async (req) => {
   cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "GET" && req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+  // Scheduled sweep (pg_cron via pg_net). Server to server, so no Origin; gated by SWEEP_SECRET.
+  if (req.method === "POST" && req.headers.get("x-nfoa-sweep")) {
+    const sec = await sweepSecret();
+    if (!sec || !safeEqual(req.headers.get("x-nfoa-sweep") ?? "", sec)) return json({ error: "Not allowed" }, 403);
+    return json({ ok: true, swept: await sweepCards() });
+  }
   const signed = req.method === "POST" && !!req.headers.get("stripe-signature");
   if (!signed) {
     if (!originOk(req)) return json({ error: "Not allowed" }, 403);
@@ -298,7 +345,7 @@ Deno.serve(async (req) => {
   const o = OFFERS[offer];
   if (!o) return json({ error: "Unknown offer." }, 400);
   if (s.payment_status !== "paid") return json({ ok: false, error: "This order is not paid." }, 402);
-  if (!open) return json({ ok: false, closed: true, error: "This one-time offer has closed." }, 410);
+  if (!open) { if (!isTest) await detachCard(order, s); return json({ ok: false, closed: true, error: "This one-time offer has closed." }, 410); }
   const z = await checkZip(order, s, b.zip);
   if (z === "locked") return json({ ok: false, zip: "locked", error: "Too many tries. Please email us and we will add it for you." }, 429);
   if (z !== "ok") return json({ ok: false, zip: "bad", error: "That ZIP code does not match the shipping address on this order." }, 403);
@@ -349,6 +396,7 @@ Deno.serve(async (req) => {
   if (result.status === "succeeded") {
     await markPaid(order, row.id, { stripe_payment_intent: result.pi }, isTest);
     const { data: fresh } = await db.from("book_orders").select("gift_copies, companion_set, upsell_amount_cents").eq("id", order.id).single();
+    if (fresh?.gift_copies && fresh?.companion_set && !isTest) await detachCard(order, s); // both offers used: card no longer needed
     return json({ ok: true, status: "added", order_no: order.order_no, amount_cents: amount, ...fresh });
   }
   if (result.status === "needs_action") {
