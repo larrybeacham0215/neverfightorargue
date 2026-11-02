@@ -1,5 +1,25 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /guests/
+Disallow: /readers/
+Disallow: /express/
+Disallow: /taylor/
+Disallow: /program/
+Disallow: /invoice/
+Disallow: /pickup/
 Disallow: /chapters/
+Disallow: /buy/
+Disallow: /book/checkout/
+Disallow: /gift/checkout/
+Disallow: /sponsor/checkout/
+Disallow: /sponsor-paid/
+Disallow: /sponsor-thank-you/
+Disallow: /thank-you/
+Disallow: /gift-thank-you/
+Disallow: /preorder-thank-you/
+Disallow: /registered/
+Disallow: /unsubscribe/
+Disallow: /supabase/
 
 Sitemap: https://neverfightorargue.com/sitemap.xml

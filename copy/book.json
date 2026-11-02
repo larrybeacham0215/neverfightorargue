@@ -1,0 +1,14 @@
+{
+ "_note": "The Book (/book/): evergreen buy or gift. Retail links appear automatically once CONFIG.retailers has URLs. buy_url and gift_url: paste the Stripe Payment Link for a $20 signed copy once Larry approves one. No such link exists yet (only sponsor links). While empty, the buttons open an email to hello@ instead. The old /book/checkout/ flow is NOT used because it records launch pre-orders for event pickup.",
+ "buy_eyebrow": "Get the book",
+ "buy_title": "You can stop fighting.",
+ "buy_body": "DRAFT: Order a copy signed by Larry and Ro for $20, for yourself or as a gift for another couple. [Shipping and delivery details pending.]",
+ "buy_cta": "Buy a signed copy",
+ "gift_cta": "Send one as a gift",
+ "retail_note": "DRAFT: [Retail store availability pending.]",
+ "group_title": "Ordering for a group?",
+ "group_body": "DRAFT: Bulk pricing and church rates are available directly from us. Ten copies or a hundred, same conversation. [Bulk tiers pending.]",
+ "group_cta": "Church and bulk orders",
+ "buy_url": "",
+ "gift_url": ""
+}
