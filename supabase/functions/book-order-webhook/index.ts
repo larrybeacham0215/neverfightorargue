@@ -63,6 +63,12 @@ Deno.serve(async (req) => {
   if (event.type !== "checkout.session.completed") return new Response(JSON.stringify({ ignored: event.type }), { status: 200 });
   const s = event.data.object;
   if ((s.metadata ?? {}).kind !== "book_order") return new Response(JSON.stringify({ ignored: "not a book order" }), { status: 200 });
+  // Thank-you page add-on paid through the fallback Checkout: book-upsell records it (never a new order here).
+  if (s.metadata?.addon) {
+    if (isTest) return new Response(JSON.stringify({ ignored: "add-on (test)" }), { status: 200 });
+    const f = await fetch(`${SUPABASE_URL}/functions/v1/book-upsell`, { method: "POST", headers: { "content-type": "application/json", "stripe-signature": req.headers.get("stripe-signature") ?? "" }, body: payload });
+    return new Response(await f.text(), { status: f.status });
+  }
   if (s.payment_status && !["paid", "no_payment_required"].includes(s.payment_status)) return new Response("not paid yet", { status: 200 });
 
   const cd = s.customer_details ?? {};

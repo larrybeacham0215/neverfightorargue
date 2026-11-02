@@ -1,0 +1,275 @@
+// book-upsell: one-time add-ons on the order thank-you page (Larry, Nov 2, 2026).
+//   Offer 1 gift_copy:     extra signed copy in the same box, $15 each, 1 to 3, optional name per copy.
+//   Offer 2 companion_set: printed laminated companion set, $9.
+// No added shipping (same box). Each offer can be accepted once per order, within 30 minutes of checkout.
+//
+// GET  ?session_id=cs_...                         -> order summary + which offers are still open
+// POST {session_id, offer, quantity, inscriptions} -> one-click charge of the saved card (off_session PaymentIntent)
+//        200 {ok:true, status:"added"} | {ok:false, fallback_url} when the bank asks for 3DS or the card has no saved method
+// POST {session_id, confirm_session: cs_...}       -> after the fallback Checkout returns, records it if paid
+// POST (Stripe event, forwarded by book-order-webhook with the Stripe-Signature) -> records a paid fallback Checkout
+// Every path records through the book_order_addons row (status pending -> paid, flipped once), then
+// apply_book_addons() rebuilds the order's add-on summary from paid rows, so nothing is double counted.
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
+const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET") ?? "";
+const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
+const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "hello@neverfightorargue.com";
+const FROM_NAME = Deno.env.get("FROM_NAME") ?? "Larry & Ro";
+const NOTIFY_EMAIL = Deno.env.get("NOTIFY_EMAIL") ?? "hello@neverfightorargue.com";
+const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
+const TEST_TOKEN = ""; // __TEST_TOKEN__ (empty in production)
+const WINDOW_SEC = 30 * 60;
+
+const OFFERS: Record<string, { unit: number; max: number; name: string }> = {
+  gift_copy: { unit: 1500, max: 3, name: "Extra signed gift copy (same box)" },
+  companion_set: { unit: 900, max: 1, name: "Printed laminated companion set" },
+};
+
+const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type, x-nfoa-test" };
+const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" } });
+const esc = (v: unknown) => String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const money = (c: number) => `$${(c / 100).toFixed(2)}`;
+const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+
+async function stripe(path: string, params?: Record<string, string>, idem?: string) {
+  const headers: Record<string, string> = { Authorization: `Bearer ${STRIPE_KEY}` };
+  if (params) headers["Content-Type"] = "application/x-www-form-urlencoded";
+  if (idem) headers["Idempotency-Key"] = idem;
+  const r = await fetch(`https://api.stripe.com/v1/${path}`, { method: params ? "POST" : "GET", headers, body: params ? new URLSearchParams(params) : undefined });
+  return { ok: r.ok, status: r.status, body: await r.json() };
+}
+
+async function sendEmail(to: string, subject: string, html: string) {
+  if (!BREVO_API_KEY || !to) return false;
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: { "api-key": BREVO_API_KEY, "Content-Type": "application/json", accept: "application/json" },
+    body: JSON.stringify({ sender: { name: FROM_NAME, email: FROM_EMAIL }, replyTo: { email: Deno.env.get("REPLY_TO") ?? "larry@kdmcommunity.com" }, to: [{ email: to }], subject, htmlContent: html }),
+  });
+  if (!res.ok) console.error("brevo", res.status);
+  return res.ok;
+}
+
+async function verify(payload: string, header: string | null): Promise<boolean> {
+  if (!WEBHOOK_SECRET || !header) return false;
+  const parts: Record<string, string[]> = {};
+  for (const p of header.split(",")) { const [k, v] = p.split("="); (parts[k] ??= []).push(v); }
+  const t = parts["t"]?.[0];
+  if (!t || !parts["v1"]) return false;
+  if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return false;
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${t}.${payload}`));
+  const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
+  return parts["v1"].includes(hex);
+}
+
+// Loads the original book session (from Stripe, or a constructed one in a test) plus its order row.
+async function load(sessionId: string, test: any) {
+  let s: any = null;
+  if (test?.session) s = test.session;
+  else {
+    let r = await stripe(`checkout/sessions/${encodeURIComponent(sessionId)}?expand[]=payment_intent`);
+    if (r.status === 401 || r.status === 403) r = await stripe(`checkout/sessions/${encodeURIComponent(sessionId)}`); // key without PaymentIntent read
+    if (!r.ok) return { error: "Order not found.", code: 404 };
+    s = r.body;
+  }
+  if ((s.metadata ?? {}).kind !== "book_order" || s.metadata?.addon) return { error: "Order not found.", code: 404 };
+  const { data: order } = await db.from("book_orders").select("*").eq("stripe_session", s.id).maybeSingle();
+  const { data: addons } = order ? await db.from("book_order_addons").select("*").eq("order_id", order.id) : { data: [] };
+  const open = s.payment_status === "paid" && Date.now() / 1000 - Number(s.created) <= WINDOW_SEC;
+  return { s, order, addons: addons ?? [], open };
+}
+
+async function notifyLarry(order: any, row: any, isTest: boolean) {
+  const o = OFFERS[row.offer];
+  const what = row.offer === "gift_copy" ? `${row.quantity} extra signed cop${row.quantity === 1 ? "y" : "ies"}` : "printed laminated companion set";
+  const names = (row.inscriptions ?? []).filter(Boolean);
+  const { data: fresh } = await db.from("book_orders").select("quantity, gift_copies, companion_set, inscription").eq("id", order.id).single();
+  const total = (fresh?.quantity ?? order.quantity) + (fresh?.gift_copies ?? 0);
+  await sendEmail(NOTIFY_EMAIL, `${isTest ? "[TEST] " : ""}[ADD-ON] order ${order.order_no}: add ${what} (+${money(row.amount_cents)})`,
+    `<p><b>Add this to order ${esc(order.order_no)} before it ships.</b> Same box, no extra shipping was charged.</p>
+     <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
+       <tr><td><b>Order</b></td><td>${esc(order.order_no)} (${esc(order.name || order.email)})</td></tr>
+       <tr><td><b>Add-on</b></td><td>${esc(o.name)} x ${row.quantity}, ${money(row.amount_cents)} paid</td></tr>
+       ${row.offer === "gift_copy" ? `<tr><td><b>Sign the extra cop${row.quantity === 1 ? "y" : "ies"} to</b></td><td>${names.length ? names.map(esc).join("<br>") : "(no names given)"}</td></tr>` : ""}
+       <tr><td><b>Box now holds</b></td><td>${total} signed book${total === 1 ? "" : "s"}${fresh?.companion_set ? " + 1 laminated companion set" : ""}</td></tr>
+       <tr><td><b>Main copy signed to</b></td><td>${esc(fresh?.inscription || "(nothing requested)")}</td></tr>
+       <tr><td><b>Stripe</b></td><td>${esc(row.stripe_payment_intent ?? row.stripe_session ?? "")}</td></tr>
+     </table>
+     <p style="color:#5C6B60">ship_queue in Supabase now shows gift_copies, gift_inscriptions and companion_set for this order.</p>`);
+}
+
+// Flips a pending add-on to paid exactly once; only the call that flips it sends the notice.
+async function markPaid(order: any, rowId: string, fields: Record<string, unknown>, isTest: boolean) {
+  const { data: flipped } = await db.from("book_order_addons").update({ status: "paid", paid_at: new Date().toISOString(), ...fields })
+    .eq("id", rowId).eq("status", "pending").select("*").maybeSingle();
+  if (!flipped) return false;
+  await db.rpc("apply_book_addons", { p_order: order.id });
+  await notifyLarry(order, flipped, isTest);
+  return true;
+}
+
+async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean) {
+  const o = OFFERS[row.offer];
+  const p: Record<string, string> = {
+    mode: "payment",
+    success_url: `${SITE_URL}/order-thank-you/?session_id=${s.id}&addon_session={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${SITE_URL}/order-thank-you/?session_id=${s.id}`,
+    "line_items[0][price_data][currency]": "usd",
+    "line_items[0][price_data][unit_amount]": String(o.unit),
+    "line_items[0][price_data][product_data][name]": o.name,
+    "line_items[0][price_data][product_data][description]": `Added to order ${order.order_no}. Ships in the same box, no extra shipping.`,
+    "line_items[0][quantity]": String(row.quantity),
+    "metadata[project]": "nfoaa", "metadata[kind]": "book_order", "metadata[addon]": "1",
+    "metadata[order_no]": order.order_no, "metadata[addon_id]": row.id,
+    "payment_intent_data[metadata][kind]": "book_addon", "payment_intent_data[metadata][order_no]": order.order_no,
+    expires_at: String(Math.floor(Date.now() / 1000) + 31 * 60),
+  };
+  const cust = s.customer ?? s.payment_intent?.customer;
+  if (cust) p.customer = typeof cust === "string" ? cust : cust.id;
+  else if (order.email) p.customer_email = order.email;
+  const r = await stripe("checkout/sessions", p);
+  if (!r.ok) { console.error("fallback checkout", r.body?.error?.message); return null; }
+  await db.from("book_order_addons").update({ stripe_session: r.body.id, method: "checkout" }).eq("id", row.id);
+  if (isTest) { // tests never leave a payable page open
+    const x = await stripe(`checkout/sessions/${r.body.id}/expire`, {});
+    return { url: r.body.url, id: r.body.id, expired: x.body?.status === "expired" };
+  }
+  return { url: r.body.url, id: r.body.id };
+}
+
+async function handleEvent(payload: string, sig: string | null, isTest: boolean) {
+  if (!isTest && !(await verify(payload, sig))) return json({ error: "bad signature" }, 400);
+  const ev = JSON.parse(payload);
+  const a = ev.data?.object ?? {};
+  if (ev.type !== "checkout.session.completed" || !a.metadata?.addon) return json({ ignored: true });
+  if (a.payment_status !== "paid") return json({ ignored: "not paid" });
+  return json(await recordFallback(a, isTest));
+}
+
+async function recordFallback(a: any, isTest: boolean) {
+  const { data: row } = await db.from("book_order_addons").select("*").eq("id", a.metadata?.addon_id).maybeSingle();
+  if (!row || row.stripe_session !== a.id) return { ok: false, error: "add-on not found" };
+  const { data: order } = await db.from("book_orders").select("*").eq("id", row.order_id).single();
+  const flipped = await markPaid(order, row.id, { stripe_payment_intent: a.payment_intent ?? null, amount_cents: a.amount_total ?? row.amount_cents }, isTest);
+  return { ok: true, status: flipped ? "added" : "already_added" };
+}
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  const isTest = !!TEST_TOKEN && req.headers.get("x-nfoa-test") === TEST_TOKEN;
+  const u = new URL(req.url);
+
+  if (req.method === "GET") {
+    const sid = u.searchParams.get("session_id") ?? "";
+    if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(sid)) return json({ error: "Order not found." }, 404);
+    const L: any = await load(sid, null);
+    if (L.error) return json({ error: L.error }, L.code);
+    const { s, order, addons, open } = L;
+    const ship = s.collected_information?.shipping_details ?? s.shipping_details ?? {};
+    const state = (k: string) => { const r = addons.find((x: any) => x.offer === k); return r?.status === "paid" ? "added" : open ? "open" : "closed"; };
+    return json({
+      ready: !!order, order_no: order?.order_no ?? null,
+      first_name: String(s.customer_details?.name ?? "").split(" ")[0] || null,
+      quantity: order?.quantity ?? null, inscription: order?.inscription ?? null,
+      total_cents: s.amount_total, shipping_cents: s.shipping_cost?.amount_total ?? s.total_details?.amount_shipping ?? 0,
+      ship_to: [ship.address?.city, ship.address?.state].filter(Boolean).join(", ") || null,
+      gift_copies: order?.gift_copies ?? 0, companion_set: !!order?.companion_set,
+      offers: { gift_copy: state("gift_copy"), companion_set: state("companion_set") },
+      closes_at: Number(s.created) + WINDOW_SEC,
+    });
+  }
+  if (req.method !== "POST") return json({ error: "method" }, 405);
+
+  const payload = await req.text();
+  const sig = req.headers.get("stripe-signature");
+  if (sig) return handleEvent(payload, sig, false);
+  let b: any; try { b = JSON.parse(payload); } catch { return json({ error: "bad json" }, 400); }
+  if (isTest && b.type === "checkout.session.completed") return handleEvent(payload, null, true);
+  const test = isTest ? b.test ?? {} : null;
+
+  // Test-only: check Stripe accepts our parameters without charging anyone.
+  if (isTest && b.action === "validate") {
+    const out: Record<string, unknown> = {};
+    const pi = await stripe("payment_intents", { amount: "900", currency: "usd", confirm: "true", off_session: "true", "metadata[kind]": "book_addon_validate" });
+    out.off_session_pi = { status: pi.status, code: pi.body?.error?.code ?? null, param: pi.body?.error?.param ?? null, message: pi.body?.error?.message ?? null, created: pi.body?.id ?? pi.body?.error?.payment_intent?.id ?? null };
+    if (b.expire_session) { const x = await stripe(`checkout/sessions/${b.expire_session}/expire`, {}); out.expired = { id: b.expire_session, status: x.body?.status ?? x.body?.error?.message }; }
+    return json(out);
+  }
+
+  const sid = String(b.session_id ?? "");
+  if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(sid)) return json({ error: "Order not found." }, 404);
+  const L: any = await load(sid, test);
+  if (L.error) return json({ error: L.error }, L.code);
+  const { s, order, addons, open } = L;
+  if (!order) return json({ ok: false, retry: true, error: "Your order is still being recorded. Try again in a moment." }, 409);
+
+  // Return from the fallback Checkout.
+  if (b.confirm_session) {
+    if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(String(b.confirm_session))) return json({ error: "bad session" }, 400);
+    const r = test?.addon_session ? { ok: true, body: test.addon_session } : await stripe(`checkout/sessions/${b.confirm_session}`);
+    if (!r.ok || r.body.payment_status !== "paid" || r.body.metadata?.order_no !== order.order_no) return json({ ok: false, error: "Payment not completed." }, 402);
+    return json(await recordFallback(r.body, isTest));
+  }
+
+  const offer = String(b.offer ?? "");
+  const o = OFFERS[offer];
+  if (!o) return json({ error: "Unknown offer." }, 400);
+  if (s.payment_status !== "paid") return json({ ok: false, error: "This order is not paid." }, 402);
+  if (!open) return json({ ok: false, closed: true, error: "This one-time offer has closed." }, 410);
+  const qty = Math.max(1, Math.min(o.max, parseInt(String(b.quantity ?? "1"), 10) || 1));
+  const inscriptions = offer === "gift_copy" ? (Array.isArray(b.inscriptions) ? b.inscriptions : []).slice(0, qty).map((x: unknown) => String(x ?? "").trim().slice(0, 100)) : [];
+  const amount = o.unit * qty;
+
+  // Claim the offer (one per order). An abandoned fallback can be reopened; a paid one cannot.
+  const prev = addons.find((x: any) => x.offer === offer);
+  if (prev?.status === "paid") return json({ ok: true, status: "already_added" });
+  if (prev) {
+    if (!prev.stripe_session) return json({ ok: false, error: "We are still processing this add-on." }, 409);
+    await db.from("book_order_addons").delete().eq("id", prev.id).eq("status", "pending");
+  }
+  const { data: row, error: cerr } = await db.from("book_order_addons").insert({ order_id: order.id, offer, quantity: qty, inscriptions, amount_cents: amount, method: "one_click" }).select("*").single();
+  if (cerr || !row) return json({ ok: false, error: "We are still processing this add-on." }, 409);
+
+  const pi = s.payment_intent && typeof s.payment_intent === "object" ? s.payment_intent : null;
+  const pm = pi?.payment_method; const customer = pi?.customer ?? s.customer;
+  const pmId = typeof pm === "string" ? pm : pm?.id; const custId = typeof customer === "string" ? customer : customer?.id;
+
+  let result: { status: "succeeded" | "needs_action" | "declined"; pi?: string; message?: string };
+  if (!pmId || !custId || pi?.setup_future_usage !== "off_session") result = { status: "needs_action" };
+  else if (isTest) result = test.outcome === "succeeded" ? { status: "succeeded", pi: "pi_test_simulated" } : test.outcome === "declined" ? { status: "declined", message: "Your card was declined." } : { status: "needs_action" };
+  else {
+    const r = await stripe("payment_intents", {
+      amount: String(amount), currency: "usd", customer: custId, payment_method: pmId,
+      off_session: "true", confirm: "true",
+      description: `${o.name} x ${qty}, order ${order.order_no}`,
+      "metadata[project]": "nfoaa", "metadata[kind]": "book_addon", "metadata[order_no]": order.order_no, "metadata[offer]": offer, "metadata[addon_id]": row.id,
+      ...(order.email ? { receipt_email: order.email } : {}),
+    }, `book-addon-${row.id}`);
+    if (r.ok && r.body.status === "succeeded") result = { status: "succeeded", pi: r.body.id };
+    else {
+      const e = r.body?.error ?? {};
+      if (r.status === 401 || r.status === 403) console.error("book-upsell: Stripe key cannot create PaymentIntents, using Checkout fallback", r.status);
+      const failedPi = e.payment_intent?.id ?? r.body?.id;
+      if (failedPi && (r.body?.status === "requires_action" || e.payment_intent?.status === "requires_action")) await stripe(`payment_intents/${failedPi}/cancel`, {});
+      result = r.status === 401 || r.status === 403 || e.code === "authentication_required" || r.body?.status === "requires_action" ? { status: "needs_action" } : { status: "declined", message: e.message ?? "The card was not charged." };
+    }
+  }
+
+  if (result.status === "succeeded") {
+    await markPaid(order, row.id, { stripe_payment_intent: result.pi }, isTest);
+    const { data: fresh } = await db.from("book_orders").select("gift_copies, companion_set, upsell_amount_cents").eq("id", order.id).single();
+    return json({ ok: true, status: "added", order_no: order.order_no, amount_cents: amount, ...fresh });
+  }
+  if (result.status === "needs_action") {
+    const fb = await fallbackCheckout(order, s, row, isTest);
+    if (!fb) { await db.from("book_order_addons").delete().eq("id", row.id).eq("status", "pending"); return json({ ok: false, error: "We could not start the payment. Please try again." }, 502); }
+    return json({ ok: false, status: "needs_checkout", fallback_url: fb.url, ...(isTest ? { fallback_session: fb.id, expired: fb.expired } : {}) });
+  }
+  await db.from("book_order_addons").delete().eq("id", row.id).eq("status", "pending");
+  return json({ ok: false, status: "declined", error: result.message }, 402);
+});

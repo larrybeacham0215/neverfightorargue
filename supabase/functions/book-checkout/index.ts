@@ -2,6 +2,7 @@
 // GET  /functions/v1/book-checkout?qty=2  -> 303 redirect to Stripe Checkout (works as a plain link / button)
 // POST /functions/v1/book-checkout {quantity} -> {url}
 // Collects: US shipping address, phone, quantity (1-20), name to sign to, gift note, email opt-in.
+// Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
 // The paid session is handled by stripe-webhook -> book-order-webhook (metadata.kind = book_order).
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
@@ -65,6 +66,8 @@ Deno.serve(async (req) => {
     "metadata[kind]": "book_order",
     "metadata[source]": "web",
     "payment_intent_data[metadata][kind]": "book_order",
+    // Saves the card to the Stripe Customer so the thank-you page add-ons are one click (book-upsell).
+    "payment_intent_data[setup_future_usage]": "off_session",
   };
   const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
