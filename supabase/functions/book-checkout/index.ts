@@ -1,22 +1,41 @@
 // book-checkout: Never Fight or Argue Again, signed copy shipped to the buyer.
-// GET  /functions/v1/book-checkout?qty=2  -> 303 redirect to Stripe Checkout (works as a plain link / button)
-// POST /functions/v1/book-checkout {quantity} -> {url}
+// POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
+// Security (Ray's review, Nov 2, 2026): CORS limited to the site (+ localhost:8787 preview), 10 sessions per IP per 10 minutes.
 // Collects: US shipping address, phone, quantity (1-20), name to sign to, gift note, email opt-in.
 // Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
 // The paid session is handled by stripe-webhook -> book-order-webhook (metadata.kind = book_order).
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const UNIT = 2000; // $20 per signed copy (same as the launch price)
 // Shipping: $8 flat per order (Larry, Nov 2, 2026).
 
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type" };
+const ALLOWED_ORIGINS = ["https://neverfightorargue.com", "https://www.neverfightorargue.com", "http://localhost:8787"];
+function corsFor(req: Request) {
+  const o = req.headers.get("origin") ?? "";
+  const h: Record<string, string> = { "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "content-type", Vary: "Origin" };
+  if (ALLOWED_ORIGINS.includes(o)) h["Access-Control-Allow-Origin"] = o;
+  return h;
+}
+// Browser calls from other sites are refused; calls with no Origin (server tools) are allowed but rate limited.
+const originOk = (req: Request) => { const o = req.headers.get("origin"); return !o || ALLOWED_ORIGINS.includes(o); };
+const clientIp = (req: Request) => (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("cf-connecting-ip") || "unknown";
+async function rateOk(db: any, bucket: string, req: Request, max: number, windowSec: number) {
+  const { data, error } = await db.rpc("fn_rate_ok", { p_bucket: bucket, p_ip: clientIp(req), p_max: max, p_window_sec: windowSec });
+  if (error) { console.error("rate limit", error.message); return true; } // fail open so a DB hiccup never blocks a sale
+  return data === true;
+}
+const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
+const jres = (b: unknown, status: number, cors: Record<string, string>) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" } });
 
 Deno.serve(async (req) => {
+  const cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") return jres({ error: "Method not allowed" }, 405, { ...cors, Allow: "POST, OPTIONS" });
+  if (!originOk(req)) return jres({ error: "Not allowed" }, 403, cors);
+  if (!(await rateOk(db, "book-checkout", req, 10, 600))) return jres({ error: "Too many tries. Please wait a few minutes and try again." }, 429, cors);
   let qty = 1;
-  const u = new URL(req.url);
-  if (req.method === "POST") { try { const b = await req.json(); qty = parseInt(String(b.quantity ?? "1"), 10) || 1; } catch { /* default 1 */ } }
-  else qty = parseInt(u.searchParams.get("qty") ?? "1", 10) || 1;
+  try { const b = await req.json(); qty = parseInt(String(b.quantity ?? "1"), 10) || 1; } catch { /* default 1 */ }
   qty = Math.max(1, Math.min(20, qty));
 
   const p: Record<string, string> = {
@@ -77,8 +96,7 @@ Deno.serve(async (req) => {
   const s = await r.json();
   if (!r.ok || !s.url) {
     console.error("book-checkout failed", s?.error?.message);
-    return new Response(JSON.stringify({ error: "Checkout could not start. Please try again." }), { status: 502, headers: { ...cors, "Content-Type": "application/json" } });
+    return jres({ error: "Checkout could not start. Please try again." }, 502, cors);
   }
-  if (req.method === "POST") return new Response(JSON.stringify({ url: s.url }), { headers: { ...cors, "Content-Type": "application/json" } });
-  return new Response(null, { status: 303, headers: { ...cors, Location: s.url, "Cache-Control": "no-store" } });
+  return jres({ url: s.url }, 200, cors);
 });

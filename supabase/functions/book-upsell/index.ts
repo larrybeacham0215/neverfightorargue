@@ -1,6 +1,7 @@
 // book-upsell: one-time add-ons on the order thank-you page (Larry, Nov 2, 2026).
 //   Offer 1 gift_copy:     extra signed copy in the same box, $15 each, 1 to 3, optional name per copy.
 //   Offer 2 companion_set: printed laminated companion set, $9.
+// Security: CORS limited to the site (+ localhost:8787 preview); 60 requests per IP per 10 minutes (the page polls).
 // No added shipping (same box). Each offer can be accepted once per order, within 30 minutes of checkout.
 //
 // GET  ?session_id=cs_...                         -> order summary + which offers are still open
@@ -29,7 +30,22 @@ const OFFERS: Record<string, { unit: number; max: number; name: string }> = {
   companion_set: { unit: 900, max: 1, name: "Printed laminated companion set" },
 };
 
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type, x-nfoa-test" };
+const ALLOWED_ORIGINS = ["https://neverfightorargue.com", "https://www.neverfightorargue.com", "http://localhost:8787"];
+function corsFor(req: Request) {
+  const o = req.headers.get("origin") ?? "";
+  const h: Record<string, string> = { "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type", Vary: "Origin" };
+  if (ALLOWED_ORIGINS.includes(o)) h["Access-Control-Allow-Origin"] = o;
+  return h;
+}
+// Browser calls from other sites are refused; calls with no Origin (server tools) are allowed but rate limited.
+const originOk = (req: Request) => { const o = req.headers.get("origin"); return !o || ALLOWED_ORIGINS.includes(o); };
+const clientIp = (req: Request) => (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("cf-connecting-ip") || "unknown";
+async function rateOk(db: any, bucket: string, req: Request, max: number, windowSec: number) {
+  const { data, error } = await db.rpc("fn_rate_ok", { p_bucket: bucket, p_ip: clientIp(req), p_max: max, p_window_sec: windowSec });
+  if (error) { console.error("rate limit", error.message); return true; } // fail open so a DB hiccup never blocks a sale
+  return data === true;
+}
+let cors: Record<string, string> = {}; // set per request in Deno.serve
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" } });
 const esc = (v: unknown) => String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const money = (c: number) => `$${(c / 100).toFixed(2)}`;
@@ -160,7 +176,14 @@ async function recordFallback(a: any, isTest: boolean) {
 }
 
 Deno.serve(async (req) => {
+  cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "GET" && req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+  const signed = req.method === "POST" && !!req.headers.get("stripe-signature");
+  if (!signed) {
+    if (!originOk(req)) return json({ error: "Not allowed" }, 403);
+    if (!(await rateOk(db, "book-upsell", req, 60, 600))) return json({ error: "Too many tries. Please wait a few minutes." }, 429);
+  }
   const isTest = !!TEST_TOKEN && req.headers.get("x-nfoa-test") === TEST_TOKEN;
   const u = new URL(req.url);
 

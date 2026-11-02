@@ -99,15 +99,22 @@ Deno.serve(async (req) => {
   // 1) buyer (one row per lower(email))
   let buyerId: string | null = null;
   if (email) {
-    const { data: found } = await db.from("buyers").select("id, marketing_consent").ilike("email", email.replace(/[%_\\]/g, "\\$&")).maybeSingle();
-    const contact: Record<string, unknown> = {
-      name: name || undefined, phone: phone || undefined,
-      address_line1: a.line1 || undefined, address_line2: a.line2 || null, city: a.city || undefined,
-      state: a.state || undefined, postal_code: a.postal_code || undefined, country: a.country || undefined,
-      updated_at: new Date().toISOString(),
+    const { data: found } = await db.from("buyers").select("*").ilike("email", email.replace(/[%_\\]/g, "\\$&")).maybeSingle();
+    // Checkout data only FILLS EMPTY buyer fields. It never overwrites an existing name, phone, address or
+    // marketing_consent (Ray's review: anyone can pay using someone else's email). Each order keeps its own
+    // shipping address on book_orders.
+    const fresh: Record<string, unknown> = {
+      name: name || null, phone: phone || null,
+      address_line1: a.line1 || null, address_line2: a.line2 || null, city: a.city || null,
+      state: a.state || null, postal_code: a.postal_code || null, country: a.country || null,
+      marketing_consent: consent,
     };
-    if (consent !== null) contact.marketing_consent = consent;
-    if (found) { buyerId = found.id; await db.from("buyers").update(contact).eq("id", found.id); }
+    const contact: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(fresh)) {
+      if (v === null || v === undefined) continue;
+      if (!found || found[k] === null || found[k] === undefined || found[k] === "") contact[k] = v;
+    }
+    if (found) { buyerId = found.id; if (Object.keys(contact).length) await db.from("buyers").update({ ...contact, updated_at: new Date().toISOString() }).eq("id", found.id); }
     else {
       const { data: ins, error } = await db.from("buyers").insert({ email, ...contact }).select("id").single();
       if (error) console.error("buyer insert", error.message);
