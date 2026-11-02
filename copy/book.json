@@ -1,5 +1,5 @@
 {
- "_note": "The Book (/book/): evergreen buy or gift. Retail links appear automatically once CONFIG.retailers has URLs. buy_url and gift_url: paste the Stripe Payment Link for a $20 signed copy once Larry approves one. No such link exists yet (only sponsor links). While empty, the buttons open an email to hello@ instead. The old /book/checkout/ flow is NOT used because it records launch pre-orders for event pickup.",
+ "_note": "The Book (/book/): evergreen buy or gift. Retail links appear automatically once CONFIG.retailers has URLs. buy_url and gift_url: leave empty to use the live Supabase book-checkout function (Larry approved this on Nov 2, 2026): $20 per signed copy plus $8 flat shipping, collected through Stripe Checkout, success page /order-thank-you/. The buttons POST to book-checkout and go to the Stripe url it returns. The old /book/checkout/ page is retired and now redirects to /book/.",
  "buy_eyebrow": "Get the book",
  "buy_title": "You can stop fighting.",
  "buy_body": "Order a copy signed by Larry and Ro for $20 plus $8 flat shipping. Add a name for the inscription, or send it as a gift with a short note. Whether you have been fighting for years or just want to stop before it starts, this is a place to begin, together.",

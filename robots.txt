@@ -18,6 +18,7 @@ Disallow: /sponsor-thank-you/
 Disallow: /thank-you/
 Disallow: /gift-thank-you/
 Disallow: /order-thank-you/
+Disallow: /downloads/files/
 Disallow: /preorder-thank-you/
 Disallow: /registered/
 Disallow: /unsubscribe/

@@ -119,7 +119,7 @@ for v in ARCH:
     rep(f'<div class="view" id="view-{v}" hidden>\n', f'<div class="view" id="view-{v}" hidden>\n' + n2)
 gift_block = (f'<section class="band band--paper archive"><div class="wrap" style="text-align:center;max-width:40rem;padding:4rem 0">'
   f'<h1 class="h-lg">{GF["title"]}</h1><p class="lede center">{GF["body"]}</p>'
-  f'<p style="margin-top:1.75rem"><a class="btn" href="{GIFT}">{GF["cta"]}</a></p></div></section>\n')
+  f'<p style="margin-top:1.75rem"><a class="btn" href="{GIFT}" data-gift>{GF["cta"]}</a></p></div></section>\n')
 rep('<div class="view" id="view-gift" hidden>\n', '<div class="view" id="view-gift" hidden>\n' + gift_block)
 gt_block = (f'<section class="band band--paper archive"><div class="wrap" style="text-align:center;max-width:40rem;padding:4rem 0">'
   f'<h1 class="h-lg">{GF["thanks_title"]}</h1><p class="lede center">{GF["thanks_body"]}</p>'
@@ -175,7 +175,7 @@ s = s[:a] + f'<p>{B["buy_page_line"]}</p>\n        <p><strong>{B["hero_price_lin
 rep('          <a class="btn" href="#buy">Where to buy</a>\n          <a class="btn btn--outline" href="/" data-tab="home">Read Chapter One free</a>',
     f'          <a class="btn" href="{BUY}" data-evergreen-buy>{B["buy_cta"]}</a>\n          <a class="btn btn--outline" href="/gift/" data-tab="gift">{B["gift_cta"]}</a>')
 i = s.index('<section class="band on-navy" id="buy">')
-s = s[:i] + sec(f'      <h2 class="h-lg reveal">{B["gift_title"]}</h2>\n      <p class="lede reveal">{B["gift_body"]}</p>\n      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="{GIFT}">{GF["cta"]}</a></p>\n').replace('  <section','<section',1) + '\n  ' + s[i:]
+s = s[:i] + sec(f'      <h2 class="h-lg reveal">{B["gift_title"]}</h2>\n      <p class="lede reveal">{B["gift_body"]}</p>\n      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="{GIFT}" data-gift>{GF["cta"]}</a></p>\n').replace('  <section','<section',1) + '\n  ' + s[i:]
 
 # churches: new content up top, keep the inquiry form section
 faq = ''.join(f'<details style="margin:.75rem 0"><summary><strong>{x["q"]}</strong></summary><p>{x["a"]}</p></details>' for x in CH['faq'])
@@ -209,6 +209,58 @@ rep('<div class="view" id="view-thanks" hidden>\n', f'<div class="view" id="view
 css2 = ('#view-churches>:not(.refresh),#view-speaking>:not(.refresh){display:none!important}'
         '.refresh details summary{cursor:pointer}')
 rep('</style>\n<script type="application/ld+json">', css2 + '\n</style>\n<script type="application/ld+json">')
+
+# ---------- review fixes (Michelangelo + Ray), Nov 2 ----------
+SAFETY = ('If you are in an abusive or unsafe relationship, this book is not a substitute for help. '
+          'Call the National Domestic Violence Hotline at <a href="tel:+18007997233">1-800-799-7233</a>.')
+safety_box = lambda cls='': (f'<p class="safety-note{cls}" role="note" style="max-width:40rem;margin:{"2rem 0 0" if cls else "2rem auto 0"};padding:1rem 1.25rem;'
+  f'border:1px solid #C39A5E;border-radius:6px;background:#FAF6EC;color:#16261C;font-size:.95rem;text-align:left">{SAFETY}</p>\n')
+# book: under the gift section; churches: under the hero
+i = s.index(f'<h2 class="h-lg reveal">{B["gift_title"]}</h2>'); k = s.index('    </div>\n  </section>', i)
+s = s[:k] + '      ' + safety_box() + s[k:]
+i = s.index(f'<h1>{CH["hero_title"]}</h1>'); k = s.index('</div></header>', i)
+s = s[:k] + safety_box(' safety-note--hero') + s[k:]
+
+# delete launch-era "Presented by" lines and the SOLD presenting sponsor card
+s, n = re.subn(r'[ \t]*<p class="presby[^"]*"><span>Presented by</span> <b>Replace Your University</b></p>\n', '', s)
+print('presby removed:', n)
+cut('        <article class="sprow sprow--top sprow--sold"', '        </article>\n', '')
+s = re.sub(r'\.presby[^{\n]*\{[^}]*\}\n', '', s)
+assert '.presby' not in s
+assert 'Replace Your University' not in s and 'Presented by' not in s, 'RYU leftovers remain'
+
+# self-hosted QR scanner for /express/ (was unpkg, no integrity)
+rep("sc.src = 'https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js';",
+    "sc.src = '/assets/vendor/html5-qrcode-2.3.8.min.js'; sc.integrity = 'sha384-c9d8RFSL+u3exBOJ4Yp3HUJXS4znl9f+z66d1y54ig+ea249SpqR+w1wyvXz/lk+';")
+
+# Buy and Gift: POST to book-checkout, then go to the returned Stripe url
+s = s.replace(f'href="{CHECKOUT}"', 'href="/book/#buy" data-checkout')
+POST_JS = '''<script>
+/* book-checkout is POST only: create the session, then go to Stripe. */
+(function(){
+  var URL_ = "%s";
+  document.addEventListener("click", function(ev){
+    var a = ev.target.closest && ev.target.closest("[data-checkout]");
+    if (!a) return;
+    ev.preventDefault();
+    if (a.getAttribute("aria-busy") === "true") return;
+    a.setAttribute("aria-busy", "true");
+    var label = a.textContent; a.textContent = "Opening secure checkout\\u2026";
+    function fail(){
+      a.removeAttribute("aria-busy"); a.textContent = label;
+      var m = a.parentNode.querySelector(".checkout-msg");
+      if (!m) { m = document.createElement("p"); m.className = "checkout-msg"; m.setAttribute("role","alert"); m.style.marginTop = ".75rem"; a.parentNode.appendChild(m); }
+      m.innerHTML = 'Checkout could not open. Please try again, or email <a href="mailto:hello@neverfightorargue.com?subject=Signed%%20copy%%20order">hello@neverfightorargue.com</a> and we will help.';
+    }
+    fetch(URL_, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity: 1, gift: a.hasAttribute("data-gift") }) })
+      .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+      .then(function(x){ if (x.ok && x.j && typeof x.j.url === "string" && /^https:\\/\\/checkout\\.stripe\\.com\\//.test(x.j.url)) location.href = x.j.url; else fail(); })
+      .catch(fail);
+  });
+})();
+</script>
+''' % CHECKOUT
+rep('</body>', POST_JS + '</body>')
 
 # ---------- runtime titles ----------
 T = {'launch':'Book Launch (past event) | Never Fight or Argue Again','registered':'Book Launch (past event) | Never Fight or Argue Again',
