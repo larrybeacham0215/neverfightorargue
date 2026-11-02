@@ -6,6 +6,7 @@
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const UNIT = 2000; // $20 per signed copy (same as the launch price)
+// Shipping: $8 flat per order (Larry, Nov 2, 2026).
 
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type" };
 
@@ -32,6 +33,10 @@ Deno.serve(async (req) => {
     "line_items[0][adjustable_quantity][maximum]": "20",
     "shipping_address_collection[allowed_countries][0]": "US",
     "phone_number_collection[enabled]": "true",
+    "shipping_options[0][shipping_rate_data][type]": "fixed_amount",
+    "shipping_options[0][shipping_rate_data][fixed_amount][amount]": "800",
+    "shipping_options[0][shipping_rate_data][fixed_amount][currency]": "usd",
+    "shipping_options[0][shipping_rate_data][display_name]": "Standard shipping",
     billing_address_collection: "auto",
     customer_creation: "always",
     "custom_fields[0][key]": "inscription",

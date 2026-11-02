@@ -74,6 +74,8 @@ Deno.serve(async (req) => {
   const fields: Record<string, string> = {};
   for (const f of s.custom_fields ?? []) fields[f.key] = String(f.text?.value ?? f.dropdown?.value ?? f.numeric?.value ?? "").trim();
   const amount = s.amount_total ?? 0;
+  const shipCents = s.shipping_cost?.amount_total ?? s.total_details?.amount_shipping ?? 0;
+  const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 
   let quantity = 0;
   if (!isTest && STRIPE_KEY) {
@@ -83,7 +85,7 @@ Deno.serve(async (req) => {
       quantity = (li.data ?? []).reduce((n: number, x: any) => n + (x.quantity ?? 0), 0);
     } catch (e) { console.error("line_items", e); }
   }
-  if (!quantity) quantity = Number(s.metadata?.test_quantity) || Math.max(1, Math.round((s.amount_subtotal ?? amount) / 2000));
+  if (!quantity) quantity = Number(s.metadata?.test_quantity) || Math.max(1, Math.round((s.amount_subtotal ?? (amount - shipCents)) / 2000));
   const consent = fields.updates === "yes" ? true : fields.updates === "no" ? false : null;
 
   const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
@@ -110,7 +112,7 @@ Deno.serve(async (req) => {
   // 2) order (idempotent on stripe_session)
   const { data: order, error: oerr } = await db.from("book_orders").upsert({
     buyer_id: buyerId, source: "web", stripe_session: s.id, stripe_payment_intent: s.payment_intent ?? null,
-    email, name, phone, quantity, amount_cents: amount,
+    email, name, phone, quantity, amount_cents: amount, shipping_cents: shipCents,
     ship_name: ship.name ?? name, ship_line1: a.line1 ?? null, ship_line2: a.line2 ?? null, ship_city: a.city ?? null,
     ship_state: a.state ?? null, ship_postal_code: a.postal_code ?? null, ship_country: a.country ?? null,
     inscription: fields.inscription || null, gift_note: fields.gift_note || null,
@@ -126,7 +128,7 @@ Deno.serve(async (req) => {
     `<p><b>New book order to ship.</b></p>
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
-       <tr><td><b>Copies</b></td><td>${quantity} ($${(amount / 100).toFixed(2)} paid)</td></tr>
+       <tr><td><b>Copies</b></td><td>${quantity} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
        <tr><td><b>Sign it to</b></td><td>${esc(fields.inscription || "(nothing requested)")}</td></tr>
        <tr><td><b>Gift note</b></td><td>${esc(fields.gift_note || "(none)")}</td></tr>
        <tr><td valign="top"><b>Ship to</b></td><td>${addr || "(no address)"}</td></tr>
@@ -143,6 +145,7 @@ Deno.serve(async (req) => {
     await sendEmail(email, "Your signed copy is on the way soon",
       shellLite(`<p style="margin:0 0 18px;">Hi ${name ? esc(name.split(" ")[0]) + "," : "there,"}</p>
         <p style="margin:0 0 18px;">Thank you for your order of <b>${quantity} signed ${cop}</b> of <i>Never Fight or Argue Again</i>${fields.inscription ? `, signed to <i>${esc(fields.inscription)}</i>` : ""}.</p>
+        <p style="margin:0 0 18px;">Total paid: <b>${money(amount)}</b>${shipCents ? ` (includes ${money(shipCents)} shipping)` : ""}.</p>
         <p style="margin:0 0 18px;">We sign every copy by hand, then ship it to:<br>${addr}</p>
         <p style="margin:0 0 18px;">Your order number is <b>${esc(order.order_no)}</b>. Stripe sends your payment receipt in a separate email. Just reply to this email if anything needs fixing.</p>
         <p style="margin:0;">Larry &amp; Ro</p>`));
