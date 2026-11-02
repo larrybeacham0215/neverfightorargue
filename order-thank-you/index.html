@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
 <title>Thank you for your order | Never Fight or Argue Again</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
@@ -65,6 +66,13 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     <p class="msg ok" id="s-msg" hidden></p>
   </section>
 
+  <!-- ZIP check: confirms it is the buyer before a one-click add-on (Round 2 security review) -->
+  <section class="card" id="zipbox" hidden>
+    <label for="zip"><b>Confirm your shipping ZIP code</b> to add anything below</label>
+    <input type="text" id="zip" inputmode="numeric" autocomplete="postal-code" maxlength="10" placeholder="ZIP code">
+    <p class="msg" id="zip-msg" hidden></p>
+  </section>
+
   <!-- Offer 1: extra signed gift copy, same box -->
   <section class="card offer" id="o1" hidden>
     <span class="tag">One time only</span>
@@ -119,7 +127,10 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
 (function () {
   var API = "https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/book-upsell";
   var qs = new URLSearchParams(location.search);
-  var sid = qs.get("session_id");
+  // Keep the session id out of the address bar and history (Round 2): remember it for this tab only.
+  var sid = qs.get("session_id") || sessionStorage.getItem("nfoa_sid");
+  if (sid) sessionStorage.setItem("nfoa_sid", sid);
+  var zip = sessionStorage.getItem("nfoa_zip") || "";
   var addonSession = qs.get("addon_session");
   var $ = function (id) { return document.getElementById(id); };
   var money = function (c) { return "$" + (c / 100).toFixed(c % 100 ? 2 : 0); };
@@ -161,14 +172,16 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     if (d.companion_set) adds.push("Printed laminated companion set added, same box");
     $("s-adds").innerHTML = ""; adds.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; $("s-adds").appendChild(li); });
     show($("s-adds"), adds.length > 0);
+    if (d.verified && zip) sessionStorage.setItem("nfoa_zip", zip);
     if (d.offers) {
+      show($("zipbox"), !d.verified && (d.offers.gift_copy === "open" || d.offers.companion_set === "open"));
       show($("o1"), d.offers.gift_copy === "open" && !$("o1").dataset.done);
       show($("o2"), d.offers.companion_set === "open" && !$("o2").dataset.done);
     }
   }
 
   function load() {
-    fetch(API + "?session_id=" + encodeURIComponent(sid)).then(function (r) { return r.json(); }).then(function (d) {
+    fetch(API + "?session_id=" + encodeURIComponent(sid) + (zip ? "&zip=" + encodeURIComponent(zip) : "")).then(function (r) { return r.json(); }).then(function (d) {
       if (d.error) return;
       render(d);
       if (!d.ready && tries++ < 8) setTimeout(load, 2000);
@@ -177,8 +190,10 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
 
   function add(offer, btnId, msgId, body) {
     var btn = $(btnId), label = btn.textContent;
+    zip = $("zip").value.trim() || zip;
+    if (!zip) { show($("zipbox"), true); msg("zip-msg", "Please enter the ZIP code your book ships to.", false); $("zip").focus(); return; }
     btn.disabled = true; btn.textContent = "Adding...";
-    var payload = Object.assign({ session_id: sid, offer: offer }, body);
+    var payload = Object.assign({ session_id: sid, offer: offer, zip: zip }, body);
     (function go(n) {
       fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) })
         .then(function (r) { return r.json(); })
@@ -188,10 +203,13 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
           if (d.ok) {
             var sec = $(offer === "gift_copy" ? "o1" : "o2"); sec.dataset.done = "1"; show(sec, false);
             $("s-msg").textContent = offer === "gift_copy" ? "Added. Your extra signed cop" + (qty === 1 ? "y" : "ies") + " will ship in the same box." : "Added. Your companion set will ship in the same box.";
+            sessionStorage.setItem("nfoa_zip", zip); show($("zipbox"), false);
             show($("s-msg"), true); load();
             return;
           }
           btn.disabled = false; btn.textContent = label;
+          if (d.zip) { zip = ""; sessionStorage.removeItem("nfoa_zip"); show($("zipbox"), true); msg("zip-msg", d.error, false); return; }
+          sessionStorage.setItem("nfoa_zip", zip);
           msg(msgId, d.error || "Something went wrong. Your card was not charged.", false);
           if (d.closed) setTimeout(load, 1500);
         })
@@ -211,8 +229,8 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ session_id: sid, confirm_session: addonSession }) })
       .then(function (r) { return r.json(); })
       .then(function (d) { if (d.ok) { $("s-msg").textContent = "Added. It will ship in the same box."; show($("s-msg"), true); } })
-      .finally(function () { history.replaceState(null, "", location.pathname + "?session_id=" + encodeURIComponent(sid)); load(); });
-  } else load();
+      .finally(function () { history.replaceState(null, "", location.pathname); load(); });
+  } else { history.replaceState(null, "", location.pathname); load(); }
 })();
 </script>
 </body>

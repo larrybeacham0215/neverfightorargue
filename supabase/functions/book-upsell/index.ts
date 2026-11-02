@@ -2,6 +2,9 @@
 //   Offer 1 gift_copy:     extra signed copy in the same box, $15 each, 1 to 3, optional name per copy.
 //   Offer 2 companion_set: printed laminated companion set, $9.
 // Security: CORS limited to the site (+ localhost:8787 preview); 60 requests per IP per 10 minutes (the page polls).
+// Round 2: before the first charge the buyer confirms their shipping ZIP (5 wrong tries per order per 30 minutes locks it),
+// so a leaked thank-you link alone cannot charge the card. The summary GET hides name, inscription and city until the ZIP matches.
+// Reopening a fallback Checkout first expires the old one; if the old one was already paid it is recorded, never lost.
 // No added shipping (same box). Each offer can be accepted once per order, within 30 minutes of checkout.
 //
 // GET  ?session_id=cs_...                         -> order summary + which offers are still open
@@ -37,12 +40,19 @@ function corsFor(req: Request) {
   if (ALLOWED_ORIGINS.includes(o)) h["Access-Control-Allow-Origin"] = o;
   return h;
 }
-// Browser calls from other sites are refused; calls with no Origin (server tools) are allowed but rate limited.
-const originOk = (req: Request) => { const o = req.headers.get("origin"); return !o || ALLOWED_ORIGINS.includes(o); };
-const clientIp = (req: Request) => (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("cf-connecting-ip") || "unknown";
+// Round 2: every unsigned call must come from the site (a missing Origin is refused too).
+// Only Stripe-signed event calls skip this check.
+const originOk = (req: Request) => ALLOWED_ORIGINS.includes(req.headers.get("origin") ?? "");
+// Round 2: the client can set the first X-Forwarded-For value, so use cf-connecting-ip, else the LAST (proxy-added) hop.
+const clientIp = (req: Request) => {
+  const cf = (req.headers.get("cf-connecting-ip") ?? "").trim();
+  if (cf) return cf;
+  const hops = (req.headers.get("x-forwarded-for") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  return hops[hops.length - 1] || "unknown";
+};
 async function rateOk(db: any, bucket: string, req: Request, max: number, windowSec: number) {
   const { data, error } = await db.rpc("fn_rate_ok", { p_bucket: bucket, p_ip: clientIp(req), p_max: max, p_window_sec: windowSec });
-  if (error) { console.error("rate limit", error.message); return true; } // fail open so a DB hiccup never blocks a sale
+  if (error) { console.error(`RATE_LIMIT_FAIL_OPEN bucket=${bucket}: ${error.message}`); return true; } // fail open so a DB hiccup never blocks a sale; search logs for RATE_LIMIT_FAIL_OPEN
   return data === true;
 }
 let cors: Record<string, string> = {}; // set per request in Deno.serve
@@ -70,6 +80,13 @@ async function sendEmail(to: string, subject: string, html: string) {
   return res.ok;
 }
 
+// Constant-time compare for the Stripe signature (Round 2).
+function safeEqual(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
 async function verify(payload: string, header: string | null): Promise<boolean> {
   if (!WEBHOOK_SECRET || !header) return false;
   const parts: Record<string, string[]> = {};
@@ -80,7 +97,9 @@ async function verify(payload: string, header: string | null): Promise<boolean> 
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${t}.${payload}`));
   const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
-  return parts["v1"].includes(hex);
+  let ok = false;
+  for (const v of parts["v1"]) if (safeEqual(v ?? "", hex)) ok = true;
+  return ok;
 }
 
 // Loads the original book session (from Stripe, or a constructed one in a test) plus its order row.
@@ -98,6 +117,22 @@ async function load(sessionId: string, test: any) {
   const { data: addons } = order ? await db.from("book_order_addons").select("*").eq("order_id", order.id) : { data: [] };
   const open = s.payment_status === "paid" && Date.now() / 1000 - Number(s.created) <= WINDOW_SEC;
   return { s, order, addons: addons ?? [], open };
+}
+
+const zip5 = (v: unknown) => String(v ?? "").replace(/\s+/g, "").slice(0, 5);
+async function zipFailures(orderId: string) {
+  const { count } = await db.from("fn_rate_hits").select("id", { count: "exact", head: true })
+    .eq("bucket", "upsell-zip").eq("ip", orderId).gt("at", new Date(Date.now() - WINDOW_SEC * 1000).toISOString());
+  return count ?? 0;
+}
+// "ok" | "bad" | "locked"
+async function checkZip(order: any, s: any, given: unknown) {
+  if (await zipFailures(order.id) >= 5) return "locked";
+  const ship = s.collected_information?.shipping_details ?? s.shipping_details ?? {};
+  const want = zip5(order.ship_postal_code ?? ship.address?.postal_code);
+  if (want && zip5(given) === want) return "ok";
+  await db.from("fn_rate_hits").insert({ bucket: "upsell-zip", ip: order.id });
+  return "bad";
 }
 
 async function notifyLarry(order: any, row: any, isTest: boolean) {
@@ -129,7 +164,7 @@ async function markPaid(order: any, rowId: string, fields: Record<string, unknow
   return true;
 }
 
-async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean) {
+async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean, keepOpen = false) {
   const o = OFFERS[row.offer];
   const p: Record<string, string> = {
     mode: "payment",
@@ -151,11 +186,28 @@ async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean) {
   const r = await stripe("checkout/sessions", p);
   if (!r.ok) { console.error("fallback checkout", r.body?.error?.message); return null; }
   await db.from("book_order_addons").update({ stripe_session: r.body.id, method: "checkout" }).eq("id", row.id);
-  if (isTest) { // tests never leave a payable page open
+  if (isTest && !keepOpen) { // tests never leave a payable page open (keep_open tests expire it through the reopen path)
     const x = await stripe(`checkout/sessions/${r.body.id}/expire`, {});
     return { url: r.body.url, id: r.body.id, expired: x.body?.status === "expired" };
   }
   return { url: r.body.url, id: r.body.id };
+}
+
+// Must-fix 2: a pending fallback Checkout is still payable, so never just delete its row.
+// Returns "cleared" (old session expired, row may be replaced), "paid" (old session was paid and is now recorded) or "busy".
+async function settleOldFallback(prev: any, test: any, isTest: boolean) {
+  const get = async () => test?.prev_session ? { ok: true, status: 200, body: test.prev_session } : await stripe(`checkout/sessions/${prev.stripe_session}`);
+  let r = await get();
+  if (!r.ok) { console.error("old fallback lookup", r.status); return { state: "busy" }; }
+  if (r.body.payment_status === "paid") return { state: "paid", rec: await recordFallback(r.body, isTest) };
+  if (r.body.status === "expired") return { state: "cleared" };
+  const x = test?.expire_result ? { ok: true, body: test.expire_result } : await stripe(`checkout/sessions/${prev.stripe_session}/expire`, {});
+  if (x.ok && x.body?.status === "expired") return { state: "cleared", expired: prev.stripe_session };
+  if (test?.prev_session_after) test.prev_session = test.prev_session_after;
+  r = await get(); // expire refused: the buyer may have just paid it
+  if (r.ok && r.body.payment_status === "paid") return { state: "paid", rec: await recordFallback(r.body, isTest) };
+  if (r.ok && r.body.status === "expired") return { state: "cleared" };
+  return { state: "busy" };
 }
 
 async function handleEvent(payload: string, sig: string | null, isTest: boolean) {
@@ -190,17 +242,20 @@ Deno.serve(async (req) => {
   if (req.method === "GET") {
     const sid = u.searchParams.get("session_id") ?? "";
     if (!/^cs_(live|test)_[A-Za-z0-9]+$/.test(sid)) return json({ error: "Order not found." }, 404);
-    const L: any = await load(sid, null);
+    const th = isTest ? req.headers.get("x-nfoa-test-session") : null; // constructed session, test builds only
+    const L: any = await load(sid, th ? { session: JSON.parse(atob(th)) } : null);
     if (L.error) return json({ error: L.error }, L.code);
     const { s, order, addons, open } = L;
     const ship = s.collected_information?.shipping_details ?? s.shipping_details ?? {};
+    const zipOk = !!order && !!u.searchParams.get("zip") && (await checkZip(order, s, u.searchParams.get("zip"))) === "ok";
     const state = (k: string) => { const r = addons.find((x: any) => x.offer === k); return r?.status === "paid" ? "added" : open ? "open" : "closed"; };
     return json({
       ready: !!order, order_no: order?.order_no ?? null,
-      first_name: String(s.customer_details?.name ?? "").split(" ")[0] || null,
-      quantity: order?.quantity ?? null, inscription: order?.inscription ?? null,
+      verified: zipOk,
+      first_name: zipOk ? String(s.customer_details?.name ?? "").split(" ")[0] || null : null,
+      quantity: order?.quantity ?? null, inscription: zipOk ? order?.inscription ?? null : null,
       total_cents: s.amount_total, shipping_cents: s.shipping_cost?.amount_total ?? s.total_details?.amount_shipping ?? 0,
-      ship_to: [ship.address?.city, ship.address?.state].filter(Boolean).join(", ") || null,
+      ship_to: zipOk ? [ship.address?.city, ship.address?.state].filter(Boolean).join(", ") || null : null,
       gift_copies: order?.gift_copies ?? 0, companion_set: !!order?.companion_set,
       offers: { gift_copy: state("gift_copy"), companion_set: state("companion_set") },
       closes_at: Number(s.created) + WINDOW_SEC,
@@ -244,6 +299,9 @@ Deno.serve(async (req) => {
   if (!o) return json({ error: "Unknown offer." }, 400);
   if (s.payment_status !== "paid") return json({ ok: false, error: "This order is not paid." }, 402);
   if (!open) return json({ ok: false, closed: true, error: "This one-time offer has closed." }, 410);
+  const z = await checkZip(order, s, b.zip);
+  if (z === "locked") return json({ ok: false, zip: "locked", error: "Too many tries. Please email us and we will add it for you." }, 429);
+  if (z !== "ok") return json({ ok: false, zip: "bad", error: "That ZIP code does not match the shipping address on this order." }, 403);
   const qty = Math.max(1, Math.min(o.max, parseInt(String(b.quantity ?? "1"), 10) || 1));
   const inscriptions = offer === "gift_copy" ? (Array.isArray(b.inscriptions) ? b.inscriptions : []).slice(0, qty).map((x: unknown) => String(x ?? "").trim().slice(0, 100)) : [];
   const amount = o.unit * qty;
@@ -251,8 +309,13 @@ Deno.serve(async (req) => {
   // Claim the offer (one per order). An abandoned fallback can be reopened; a paid one cannot.
   const prev = addons.find((x: any) => x.offer === offer);
   if (prev?.status === "paid") return json({ ok: true, status: "already_added" });
+  let expiredOld: string | undefined;
   if (prev) {
     if (!prev.stripe_session) return json({ ok: false, error: "We are still processing this add-on." }, 409);
+    const st: any = await settleOldFallback(prev, test, isTest);
+    if (st.state === "paid") return json({ ok: true, status: st.rec?.status ?? "already_added", from: "earlier_checkout" });
+    if (st.state !== "cleared") return json({ ok: false, error: "Your earlier payment page is still open. Finish it there, or try again in a minute." }, 409);
+    expiredOld = st.expired;
     await db.from("book_order_addons").delete().eq("id", prev.id).eq("status", "pending");
   }
   const { data: row, error: cerr } = await db.from("book_order_addons").insert({ order_id: order.id, offer, quantity: qty, inscriptions, amount_cents: amount, method: "one_click" }).select("*").single();
@@ -289,9 +352,9 @@ Deno.serve(async (req) => {
     return json({ ok: true, status: "added", order_no: order.order_no, amount_cents: amount, ...fresh });
   }
   if (result.status === "needs_action") {
-    const fb = await fallbackCheckout(order, s, row, isTest);
+    const fb = await fallbackCheckout(order, s, row, isTest, !!test?.keep_open);
     if (!fb) { await db.from("book_order_addons").delete().eq("id", row.id).eq("status", "pending"); return json({ ok: false, error: "We could not start the payment. Please try again." }, 502); }
-    return json({ ok: false, status: "needs_checkout", fallback_url: fb.url, ...(isTest ? { fallback_session: fb.id, expired: fb.expired } : {}) });
+    return json({ ok: false, status: "needs_checkout", fallback_url: fb.url, ...(isTest ? { fallback_session: fb.id, expired: fb.expired, expired_old: expiredOld ?? null } : {}) });
   }
   await db.from("book_order_addons").delete().eq("id", row.id).eq("status", "pending");
   return json({ ok: false, status: "declined", error: result.message }, 402);

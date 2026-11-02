@@ -1,5 +1,6 @@
 // book-checkout: Never Fight or Argue Again, signed copy shipped to the buyer.
 // POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
+// Round 2: a missing Origin is refused; rate-limit IP from cf-connecting-ip or the last proxy hop; fail-open is logged.
 // Security (Ray's review, Nov 2, 2026): CORS limited to the site (+ localhost:8787 preview), 10 sessions per IP per 10 minutes.
 // Collects: US shipping address, phone, quantity (1-20), name to sign to, gift note, email opt-in.
 // Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
@@ -17,12 +18,19 @@ function corsFor(req: Request) {
   if (ALLOWED_ORIGINS.includes(o)) h["Access-Control-Allow-Origin"] = o;
   return h;
 }
-// Browser calls from other sites are refused; calls with no Origin (server tools) are allowed but rate limited.
-const originOk = (req: Request) => { const o = req.headers.get("origin"); return !o || ALLOWED_ORIGINS.includes(o); };
-const clientIp = (req: Request) => (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("cf-connecting-ip") || "unknown";
+// Round 2: every unsigned call must come from the site (a missing Origin is refused too).
+// Only Stripe-signed event calls skip this check.
+const originOk = (req: Request) => ALLOWED_ORIGINS.includes(req.headers.get("origin") ?? "");
+// Round 2: the client can set the first X-Forwarded-For value, so use cf-connecting-ip, else the LAST (proxy-added) hop.
+const clientIp = (req: Request) => {
+  const cf = (req.headers.get("cf-connecting-ip") ?? "").trim();
+  if (cf) return cf;
+  const hops = (req.headers.get("x-forwarded-for") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  return hops[hops.length - 1] || "unknown";
+};
 async function rateOk(db: any, bucket: string, req: Request, max: number, windowSec: number) {
   const { data, error } = await db.rpc("fn_rate_ok", { p_bucket: bucket, p_ip: clientIp(req), p_max: max, p_window_sec: windowSec });
-  if (error) { console.error("rate limit", error.message); return true; } // fail open so a DB hiccup never blocks a sale
+  if (error) { console.error(`RATE_LIMIT_FAIL_OPEN bucket=${bucket}: ${error.message}`); return true; } // fail open so a DB hiccup never blocks a sale; search logs for RATE_LIMIT_FAIL_OPEN
   return data === true;
 }
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
