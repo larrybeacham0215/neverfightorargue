@@ -2,8 +2,11 @@ from PIL import Image, ImageDraw, ImageFont
 F="/usr/share/fonts/truetype/sand-box/google/"
 PF=F+"Playfair Display/PlayfairDisplay-VariableFont_wght.ttf"; KF=F+"Karla/Karla-VariableFont_wght.ttf"
 G=(13,45,29); IV=(250,246,236); GD=(195,154,94)
-heads={"home":"Never Fight or Argue Again","book":"Get the Book","churches":"For Churches and Small Groups",
+import json
+S=json.load(open("copy/share.json"))
+heads0={"home":"Never Fight or Argue Again","book":"Get the Book","churches":"For Churches and Small Groups",
 "speaking":"Book Larry and Ro to Speak","about":"Meet Larry and Ro","chapter":"Read Chapter One Free"}
+heads={"home":S["home"],"book":S["book"],"churches":S["churches"],"speaking":S["speaking"],"about":S["about"],"chapter":S["free-chapter"],"downloads":S["downloads"]}
 cover=Image.open("assets/book-3d.png").convert("RGBA"); cover.thumbnail((360,548))
 def wrap(d,t,f,w):
   out=[];line=""

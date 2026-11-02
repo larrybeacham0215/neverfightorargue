@@ -8,29 +8,29 @@
  },
  "/book/": {
   "view": "book",
-  "title": "The Book: Signed Copies | Never Fight or Argue Again",
-  "desc": "Never Fight or Argue Again by Larry and Rolanda Beacham. Order a signed copy for yourself or as a gift, or order in bulk for your church.",
+  "title": "The Book: Never Fight or Argue Again | Signed Copies",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham. $20 plus $8 shipping, with an optional inscription or gift note.",
   "og": "book",
   "index": true
  },
  "/churches/": {
   "view": "churches",
-  "title": "For Churches and Small Groups | Never Fight or Argue Again",
-  "desc": "A marriage study couples will actually finish. Bulk copies, church pricing and a built in discussion guide for small groups.",
+  "title": "Marriage Curriculum for Churches | Never Fight or Argue Again",
+  "desc": "Signed copies in bulk and free leader resources for churches and small groups. A biblical conflict plan couples will actually use.",
   "og": "churches",
   "index": true
  },
  "/speaking/": {
   "view": "speaking",
-  "title": "Speaking: Larry and Rolanda Beacham | Never Fight or Argue Again",
-  "desc": "Book Larry and Ro for Sunday messages, marriage retreats and small group series on biblical conflict resolution.",
+  "title": "Book Larry &amp; Ro Beacham to Speak | Never Fight or Argue Again",
+  "desc": "Invite Larry and Ro Beacham for a Sunday message, marriage retreat or small-group series on biblical conflict resolution for couples.",
   "og": "speaking",
   "index": true
  },
  "/about/": {
   "view": "about",
-  "title": "About Larry and Rolanda Beacham | Never Fight or Argue Again",
-  "desc": "Thirty years of marriage, six children, and the plan that finally ended the fighting. Meet the authors.",
+  "title": "About Larry &amp; Ro Beacham | Never Fight or Argue Again",
+  "desc": "Meet Larry and Rolanda Beacham of Odessa, Florida, married 30 years, parents of six, and authors of Never Fight or Argue Again.",
   "og": "about",
   "index": true
  },

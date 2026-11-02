@@ -9,8 +9,10 @@ Admin and transactional pages keep their original <head> verbatim.
 Never pushes anything."""
 import json, re, subprocess, html, sys
 R = lambda p: open(p, encoding='utf-8').read()
-C = {k: json.load(open(f'copy/{k}.json')) for k in ['global','home','book','gift','free-chapter']}
+C = {k: json.load(open(f'copy/{k}.json')) for k in ['global','home','book','gift','free-chapter','churches','speaking','downloads','about','thank-you','share']}
 G, H, B, GF, FC = C['global'], C['home'], C['book'], C['gift'], C['free-chapter']
+CH, SP, AB, TY = C['churches'], C['speaking'], C['about'], C['thank-you']
+CHECKOUT = 'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/book-checkout'
 PAGES = json.load(open('pages.json'))
 KEEP_HEAD = {'/express/','/guests/','/readers/','/invoice/','/pickup/','/sponsor-thank-you/','/sponsor-paid/','/sponsor/checkout/','/gift/checkout/','/book/checkout/'}
 SITE = 'https://neverfightorargue.com'
@@ -60,8 +62,8 @@ i = s.index('<div class="view" id="view-book" hidden>'); j = s.rindex('</div>', 
 s = s[:j] + band(H['speaking_eyebrow'], H['speaking_title'], H['speaking_body'], '/speaking/', H['speaking_cta'], 'band--paper', ' data-tab="speaking"') + s[j:]
 
 # ---------- book: evergreen buy or gift ----------
-BUY = B['buy_url'] or 'mailto:hello@neverfightorargue.com?subject=Signed%20copy%20order'
-GIFT = B['gift_url'] or GF.get('cta_url') or 'mailto:hello@neverfightorargue.com?subject=Gift%20a%20signed%20copy'
+BUY = B['buy_url'] or CHECKOUT
+GIFT = B['gift_url'] or GF.get('cta_url') or CHECKOUT
 cut('  <section class="band on-navy" id="buy">', '  </section>\n',
 f'''  <section class="band on-navy" id="buy">
     <div class="wrap" style="text-align:center">
@@ -111,7 +113,10 @@ notice = (f'<section class="band band--paper archive"><div class="wrap" style="t
           f'<p style="margin-top:1.75rem"><a class="btn" href="/book/" data-tab="book">{G["archive_cta1"]}</a> '
           f'<a class="btn btn--outline" href="/free-chapter/" data-tab="chapters">{G["archive_cta2"]}</a></p></div></section>\n')
 for v in ARCH:
-    rep(f'<div class="view" id="view-{v}" hidden>\n', f'<div class="view" id="view-{v}" hidden>\n' + notice)
+    n2 = notice
+    if v in ('registered','preorder-thanks'):
+        n2 = notice.replace(G['archive_body'], TY['registered' if v=='registered' else 'preorder-thank-you'])
+    rep(f'<div class="view" id="view-{v}" hidden>\n', f'<div class="view" id="view-{v}" hidden>\n' + n2)
 gift_block = (f'<section class="band band--paper archive"><div class="wrap" style="text-align:center;max-width:40rem;padding:4rem 0">'
   f'<h1 class="h-lg">{GF["title"]}</h1><p class="lede center">{GF["body"]}</p>'
   f'<p style="margin-top:1.75rem"><a class="btn" href="{GIFT}">{GF["cta"]}</a></p></div></section>\n')
@@ -124,6 +129,86 @@ css = ''.join(f'#view-{v}>:not(.archive){{display:none!important}}' for v in ARC
 css += '#stick,#qrBox{display:none!important}#buyStores:not(:has(a[href])){display:none}#buySoon.is-off{display:none}'
 rep('</style>\n<script type="application/ld+json">', css + '\n</style>\n<script type="application/ld+json">')
 
+
+# ---------- v1 copy wiring (Venture copy, copy-notes-v1.md) ----------
+def sec(inner, cls='band--paper'):
+    return f'  <section class="band {cls} refresh">\n    <div class="wrap" style="max-width:52rem">\n{inner}    </div>\n  </section>\n'
+def ul(items): return '<ul class="ticks">' + ''.join(f'<li>{x}</li>' for x in items) + '</ul>'
+
+# nav order: Home, The Book, For Churches, Speaking, Free Resources, About
+NL = G['nav_labels']
+rep('''      <a href="/" data-tab="home">Home</a>
+      <a href="/book/" data-tab="book">The Book</a>
+      <a href="/downloads/">Free Resources</a>
+      <a href="/churches/" data-tab="churches">For Churches</a>
+      <a href="/speaking/" data-tab="speaking">Speaking</a>
+      <a href="/about/" data-tab="about">About Us</a>
+''', f'''      <a href="/" data-tab="home">{NL[0]}</a>
+      <a href="/book/" data-tab="book">{NL[1]}</a>
+      <a href="/churches/" data-tab="churches">{NL[2]}</a>
+      <a href="/speaking/" data-tab="speaking">{NL[3]}</a>
+      <a href="/downloads/">{NL[4]}</a>
+      <a href="/about/" data-tab="about">{NL[5]}</a>
+''')
+# footer org + socials (brackets stay visible)
+rep('<span>Privacy · Terms</span>', f'<span>{G["footer_org"]} · {G["footer_socials"]} · Privacy · Terms</span>')
+
+# evergreen banner on home hero (where the launch banner was)
+rep('        <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>\n',
+    f'        <p class="hero__kicker reveal"><a href="{G["banner_url"]}" style="color:inherit">{G["banner_text"]}</a></p>\n')
+rep('<h1 class="reveal"><span class="hero__lead">Get the First Chapter of</span><span class="hero__title">Never Fight <em>or</em><br>Argue Again &ndash; Free</span></h1>',
+    f'<h1 class="reveal"><span class="hero__title">{H["hero_headline"]}</span></h1>')
+i = s.index('<p class="hero__sub reveal">'); j = s.index('</p>', i)
+s = s[:i] + f'<p class="hero__sub reveal">{H["hero_subhead"]}' + s[j:]
+rep('          <p class="hero__fine">Free instant download &bull; No spam &bull; Unsubscribe anytime</p>\n',
+    f'          <p class="hero__fine">Free instant download &bull; No spam &bull; Unsubscribe anytime</p>\n          <p class="hero__fine"><a href="/downloads/">{H["hero_secondary_cta"]} &rarr;</a></p>\n')
+# home book band, before speaking band
+spk = s.index(f'<h2 class="h-lg reveal">{H["speaking_title"]}</h2>'); k = s.rindex('  <section class="band', 0, spk)
+s = s[:k] + band('The book', H['book_title'], H['book_body'], BUY, H['book_cta'], 'on-navy') + s[k:]
+# polish: live em dash line
+s = s.replace("isn't temperament or luck &mdash; it's preparation", "isn't temperament or luck. It's preparation.").replace("isn\u2019t temperament or luck \u2014 it\u2019s preparation","isn\u2019t temperament or luck. It\u2019s preparation.").replace("isn't temperament or luck — it's preparation","isn't temperament or luck. It's preparation.")
+
+# book hero
+rep('        <h1>A plan for the conversation, not just advice about the fight.</h1>\n', f'        <h1>{B["hero_title"]}</h1>\n')
+i = s.index('<h1>'+B['hero_title']+'</h1>'); a = s.index('<p>', i); z = s.index('</p>', a)+4
+s = s[:a] + f'<p>{B["buy_page_line"]}</p>\n        <p><strong>{B["hero_price_line"]}</strong></p>' + s[z:]
+rep('          <a class="btn" href="#buy">Where to buy</a>\n          <a class="btn btn--outline" href="/" data-tab="home">Read Chapter One free</a>',
+    f'          <a class="btn" href="{BUY}" data-evergreen-buy>{B["buy_cta"]}</a>\n          <a class="btn btn--outline" href="/gift/" data-tab="gift">{B["gift_cta"]}</a>')
+i = s.index('<section class="band on-navy" id="buy">')
+s = s[:i] + sec(f'      <h2 class="h-lg reveal">{B["gift_title"]}</h2>\n      <p class="lede reveal">{B["gift_body"]}</p>\n      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="{GIFT}">{GF["cta"]}</a></p>\n').replace('  <section','<section',1) + '\n  ' + s[i:]
+
+# churches: new content up top, keep the inquiry form section
+faq = ''.join(f'<details style="margin:.75rem 0"><summary><strong>{x["q"]}</strong></summary><p>{x["a"]}</p></details>' for x in CH['faq'])
+ch = (f'  <header class="phead refresh"><div class="wrap"><p class="eyebrow">For churches and small groups</p><h1>{CH["hero_title"]}</h1><p>{CH["hero_body"]}</p>'
+      f'<p class="phead__cta"><a class="btn" href="#inquire">Tell us about your group</a></p></div></header>\n'
+  + sec(f'      <h2 class="h-lg">{CH["what_title"]}</h2><p class="lede">{CH["what_body"]}</p>\n      <h2 class="h-lg" style="margin-top:2.5rem">{CH["pricing_title"]}</h2><p class="lede">{CH["pricing_body"]}</p>\n')
+  + sec(f'      <h2 class="h-lg">{CH["steps_title"]}</h2><ol class="lede">' + ''.join(f'<li>{x}</li>' for x in CH['steps']) + '</ol>\n', 'band--light')
+  + sec(f'      <h2 class="h-lg">{CH["leader_title"]}</h2><p class="lede">{CH["leader_body"]}</p><p style="margin-top:1.5rem"><a class="btn" href="/downloads/">{CH["leader_cta"]}</a></p>\n', 'on-navy')
+  + sec(f'      <h2 class="h-lg">Questions</h2>{faq}\n'))
+rep('<div class="view" id="view-churches" hidden>\n', '<div class="view" id="view-churches" hidden>\n' + ch)
+i = s.index('<section class="band band--paper" id="inquire">'); a = s.index('<p class="lede">', i); z = s.index('</ul>', a)+5
+s = s[:a] + f'<p class="lede">{CH["form_intro"]}</p>' + s[z:]
+s = s.replace('<section class="band band--paper" id="inquire">', '<section class="band band--paper refresh" id="inquire">', 1)
+
+# speaking: new content, press/media, keep the booking form section
+sp = (f'  <header class="phead refresh"><div class="wrap"><p class="eyebrow">Speaking</p><h1>{SP["hero_title"]}</h1><p>{SP["hero_body"]}</p>'
+      f'<p class="phead__cta"><a class="btn" href="#book-us">{SP["cta"]}</a></p></div></header>\n'
+  + sec(f'      <h2 class="h-lg">{SP["formats_title"]}</h2>' + ''.join(f'<h3 class="h-sm" style="margin-top:1.5rem">{x["name"]}</h3><p>{x["body"]}</p>' for x in SP['formats']) + '\n')
+  + sec(f'      <h2 class="h-lg">{SP["process_title"]}</h2><p class="lede">{SP["process_body"]}</p><p class="lede">{SP["fees_body"]}</p><p class="lede">{SP["location_line"]}</p>\n', 'band--light')
+  + sec(f'      <h2 class="h-lg">{SP["press_title"]}</h2><p class="lede">{SP["press_body"]}</p><p style="margin-top:1.5rem"><a class="btn" href="#" data-mail="Press inquiry">Email us</a></p>\n', 'on-navy'))
+rep('<div class="view" id="view-speaking" hidden>\n', '<div class="view" id="view-speaking" hidden>\n' + sp)
+s = s.replace('<section class="band band--light" id="book-us">', '<section class="band band--light refresh" id="book-us">', 1)
+
+# about: church line, celebration line, launch media bracket. Testimonials HIDE (not rendered).
+i = s.index('<div class="view" id="view-about" hidden>'); k = s.index('  <section class="band on-navy">', i)
+s = s[:k] + sec(f'      <p class="lede">{AB["church_line"]}</p>\n      <p class="lede">{AB["celebration_line"]}</p>\n      <p class="lede">{AB["launch_media"]}</p>\n      <!-- testimonials: HIDE until real (copy/about.json) -->\n') + s[k:]
+
+# chapter thank-you line
+rep('<div class="view" id="view-thanks" hidden>\n', f'<div class="view" id="view-thanks" hidden>\n<p class="refresh-note" style="text-align:center;margin:1.5rem auto 0;max-width:40rem">{TY["thank-you"]}</p>\n')
+
+css2 = ('#view-churches>:not(.refresh),#view-speaking>:not(.refresh){display:none!important}'
+        '.refresh details summary{cursor:pointer}')
+rep('</style>\n<script type="application/ld+json">', css2 + '\n</style>\n<script type="application/ld+json">')
 
 # ---------- runtime titles ----------
 T = {'launch':'Book Launch (past event) | Never Fight or Argue Again','registered':'Book Launch (past event) | Never Fight or Argue Again',
@@ -153,6 +238,15 @@ LD = {"@context":"https://schema.org","@graph":[
 i = s.index('<script type="application/ld+json">'); j = s.index('</script>', i) + 9
 s = s[:i] + '<script type="application/ld+json">\n' + json.dumps(LD, indent=1) + '\n</script>' + s[j:]
 
+# ---------- no em or en dashes in rendered copy (outside script/style/comments) ----------
+def undash(t):
+    t = re.sub(r'(\d)\s*(?:&ndash;|\u2013)\s*(\d)', r'\1 to \2', t)
+    t = re.sub(r'\s*(?:&mdash;|\u2014|&ndash;|\u2013)\s*', ', ', t)
+    return t.replace(', ,', ',').replace(',,', ',')
+parts = re.split(r'(<script\b.*?</script>|<style\b.*?</style>|<!--.*?-->|<title>.*?</title>)', s, flags=re.S)
+s = ''.join(p if i % 2 else undash(p) for i, p in enumerate(parts))
+s = s.replace("Thanks — we\\'ve got it.", "Thanks, we\\'ve got it.").replace(" — Never Fight or Argue Again'", " | Never Fight or Argue Again'").replace("'Gift a signed copy — secure payment'", "'Gift a signed copy | Secure payment'")
+s = s.replace("(SRC ? ', $' : ' \\u2014 $')", "(SRC ? ', $' : ', $')")
 open('src/template.built.html','w').write(s)
 
 # ---------- write pages ----------
@@ -191,3 +285,12 @@ for _f in [p for p in _g.glob('**/index.html',recursive=True)]:
         for _k in ["'gift-thanks': 'Thank you for your gift","thanks: 'Thank you","'sponsor-thanks': 'Thank you"]:
             _t=_t.replace(_k+" \u2014 Never",_k+" | Never")
         open(_f,'w').write(_t)
+
+# downloads (standalone page): title, description, OG
+_d = R('downloads/index.html'); D = C['downloads']
+_d = re.sub(r'<title>.*?</title>', f'<title>{D["meta_title"]}</title>', _d, 1)
+_d = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{D["meta_description"]}">', _d, 1)
+if 'og:image' not in _d:
+    og = SITE + '/assets/og/downloads.jpg'
+    _d = _d.replace('<meta name="description"', f'<meta property="og:type" content="website">\n<meta property="og:title" content="{D["meta_title"]}">\n<meta property="og:description" content="{D["meta_description"]}">\n<meta property="og:url" content="{SITE}/downloads/">\n<meta property="og:image" content="{og}">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="{og}">\n<meta name="description"', 1)
+open('downloads/index.html','w').write(_d)
