@@ -195,14 +195,67 @@ async function sweepCards() {
     .lt("created_at", new Date(now - (WINDOW_SEC + 60) * 1000).toISOString())
     .gt("created_at", new Date(now - 7 * 86400 * 1000).toISOString()).limit(50);
   const out: Record<string, number> = {};
+  const problems: string[] = [];
   for (const o of rows ?? []) {
     if (!o.stripe_session) continue;
     const r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
-    if (!r.ok) { out.lookup_failed = (out.lookup_failed ?? 0) + 1; continue; }
+    if (!r.ok) { out.lookup_failed = (out.lookup_failed ?? 0) + 1; problems.push(`${o.order_no}: Stripe lookup failed (${r.status})`); continue; }
     const k = await detachCard(o, r.body);
     out[k] = (out[k] ?? 0) + 1;
+    if (k === "failed") problems.push(`${o.order_no}: card detach failed`);
   }
+  // Ray Round 3 should-fix 2 backstop: paid book sessions from the last 7 days that have no order row
+  // (webhook failed). Their saved card is removed here and Larry is told once per session.
+  try { await reconcileOrphans(now, out, problems); } catch (e) { out.reconcile_error = 1; problems.push(`reconcile error: ${String(e).slice(0, 120)}`); }
+  if (problems.length) await sweepAlert(problems);
   return out;
+}
+
+async function seenOnce(bucket: string, key: string, sinceMs: number) {
+  const { count } = await db.from("fn_rate_hits").select("id", { count: "exact", head: true })
+    .eq("bucket", bucket).eq("ip", key).gt("at", new Date(Date.now() - sinceMs).toISOString());
+  if ((count ?? 0) > 0) return true;
+  await db.from("fn_rate_hits").insert({ bucket, ip: key });
+  return false;
+}
+
+async function reconcileOrphans(now: number, out: Record<string, number>, problems: string[]) {
+  const gte = Math.floor(now / 1000) - 7 * 86400, lte = Math.floor(now / 1000) - WINDOW_SEC - 60;
+  let after = ""; const paid: any[] = [];
+  for (let page = 0; page < 5; page++) {
+    const r = await stripe(`checkout/sessions?limit=100&status=complete&created[gte]=${gte}&created[lte]=${lte}${after ? `&starting_after=${after}` : ""}`);
+    if (!r.ok) { out.reconcile_list_failed = 1; problems.push(`could not list Stripe sessions (${r.status})`); return; }
+    for (const s of r.body.data ?? []) if (s.metadata?.kind === "book_order" && !s.metadata?.addon && s.payment_status === "paid") paid.push(s);
+    if (!r.body.has_more || !r.body.data?.length) break;
+    after = r.body.data[r.body.data.length - 1].id;
+  }
+  if (!paid.length) return;
+  const { data: have } = await db.from("book_orders").select("stripe_session").in("stripe_session", paid.map((s) => s.id));
+  const known = new Set((have ?? []).map((x: any) => x.stripe_session));
+  for (const s0 of paid.filter((s) => !known.has(s.id))) {
+    out.orphan = (out.orphan ?? 0) + 1;
+    const r = await stripe(`checkout/sessions/${s0.id}?expand[]=payment_intent`);
+    const pi = r.ok && typeof r.body.payment_intent === "object" ? r.body.payment_intent : null;
+    const pm = pi?.payment_method; const pmId = typeof pm === "string" ? pm : pm?.id;
+    let card = "no saved card";
+    if (pmId && pi?.setup_future_usage === "off_session") {
+      const d = await stripe(`payment_methods/${pmId}/detach`, {});
+      const gone = d.ok || d.body?.error?.code === "payment_method_unexpected_state" || /not attached/i.test(d.body?.error?.message ?? "");
+      card = gone ? "card removed" : "card detach FAILED";
+    }
+    if (!(await seenOnce("sweep-orphan", s0.id, 8 * 86400 * 1000)))
+      problems.push(`PAID book session with NO order row: ${s0.id} (${s0.customer_details?.email ?? "no email"}, ${money(s0.amount_total ?? 0)}), ${card}. Check the book-order-webhook.`);
+  }
+}
+
+async function sweepAlert(problems: string[]) {
+  // At most one alert email per 6 hours unless a new orphan order appears.
+  const urgent = problems.some((p) => p.startsWith("PAID"));
+  if (!urgent && await seenOnce("sweep-alert", "card-sweep", 6 * 3600 * 1000)) return;
+  console.error("card sweep problems", problems.length);
+  await sendEmail(NOTIFY_EMAIL, "[ALERT] Book card sweep needs a look",
+    `<p>The saved-card cleanup found problems:</p><ul>${problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
+     <p style="color:#5C6B60">A saved card that is not removed stays on the Stripe customer until it is detached. Failed lookups retry every 10 minutes for 7 days.</p>`);
 }
 
 async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean, keepOpen = false) {
@@ -295,7 +348,8 @@ Deno.serve(async (req) => {
     const { s, order, addons, open } = L;
     const ship = s.collected_information?.shipping_details ?? s.shipping_details ?? {};
     const zipOk = !!order && !!u.searchParams.get("zip") && (await checkZip(order, s, u.searchParams.get("zip"))) === "ok";
-    const state = (k: string) => { const r = addons.find((x: any) => x.offer === k); return r?.status === "paid" ? "added" : open ? "open" : "closed"; };
+    // Companion set bought as a Checkout optional item (Nov 3) counts as added even before its addon row lands.
+    const state = (k: string) => { const r = addons.find((x: any) => x.offer === k); return r?.status === "paid" || (k === "companion_set" && order?.companion_set) ? "added" : open ? "open" : "closed"; };
     return json({
       ready: !!order, order_no: order?.order_no ?? null,
       verified: zipOk,
@@ -356,6 +410,7 @@ Deno.serve(async (req) => {
   // Claim the offer (one per order). An abandoned fallback can be reopened; a paid one cannot.
   const prev = addons.find((x: any) => x.offer === offer);
   if (prev?.status === "paid") return json({ ok: true, status: "already_added" });
+  if (offer === "companion_set" && order.companion_set) return json({ ok: true, status: "already_added" });
   let expiredOld: string | undefined;
   if (prev) {
     if (!prev.stripe_session) return json({ ok: false, error: "We are still processing this add-on." }, 409);

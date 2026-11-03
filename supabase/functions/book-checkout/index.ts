@@ -39,10 +39,10 @@ const jres = (b: unknown, status: number, cors: Record<string, string>) => new R
 
 const CARD_SAVE_MODE = (Deno.env.get("CARD_SAVE_MODE") ?? "disclosed").toLowerCase(); // disclosed | opt_in | off
 // Larry's live prices (created Nov 2, 2026). Env secrets override; IDs are not secret.
-const GIFT_COPY_PRICE_ID = Deno.env.get("GIFT_COPY_PRICE_ID") || "price_1UXTPSLCCdJWrOprt7wE8MTs";         // $15 Extra Signed Gift Copy
+// Gift copy ($15, price_1UXTPSLCCdJWrOprt7wE8MTs) is no longer a Checkout item; book-order-webhook still maps it if it ever appears.
 const COMPANION_SET_PRICE_ID = Deno.env.get("COMPANION_SET_PRICE_ID") || "price_1UXTQcLCCdJWrOprsG3rGD4a"; // $9 Printed Companion Set
 // On by default (no secrets access); set OPTIONAL_ITEMS=off to hide the checkboxes.
-const OPTIONAL_ITEMS = (Deno.env.get("OPTIONAL_ITEMS") ?? "on") === "on" && !!GIFT_COPY_PRICE_ID && !!COMPANION_SET_PRICE_ID;
+const OPTIONAL_ITEMS = (Deno.env.get("OPTIONAL_ITEMS") ?? "on") === "on" && !!COMPANION_SET_PRICE_ID;
 
 Deno.serve(async (req) => {
   const cors = corsFor(req);
@@ -88,9 +88,7 @@ Deno.serve(async (req) => {
     "custom_fields[0][text][maximum_length]": "100",
     "custom_fields[1][key]": "gift_note",
     "custom_fields[1][label][type]": "custom",
-    "custom_fields[1][label][custom]": OPTIONAL_ITEMS
-      ? "Gift note, and names to sign any gift copies to (optional)"
-      : "Is it a gift? Add a short note (optional)",
+    "custom_fields[1][label][custom]": "Is it a gift? Add a short note (optional)",
     "custom_fields[1][type]": "text",
     "custom_fields[1][optional]": "true",
     "custom_fields[1][text][maximum_length]": "255",
@@ -110,24 +108,20 @@ Deno.serve(async (req) => {
     "payment_intent_data[metadata][kind]": "book_order",
   };
   // Card saving (Ray Round 2, must-fix 1). HELD: Larry is choosing a mode.
-  //   "disclosed": always save, and say so above the Pay button. book-upsell detaches it after 30 minutes.
+  //   "disclosed": always save, and say so above the Pay button. book-upsell detaches it after about 30 minutes (sweep runs every 10).
   //   "opt_in":    save only when the book page sent {save_card:true} from a checked box.
   //   "off":       never save; thank-you add-ons always use a short Checkout page.
   const saveCard = CARD_SAVE_MODE === "disclosed" || (CARD_SAVE_MODE === "opt_in" && wantsSave);
   if (saveCard) {
     p["payment_intent_data[setup_future_usage]"] = "off_session";
     p["custom_text[submit][message]"] =
-      "We keep your card on file for 30 minutes only, so you can add a gift copy or the companion set on the next page with one click. After that it is deleted.";
+      "We keep your card on file for about 30 minutes only, so you can add a gift copy or the companion set on the next page with one click. After that it is deleted.";
   }
-  // optional_items variant (HELD): extra items offered right on the Checkout page. Needs real Price IDs.
+  // optional_items: only the $9 companion set is offered on the Checkout page (Larry, Nov 3, 2026; Stripe's
+  // slider hid a second item). The gift copy is offered only as the one-click offer on /order-thank-you/.
   if (OPTIONAL_ITEMS) {
-    p["optional_items[0][price]"] = GIFT_COPY_PRICE_ID;
+    p["optional_items[0][price]"] = COMPANION_SET_PRICE_ID;
     p["optional_items[0][quantity]"] = "1";
-    p["optional_items[0][adjustable_quantity][enabled]"] = "true";
-    p["optional_items[0][adjustable_quantity][minimum]"] = "0";
-    p["optional_items[0][adjustable_quantity][maximum]"] = "3";
-    p["optional_items[1][price]"] = COMPANION_SET_PRICE_ID;
-    p["optional_items[1][quantity]"] = "1";
   }
   const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
