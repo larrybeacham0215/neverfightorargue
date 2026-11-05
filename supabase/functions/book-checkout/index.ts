@@ -1,21 +1,62 @@
+// Ray Round 2: card-save disclosure (Larry chose "disclosed", Nov 2, 2026) plus optional_items.
 // book-checkout: Never Fight or Argue Again, signed copy shipped to the buyer.
-// GET  /functions/v1/book-checkout?qty=2  -> 303 redirect to Stripe Checkout (works as a plain link / button)
-// POST /functions/v1/book-checkout {quantity} -> {url}
+// POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
+// Round 2: a missing Origin is refused; rate-limit IP from cf-connecting-ip or the last proxy hop; fail-open is logged.
+// Security (Ray's review, Nov 2, 2026): CORS limited to the site (+ localhost:8787 preview), 10 sessions per IP per 10 minutes.
 // Collects: US shipping address, phone, quantity (1-20), name to sign to, gift note, email opt-in.
+// Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
 // The paid session is handled by stripe-webhook -> book-order-webhook (metadata.kind = book_order).
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const UNIT = 2000; // $20 per signed copy (same as the launch price)
 // Shipping: $8 flat per order (Larry, Nov 2, 2026).
 
-const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS", "Access-Control-Allow-Headers": "content-type" };
+const ALLOWED_ORIGINS = ["https://neverfightorargue.com", "https://www.neverfightorargue.com", "http://localhost:8787"];
+function corsFor(req: Request) {
+  const o = req.headers.get("origin") ?? "";
+  const h: Record<string, string> = { "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "content-type", Vary: "Origin" };
+  if (ALLOWED_ORIGINS.includes(o)) h["Access-Control-Allow-Origin"] = o;
+  return h;
+}
+// Round 2: every unsigned call must come from the site (a missing Origin is refused too).
+// Only Stripe-signed event calls skip this check.
+const originOk = (req: Request) => ALLOWED_ORIGINS.includes(req.headers.get("origin") ?? "");
+// Round 2: the client can set the first X-Forwarded-For value, so use cf-connecting-ip, else the LAST (proxy-added) hop.
+const clientIp = (req: Request) => {
+  const cf = (req.headers.get("cf-connecting-ip") ?? "").trim();
+  if (cf) return cf;
+  const hops = (req.headers.get("x-forwarded-for") ?? "").split(",").map((x) => x.trim()).filter(Boolean);
+  return hops[hops.length - 1] || "unknown";
+};
+async function rateOk(db: any, bucket: string, req: Request, max: number, windowSec: number) {
+  const { data, error } = await db.rpc("fn_rate_ok", { p_bucket: bucket, p_ip: clientIp(req), p_max: max, p_window_sec: windowSec });
+  if (error) { console.error(`RATE_LIMIT_FAIL_OPEN bucket=${bucket}: ${error.message}`); return true; } // fail open so a DB hiccup never blocks a sale; search logs for RATE_LIMIT_FAIL_OPEN
+  return data === true;
+}
+const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
+const jres = (b: unknown, status: number, cors: Record<string, string>) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" } });
+
+const CARD_SAVE_MODE = (Deno.env.get("CARD_SAVE_MODE") ?? "disclosed").toLowerCase(); // disclosed | opt_in | off
+// Larry's live prices (created Nov 2, 2026). Env secrets override; IDs are not secret.
+// Gift copy ($15, price_1UXTPSLCCdJWrOprt7wE8MTs) is no longer a Checkout item; book-order-webhook still maps it if it ever appears.
+const COMPANION_SET_PRICE_ID = Deno.env.get("COMPANION_SET_PRICE_ID") || "price_1UXTQcLCCdJWrOprsG3rGD4a"; // $9 Printed Companion Set
+// On by default (no secrets access); set OPTIONAL_ITEMS=off to hide the checkboxes.
+const OPTIONAL_ITEMS = (Deno.env.get("OPTIONAL_ITEMS") ?? "on") === "on" && !!COMPANION_SET_PRICE_ID;
 
 Deno.serve(async (req) => {
+  const cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") return jres({ error: "Method not allowed" }, 405, { ...cors, Allow: "POST, OPTIONS" });
+  if (!originOk(req)) return jres({ error: "Not allowed" }, 403, cors);
+  if (!(await rateOk(db, "book-checkout", req, 10, 600))) return jres({ error: "Too many tries. Please wait a few minutes and try again." }, 429, cors);
   let qty = 1;
-  const u = new URL(req.url);
-  if (req.method === "POST") { try { const b = await req.json(); qty = parseInt(String(b.quantity ?? "1"), 10) || 1; } catch { /* default 1 */ } }
-  else qty = parseInt(u.searchParams.get("qty") ?? "1", 10) || 1;
+  let wantsSave = false;
+  try {
+    const b = await req.json();
+    qty = parseInt(String(b.quantity ?? "1"), 10) || 1;
+    wantsSave = b.save_card === true;
+  } catch { /* default 1 */ }
   qty = Math.max(1, Math.min(20, qty));
 
   const p: Record<string, string> = {
@@ -66,6 +107,22 @@ Deno.serve(async (req) => {
     "metadata[source]": "web",
     "payment_intent_data[metadata][kind]": "book_order",
   };
+  // Card saving (Ray Round 2, must-fix 1). HELD: Larry is choosing a mode.
+  //   "disclosed": always save, and say so above the Pay button. book-upsell detaches it after about 30 minutes (sweep runs every 10).
+  //   "opt_in":    save only when the book page sent {save_card:true} from a checked box.
+  //   "off":       never save; thank-you add-ons always use a short Checkout page.
+  const saveCard = CARD_SAVE_MODE === "disclosed" || (CARD_SAVE_MODE === "opt_in" && wantsSave);
+  if (saveCard) {
+    p["payment_intent_data[setup_future_usage]"] = "off_session";
+    p["custom_text[submit][message]"] =
+      "We keep your card on file for about 30 minutes only, so you can add a gift copy or the companion set on the next page with one click. After that it is deleted.";
+  }
+  // optional_items: only the $9 companion set is offered on the Checkout page (Larry, Nov 3, 2026; Stripe's
+  // slider hid a second item). The gift copy is offered only as the one-click offer on /order-thank-you/.
+  if (OPTIONAL_ITEMS) {
+    p["optional_items[0][price]"] = COMPANION_SET_PRICE_ID;
+    p["optional_items[0][quantity]"] = "1";
+  }
   const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
     headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
@@ -74,8 +131,7 @@ Deno.serve(async (req) => {
   const s = await r.json();
   if (!r.ok || !s.url) {
     console.error("book-checkout failed", s?.error?.message);
-    return new Response(JSON.stringify({ error: "Checkout could not start. Please try again." }), { status: 502, headers: { ...cors, "Content-Type": "application/json" } });
+    return jres({ error: "Checkout could not start. Please try again." }, 502, cors);
   }
-  if (req.method === "POST") return new Response(JSON.stringify({ url: s.url }), { headers: { ...cors, "Content-Type": "application/json" } });
-  return new Response(null, { status: 303, headers: { ...cors, Location: s.url, "Cache-Control": "no-store" } });
+  return jres({ url: s.url }, 200, cors);
 });

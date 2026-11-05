@@ -41,7 +41,15 @@ async function verify(payload: string, header: string | null): Promise<boolean> 
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(WEBHOOK_SECRET), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${t}.${payload}`));
   const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("");
-  return parts["v1"].includes(hex);
+  return parts["v1"].some((v) => safeEqual(v, hex));
+}
+
+// Constant-time string compare (Ray, Round 2).
+function safeEqual(a: string, b: string): boolean {
+  const x = new TextEncoder().encode(a), y = new TextEncoder().encode(b);
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i % (x.length || 1)] ?? 0) ^ (y[i % (y.length || 1)] ?? 0);
+  return diff === 0 && x.length === y.length;
 }
 
 function shellLite(inner: string) {
@@ -63,6 +71,12 @@ Deno.serve(async (req) => {
   if (event.type !== "checkout.session.completed") return new Response(JSON.stringify({ ignored: event.type }), { status: 200 });
   const s = event.data.object;
   if ((s.metadata ?? {}).kind !== "book_order") return new Response(JSON.stringify({ ignored: "not a book order" }), { status: 200 });
+  // Thank-you page add-on paid through the fallback Checkout: book-upsell records it (never a new order here).
+  if (s.metadata?.addon) {
+    if (isTest) return new Response(JSON.stringify({ ignored: "add-on (test)" }), { status: 200 });
+    const f = await fetch(`${SUPABASE_URL}/functions/v1/book-upsell`, { method: "POST", headers: { "content-type": "application/json", "stripe-signature": req.headers.get("stripe-signature") ?? "" }, body: payload });
+    return new Response(await f.text(), { status: f.status });
+  }
   if (s.payment_status && !["paid", "no_payment_required"].includes(s.payment_status)) return new Response("not paid yet", { status: 200 });
 
   const cd = s.customer_details ?? {};
@@ -77,15 +91,34 @@ Deno.serve(async (req) => {
   const shipCents = s.shipping_cost?.amount_total ?? s.total_details?.amount_shipping ?? 0;
   const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 
+  // Line items: the book itself, plus optional_items add-ons (gift copy / companion set) when the
+  // optional_items checkout variant is live. Add-ons are split out by price ID so the book quantity and
+  // book_orders.amount_cents never include them (refresh_buyer_totals adds upsell_amount_cents separately).
+  const GIFT_PRICE = Deno.env.get("GIFT_COPY_PRICE_ID") || "price_1UXTPSLCCdJWrOprt7wE8MTs";
+  const SET_PRICE = Deno.env.get("COMPANION_SET_PRICE_ID") || "price_1UXTQcLCCdJWrOprsG3rGD4a";
   let quantity = 0;
-  if (!isTest && STRIPE_KEY) {
+  const lineAddons: { offer: string; quantity: number; amount_cents: number }[] = [];
+  let items: any[] | null = null;
+  if (isTest && Array.isArray(s.test_line_items)) items = s.test_line_items; // constructed events, test builds only
+  else if (!isTest && STRIPE_KEY) {
     try {
       const r = await fetch(`https://api.stripe.com/v1/checkout/sessions/${s.id}/line_items?limit=10`, { headers: { Authorization: `Bearer ${STRIPE_KEY}` } });
       const li = await r.json();
-      quantity = (li.data ?? []).reduce((n: number, x: any) => n + (x.quantity ?? 0), 0);
+      items = li.data ?? [];
     } catch (e) { console.error("line_items", e); }
   }
-  if (!quantity) quantity = Number(s.metadata?.test_quantity) || Math.max(1, Math.round((s.amount_subtotal ?? (amount - shipCents)) / 2000));
+  for (const x of items ?? []) {
+    const pid = x.price?.id ?? "";
+    const q = Number(x.quantity ?? 0);
+    if (!q) continue;
+    if (GIFT_PRICE && pid === GIFT_PRICE) lineAddons.push({ offer: "gift_copy", quantity: q, amount_cents: x.amount_total ?? 0 });
+    else if (SET_PRICE && pid === SET_PRICE) lineAddons.push({ offer: "companion_set", quantity: q, amount_cents: x.amount_total ?? 0 });
+    else quantity += q;
+  }
+  const addonCents = lineAddons.reduce((n, x) => n + x.amount_cents, 0);
+  const bookAmount = amount - addonCents;
+  // No metadata fallback any more (test_quantity removed): estimate from the subtotal only if Stripe gave nothing.
+  if (!quantity) quantity = Math.max(1, Math.round(((s.amount_subtotal ?? (amount - shipCents)) - addonCents) / 2000));
   const consent = fields.updates === "yes" ? true : fields.updates === "no" ? false : null;
 
   const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
@@ -93,15 +126,22 @@ Deno.serve(async (req) => {
   // 1) buyer (one row per lower(email))
   let buyerId: string | null = null;
   if (email) {
-    const { data: found } = await db.from("buyers").select("id, marketing_consent").ilike("email", email.replace(/[%_\\]/g, "\\$&")).maybeSingle();
-    const contact: Record<string, unknown> = {
-      name: name || undefined, phone: phone || undefined,
-      address_line1: a.line1 || undefined, address_line2: a.line2 || null, city: a.city || undefined,
-      state: a.state || undefined, postal_code: a.postal_code || undefined, country: a.country || undefined,
-      updated_at: new Date().toISOString(),
+    const { data: found } = await db.from("buyers").select("*").ilike("email", email.replace(/[%_\\]/g, "\\$&")).maybeSingle();
+    // Checkout data only FILLS EMPTY buyer fields. It never overwrites an existing name, phone, address or
+    // marketing_consent (Ray's review: anyone can pay using someone else's email). Each order keeps its own
+    // shipping address on book_orders.
+    const fresh: Record<string, unknown> = {
+      name: name || null, phone: phone || null,
+      address_line1: a.line1 || null, address_line2: a.line2 || null, city: a.city || null,
+      state: a.state || null, postal_code: a.postal_code || null, country: a.country || null,
+      marketing_consent: consent,
     };
-    if (consent !== null) contact.marketing_consent = consent;
-    if (found) { buyerId = found.id; await db.from("buyers").update(contact).eq("id", found.id); }
+    const contact: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(fresh)) {
+      if (v === null || v === undefined) continue;
+      if (!found || found[k] === null || found[k] === undefined || found[k] === "") contact[k] = v;
+    }
+    if (found) { buyerId = found.id; if (Object.keys(contact).length) await db.from("buyers").update({ ...contact, updated_at: new Date().toISOString() }).eq("id", found.id); }
     else {
       const { data: ins, error } = await db.from("buyers").insert({ email, ...contact }).select("id").single();
       if (error) console.error("buyer insert", error.message);
@@ -112,14 +152,25 @@ Deno.serve(async (req) => {
   // 2) order (idempotent on stripe_session)
   const { data: order, error: oerr } = await db.from("book_orders").upsert({
     buyer_id: buyerId, source: "web", stripe_session: s.id, stripe_payment_intent: s.payment_intent ?? null,
-    email, name, phone, quantity, amount_cents: amount, shipping_cents: shipCents,
+    email, name, phone, quantity, amount_cents: bookAmount, shipping_cents: shipCents,
     ship_name: ship.name ?? name, ship_line1: a.line1 ?? null, ship_line2: a.line2 ?? null, ship_city: a.city ?? null,
     ship_state: a.state ?? null, ship_postal_code: a.postal_code ?? null, ship_country: a.country ?? null,
     inscription: fields.inscription || null, gift_note: fields.gift_note || null,
-  }, { onConflict: "stripe_session", ignoreDuplicates: true }).select("order_no").maybeSingle();
+  }, { onConflict: "stripe_session", ignoreDuplicates: true }).select("id, order_no").maybeSingle();
   if (oerr) console.error("order upsert", oerr.message);
   if (!order) return new Response(JSON.stringify({ ok: true, duplicate: true }), { status: 200 });
+  if (lineAddons.length) {
+    const rows = lineAddons.map((x) => ({
+      order_id: order.id, offer: x.offer, quantity: x.quantity, amount_cents: x.amount_cents,
+      status: "paid", method: "checkout_item", paid_at: new Date().toISOString(),
+      stripe_session: null, stripe_payment_intent: null, // both unique; the order row already holds them
+    }));
+    const { error: aerr } = await db.from("book_order_addons").insert(rows);
+    if (aerr) console.error("addon insert", aerr.message);
+    else await db.rpc("apply_book_addons", { p_order: order.id });
+  }
   if (buyerId) await db.rpc("refresh_buyer_totals", { p_buyer: buyerId });
+  const addonText = lineAddons.map((x) => x.offer === "gift_copy" ? `${x.quantity} gift ${x.quantity === 1 ? "copy" : "copies"}` : "companion set").join(" + ");
 
   // 3) notice to Larry
   const addr = [ship.name ?? name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(", "), a.country].filter(Boolean).map(esc).join("<br>");
@@ -128,7 +179,7 @@ Deno.serve(async (req) => {
     `<p><b>New book order to ship.</b></p>
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
-       <tr><td><b>Copies</b></td><td>${quantity} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
+       <tr><td><b>Copies</b></td><td>${quantity}${addonText ? ` plus ${esc(addonText)}` : ""} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
        <tr><td><b>Sign it to</b></td><td>${esc(fields.inscription || "(nothing requested)")}</td></tr>
        <tr><td><b>Gift note</b></td><td>${esc(fields.gift_note || "(none)")}</td></tr>
        <tr><td valign="top"><b>Ship to</b></td><td>${addr || "(no address)"}</td></tr>
