@@ -26,9 +26,15 @@ body{margin:0;background:#e9e4d6;font-family:Karla,-apple-system,sans-serif;colo
 #pw h2{font-family:Georgia,serif;margin:0 0 8px;font-size:22px}#pw p{font-size:15px;line-height:1.5;margin:0 0 12px}#pw label{display:block;font-size:13px;font-weight:bold;margin:10px 0 4px}
 #pw input{width:100%;box-sizing:border-box;padding:11px;font-size:16px;border:1px solid #b9ae94;border-radius:6px;background:#fff}#pw .row{display:flex;gap:10px;margin-top:16px;align-items:center}
 #pw button{padding:11px 18px;font-size:15px;border-radius:6px;border:0;background:#0D2D1D;color:#F8F4E9;font-weight:bold;cursor:pointer}#pw .later{background:none;color:#0D2D1D;text-decoration:underline;font-weight:normal}#pw .err{color:#a33;font-size:14px;min-height:1em}
+#wvl{max-width:860px;margin:.8rem auto 0;padding:0 16px;text-align:right}#wvl[hidden],#wv[hidden],.btn[hidden]{display:none!important}#wvl button{background:none;border:0;padding:.2rem 0;color:#0D2D1D;font:600 .9rem Karla,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}#wvl button:focus-visible{outline:2px solid #B8862F;outline-offset:3px}
+#wv{position:fixed;inset:0;z-index:1000;background:rgba(5,20,12,.78);display:flex;align-items:center;justify-content:center;padding:20px}#wv .dlg{position:relative;background:#0D2D1D;color:#F7F4EC;border-radius:14px;padding:16px;width:min(880px,100%);max-height:100%;overflow:auto;box-shadow:0 18px 60px rgba(0,0,0,.45)}#wv .hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px}#wv h2{font:400 1.2rem Marcellus,serif;margin:0!important;color:#F7F4EC!important}#wv .x{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(247,244,236,.5);background:transparent;color:#F7F4EC;font:400 1.6rem/1 Karla,sans-serif;cursor:pointer}#wv .x:hover,#wv .x:focus-visible{background:#B8862F;color:#0D2D1D;outline:none}#wv .vw{position:relative}#wv video{width:100%;display:block;border-radius:8px;background:#000;aspect-ratio:16/9}#wv .ctl{position:absolute;left:10px;top:10px;display:flex;gap:8px}#wv .snd{background:rgba(13,45,29,.88);color:#F7F4EC;border:1px solid rgba(247,244,236,.55);border-radius:999px;padding:.45rem .85rem;font:600 .85rem Karla,sans-serif;cursor:pointer}#wv .snd:focus-visible{outline:2px solid #B8862F;outline-offset:2px}#wv .ft{display:flex;justify-content:flex-end;margin-top:12px}#wv .done{background:#B8862F;color:#0D2D1D;border:0;border-radius:.45rem;padding:.6rem 1.1rem;font:700 .95rem Karla,sans-serif;cursor:pointer}#wv .done:focus-visible{outline:2px solid #F7F4EC;outline-offset:2px}
+@media (max-width:600px){#wv{padding:0;align-items:center}#wv .dlg{width:100%;border-radius:0;padding:12px 0 14px}#wv .hd,#wv .ft{padding:0 12px}#wv video{border-radius:0}#wv h2{font-size:1.05rem}}
+body.wv-open{overflow:hidden}@media print{#wv,#wvl{display:none!important}}
 </style><title>Companion Guide | Never Fight or Argue Again</title></head><body>
 <div class="bar"><div><b>Companion Guide</b><div class="st" id="st" aria-live="polite">Opening...</div></div><div class="acts"><button class="btn" id="pdf" type="button" disabled>Download my guide (PDF)</button><a class="btn ghost" id="blank" href="#" hidden>Blank PDF</a><a class="btn ghost" href="/members/">My account</a></div></div>
 <div id="pw" hidden><form class="card" id="pwf"><h2>Create your password</h2><p>Welcome! Create a password so you can sign in from any phone or computer and find your guide and answers in one place.</p><label>Email</label><input id="pwe" type="email" readonly><label for="pwp">New password (at least 8 characters)</label><input id="pwp" type="password" minlength="8" maxlength="72" autocomplete="new-password" required><label for="pwc">Type it again</label><input id="pwc" type="password" autocomplete="new-password" required><div class="err" id="pwerr" aria-live="polite"></div><div class="row"><button type="submit" id="pwb">Create password</button><button type="button" class="later" id="pwl">Not now</button></div></form></div>
+<div id="wvl" hidden><button type="button" id="wvo">&#9654; Watch the welcome video</button></div>
+<div id="wv" hidden><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="wvt" aria-describedby="wvd"><div class="hd"><h2 id="wvt">Welcome to your Companion Guide</h2><button type="button" class="x" id="wvx" aria-label="Close welcome video">&times;</button></div><p id="wvd" hidden>A short welcome video from Larry and Ro, with captions.</p><div class="vw"><video id="wvv" playsinline webkit-playsinline muted preload="metadata" poster="/assets/guide-welcome-poster.jpg"><source src="/assets/guide-welcome.mp4" type="video/mp4"></video><div class="ctl"><button type="button" class="snd" id="wvp" aria-label="Pause video">&#10074;&#10074; Pause</button><button type="button" class="snd" id="wvs" aria-pressed="false">&#128264; Tap for sound</button></div></div><div class="ft"><button type="button" class="done" id="wvc">Start my guide</button></div></div></div>
 <div id="m" class="msg" hidden></div><style id="gcss"></style><div id="g"></div>
 <script src="/assets/nfoa-auth.js"></script>
 <script>
@@ -67,12 +73,35 @@ function start(){fetch(url(),{headers:hdr()}).then(function(r){return r.json();}
  });
  // Ch. 5 prayer: p2 and p3 continue p1, so show them as one block
  ['w05-ch05-exercise-p2','w05-ch05-exercise-p3'].forEach(function(i){var e=document.getElementById(i);if(e)e.classList.add('merged');});
+ welcome(d.welcome_video_seen_at,t&&d.can_set_password?function(){askPassword(d.email);}:null);
  st.textContent=Object.keys(pending).length?'Syncing...':(Object.keys(srv).length?'Your answers are loaded':'Answers save as you type');if(Object.keys(pending).length)flush();
  var pb=document.getElementById('pdf');pb.disabled=false;pb.onclick=function(){window.print();};
  var b=document.getElementById('blank');if(d.pdf_url){b.href=d.pdf_url;b.hidden=false;}
 
- if(t&&d.can_set_password)askPassword(d.email);
 }).catch(function(){fail('Could not load the guide. Please check your connection and refresh.');});}
+// Welcome video: one-time modal. Seen flag lives on the server (guide_state), localStorage is the fallback.
+var WVK='nfoa-wv-seen';
+function welcome(seenAt,after){var W=document.getElementById('wv'),V=document.getElementById('wvv'),S=document.getElementById('wvs'),L=document.getElementById('wvl'),back=null;
+ L.hidden=false;
+ function snd(){S.textContent=V.muted?'\uD83D\uDD08 Tap for sound':'\uD83D\uDD0A Sound on';S.setAttribute('aria-pressed',V.muted?'false':'true');}
+ var P=document.getElementById('wvp');function pl(){P.innerHTML=V.paused?'&#9654; Play':'&#10074;&#10074; Pause';P.setAttribute('aria-label',V.paused?'Play video':'Pause video');}
+ P.onclick=function(){if(V.paused)V.play().catch(function(){});else V.pause();};V.onclick=P.onclick;['play','pause','ended'].forEach(function(e){V.addEventListener(e,pl);});
+ S.onclick=function(){V.muted=!V.muted;if(V.paused)V.play().catch(function(){});snd();};V.addEventListener('volumechange',snd);
+ function foc(){return Array.prototype.filter.call(W.querySelectorAll('button,[href]'),function(e){return !e.hidden&&e.offsetParent!==null;});}
+ function key(e){if(e.key==='Escape'){e.preventDefault();close();return;}if(e.key!=='Tab')return;var f=foc(),a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}else if(!W.contains(document.activeElement)){e.preventDefault();a.focus();}}
+ function open(){back=document.activeElement;W.hidden=false;document.body.classList.add('wv-open');Array.prototype.forEach.call(document.body.children,function(c){if(c!==W&&c.tagName!=='SCRIPT'&&c.tagName!=='STYLE')c.setAttribute('aria-hidden','true');});
+  window.addEventListener('keydown',key,true);V.muted=true;snd();try{V.currentTime=0;}catch(e){}V.play().catch(function(){});document.getElementById('wvx').focus();}
+ function close(){if(W.hidden)return;V.pause();W.hidden=true;document.body.classList.remove('wv-open');Array.prototype.forEach.call(document.body.children,function(c){c.removeAttribute('aria-hidden');});window.removeEventListener('keydown',key,true);
+  try{localStorage.setItem(WVK,'1');}catch(e){}
+  if(!seenAt){seenAt=new Date().toISOString();fetch(url(),{method:'POST',headers:hdr({'content-type':'application/json'}),body:JSON.stringify({welcome_video_seen:true})}).catch(function(){});}
+  if(back&&back.focus&&back!==document.body)back.focus();else document.getElementById('wvo').focus();
+  if(after){var a=after;after=null;a();}}
+ document.getElementById('wvx').onclick=close;document.getElementById('wvc').onclick=close;W.onclick=function(e){if(e.target===W)close();};
+ document.getElementById('wvo').onclick=open;
+ var local=false;try{local=localStorage.getItem(WVK)==='1'||localStorage.getItem('nfoa-wv-hide')==='1';}catch(e){}
+ if(seenAt||local){if(local&&!seenAt){seenAt='local';fetch(url(),{method:'POST',headers:hdr({'content-type':'application/json'}),body:JSON.stringify({welcome_video_seen:true})}).catch(function(){});}if(after){var a=after;after=null;a();}}
+ else open();}
 function askPassword(email){var P=document.getElementById('pw'),e=document.getElementById('pwerr');document.getElementById('pwe').value=email;P.hidden=false;
  document.getElementById('pwl').onclick=function(){P.hidden=true;};
  document.getElementById('pwf').onsubmit=function(ev){ev.preventDefault();var a=document.getElementById('pwp').value,b=document.getElementById('pwc').value;e.textContent='';
