@@ -1,6 +1,6 @@
 # Past-buyer Companion Guide gift backfill
 
-BUILD + DRY RUN. No emails to real buyers. No live entitlements or enrollments for real buyers until Larry approves the recipient list, the count, and flips `GUIDE_BACKFILL_ON=1`.
+Larry approved the 66 and asked us to send. Flags default ON when unset; set `GUIDE_BACKFILL_ON=0` / `GUIDE_SEQUENCE_ON=0` to stop.
 
 ## Larry corrections (Nov 5, 2026)
 
@@ -44,9 +44,11 @@ Excluded (do not gift): Larry addresses (`larrybeacham@`, `virtualceoworld@`), t
 
 | Secret | Default | Notes |
 | --- | --- | --- |
-| `GUIDE_BACKFILL_ON` | off | Must be `1` for real sends. Dry-run always allowed. |
-| `GUIDE_SEQUENCE_ON` | off | Real sequence sends still gated separately. Throwaway/test rows can send while off. |
+| `GUIDE_BACKFILL_ON` | **ON** when unset | Explicit `0` / `false` / `off` is the kill switch. |
+| `GUIDE_SEQUENCE_ON` | **ON** when unset | Same kill-switch rules. Throwaway/test rows can send while off. |
 | `GUIDE_SEQUENCE_DAILY_BUDGET` | 100 | Shared by sequence + backfill gift sends. |
+
+Real `run` gifts **only** the locked allowlist in `supabase/functions/guide-backfill/approved-recipients.ts` (the Larry-approved 66). There is no DB scan for new buyers.
 
 ## Function
 
@@ -64,8 +66,8 @@ Excluded (do not gift): Larry addresses (`larrybeacham@`, `virtualceoworld@`), t
 
 Created entitlement for `guide-backfill-throwaway@neverfightorargue.com` with claim_token, no preorder_id, enrolled all 13 steps including day1, cohort `past_buyer_gift`. Called guide API with `?t=<claim_token>`: `ok=true`, `can_set_password=true`, guide HTML returned. Random token rejected. Row cleaned up afterward. **No Brevo email sent** (still dry-run for real mail).
 
-## Still needs Larry
+## Go-live (Nov 5, 2026)
 
-1. Approve the include list + count (**66**; needs_review cleared).
-2. Confirm gift email (copy already approved).
-3. Set `GUIDE_BACKFILL_ON=1` (and usually `GUIDE_SEQUENCE_ON=1`) when ready to send.
+Larry asked us to send the gifts. Flags default ON when secrets are unset; kill switch is `GUIDE_BACKFILL_ON=0` and `GUIDE_SEQUENCE_ON=0` in Supabase Edge Function secrets.
+
+Allowlist locked at 66 in `approved-recipients.ts`.

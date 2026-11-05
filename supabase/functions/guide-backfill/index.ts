@@ -14,22 +14,33 @@
 // so set-password works without a pickup token. Fallback: /members/.
 //
 // Flags:
-//   GUIDE_BACKFILL_ON must be "1" for real sends (default off).
+//   GUIDE_BACKFILL_ON defaults ON when the secret is unset/empty (Larry asked
+//   us to send). Explicit "0" / "false" / "off" is the kill switch.
 //   Dry-run is always allowed (no emails, no live entitlements).
 //   Throwaway test rows (is_test) may send while the flag is off,
 //   always with a "[TEST] " subject prefix.
+// Allowlist: real runs ONLY gift APPROVED_RECIPIENTS (the Larry-approved 66).
+//   Body recipients are filtered to that set; unknown emails are rejected.
+//   New buyer rows elsewhere cannot be picked up — there is no DB scan.
 // Daily budget: shares GUIDE_SEQUENCE_DAILY_BUDGET (~100) with the
 // sequence via guide_mail_sent_today().
 // Deploy: supabase functions deploy guide-backfill --no-verify-jwt
 // =====================================================================
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { giftEmail, SUBJECT } from "./gift-email.ts";
+import { APPROVED_RECIPIENTS, APPROVED_EMAILS, type ApprovedRecipient } from "./approved-recipients.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const ON = Deno.env.get("GUIDE_BACKFILL_ON") === "1";
+function flagDefaultOn(name: string): boolean {
+  const v = (Deno.env.get(name) ?? "").trim().toLowerCase();
+  if (v === "") return true; // unset → ON
+  if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+  return v === "1" || v === "true" || v === "on" || v === "yes";
+}
+const ON = flagDefaultOn("GUIDE_BACKFILL_ON");
 const DAILY_BUDGET = Math.max(1, parseInt(Deno.env.get("GUIDE_SEQUENCE_DAILY_BUDGET") ?? "100", 10) || 100);
 const PRODUCT = "companion_guide";
 const SOURCE = "past_buyer_gift";
@@ -125,7 +136,10 @@ function urlsFor(claimToken: string | null) {
   };
 }
 
-async function dryRun(db: Db, recipients: Recipient[]) {
+async function dryRun(db: Db, recipientsIn: Recipient[]) {
+  const recipients = recipientsIn.length
+    ? recipientsIn
+    : APPROVED_RECIPIENTS.map((r) => ({ email: r.email, name: r.name, source: r.source }));
   const sample = recipients[0] ?? { email: "sample@example.com", name: "Alex", source: "preorder" };
   const demoToken = "00000000-0000-4000-8000-000000000001";
   const u = urlsFor(demoToken);
@@ -148,7 +162,7 @@ async function dryRun(db: Db, recipients: Recipient[]) {
     remaining_today: remaining,
     recipient_count: n,
     days_needed_at_budget: Math.ceil(n / DAILY_BUDGET),
-    note: "Dry run only. No emails sent. No live entitlements or enrollments for real buyers. Gift copy is Larry-approved; list+count still need his OK before GUIDE_BACKFILL_ON=1.",
+    note: "Dry run only. No emails sent. No live entitlements. Real run uses the locked APPROVED_RECIPIENTS allowlist (66). Kill switch: set GUIDE_BACKFILL_ON=0.",
     larry_correction: "Past buyers get the FULL 13-step sequence (Day 1 + weeks 1-12) timed from the gift send. No pickup email, QR, token, or preorder row. Guide link uses claim_token or /members/.",
     gift_subject: SUBJECT,
     sample_subject: rendered.subject,
@@ -158,12 +172,44 @@ async function dryRun(db: Db, recipients: Recipient[]) {
   });
 }
 
-async function runBackfill(db: Db, recipients: Recipient[], isTest: boolean) {
+function resolveRecipients(requested: Recipient[], isTest: boolean): { recipients: Recipient[]; rejected: string[] } {
+  if (isTest) return { recipients: requested, rejected: [] };
+  // Empty body → full locked allowlist. Non-empty → intersect with allowlist only.
+  const base: Recipient[] = requested.length
+    ? requested
+    : APPROVED_RECIPIENTS.map((r: ApprovedRecipient) => ({ email: r.email, name: r.name, source: r.source }));
+  const recipients: Recipient[] = [];
+  const rejected: string[] = [];
+  const seen = new Set<string>();
+  for (const r of base) {
+    const email = (r.email || "").toLowerCase().trim();
+    if (!email || !email.includes("@")) continue;
+    if (!APPROVED_EMAILS.has(email)) {
+      rejected.push(email);
+      continue;
+    }
+    if (seen.has(email)) continue;
+    seen.add(email);
+    const locked = APPROVED_RECIPIENTS.find((a) => a.email === email);
+    recipients.push({
+      email,
+      name: (r.name && r.name.trim()) || locked?.name || "",
+      source: locked?.source || r.source || "past_buyer_gift",
+    });
+  }
+  return { recipients, rejected };
+}
+
+async function runBackfill(db: Db, recipientsIn: Recipient[], isTest: boolean) {
   if (!ON && !isTest) {
-    return ok({ ok: false, error: "GUIDE_BACKFILL_ON is off. Dry-run or throwaway test only." }, 403);
+    return ok({ ok: false, error: "GUIDE_BACKFILL_ON is off (kill switch). Dry-run or throwaway test only." }, 403);
+  }
+  const { recipients, rejected } = resolveRecipients(recipientsIn, isTest);
+  if (!isTest && !recipients.length) {
+    return ok({ ok: false, error: "No allowlisted recipients to gift.", rejected, allowlist_size: APPROVED_RECIPIENTS.length }, 400);
   }
   let budgetLeft = Math.max(0, DAILY_BUDGET - await sentToday(db));
-  const results = { granted: 0, emailed: 0, enrolled: 0, skipped: 0, failed: 0, budget_left: budgetLeft, details: [] as unknown[] };
+  const results = { granted: 0, emailed: 0, enrolled: 0, skipped: 0, failed: 0, rejected: rejected.length, budget_left: budgetLeft, allowlist_size: APPROVED_RECIPIENTS.length, details: [] as unknown[] };
   for (const r of recipients) {
     if (budgetLeft <= 0) break;
     const email = (r.email || "").toLowerCase().trim();
@@ -273,8 +319,24 @@ Deno.serve(async (req) => {
     return await cleanupThrowaway(db, to);
   }
   if (action === "run") {
-    if (!recipients.length) return ok({ ok: false, error: "recipients required" }, 400);
+    // Empty recipients → gift the locked APPROVED_RECIPIENTS (66). Non-empty is filtered to that set.
     return await runBackfill(db, recipients, false);
+  }
+  if (action === "status") {
+    const used = await sentToday(db);
+    const { count: sent } = await db.from("guide_backfill_log").select("id", { count: "exact", head: true }).eq("status", "sent").eq("is_test", false);
+    const { count: failed } = await db.from("guide_backfill_log").select("id", { count: "exact", head: true }).eq("status", "failed").eq("is_test", false);
+    return ok({
+      ok: true,
+      flag_on: ON,
+      daily_budget: DAILY_BUDGET,
+      sent_today: used,
+      remaining_today: Math.max(0, DAILY_BUDGET - used),
+      allowlist_size: APPROVED_RECIPIENTS.length,
+      log_sent: sent ?? 0,
+      log_failed: failed ?? 0,
+      kill_switch: "Set secret GUIDE_BACKFILL_ON=0 (and GUIDE_SEQUENCE_ON=0) in Supabase Edge Function secrets.",
+    });
   }
   return ok({ ok: false, error: `unknown action ${action}` }, 400);
 });

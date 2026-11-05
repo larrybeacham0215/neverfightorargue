@@ -2,8 +2,9 @@
 // guide-sequence - Companion Guide follow-up emails (13 steps)
 // Day 1, then weekly weeks 1-12, timed from each buyer's purchase.
 // Called hourly by pg_cron. Sends through Brevo from hello@.
-// Flag: GUIDE_SEQUENCE_ON must be "1" for real buyers (default off).
-// Test orders (preorders.test_run set) may send while the flag is off,
+// Flag: GUIDE_SEQUENCE_ON defaults ON when the secret is unset/empty.
+// Explicit "0" / "false" / "off" is the kill switch.
+// Test orders (preorders.test_run set / is_test) may send while the flag is off,
 // always with a "[TEST] " subject prefix. Daily budget ~100 (shared
 // Brevo 300/day cap with KDM); extras stay pending for the next run.
 // Deploy: supabase functions deploy guide-sequence --no-verify-jwt
@@ -15,7 +16,13 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const ON = Deno.env.get("GUIDE_SEQUENCE_ON") === "1";
+function flagDefaultOn(name: string): boolean {
+  const v = (Deno.env.get(name) ?? "").trim().toLowerCase();
+  if (v === "") return true; // unset → ON
+  if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+  return v === "1" || v === "true" || v === "on" || v === "yes";
+}
+const ON = flagDefaultOn("GUIDE_SEQUENCE_ON");
 const DAILY_BUDGET = Math.max(1, parseInt(Deno.env.get("GUIDE_SEQUENCE_DAILY_BUDGET") ?? "100", 10) || 100);
 const PRODUCT = "companion_guide";
 
