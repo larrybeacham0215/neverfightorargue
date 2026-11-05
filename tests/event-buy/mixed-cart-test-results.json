@@ -1,0 +1,104 @@
+{
+  "suite": "mixed-cart + mocked handlers",
+  "labels": {
+    "unit": "Pure math/mapping (JS mirror; TS formula asserted)",
+    "mocked_handler": "In-memory webhook/checkout stand-in — NOT live Stripe/Supabase; no network",
+    "source_contract": "Local source file reads"
+  },
+  "NOT_run": [
+    "live Stripe Checkout session creation",
+    "production Supabase writes",
+    "live webhook delivery"
+  ],
+  "passed": 16,
+  "total": 16,
+  "failed": [],
+  "results": [
+    {
+      "name": "ts_contains_mixed_formula",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "mixed_2b_3s",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "singles_only_no_guide",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "bundles_only",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "legacy_xor_bundle",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "legacy_xor_single",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "near_cap_clamp",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "empty_rejected",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "map_mixed",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "map_legacy",
+      "ok": true,
+      "kind": "unit"
+    },
+    {
+      "name": "mocked_webhook_fulfill_idempotent",
+      "ok": true,
+      "kind": "mocked_handler"
+    },
+    {
+      "name": "mocked_webhook_no_guide_without_bundle",
+      "ok": true,
+      "kind": "mocked_handler"
+    },
+    {
+      "name": "mocked_refund_keeps_guide_if_other_paid_bundle",
+      "ok": true,
+      "kind": "mocked_handler"
+    },
+    {
+      "name": "flags_in_sources",
+      "ok": true,
+      "kind": "source_contract"
+    },
+    {
+      "name": "buy_posts_mixed",
+      "ok": true,
+      "kind": "source_contract"
+    },
+    {
+      "name": "webhook_quantity_uses_books_not_only_2x_bundles",
+      "ok": true,
+      "kind": "source_contract"
+    }
+  ],
+  "screenshot": {
+    "full_path": "/workspace/nfoa-event-buy/docs/event-buy/preview/02-buy-src-event_bundle.png",
+    "provenance": "Existing prior preview copy (byte-identical to marriage-ministry/event-bundle/screenshots/02-buy-src-event_bundle.png). NOT generated this session. Shows older XOR buy UI with Event Bundle selected — not the new mixed qty UI.",
+    "new_ui_preview_html": "/workspace/nfoa-event-buy/docs/event-buy/preview/buy-mobile-preview.html (stale until refreshed from new buy/index.html)"
+  },
+  "ran_at_et": "11/5/2026, 2:46:36 PM ET"
+}

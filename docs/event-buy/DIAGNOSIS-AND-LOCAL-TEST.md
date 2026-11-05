@@ -1,74 +1,45 @@
-# Event table QR / checkout — diagnosis + local test (2026-11-05)
+# Event table QR / mixed checkout — local status (2026-11-05 ~2:46 PM ET)
 
-**Scope:** Larry approved local build/test for $50 bundles + $20 singles with quantities. **No publish, no public sales flags, no sends, no live Stripe checkout creation.**
+## Decoded QR
+All horizontal sign assets + Michelangelo photo decode to:
+`https://neverfightorargue.com/buy/?src=event_bundle`
+**Printed QR can stay.**
 
-## Decoded QR (actual)
+## Prior bug in summary
+Earlier note “books_pickup = 2×bundles” was **incomplete**. Correct formula:
+**`books_pickup = 2 * bundle_qty + single_qty`**. Guide entitlement **only if `bundle_qty >= 1`**.
 
-| Asset | Decoded URL |
-|---|---|
-| `NFOAA-bundle-sign-letter-landscape-600dpi-v1.png` | `https://neverfightorargue.com/buy/?src=event_bundle` |
-| `NFOAA-bundle-sign-letter-landscape-300dpi-v1.png` | same |
-| `NFOAA-bundle-sign-letter-landscape-white-300dpi-v1.png` | same |
-| Michelangelo photo `01M6PKE2YEJ2JPYR6DXTE41Q5K.jpg` | same |
-| Sign build scripts (`v4-build/build7.py`, `build_letter1*.py`) | encode same URL |
+## What was wrong in code (fixed locally)
+UI + `event-checkout` were **XOR** (bundle *or* single per order). Now mixed cart:
+- `/buy/` has Bundles + Singles qty selectors; total and pickup count update live
+- POST `{ bundles, singles, name, email }` (legacy `{ item, quantity }` still works)
+- Stripe session can have two line items; metadata carries `bundles`, `singles`, `books`
+- Webhook saves `quantity: booksPickup` (not only `bundles*2`); grants `companion_guide` only when `bundleQty >= 1`
+- Idempotency: upsert `onConflict: stripe_session`
+- Refund: revoke guide only if no other paid `event_bundle` for that email
+- Flags: `EVENT_SALES_ON` (checkout), `EVENT_BUNDLE_WEBHOOK_ON` (fulfillment) — both stay off
 
-**Printed QR can stay.** Destination is already correct.
+## Tests
+`/workspace/nfoa-event-buy/tests/event-buy/mixed-cart-test-results.json` — **16/16**
+- **unit**: pure math
+- **mocked_handler**: in-memory webhook/refund — **not** live Stripe/DB
+- **source_contract**: local file asserts
+**Not run:** live Checkout sessions, production writes, live webhook delivery.
 
-## Why the phone showed the old page
+## Screenshot
+**Full path:** `/workspace/nfoa-event-buy/docs/event-buy/preview/02-buy-src-event_bundle.png`  
+**Provenance:** existing prior preview (copy of `marriage-ministry/event-bundle/screenshots/02-buy-src-event_bundle.png`, byte-identical). **Not generated this session.** Shows **old XOR** UI with Event Bundle selected.  
+**New mixed UI:** open `/workspace/nfoa-event-buy/docs/event-buy/preview/buy-mobile-preview.html` (parent-arranged desktop; no Playwright here).
 
-| Layer | Finding |
-|---|---|
-| Live `GET /buy/?src=event_bundle` | Same HTML as `/buy/` (~7009 bytes). Title “Get your signed copy tonight”. **Only** “How many books?”, **$20 per book**. Calls **`/functions/v1/checkout`** (old launch-night path). Ignores `src`. |
-| Michelangelo phone shot `01M6PKE85XHS7NHKT7PBE24X7E.png` | Matches that live old page (“LAUNCH NIGHT · AT THE BOOK TABLE”). |
-| Branch `feature/event-bundle` (this worktree) | `/buy/` already has Event Bundle $50 + Signed book $20, defaults to bundle when `src=event_bundle`, calls **`event-checkout`**. |
-| Live `GET event-checkout` | Deployed; returns `open:false`, `books_left:100`, `bundles_left:50` (`EVENT_SALES_ON` off). |
+## Gaps blocking safe release (nothing here is release approval)
+1. Publish `/buy/` (+ thank-you if needed) from this branch to Pages — live still serves old single-book `checkout` page.
+2. Deploy updated `event-checkout` + `event-bundle-webhook` with mixed metadata/quantity mapping.
+3. Confirm Stripe bundle price ID + webhook endpoint/secret.
+4. Larry flip **`EVENT_SALES_ON=1`** and **`EVENT_BUNDLE_WEBHOOK_ON=1`** separately when doors open.
+5. Fresh mobile screenshot of **mixed** UI (parent desktop) — current PNG is stale XOR.
+6. Known race: last-book double checkout can oversell by 1–2 (documented earlier); optional DB reservation not done.
+7. Singles-only still go `kind=preorder` through **live** stripe-webhook path — confirm that path remains correct after Pages cutover.
+8. No live paid E2E under this approval.
 
-**Root cause:** QR is fine; **GitHub Pages `/buy/` on main was never updated** to the bundle UI / `event-checkout` wiring.
-
-## Local implementation (this branch)
-
-Worktree: `/workspace/nfoa-event-buy` · branch: `feature/event-buy-bundle-fix` (from `feature/event-bundle`).
-
-Changes beyond prior event-bundle work:
-- `supabase/functions/event-checkout/order-math.ts` — server-enforced item/qty/totals/books_pickup/guide flag
-- `event-checkout/index.ts` — uses order-math; `validate_only` plans without Stripe; ignores client money fields; bundle requires email
-- Tests: `tests/event-buy/order-math.test.mjs` → **17/17 pass**
-- Preview: `docs/event-buy/preview/buy-mobile-preview.html` (+ prior screenshots copied)
-
-### Semantics
-
-| Choice | Unit | Qty max | Books for pickup | Guide entitlement |
-|---|---|---|---|---|
-| Single | $20 | min(10, books_left) | = qty | No |
-| Bundle | $50 | min(5, bundles_left) | = qty × 2 | Yes (`companion_guide` via event-bundle-webhook) |
-
-Caps: 100 books total, 50 bundles. Webhook upserts `preorders` with `quantity = bundles*2`, `onConflict: stripe_session` (idempotent). Refund revokes guide unless another paid bundle remains.
-
-## Test evidence (what is / isn’t real)
-
-| Kind | Result |
-|---|---|
-| **True unit tests** (order math, tamper, inventory, buy HTML contracts, webhook source contracts) | 17/17 pass — `tests/event-buy/test-results.json` |
-| **Live Stripe Checkout session creation** | **Not run** (held — Larry: no live checkout creation) |
-| **End-to-end paid webhook against production** | **Not run** |
-| **Prior preview screenshots** (simulated) | `docs/event-buy/preview/02-buy-src-event_bundle.png` etc. from event-bundle preview pack |
-| **Spouse invite** | Secondary; checkpoint preserved at `/workspace/nfoa-spouse-invite` `cf74253` |
-
-## Release requirements (held — need separate Larry approval)
-
-1. **Publish** `/buy/` (and `/event-thank-you/` if not already) from this branch / `feature/event-bundle` to GitHub Pages **main**. That alone makes the printed QR show the bundle UI.
-2. Confirm Stripe Price ID `EVENT_BUNDLE_PRICE_ID` (default already wired to live $50 price in code).
-3. Stripe webhook endpoint for `event-bundle-webhook` + secret `EVENT_BUNDLE_WEBHOOK_SECRET` (or forward from live webhook).
-4. Flip **`EVENT_SALES_ON=1`** only when doors open (public sales).
-5. Flip **`EVENT_BUNDLE_WEBHOOK_ON=1`** for real bundle fulfillment.
-6. Do **not** enable these flags in this task.
-
-## Rollback
-
-- Revert `/buy/` on Pages to previous single-book HTML (QR still lands on `/buy/?src=event_bundle` but old UI ignores src).
-- Set `EVENT_SALES_ON` unset/`0` → checkout POSTs 503.
-- Set `EVENT_BUNDLE_WEBHOOK_ON` off → new bundle sessions ignored after verify.
-
-## Spouse work
-
-Isolated worktree `/workspace/nfoa-spouse-invite` branch `feature/spouse-guide-invite` commit `cf74253` (SQL + edge function WIP). Untouched by this event work. Still needs UI/tests before any publish.
+## Branch
+`/workspace/nfoa-event-buy` · `feature/event-buy-bundle-fix` — local commits only, no push.

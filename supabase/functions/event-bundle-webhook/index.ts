@@ -1,7 +1,7 @@
 // =====================================================================
 // event-bundle-webhook - Never Fight or Argue Again, event weekend
 // Handles ONLY metadata.kind=event_bundle:
-//   checkout.session.completed -> preorders row (channel=event, quantity = 2 x bundles,
+//   checkout.session.completed -> preorders row (channel=event, quantity = 2 x bundles + singles,
 //                                 so /pickup/ QR and /express/ work unchanged),
 //                                 entitlement "companion_guide", buyer email via Brevo
 //                                 from hello@, [EVENT BUNDLE] note to Larry.
@@ -56,37 +56,43 @@ Deno.serve(async (req) => {
   if (event.type === "checkout.session.completed") {
     const s = obj;
     if (s.payment_status !== "paid") return ok({ ignored: "not paid" });
-    const bundles = Math.max(1, parseInt(s.metadata.bundles ?? "1", 10) || 1);
+    // books_pickup = 2*bundles + singles (legacy: missing singles => 0 extras)
+    let bundleQty = Math.max(0, parseInt(String(s.metadata.bundles ?? "0"), 10) || 0);
+    if (!Number.isFinite(bundleQty) || (bundleQty < 1 && (s.metadata.bundle === "1" || s.metadata.kind === "event_bundle") && !("singles" in (s.metadata || {})))) bundleQty = Math.max(1, parseInt(String(s.metadata.bundles ?? "1"), 10) || 1);
+    const singleQty = Math.max(0, parseInt(s.metadata.singles ?? "0", 10) || 0);
+    const booksPickup = Math.max(1, parseInt(s.metadata.books ?? "", 10) || (bundleQty * 2 + singleQty));
+    const grantGuide = bundleQty >= 1;
     const email = (s.customer_details?.email ?? s.customer_email ?? "").toLowerCase();
     let name = s.customer_details?.name || s.metadata.buyer_name || "";
     const fields: Record<string, string> = {};
     for (const f of s.custom_fields ?? []) fields[f.key] = f.text?.value ?? "";
     if (fields.full_name?.trim()) name = fields.full_name.trim();
     const { data: row, error } = await db.from("preorders").upsert({
-      stripe_session: s.id, email, name, inscription: fields.inscription ?? "", quantity: bundles * 2, bundles,
+      stripe_session: s.id, email, name, inscription: fields.inscription ?? "",
+      quantity: booksPickup, bundles: bundleQty,
       product: "event_bundle", amount: s.amount_total ?? 0, status: "paid", channel: "event",
       payment_intent: s.payment_intent ?? null, test_run: s.metadata.test_run ?? null,
     }, { onConflict: "stripe_session" }).select("id, pickup_token").single();
     if (error || !row) { console.error("save failed", error); return new Response("save failed", { status: 500 }); }
     let entitlementId: string | null = null;
-    if (email) {
+    // Guide entitlement ONLY when at least one bundle was purchased.
+    if (email && grantGuide) {
       const { data: ent } = await db.from("entitlements").upsert({ email_lower: email, product: PRODUCT, stripe_session: s.id, preorder_id: row.id, granted_at: new Date().toISOString(), revoked_at: null, revoke_reason: null }, { onConflict: "email_lower,product" }).select("id").single();
       entitlementId = ent?.id ?? null;
-      // Enroll Companion Guide follow-ups (13 steps). Safe while GUIDE_SEQUENCE_ON is off:
-      // only test_run rows can send until Larry flips the flag.
+      // Enroll Companion Guide follow-ups (13 steps). Safe while GUIDE_SEQUENCE_ON is off.
       if (entitlementId) await db.rpc("enroll_guide_sequence", { p_entitlement_id: entitlementId });
     }
     const ticketUrl = `${SITE_URL}/pickup/?t=${row.pickup_token}`, guideUrl = `${SITE_URL}/guide/?t=${row.pickup_token}`;
     const tag = s.metadata.test_run ? "[TEST] " : "";
-    await sendEmail(NOTIFY_EMAIL, `${tag}[EVENT BUNDLE] ${bundles} bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books), $${((s.amount_total ?? 0) / 100).toFixed(2)}, ${name || email}`,
-      `<p><b>${name || "(no name given)"}</b> (${email}) bought ${bundles} Event Bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books). Sign to: ${fields.inscription || "(none)"}.</p>`);
+    const summary = `${bundleQty} bundle${bundleQty === 1 ? "" : "s"}` + (singleQty ? ` + ${singleQty} single${singleQty === 1 ? "" : "s"}` : "") + ` (${booksPickup} books)`;
+    await sendEmail(NOTIFY_EMAIL, `${tag}[EVENT BUNDLE] ${summary}, $${((s.amount_total ?? 0) / 100).toFixed(2)}, ${name || email}`,
+      `<p><b>${name || "(no name given)"}</b> (${email}) bought ${summary}. Sign to: ${fields.inscription || "(none)"}.</p>`);
     if (email) {
-      // Unsubscribe link only exists for newsletter subscribers (subscribers.unsubscribe_token).
       const { data: sub } = await db.from("subscribers").select("unsubscribe_token").eq("email", email).is("unsubscribed_at", null).maybeSingle();
       const unsubUrl = sub?.unsubscribe_token ? `${SITE_URL}/unsubscribe/?t=${sub.unsubscribe_token}` : null;
-      await sendEmail(email, `${tag}${SUBJECT}`, bundleEmail({ name, bundles, books: bundles * 2, inscription: fields.inscription ?? "", ticketUrl, guideUrl, unsubUrl }));
+      await sendEmail(email, `${tag}${SUBJECT}`, bundleEmail({ name, bundles: bundleQty, books: booksPickup, inscription: fields.inscription ?? "", ticketUrl, guideUrl: grantGuide ? guideUrl : ticketUrl, unsubUrl }));
     }
-    return ok({ ok: true, bundles });
+    return ok({ ok: true, bundles: bundleQty, singles: singleQty, books_pickup: booksPickup, grant_guide: grantGuide });
   }
 
   if (event.type === "charge.refunded") {
