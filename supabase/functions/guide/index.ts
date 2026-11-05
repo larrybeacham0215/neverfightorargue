@@ -6,6 +6,8 @@
 //        Auth user for the order email (server side, verified by token + paid
 //        order + active entitlement), links entitlements.user_id and moves the
 //        token-keyed answers to 'usr:<user id>'.
+//   POST ?t=... {welcome_video_seen:true} -> { ok, welcome_video_seen_at } (public.guide_state)
+//   GET also returns welcome_video_seen_at (null if unseen or table missing).
 //   GET/POST with "Authorization: Bearer <user access token>" and no ?t
 //        -> same guide for a signed-in member (/members/).
 // Access = a paid, non-refunded event_bundle order for this pickup token, OR an
@@ -95,7 +97,7 @@ Deno.serve(async (req) => {
   if (req.method === "POST") {
     const raw = await req.text();
     if (raw.length > MAX_BODY) return json({ ok: false, error: "Too much at once." }, 413);
-    let body: { answers?: Record<string, unknown>; set_password?: unknown };
+    let body: { answers?: Record<string, unknown>; set_password?: unknown; welcome_video_seen?: unknown };
     try { body = JSON.parse(raw); } catch { return json({ ok: false, error: "Bad request" }, 400); }
 
     if (body.set_password !== undefined) {
@@ -125,6 +127,13 @@ Deno.serve(async (req) => {
       return json({ ok: true, created: true, email, moved: rows.length });
     }
 
+    if (body.welcome_video_seen === true) {
+      const now = new Date().toISOString();
+      const { error } = await db.from("guide_state").upsert({ owner_key: owner, user_id: userId, entitlement_id: entId, preorder_id: orderId, welcome_video_seen_at: now, updated_at: now }, { onConflict: "owner_key" });
+      if (error) { console.error("state failed", error.message); return json({ ok: false, error: "Could not save." }, 500); }
+      return json({ ok: true, welcome_video_seen_at: now });
+    }
+
     const entries = Object.entries(body.answers ?? {});
     if (!entries.length) return json({ ok: true, saved: 0 });
     if (entries.length > MAX_FIELDS) return json({ ok: false, error: "Too many fields." }, 413);
@@ -146,6 +155,13 @@ Deno.serve(async (req) => {
   const { data: ans } = await db.from("guide_answers").select("field_id, value, updated_at").eq("owner_key", owner).limit(500);
   const answers: Record<string, string> = {}; let last = "";
   for (const a of ans ?? []) { answers[a.field_id] = a.value; if (a.updated_at > last) last = a.updated_at; }
+  // Seen on any key this buyer has used (account, entitlement or order), so it survives the password claim.
+  let seenAt: string | null = null;
+  try {
+    const keys = [owner, entId ? `ent:${entId}` : "", orderId ? `ord:${orderId}` : ""].filter(Boolean);
+    const { data: gs, error: ge } = await db.from("guide_state").select("welcome_video_seen_at").in("owner_key", keys).not("welcome_video_seen_at", "is", null).limit(1);
+    if (!ge) seenAt = gs?.[0]?.welcome_video_seen_at ?? null;
+  } catch { /* table missing: treat as unseen */ }
   const { data: signed } = await db.storage.from("guides").createSignedUrl("companion-guide.pdf", 600, { download: "Never-Fight-Companion-Guide.pdf" });
-  return json({ ok: true, name, email, has_account: hasAccount, can_set_password: canClaim, guide: GUIDE, answers, answers_updated_at: last || null, pdf_url: signed?.signedUrl ?? null });
+  return json({ ok: true, name, email, has_account: hasAccount, can_set_password: canClaim, guide: GUIDE, answers, answers_updated_at: last || null, welcome_video_seen_at: seenAt, pdf_url: signed?.signedUrl ?? null });
 });
