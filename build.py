@@ -40,6 +40,8 @@ rep('Biblical conflict resolution for couples who have tried everything. Larry &
 # /book-launch/ now opens the book order view
 rep("    '/book-launch/':   'launch',", "    '/book-launch/':   'book',")
 
+s = s.replace('href="/book-launch/" data-tab="launch">Back to the launch page</a>', 'href="/book/" data-tab="book">Get the book</a>')
+
 # ---------- launch banners and popups ----------
 cut('  <div class="qrbox" id="qrBox"', '</button></div>\n    </div>\n  </div>\n',
     '  <div class="qrbox" id="qrBox" hidden></div>\n')
@@ -184,8 +186,8 @@ s = s[:i] + sec(f'      <h2 class="h-lg reveal">{B["gift_title"]}</h2>\n      <p
 faq = ''.join(f'<details style="margin:.75rem 0"><summary><strong>{x["q"]}</strong></summary><p>{x["a"]}</p></details>' for x in CH['faq'])
 ch = (f'  <header class="phead refresh"><div class="wrap"><p class="eyebrow">For churches and small groups</p><h1>{CH["hero_title"]}</h1><p>{CH["hero_body"]}</p>'
       f'<p class="phead__cta"><a class="btn" href="#inquire">Tell us about your group</a></p></div></header>\n'
-  + sec(f'      <h2 class="h-lg">{CH["what_title"]}</h2><p class="lede">{CH["what_body"]}</p>\n      <h2 class="h-lg" style="margin-top:2.5rem">{CH["pricing_title"]}</h2><p class="lede">{CH["pricing_body"]}</p>\n')
-  + sec(f'      <h2 class="h-lg">{CH["steps_title"]}</h2><ol class="lede">' + ''.join(f'<li>{x}</li>' for x in CH['steps']) + '</ol>\n', 'band--light')
+  + sec(f'      <h2 class="h-lg">{CH["what_title"]}</h2><p class="lede">{CH["what_body"]}</p>\n      <h2 class="h-lg" style="margin-top:2.5rem">{CH["pricing_title"]}</h2><p class="lede">{CH["pricing_body"]}</p><p style="margin-top:1.5rem"><a class="btn" href="/churches/#inquire">{CH["pricing_cta"]}</a></p>\n')
+  + sec(f'      <h2 class="h-lg">{CH["steps_title"]}</h2><ol class="lede">' + ''.join(f'<li>{x}</li>' for x in CH['steps']) + f'</ol><p style="margin-top:1.5rem"><a class="btn" href="/churches/#inquire">{CH["steps_cta"]}</a></p>\n', 'band--light')
   + sec(f'      <h2 class="h-lg">{CH["leader_title"]}</h2><p class="lede">{CH["leader_body"]}</p><p style="margin-top:1.5rem"><a class="btn" href="/downloads/">{CH["leader_cta"]}</a></p>\n', 'on-navy')
   + sec(f'      <h2 class="h-lg">Questions</h2>{faq}\n'))
 rep('<div class="view" id="view-churches" hidden>\n', '<div class="view" id="view-churches" hidden>\n' + ch)
@@ -196,8 +198,8 @@ s = s.replace('<section class="band band--paper" id="inquire">', '<section class
 # speaking: new content, press/media, keep the booking form section
 sp = (f'  <header class="phead refresh"><div class="wrap"><p class="eyebrow">Speaking</p><h1>{SP["hero_title"]}</h1><p>{SP["hero_body"]}</p>'
       f'<p class="phead__cta"><a class="btn" href="#book-us">{SP["cta"]}</a></p></div></header>\n'
-  + sec(f'      <h2 class="h-lg">{SP["formats_title"]}</h2>' + ''.join(f'<h3 class="h-sm" style="margin-top:1.5rem">{x["name"]}</h3><p>{x["body"]}</p>' for x in SP['formats']) + '\n')
-  + sec(f'      <h2 class="h-lg">{SP["process_title"]}</h2><p class="lede">{SP["process_body"]}</p><p class="lede">{SP["fees_body"]}</p><p class="lede">{SP["location_line"]}</p>\n', 'band--light')
+  + sec(f'      <h2 class="h-lg">{SP["formats_title"]}</h2>' + ''.join(f'<h3 class="h-sm" style="margin-top:1.5rem">{x["name"]}</h3><p>{x["body"]}</p>' + (f'<p style="margin-top:1rem"><a class="btn" href="/speaking/#book-us">{x["cta"]}</a></p>' if x.get("cta") else '') for x in SP['formats']) + '\n')
+  + sec(f'      <h2 class="h-lg">{SP["process_title"]}</h2><p class="lede">{SP["process_body"]}</p><p class="lede">{SP["fees_body"]}</p><p class="lede">{SP["location_line"]}</p><p style="margin-top:1.5rem"><a class="btn" href="/speaking/#book-us">{SP["process_cta"]}</a></p>\n', 'band--light')
   + sec(f'      <h2 class="h-lg">{SP["press_title"]}</h2><p class="lede">{SP["press_body"]}</p><p style="margin-top:1.5rem"><a class="btn" href="#" data-mail="Press inquiry">Email us</a></p>\n', 'on-navy'))
 rep('<div class="view" id="view-speaking" hidden>\n', '<div class="view" id="view-speaking" hidden>\n' + sp)
 s = s.replace('<section class="band band--light" id="book-us">', '<section class="band band--light refresh" id="book-us">', 1)
