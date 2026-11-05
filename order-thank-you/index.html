@@ -104,6 +104,13 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     <p class="msg" id="o2-msg" hidden></p>
   </section>
 
+  <section class="card" id="guidebox" hidden>
+    <h3>Your Companion Guide is ready</h3>
+    <p>Your order includes the 12 week interactive Companion Guide. Open it now, and create a password the first time so you can sign in at /members/ from any device.</p>
+    <a class="btn" id="guide-go" href="/members/">Open my Companion Guide</a>
+    <p class="msg ok" id="guide-msg" hidden></p>
+  </section>
+
   <section class="card">
     <h3>What happens next</h3>
     <ul style="margin:0;padding-left:1.1rem">
@@ -158,11 +165,25 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
       renderNames();
     });
   });
+  // Larry, Nov 5: when the buyer declines (or finishes) the offers, send them to their Companion Guide.
+  var last = {};
+  function guideUrl() { return last.guide_url || "/members/"; }
+  function offerLeft() { return ["o1", "o2"].some(function (id) { return !$(id).hidden; }); }
+  function goGuide(delay) {
+    $("guide-go").href = guideUrl();
+    show($("guidebox"), true);
+    $("guide-msg").textContent = "Taking you to your Companion Guide...";
+    show($("guide-msg"), true);
+    setTimeout(function () { location.href = guideUrl(); }, delay || 0);
+  }
+  function nextOrGuide(delay) { if (!offerLeft()) goGuide(delay); }
   [].forEach.call(document.querySelectorAll("[data-skip]"), function (b) {
-    b.addEventListener("click", function () { show($(b.dataset.skip), false); });
+    b.addEventListener("click", function () { var sec = $(b.dataset.skip); sec.dataset.done = "1"; show(sec, false); nextOrGuide(400); });
   });
 
   function render(d) {
+    last = d;
+    if (d.guide_url || d.ready) { $("guide-go").href = guideUrl(); show($("guidebox"), true); }
     if (d.order_no) $("s-no").textContent = d.order_no;
     $("s-qty").textContent = d.quantity != null ? String(d.quantity + (d.gift_copies || 0)) : "...";
     if (d.inscription) { $("s-ins").textContent = d.inscription; show($("s-ins"), true); show($("s-ins-l"), true); }
@@ -181,11 +202,12 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     }
   }
 
-  function load() {
+  function load(after) {
     fetch(API + "?session_id=" + encodeURIComponent(sid) + (zip ? "&zip=" + encodeURIComponent(zip) : "")).then(function (r) { return r.json(); }).then(function (d) {
       if (d.error) return;
       render(d);
-      if (!d.ready && tries++ < 8) setTimeout(load, 2000);
+      if (!d.ready && tries++ < 8) setTimeout(function () { load(after); }, 2000);
+      else if (after) after();
     }).catch(function () {});
   }
 
@@ -205,7 +227,7 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
             var sec = $(offer === "gift_copy" ? "o1" : "o2"); sec.dataset.done = "1"; show(sec, false);
             $("s-msg").textContent = offer === "gift_copy" ? "Added. Your extra signed cop" + (qty === 1 ? "y" : "ies") + " will ship in the same box." : "Added. Your companion set will ship in the same box.";
             sessionStorage.setItem("nfoa_zip", zip); show($("zipbox"), false);
-            show($("s-msg"), true); load();
+            show($("s-msg"), true); load(function () { nextOrGuide(2500); });
             return;
           }
           btn.disabled = false; btn.textContent = label;
@@ -229,8 +251,8 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
   if (addonSession) {
     fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ session_id: sid, confirm_session: addonSession }) })
       .then(function (r) { return r.json(); })
-      .then(function (d) { if (d.ok) { $("s-msg").textContent = "Added. It will ship in the same box."; show($("s-msg"), true); } })
-      .finally(function () { history.replaceState(null, "", location.pathname); load(); });
+      .then(function (d) { if (d.ok) { $("s-msg").textContent = "Added. It will ship in the same box."; show($("s-msg"), true); } return d; })
+      .then(function (d) { history.replaceState(null, "", location.pathname); load(d && d.ok ? function () { nextOrGuide(2500); } : null); }, function () { history.replaceState(null, "", location.pathname); load(); });
   } else { history.replaceState(null, "", location.pathname); load(); }
 })();
 </script>
