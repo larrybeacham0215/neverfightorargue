@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get your signed copy tonight | Never Fight or Argue Again</title>
-<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book. Pay on your phone and pick up at the book table.">
+<title>Get your signed copies | Never Fight or Argue Again</title>
+<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book, or the $50 Event Bundle with 2 signed books and the Companion Guide. Mix and match. Pay on your phone and pick up at the book table.">
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://neverfightorargue.com/buy/">
 <meta name="theme-color" content="#0D2D1D">
@@ -21,75 +21,125 @@
 .top p{margin:0 auto;max-width:28rem;color:rgba(247,243,234,.8)}
 .wrap{max-width:30rem;margin:-1.5rem auto 2rem;padding:0 1rem}
 .card{background:#fff;border:1px solid rgba(22,38,28,.12);border-radius:1rem;padding:1.4rem;box-shadow:0 10px 30px rgba(13,45,29,.08)}
-.book{display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem}
-.book img{width:6.5rem;height:auto}
-.book h2{font:700 1.2rem/1.25 'Playfair Display',serif;margin:0 0 .3rem}
-.price{font:400 1.9rem Marcellus,serif;color:var(--gold-ink)}.price span{font:500 1rem Karla;color:var(--soft)}
 label{display:block;font:700 .7rem Karla;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:1rem 0 .35rem}
 select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;border:1px solid rgba(22,38,28,.25);border-radius:.55rem;background:#fff;color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr auto;gap:.7rem;align-items:center;border:2px solid rgba(22,38,28,.12);border-radius:.8rem;padding:.85rem;margin:.55rem 0;background:#fff}
+.row h3{margin:0;font:700 1.02rem/1.25 'Playfair Display',serif}.row p{margin:.15rem 0 0;font-size:.88rem;color:var(--soft)}
+.row .pr{font:400 1.25rem Marcellus,serif;color:var(--gold-ink)}
+.row select{width:7.2rem;margin:0}
+.tag{display:inline-block;font:700 .62rem Karla;letter-spacing:.14em;text-transform:uppercase;background:var(--green);color:var(--ivory);border-radius:99px;padding:.15rem .5rem;margin-bottom:.2rem}
 .total{margin:1.2rem 0 0;padding:1rem;border-radius:.6rem;background:var(--ivory);display:flex;justify-content:space-between;align-items:center;font-weight:700}
 .total b{font:400 1.7rem Marcellus,serif;color:var(--green)}
 .btn{display:block;width:100%;margin-top:1.2rem;border:0;border-radius:.6rem;background:var(--green);color:var(--ivory);font:700 1.1rem Karla;padding:1rem;cursor:pointer}
-.btn:hover{background:var(--green2)}
+.btn:hover{background:var(--green2)}.btn:disabled{opacity:.5;cursor:not-allowed}
 .fine{font-size:.875rem;color:var(--soft);text-align:center;margin:.9rem 0 0}
 .err{color:#b3261e;font-size:.9rem;margin:.6rem 0 0}
 #pay{margin-top:.5rem}.back{display:inline-block;margin:0 0 .8rem;color:var(--gold-ink);font-size:.9rem}
 .verse{text-align:center;font-style:italic;color:var(--soft);font-size:.95rem;margin:1.6rem 1rem 0}
+.so{color:#b3261e;font-weight:700}
+.hl{outline:2px solid var(--gold);background:#FBF6EA}
 </style>
 </head>
 <body>
 <header class="top">
-  <small>Launch Night &middot; At the book table</small>
+  <small>At the book table</small>
   <h1>Take it home tonight.</h1>
-  <p>We are so glad you are here. Grab your signed copy right from your phone, then pick it up at the book table.</p>
+  <p>We are so glad you are here. Grab your signed copies right from your phone, then pick them up at the book table.</p>
 </header>
 <main class="wrap">
   <div class="card" id="form">
-    <div class="book">
-      <img src="/assets/book-3d.webp" alt="Never Fight or Argue Again book cover" width="104">
-      <div><h2>Never Fight or Argue Again</h2><div class="price">$20 <span>per book</span></div></div>
+    <div class="row" id="r-bundle">
+      <div><span class="tag">Best value</span><h3>Event Bundle</h3><p>2 signed books + Companion Guide · $50 each</p><p class="so" id="so-bundle" hidden>Sold out</p></div>
+      <div><div class="pr">$50</div><label for="qb" style="margin:.4rem 0 .2rem">Bundles</label><select id="qb" aria-label="How many bundles"></select></div>
     </div>
-    <label for="qty">How many books?</label>
-    <select id="qty"></select>
+    <div class="row" id="r-single">
+      <div><h3>Signed book</h3><p>Never Fight or Argue Again · $20 each</p><p class="so" id="so-single" hidden>Sold out</p></div>
+      <div><div class="pr">$20</div><label for="qs" style="margin:.4rem 0 .2rem">Singles</label><select id="qs" aria-label="How many single books"></select></div>
+    </div>
     <label for="nm">Your name</label>
     <input id="nm" autocomplete="name" placeholder="First and last name">
     <label for="em">Email for your receipt</label>
     <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
-    <div class="total"><span id="tq">1 book</span><b id="tt">$20</b></div>
+    <div class="total"><span id="tq">1 bundle (2 books)</span><b id="tt">$50</b></div>
+    <p class="fine" id="pickHint">Pickup: <b id="pb">2</b> signed books<span id="guideHint"> · includes Companion Guide</span></p>
     <p class="err" id="err" hidden></p>
     <button class="btn" id="go" type="button">Continue to secure payment</button>
-    <p class="fine">Secure payment by Stripe. After you pay, your receipt QR appears on screen and in your email. Show it at the book table to pick up your books.</p>
+    <p class="fine">Secure payment by Stripe. After you pay, your pickup QR appears on screen and in your email. Bundle buyers also get their Companion Guide link right away.</p>
   </div>
   <div class="card" id="frame" hidden>
-    <a href="#" class="back" id="back">&larr; Change quantity</a>
+    <a href="#" class="back" id="back">&larr; Change order</a>
     <div id="pay"></div>
   </div>
   <p class="verse">&ldquo;A soft answer turneth away wrath.&rdquo; Proverbs 15:1</p>
 </main>
 <script>
 (function(){
-  var PK='pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC', API='https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/checkout';
-  var sel=document.getElementById('qty'), err=document.getElementById('err'), co=null;
-  for(var i=1;i<=10;i++){var o=document.createElement('option');o.value=i;o.textContent=i+(i===1?' book, $20':' books, $'+(i*20));sel.appendChild(o);}
-  function show(){var q=+sel.value;document.getElementById('tq').textContent=q+(q===1?' book':' books');document.getElementById('tt').textContent='$'+(q*20);}
-  sel.addEventListener('change',show);show();
+  var PK='pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC', API='https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/event-checkout';
+  var qb=document.getElementById('qb'), qs=document.getElementById('qs'), err=document.getElementById('err'), co=null, st=null;
+  var preferBundle=/[?&]src=event_bundle\b/.test(location.search);
+  function fill(sel, max, zeroLabel, unit, price){
+    var v=+sel.value||0; sel.innerHTML='';
+    for(var i=0;i<=Math.max(0,max);i++){
+      var o=document.createElement('option'); o.value=i;
+      o.textContent=i===0?zeroLabel:(i+' · $'+(i*price));
+      sel.appendChild(o);
+    }
+    sel.value=String(Math.min(v, Math.max(0,max)));
+  }
+  function caps(){
+    var bMax=5, sMax=10;
+    if(st){ bMax=Math.min(5, st.bundles_left|0); sMax=Math.min(10, st.books_left|0); }
+    // Leave room: if choosing bundles, singles limited by remaining books after 2*b
+    var b=+qb.value||0; if(st) sMax=Math.min(10, Math.max(0,(st.books_left|0)-b*2));
+    fill(qb, bMax, '0 bundles', 'bundle', 50);
+    // restore preferred defaults once
+    if(qb.dataset.ready!=='1'){ qb.value=preferBundle && bMax>0?'1':'0'; qb.dataset.ready='1'; }
+    b=+qb.value||0;
+    if(st) sMax=Math.min(10, Math.max(0,(st.books_left|0)-b*2));
+    fill(qs, sMax, '0 singles', 'book', 20);
+    if(qs.dataset.ready!=='1'){ qs.value=(!preferBundle && sMax>0)?'1':'0'; qs.dataset.ready='1'; }
+    document.getElementById('so-bundle').hidden=!(st&&st.sold_out_bundle);
+    document.getElementById('so-single').hidden=!(st&&st.sold_out_single);
+    document.getElementById('r-bundle').classList.toggle('hl', preferBundle);
+    show();
+  }
+  function show(){
+    var b=+qb.value||0, s=+qs.value||0, books=b*2+s, dollars=b*50+s*20;
+    var parts=[];
+    if(b) parts.push(b+' bundle'+(b===1?'':'s'));
+    if(s) parts.push(s+' single'+(s===1?'':'s'));
+    document.getElementById('tq').textContent=parts.length?parts.join(' + '):'Nothing selected';
+    document.getElementById('tt').textContent='$'+dollars;
+    document.getElementById('pb').textContent=String(books);
+    document.getElementById('guideHint').hidden=b<1;
+    var go=document.getElementById('go');
+    go.disabled=(b<1&&s<1)||(st&&st.sold_out_single&&st.sold_out_bundle);
+    go.textContent=go.disabled&&st&&st.sold_out_single&&st.sold_out_bundle?'Sold out':'Continue to secure payment';
+  }
+  qb.addEventListener('change',function(){ qb.dataset.ready='1'; caps(); });
+  qs.addEventListener('change',function(){ qs.dataset.ready='1'; show(); });
+  caps();
+  fetch(API).then(function(r){return r.json();}).then(function(d){st=d; caps();}).catch(function(){});
   function fail(m){err.textContent=m;err.hidden=false;document.getElementById('frame').hidden=true;document.getElementById('form').hidden=false;}
   document.getElementById('go').addEventListener('click',function(){
     var nm=document.getElementById('nm').value.trim(), em=document.getElementById('em').value.trim();
+    var b=+qb.value||0, s=+qs.value||0;
     err.hidden=true;
+    if(b<1&&s<1){return fail('Choose at least one bundle or one signed book.');}
     if(!nm){return fail('Please enter your name.');}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){return fail('Please enter a valid email so we can send your receipt.');}
+    if(b>=1&&!em){return fail('Email is required for the Companion Guide.');}
     document.getElementById('form').hidden=true;document.getElementById('frame').hidden=false;
     var pay=document.getElementById('pay');pay.innerHTML='<p class="fine">Opening secure payment...</p>';
     var start=function(){
       var stripe=window.Stripe(PK);
       stripe.initEmbeddedCheckout({fetchClientSecret:function(){
-        return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'preorder',src:'event',quantity:+sel.value,name:nm,email:em})})
-          .then(function(r){return r.json();}).then(function(d){if(!d.clientSecret)throw new Error(d.error||'no session');return d.clientSecret;});
+        return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({bundles:b,singles:s,name:nm,email:em})})
+          .then(function(r){return r.json();}).then(function(d){if(d.sold_out){st=d;caps();}if(!d.clientSecret)throw new Error(d.error||'no session');return d.clientSecret;});
       }}).then(function(c){co=c;pay.innerHTML='';c.mount('#pay');}).catch(function(){fail('Payment could not start. Please try again.');});
     };
     if(window.Stripe)return start();
-    var s=document.createElement('script');s.src='https://js.stripe.com/v3/';s.onload=start;s.onerror=function(){fail('Payment could not load. Please check your connection and try again.');};document.head.appendChild(s);
+    var sc=document.createElement('script');sc.src='https://js.stripe.com/v3/';sc.onload=start;sc.onerror=function(){fail('Payment could not load. Please check your connection and try again.');};document.head.appendChild(sc);
   });
   document.getElementById('back').addEventListener('click',function(e){e.preventDefault();if(co){try{co.destroy();}catch(x){}co=null;}document.getElementById('frame').hidden=true;document.getElementById('form').hidden=false;});
 })();

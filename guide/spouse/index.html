@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2D1D">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<title>Your Companion Guide invite | Never Fight or Argue Again</title>
+<style>
+body{margin:0;background:#F8F4E9;color:#0D2D1D;font-family:Arial,Helvetica,sans-serif}
+header{background:#0D2D1D;color:#F8F4E9;padding:16px 20px}
+header .brand{font-family:Georgia,serif;font-size:18px;text-decoration:none;color:#F8F4E9}
+main{max-width:480px;margin:0 auto;padding:28px 20px 60px}
+h1{font-family:Georgia,serif;font-weight:normal;font-size:28px;margin:0 0 8px}
+p{line-height:1.55;margin:0 0 12px}
+.card{background:#fff;border:1px solid #e3dac4;border-radius:10px;padding:22px;margin:18px 0}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 4px}
+input{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:1px solid #b9ae94;border-radius:6px}
+button{display:inline-block;margin-top:16px;padding:12px 20px;font-size:15px;font-weight:bold;border:0;border-radius:6px;background:#0D2D1D;color:#F8F4E9;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+.err{color:#a33;font-size:14px;min-height:1.2em;margin-top:8px}
+.ok{color:#1f6b3a;font-size:15px;line-height:1.5}
+.eyebrow{color:#C39A5E;letter-spacing:.12em;text-transform:uppercase;font-size:12px;margin:0 0 6px}
+.note{font-size:14px;color:#445}
+a{color:#0D2D1D}
+[hidden]{display:none!important}
+</style></head><body>
+<header><a class="brand" href="/">Never Fight or Argue Again</a></header>
+<main>
+  <section id="v-load"><p class="eyebrow">Spouse invite</p><h1>Checking your invite…</h1><p class="note">One moment.</p></section>
+  <section id="v-bad" hidden><p class="eyebrow">Spouse invite</p><h1>This invite is not available</h1><p id="bad-msg" class="err"></p><p class="note">If you already claimed your guide, <a href="/members/">sign in here</a>. Questions? <a href="mailto:hello@neverfightorargue.com">hello@neverfightorargue.com</a>.</p></section>
+  <section id="v-form" hidden>
+    <p class="eyebrow">Spouse invite</p>
+    <h1>Claim your own Companion Guide</h1>
+    <p id="intro">This invite is for you. Use <strong>your</strong> email and create <strong>your</strong> password. Your answers stay private from your spouse.</p>
+    <form class="card" id="f" autocomplete="on">
+      <label for="name">Your first name (optional)</label>
+      <input id="name" type="text" maxlength="80" autocomplete="given-name">
+      <label for="email">Your email</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <label for="pw">Create a password (at least 8 characters)</label>
+      <input id="pw" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <label for="pw2">Type it again</label>
+      <input id="pw2" type="password" minlength="8" maxlength="72" autocomplete="new-password" required>
+      <p class="note">If this email already has an account, enter that account’s current password. We will not change it.</p>
+      <div class="err" id="err" aria-live="polite"></div>
+      <button type="submit" id="go">Claim my guide</button>
+    </form>
+  </section>
+  <section id="v-done" hidden>
+    <p class="eyebrow">You’re in</p>
+    <h1>Your Companion Guide is ready</h1>
+    <p class="ok" id="done-msg">You can open your guide anytime from your account.</p>
+    <p><a class="btn" id="open-guide" href="/guide/" style="display:inline-block;margin-top:12px;padding:12px 20px;background:#0D2D1D;color:#F8F4E9;border-radius:6px;text-decoration:none;font-weight:bold">Open my guide</a></p>
+    <p class="note"><a href="/members/">My account</a></p>
+  </section>
+</main>
+<script src="/assets/nfoa-auth.js"></script>
+<script>
+(function(){
+var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1')+'/spouse-invite';
+var i=(new URLSearchParams(location.search).get('i')||'').toLowerCase();
+function show(id){['v-load','v-bad','v-form','v-done'].forEach(function(v){document.getElementById(v).hidden=v!==id;});}
+function fail(msg){document.getElementById('bad-msg').textContent=msg||'This invite link is not valid.';show('v-bad');}
+if(!/^[0-9a-f]{64}$/.test(i)){fail('This invite link is not valid. Use the link your spouse forwarded to you.');return;}
+
+fetch(API+'?i='+encodeURIComponent(i),{headers:{'accept':'application/json'},cache:'no-store'})
+ .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
+ .then(function(x){
+   var d=x.d||{};
+   if(!d.ok||!d.usable){fail(d.error||'This invite is not available.');return;}
+   var bn=(d.buyer_first_name||'').trim();
+   if(bn){document.getElementById('intro').innerHTML=bn+' invited you to your own Companion Guide. Use <strong>your</strong> email and create <strong>your</strong> password. Your answers stay private.';}
+   show('v-form');
+ }).catch(function(){fail('Could not reach the server. Check your connection and refresh.');});
+
+document.getElementById('f').onsubmit=function(ev){
+  ev.preventDefault();
+  var er=document.getElementById('err'), btn=document.getElementById('go');
+  er.textContent='';
+  var email=document.getElementById('email').value.trim().toLowerCase();
+  var a=document.getElementById('pw').value, b=document.getElementById('pw2').value;
+  var name=document.getElementById('name').value.trim();
+  if(!email||email.indexOf('@')<0){er.textContent='Enter your email address.';return;}
+  if(a.length<8){er.textContent='Use at least 8 characters.';return;}
+  if(a!==b){er.textContent='The two passwords do not match.';return;}
+  btn.disabled=true;btn.textContent='Claiming…';
+  fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'redeem',invite:i,email:email,password:a,name:name})})
+   .then(function(r){return r.json().then(function(d){return {status:r.status,d:d};});})
+   .then(function(x){
+     var d=x.d||{};
+     if(!d.ok){
+       btn.disabled=false;btn.textContent='Claim my guide';
+       er.textContent=d.error||'Could not complete the claim.';
+       if(d.needs_existing_password){
+         document.getElementById('pw').autocomplete='current-password';
+         document.getElementById('pw2').autocomplete='current-password';
+       }
+       return;
+     }
+     // Sign in locally if auth helper is present (best effort; page still works without).
+     var go=function(){
+       document.getElementById('done-msg').textContent=d.created
+         ? 'Password created. Your answers will save under your account.'
+         : 'Your Companion Guide seat is ready on this account.';
+       if(d.guide_url) document.getElementById('open-guide').href=d.guide_url;
+       show('v-done');
+     };
+     if(window.NFOA_AUTH&&NFOA_AUTH.signIn){
+       NFOA_AUTH.signIn(email,a).then(go).catch(go);
+     } else go();
+   })
+   .catch(function(){btn.disabled=false;btn.textContent='Claim my guide';er.textContent='Could not reach the server. Please try again.';});
+};
+})();
+</script></body></html>
