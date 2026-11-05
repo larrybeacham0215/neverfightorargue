@@ -1,0 +1,15 @@
+LOCAL DRAFT ONLY — do not send. Not wired into Brevo/guide-backfill/event emails.
+
+---
+Invite your spouse (their own guide)
+
+You each get your own Companion Guide and private answers.
+Forward this invite link to your spouse — do not forward your own "Open my Companion Guide" link.
+
+https://neverfightorargue.com/guide/spouse/?i=TOKEN
+
+They will use THEIR email and create THEIR password.
+---
+
+Wiring: deferred until SPOUSE_INVITE_ON=1 after Auth ownership accepted.
+Must NOT auto-enroll guide_sequence / marketing.

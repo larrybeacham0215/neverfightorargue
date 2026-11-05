@@ -1,0 +1,68 @@
+{
+  "label": "auth_mock — local GoTrue behavior simulation; NOT live Supabase Auth; no emails; no prod users",
+  "passed": 10,
+  "total": 10,
+  "failed": [],
+  "results": [
+    {
+      "kind": "auth_mock",
+      "name": "wrong_password_no_takeover",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "wrong_password_no_userId",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "correct_password_signs_in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "correct_password_unchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "new_email_creates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "create_stores_hash_not_plaintext",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "never_calls_updateUser",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "spouse_seat_not_qualifying_parent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "cannot_select_spouse_id_as_parent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "auth_mock",
+      "name": "default_flag_off",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

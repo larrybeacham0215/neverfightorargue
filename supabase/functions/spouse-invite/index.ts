@@ -20,6 +20,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const ALLOWED = [SITE_URL, "https://www.neverfightorargue.com"];
 const PRODUCT = "companion_guide";
+// Hard gate: default OFF until Auth ownership proven + Larry enablement.
+const ON = Deno.env.get("SPOUSE_INVITE_ON") === "1";
 const MAX_BODY = 16 * 1024;
 const RATE = 30;
 const hits = new Map<string, number[]>();
@@ -76,6 +78,7 @@ Deno.serve(async (req) => {
 
   // ---------- GET peek (never redeems) ----------
   if (req.method === "GET") {
+    if (!ON) return json({ ok: false, usable: false, gated: true, error: "Spouse invites are not open yet." }, 503);
     const raw = (url.searchParams.get("i") ?? "").toLowerCase();
     if (!inviteLooksValid(raw)) return json({ ok: false, error: "This invite link is not valid." }, 403);
     if (limited("peek:" + raw.slice(0, 12))) return json({ ok: false, error: "Too many requests. Try again in a minute." }, 429);
@@ -111,6 +114,7 @@ Deno.serve(async (req) => {
   }
 
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
+  if (!ON) return json({ ok: false, gated: true, error: "Spouse invites are not open yet." }, 503);
 
   const rawBody = await req.text();
   if (rawBody.length > MAX_BODY) return json({ ok: false, error: "Too much at once." }, 413);
@@ -131,14 +135,28 @@ Deno.serve(async (req) => {
     if (!u?.user?.email) return json({ ok: false, error: "Please sign in again." }, 401);
     const email = u.user.email.toLowerCase();
     const parentId = String(body.parent_entitlement_id ?? "");
-    const { data: ents } = await db
+    // Two safe equality filters (no string-interpolated .or). Never use a spouse seat as parent.
+    const { data: byUser } = await db
       .from("entitlements")
-      .select("id, email_lower, revoked_at, role, parent_entitlement_id")
+      .select("id, email_lower, revoked_at, role, parent_entitlement_id, user_id")
       .eq("product", PRODUCT)
       .is("revoked_at", null)
-      .or(`user_id.eq.${u.user.id},email_lower.eq."${email}"`);
-    const parent = (ents ?? []).find((e) => e.id === parentId) ?? (ents ?? []).find((e) => !e.parent_entitlement_id && e.role !== "spouse");
-    if (!parent || parent.parent_entitlement_id || parent.role === "spouse") {
+      .eq("user_id", u.user.id);
+    const { data: byEmail } = await db
+      .from("entitlements")
+      .select("id, email_lower, revoked_at, role, parent_entitlement_id, user_id")
+      .eq("product", PRODUCT)
+      .is("revoked_at", null)
+      .eq("email_lower", email);
+    const seen = new Set<string>();
+    const ents = [...(byUser ?? []), ...(byEmail ?? [])].filter((e) => {
+      if (seen.has(e.id)) return false;
+      seen.add(e.id);
+      return true;
+    });
+    const qualifying = ents.filter((e) => !e.parent_entitlement_id && (e.role ?? "buyer") !== "spouse");
+    const parent = qualifying.find((e) => e.id === parentId) ?? qualifying[0];
+    if (!parent) {
       return json({ ok: false, error: "No qualifying Companion Guide purchase found for your account." }, 403);
     }
 

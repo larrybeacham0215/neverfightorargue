@@ -1,6 +1,6 @@
 {
   "label": "spouse-invite local — unit + mocked_handler (no live Stripe/DB/mail)",
-  "ran_at": "2026-11-05T19:49:00.653Z",
+  "ran_at": "2026-11-05T20:09:22.770Z",
   "passed": 26,
   "total": 26,
   "failed": [],

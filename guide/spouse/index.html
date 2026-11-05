@@ -66,7 +66,7 @@ fetch(API+'?i='+encodeURIComponent(i),{headers:{'accept':'application/json'},cac
  .then(function(r){return r.json().then(function(d){return {ok:r.ok,d:d};});})
  .then(function(x){
    var d=x.d||{};
-   if(!d.ok||!d.usable){fail(d.error||'This invite is not available.');return;}
+   if(d.gated||(!d.ok&&d.error&&/not open yet/i.test(d.error))){fail('Spouse invites are not open yet. Your existing Companion Guide is unchanged.');return;}if(!d.ok||!d.usable){fail(d.error||'This invite is not available.');return;}
    var bn=(d.buyer_first_name||'').trim();
    if(bn){document.getElementById('intro').innerHTML=bn+' invited you to your own Companion Guide. Use <strong>your</strong> email and create <strong>your</strong> password. Your answers stay private.';}
    show('v-form');
