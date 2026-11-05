@@ -1,15 +1,16 @@
 // =====================================================================
 // guide - Companion Guide for Event Bundle buyers (interactive)
-//   GET  ?t=<pickup_token>            -> { ok, name, guide, answers, pdf_url }
-//   POST ?t=<pickup_token> {answers:{field_id: value}} -> { ok, saved }
-//   POST ?t=<pickup_token> {set_password}  -> first visit: creates the Supabase
+//   GET  ?t=<pickup_token|claim_token> -> { ok, name, guide, answers, pdf_url }
+//   POST ?t=<pickup_token|claim_token> {answers:{field_id: value}} -> { ok, saved }
+//   POST ?t=<pickup_token|claim_token> {set_password}  -> first visit: creates the Supabase
 //        Auth user for the order email (server side, verified by token + paid
 //        order + active entitlement), links entitlements.user_id and moves the
 //        token-keyed answers to 'usr:<user id>'.
 //   GET/POST with "Authorization: Bearer <user access token>" and no ?t
 //        -> same guide for a signed-in member (/members/).
-// Access = a paid, non-refunded event_bundle order for this token, OR an
-// active (not revoked) "companion_guide" entitlement for that order's email.
+// Access = a paid, non-refunded event_bundle order for this pickup token, OR an
+// active companion_guide entitlement for that order's email, OR an active
+// entitlement whose claim_token matches (past-buyer gift; no preorder).
 // Answers live in public.guide_answers (RLS on, no policies), keyed by the
 // entitlement ('ent:<id>') when there is one, else the order ('ord:<id>'), so
 // they follow the buyer to any device that has the link.
@@ -53,19 +54,31 @@ Deno.serve(async (req) => {
   if (t) {
     if (!UUID.test(t)) return json({ ok: false, error: "This guide link is not valid." }, 403);
     if (req.method === "POST" && limited(t)) return json({ ok: false, error: "Saving too fast. Try again in a minute." }, 429);
+    // Pickup token (event bundle / preorder) OR claim_token (past-buyer gift, no preorder).
     const { data: order } = await db.from("preorders").select("id, email, name, status, product").eq("pickup_token", t).maybeSingle();
-    if (!order) return json({ ok: false, error: "This guide link is not valid." }, 403);
-    let ent: { id: string; user_id: string | null } | null = null;
-    if (order.email) {
-      const r = await db.from("entitlements").select("id, user_id").eq("email_lower", order.email.toLowerCase()).eq("product", PRODUCT).is("revoked_at", null).maybeSingle();
-      ent = r.data;
+    if (order) {
+      let ent: { id: string; user_id: string | null } | null = null;
+      if (order.email) {
+        const r = await db.from("entitlements").select("id, user_id").eq("email_lower", order.email.toLowerCase()).eq("product", PRODUCT).is("revoked_at", null).maybeSingle();
+        ent = r.data;
+      }
+      const allowed = order.status !== "refunded" && ((order.product === "event_bundle" && order.status === "paid") || !!ent);
+      if (!allowed) return json({ ok: false, error: "This order does not include the Companion Guide, or it was refunded." }, 403);
+      orderId = order.id; entId = ent?.id ?? null; userId = ent?.user_id ?? null;
+      name = (order.name ?? "").split(" ")[0]; email = (order.email ?? "").toLowerCase();
+      hasAccount = !!userId; canClaim = !!ent && !userId && !!email;
+      owner = userId ? `usr:${userId}` : ent ? `ent:${ent.id}` : `ord:${order.id}`;
+    } else {
+      const { data: ent } = await db.from("entitlements").select("id, email_lower, user_id, revoked_at").eq("claim_token", t).eq("product", PRODUCT).is("revoked_at", null).maybeSingle();
+      if (!ent) return json({ ok: false, error: "This guide link is not valid." }, 403);
+      entId = ent.id; userId = ent.user_id ?? null; orderId = null;
+      email = (ent.email_lower ?? "").toLowerCase();
+      name = "";
+      const { data: st } = await db.from("guide_sequence_state").select("buyer_name").eq("entitlement_id", ent.id).maybeSingle();
+      if (st?.buyer_name) name = String(st.buyer_name).split(" ")[0];
+      hasAccount = !!userId; canClaim = !userId && !!email;
+      owner = userId ? `usr:${userId}` : `ent:${ent.id}`;
     }
-    const allowed = order.status !== "refunded" && ((order.product === "event_bundle" && order.status === "paid") || !!ent);
-    if (!allowed) return json({ ok: false, error: "This order does not include the Companion Guide, or it was refunded." }, 403);
-    orderId = order.id; entId = ent?.id ?? null; userId = ent?.user_id ?? null;
-    name = (order.name ?? "").split(" ")[0]; email = (order.email ?? "").toLowerCase();
-    hasAccount = !!userId; canClaim = !!ent && !userId && !!email;
-    owner = userId ? `usr:${userId}` : ent ? `ent:${ent.id}` : `ord:${order.id}`;
   } else if (bearer) {
     const { data: u } = await db.auth.getUser(bearer);
     if (!u?.user) return json({ ok: false, signed_out: true, error: "Please sign in again." }, 401);

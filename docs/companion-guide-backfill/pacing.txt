@@ -1,0 +1,7 @@
+Past-buyer gift pacing (America/New_York)
+========================================
+Include candidates: 65
+Guide daily budget: 100 (GUIDE_SEQUENCE_DAILY_BUDGET; shared with sequence via guide_mail_sent_today)
+Day 1 offset: +1 day from gift send (so gift and Day 1 are different calendar days)
+Days needed for gift sends at 100/day: 1
+Then Day 1 wave ~1 day later (~65), then weekly waves under the same budget.

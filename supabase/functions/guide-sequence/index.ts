@@ -56,12 +56,15 @@ async function sendBrevo(to: string, subject: string, html: string): Promise<{ o
 
 type Db = ReturnType<typeof createClient>;
 
-async function enrollOne(db: Db, entitlementId: string, preorderId: string | null, emailLower: string, purchasedAt: string, isTest: boolean) {
-  const { data: state, error: stErr } = await db.from("guide_sequence_state").upsert({
+async function enrollOne(db: Db, entitlementId: string, preorderId: string | null, emailLower: string, purchasedAt: string, isTest: boolean, buyerName?: string | null, cohort?: string | null) {
+  const row: Record<string, unknown> = {
     entitlement_id: entitlementId,
     email_lower: emailLower,
     is_test: isTest,
-  }, { onConflict: "entitlement_id" }).select("unsub_token, stopped_at").single();
+  };
+  if (buyerName !== undefined && buyerName !== null) row.buyer_name = buyerName;
+  if (cohort) row.cohort = cohort;
+  const { data: state, error: stErr } = await db.from("guide_sequence_state").upsert(row, { onConflict: "entitlement_id" }).select("unsub_token, stopped_at").single();
   if (stErr || !state) {
     console.error("enroll state failed", stErr);
     return 0;
@@ -147,14 +150,14 @@ async function processDue(db: Db) {
   for (const row of due ?? []) {
     if (budgetLeft <= 0) break;
 
-    const { data: state } = await db.from("guide_sequence_state").select("unsub_token, stopped_at, stop_reason").eq("entitlement_id", row.entitlement_id).maybeSingle();
+    const { data: state } = await db.from("guide_sequence_state").select("unsub_token, stopped_at, stop_reason, buyer_name").eq("entitlement_id", row.entitlement_id).maybeSingle();
     if (state?.stopped_at) {
       await db.from("guide_email_queue").update({ status: "stopped", skip_reason: state.stop_reason ?? "stopped" }).eq("id", row.id);
       results.stopped++;
       continue;
     }
 
-    const { data: ent } = await db.from("entitlements").select("id, revoked_at, revoke_reason, preorder_id").eq("id", row.entitlement_id).maybeSingle();
+    const { data: ent } = await db.from("entitlements").select("id, revoked_at, revoke_reason, preorder_id, claim_token").eq("id", row.entitlement_id).maybeSingle();
     if (!ent || ent.revoked_at) {
       await stopSequence(db, row.entitlement_id, ent?.revoke_reason ?? "revoked");
       results.stopped++;
@@ -163,6 +166,7 @@ async function processDue(db: Db) {
 
     let name = "";
     let pickupToken: string | null = null;
+    let claimToken: string | null = ent.claim_token ?? null;
     let preorderStatus = "paid";
     if (row.preorder_id) {
       const { data: p } = await db.from("preorders").select("name, pickup_token, status, test_run").eq("id", row.preorder_id).maybeSingle();
@@ -177,8 +181,12 @@ async function processDue(db: Db) {
       results.stopped++;
       continue;
     }
+    if (!name && state?.buyer_name) name = state.buyer_name;
 
-    const guideUrl = pickupToken ? `${SITE_URL}/guide/?t=${pickupToken}` : `${SITE_URL}/guide/`;
+    const token = pickupToken || claimToken;
+    // Past buyers: claim_token link (set-password works). Else /members/ sign-in.
+    // Never invent a pickup QR/token or preorder for this cohort.
+    const guideUrl = token ? `${SITE_URL}/guide/?t=${token}` : `${SITE_URL}/members/`;
     const signinUrl = `${SITE_URL}/members/`;
     const forgotUrl = `${SITE_URL}/members/`;
     const unsubToken = state?.unsub_token;
