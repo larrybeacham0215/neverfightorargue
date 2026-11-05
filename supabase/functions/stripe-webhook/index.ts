@@ -5,8 +5,8 @@
 //   • Gift a Signed Copy  → row in gift_purchases
 //   • Sponsorship         → matching sponsor_commitments row marked paid
 //   • Preorder / event singles (kind=preorder) → preorders (stores payment_intent)
-//   • Event Frameworks Bundle (kind=event_bundle) → forward to event-bundle-webhook
-//   • charge.refunded → event singles by payment_intent; event_bundle forwarded
+//   • Event Frameworks Bundle (kind=event_bundle) → ignored here (dedicated Stripe endpoint)
+//   • charge.refunded → event singles by payment_intent; event_bundle ignored (dedicated endpoint)
 // Book orders (metadata.kind=book_order) are forwarded to book-order-webhook.
 // Signature is verified with STRIPE_WEBHOOK_SECRET (set in function secrets).
 // Deploy:  supabase functions deploy stripe-webhook --no-verify-jwt
@@ -89,13 +89,9 @@ Deno.serve(async (req) => {
 
     // Prefer looking up order first so we know where to route
     const { data: order } = await db.from("preorders").select("id, product, channel, status, email").eq("payment_intent", pi).maybeSingle();
+    // Bundle refunds: dedicated event-bundle-webhook endpoint already receives charge.refunded.
     if (order?.product === "event_bundle" || charge.metadata?.kind === "event_bundle") {
-      const r = await fetch(`${SUPABASE_URL}/functions/v1/event-bundle-webhook`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "stripe-signature": req.headers.get("stripe-signature") ?? "" },
-        body: payload,
-      });
-      return new Response(await r.text(), { status: r.status });
+      return new Response(JSON.stringify({ ignored: "event_bundle refund owned by dedicated endpoint" }), { status: 200 });
     }
     if (order && order.channel === "event" && order.status === "paid") {
       const { data: row } = await db.from("preorders").update({
@@ -121,14 +117,10 @@ Deno.serve(async (req) => {
     });
     return new Response(await r.text(), { status: r.status });
   }
-  // Event Frameworks Bundle → dedicated handler (incl. mixed cart singles on same session)
+  // Event Frameworks Bundle: dedicated Stripe endpoint hits event-bundle-webhook directly
+  // (we_…ToVYKFeR). Do not forward here — duplicate delivery would double-send Brevo mail.
   if (s.metadata?.kind === "event_bundle") {
-    const r = await fetch(`${SUPABASE_URL}/functions/v1/event-bundle-webhook`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "stripe-signature": req.headers.get("stripe-signature") ?? "" },
-      body: payload,
-    });
-    return new Response(await r.text(), { status: r.status });
+    return new Response(JSON.stringify({ ignored: "event_bundle owned by dedicated endpoint" }), { status: 200 });
   }
   if (s.payment_status && s.payment_status !== "paid") return new Response("not paid yet", { status: 200 });
 
