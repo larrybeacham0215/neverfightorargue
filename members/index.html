@@ -59,7 +59,7 @@ function list(){show('v-list');A.session().then(function(s){document.getElementB
         if(!s||!s.access_token){err.textContent='Please sign in again.';return;}
         return fetch(API,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+s.access_token},body:JSON.stringify({action:action,parent_entitlement_id:boxEl.getAttribute('data-parent')})})
           .then(function(r){return r.json().then(function(d){return {status:r.status,d:d};});})
-          .then(function(x){var d=x.d||{};if(!d.ok){err.textContent=d.error||'Could not create the invite.';return;}ta.value=d.forwardable_text||d.invite_url||'';ta.hidden=false;ta.select();});
+          .then(function(x){var d=x.d||{};if(!d.ok){err.textContent=(d.gated?'Spouse invites are not open yet.':'')||d.error||'Could not create the invite.';return;}ta.value=d.forwardable_text||d.invite_url||'';ta.hidden=false;ta.select();});
       }).catch(function(){err.textContent='Could not create the invite.';});
     }
     boxEl.querySelector('.spouse-issue').onclick=function(){run('issue');};
