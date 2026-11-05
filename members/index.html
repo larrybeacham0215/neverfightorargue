@@ -14,7 +14,7 @@ button,.btn{display:inline-block;margin-top:16px;padding:12px 20px;font-size:15p
 .err{color:#a33;font-size:14px;min-height:1em;margin-top:8px}.ok{color:#1f6b3a;font-size:14px;margin-top:8px}
 .item{display:flex;gap:14px;align-items:flex-start}.item img{width:64px;border-radius:4px}.item h3{margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:19px}
 .item p{margin:0;font-size:14px}.eyebrow{color:#C39A5E;letter-spacing:.12em;text-transform:uppercase;font-size:12px;margin:0 0 6px}
-.res-list{list-style:none;padding:0;margin:12px 0 0}.res-list li{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid #efe7d6}.res-list li:first-child{border-top:0;padding-top:4px}.res-list img{width:48px;height:auto;border-radius:4px;flex:0 0 auto}.res-list a{color:#0D2D1D;font-weight:bold;text-decoration:underline}.res-list p{margin:4px 0 0;font-size:13px;color:#3a4a40}[hidden]{display:none!important}
+.res-list{list-style:none;padding:0;margin:12px 0 0}.res-list li{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid #efe7d6}.res-list li:first-child{border-top:0;padding-top:4px}.res-list img{width:48px;height:auto;border-radius:4px;flex:0 0 auto}.res-list a{color:#0D2D1D;font-weight:bold;text-decoration:underline}.res-list p{margin:4px 0 0;font-size:13px;color:#3a4a40}.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:14px}.lib-item{border:1px solid #efe7d6;border-radius:8px;background:#fff;overflow:hidden;display:flex;flex-direction:column}.lib-item>a.cover{display:block;background:#f7f2e8;aspect-ratio:4/5}.lib-item img{width:100%;height:100%;object-fit:contain;display:block}.lib-item .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px;flex:1}.lib-item h4{margin:0;font-family:Georgia,serif;font-weight:normal;font-size:16px;color:#0D2D1D}.lib-item p{margin:0;font-size:13px;color:#3a4a40;flex:1}.lib-acts{display:flex;gap:8px;margin-top:4px}.lib-acts a{flex:1;text-align:center;font-size:13px;font-weight:bold;padding:7px 0;border-radius:6px;text-decoration:none;border:1px solid #0D2D1D;color:#0D2D1D}.lib-acts a.v{background:#0D2D1D;color:#fff}[hidden]{display:none!important}
 </style></head><body>
 <header><a class="brand" href="/">Never Fight or Argue Again</a><a href="#" id="out" hidden>Sign out</a></header>
 <main>
@@ -46,9 +46,10 @@ var FREE_RESOURCES=[
 ];
 function freeResourcesHtml(){
   var lis=FREE_RESOURCES.map(function(r){
-    return '<li><img src="/downloads/thumbs/'+esc(r.thumb)+'" alt=""><div><a href="/downloads/files/'+esc(r.file)+'" target="_blank" rel="noopener">'+esc(r.title)+'</a><p>'+esc(r.desc)+'</p></div></li>';
+    var f='/downloads/files/'+esc(r.file);
+    return '<div class="lib-item"><a class="cover" href="'+f+'" target="_blank" rel="noopener" aria-label="View '+esc(r.title)+'"><img src="/downloads/thumbs/'+esc(r.thumb)+'" alt="'+esc(r.title)+' cover" loading="lazy"></a><div class="b"><h4>'+esc(r.title)+'</h4><p>'+esc(r.desc)+'</p><div class="lib-acts"><a class="v" href="'+f+'" target="_blank" rel="noopener">View</a><a href="'+f+'" download>Download</a></div></div></div>';
   }).join('');
-  return '<div class="card" id="free-resources"><h3 style="margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:19px">Free companion resources</h3><p style="margin:0;font-size:14px">The same printable plans from the sticker QR page, ready to download.</p><ul class="res-list">'+lis+'</ul></div>';
+  return '<div class="card" id="free-resources"><h3 style="margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:19px">Library</h3><p style="margin:0;font-size:14px">Printable companion resources. Click a cover to view, or download to keep.</p><div class="lib-grid">'+lis+'</div></div>';
 }
 function show(id){['v-in','v-forgot','v-reset','v-list'].forEach(function(v){document.getElementById(v).hidden=v!==id;});document.getElementById('out').hidden=id!=='v-list';}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
