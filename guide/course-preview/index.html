@@ -10,101 +10,107 @@
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <title>Guide Course Preview | Never Fight or Argue Again</title>
 <style>
-:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#d9d0bc;--muted:#5a6a60;--side:280px}
+:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#d9d0bc;--muted:#5a6a60;--side:300px;--chrome:0}
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:#e9e4d6;color:var(--ink);font-family:Karla,-apple-system,sans-serif}
+html,body{height:100%;margin:0}
+body{background:#e8e2d3;color:var(--ink);font-family:Karla,-apple-system,sans-serif;display:flex;flex-direction:column;min-height:100%}
 a{color:var(--g1)}
 [hidden]{display:none!important}
-.banner{background:#5c3b00;color:#fff8e8;padding:.65rem 1rem;text-align:center;font-size:.92rem;line-height:1.4;position:sticky;top:0;z-index:30}
+.banner{flex:none;background:#5c3b00;color:#fff8e8;padding:.3rem .7rem;text-align:center;font-size:.78rem;line-height:1.3}
 .banner a{color:#ffe7a8}
-.bar{background:var(--g1);color:var(--cream);padding:.65rem .85rem;display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:space-between}
-.bar b{font-family:Marcellus,serif;font-weight:400;font-size:1.05rem}
-.bar .st{font-size:.8rem;color:#cfd8cc;min-width:7rem}
-.bar .acts{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
-.btn{appearance:none;border:0;cursor:pointer;background:var(--gold);color:var(--g1);font:700 .85rem Karla,sans-serif;padding:.55rem .8rem;border-radius:.5rem;text-decoration:none;display:inline-block}
-.btn.ghost{background:transparent;color:var(--cream);border:1px solid rgba(247,244,236,.45)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn:focus-visible,.navbtn:focus-visible,summary:focus-visible,.mod:focus-visible,.pg:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.msg{max-width:36rem;margin:2rem auto;background:#fff;border-radius:1rem;padding:1.4rem;font-size:1.05rem}
-.shell{display:grid;grid-template-columns:var(--side) 1fr;min-height:calc(100vh - 7rem)}
-.side{background:#f4efe3;border-right:1px solid var(--line);padding:14px 12px 28px;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
-.side h2{font-family:Marcellus,serif;font-weight:400;font-size:1.05rem;margin:4px 8px 10px}
-.prog{margin:0 8px 14px;font-size:.82rem;color:var(--muted)}
-.progbar{height:6px;background:#ddd4c0;border-radius:999px;overflow:hidden;margin:6px 8px 14px}
-.progbar>span{display:block;height:100%;background:var(--gold);width:0}
-.mod{width:100%;text-align:left;border:0;background:transparent;border-radius:8px;padding:10px 10px;cursor:pointer;font:600 .92rem Karla,sans-serif;color:var(--g1)}
-.mod[aria-current="true"]{background:#fff;box-shadow:inset 3px 0 0 var(--gold)}
-.mod .meta{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px}
-.pages{list-style:none;margin:0 0 8px 8px;padding:0 0 0 10px;border-left:2px solid #e2d8c4}
-.pages li{margin:0}
-.pg{width:100%;text-align:left;border:0;background:transparent;padding:7px 8px;border-radius:6px;cursor:pointer;font:500 .82rem Karla,sans-serif;color:#3a4a40}
-.pg[aria-current="true"]{background:#fff;color:var(--g1);font-weight:700}
-.main{min-width:0;display:flex;flex-direction:column}
-.mobile-nav{display:none;padding:10px 12px;background:#f4efe3;border-bottom:1px solid var(--line);gap:8px;align-items:center}
-.mobile-nav label{font-size:.8rem;font-weight:700;color:var(--muted)}
-.mobile-nav select{flex:1;font-size:16px;padding:10px;border-radius:8px;border:1px solid #b9ae94;background:#fff}
-.stage{padding:12px 12px 24px;max-width:860px;width:100%;margin:0 auto}
-#gcss{}
-#g .page{margin:0 auto;box-shadow:0 8px 28px rgba(13,45,29,.08)}
-.fade #g > .page{animation:fade .22s ease}
-@keyframes fade{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
-.footer-nav{position:sticky;bottom:0;background:rgba(244,239,227,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px 12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.footer-nav .loc{font-size:.85rem;color:var(--muted);align-self:center}
+.bar{flex:none;background:var(--g1);color:var(--cream);padding:.45rem .7rem;display:flex;gap:.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.bar b{font-family:Marcellus,serif;font-weight:400;font-size:.98rem}
+.bar .st{font-size:.75rem;color:#cfd8cc}
+.bar .acts{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center}
+.btn{appearance:none;border:0;cursor:pointer;background:var(--gold);color:var(--g1);font:700 .8rem Karla,sans-serif;padding:.45rem .7rem;border-radius:.45rem;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid rgba(247,244,236,.4)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:focus-visible,summary:focus-visible,.secbtn:focus-visible,.iconbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.msg{max-width:34rem;margin:1.5rem auto;background:#fff;border-radius:1rem;padding:1.2rem}
+#app{flex:1;min-height:0;display:flex;flex-direction:column}
+.shell{flex:1;min-height:0;display:grid;grid-template-columns:var(--side) 1fr}
+.side{background:#f3eee2;border-right:1px solid var(--line);min-height:0;overflow:auto;padding:.55rem .45rem .9rem}
+.side-h{display:flex;align-items:center;justify-content:space-between;gap:.4rem;padding:.15rem .35rem .4rem}
+.side-h h2{font-family:Marcellus,serif;font-weight:400;font-size:.95rem;margin:0}
+.prog{padding:0 .35rem .35rem;font-size:.72rem;color:var(--muted)}
+.progbar{height:5px;background:#ddd4c0;border-radius:999px;overflow:hidden;margin:0 .35rem .55rem}
+.progbar>span{display:block;height:100%;width:0;background:var(--gold)}
+details.chapter{border-radius:8px;margin:0 0 .25rem}
+details.chapter[open]{background:rgba(255,255,255,.55)}
+details.chapter>summary{list-style:none;cursor:pointer;display:flex;gap:.45rem;align-items:flex-start;padding:.55rem .5rem;border-radius:8px;font:700 .84rem Karla,sans-serif;color:var(--g1)}
+details.chapter>summary::-webkit-details-marker{display:none}
+details.chapter>summary .chev{flex:none;width:1rem;transition:transform .15s ease;transform:rotate(-90deg);color:var(--gold)}
+details.chapter[open]>summary .chev{transform:rotate(0deg)}
+details.chapter>summary .lab{flex:1;min-width:0}
+details.chapter>summary .lab small{display:block;font-weight:400;color:var(--muted);font-size:.72rem;margin-top:.1rem}
+.sec-list{list-style:none;margin:0;padding:0 0 .35rem .35rem}
+.sec-list li{margin:0}
+.secbtn{width:100%;text-align:left;border:0;background:transparent;border-radius:6px;padding:.4rem .5rem .4rem .7rem;cursor:pointer;font:500 .78rem Karla,sans-serif;color:#3a4a40;border-left:2px solid transparent}
+.secbtn[aria-current="true"]{background:#fff;border-left-color:var(--gold);color:var(--g1);font-weight:700}
+.main{min-width:0;min-height:0;display:flex;flex-direction:column;background:#e8e2d3}
+.crumbbar{flex:none;display:flex;gap:.5rem;align-items:center;padding:.45rem .65rem;background:#f7f2e6;border-bottom:1px solid var(--line)}
+.iconbtn{appearance:none;border:1px solid var(--line);background:#fff;border-radius:8px;width:2.2rem;height:2.2rem;cursor:pointer;font-size:1.1rem;color:var(--g1);display:none}
+.crumbs{flex:1;min-width:0;font-size:.78rem;color:var(--muted);line-height:1.3}
+.crumbs strong{color:var(--g1);font-weight:700}
+.stage-wrap{flex:1;min-height:0;overflow:auto;padding:.55rem .65rem .75rem}
+.stage{max-width:720px;margin:0 auto}
+#g .page{height:auto!important;min-height:0!important;overflow:visible!important;margin:0 auto;box-shadow:0 6px 20px rgba(13,45,29,.08);max-width:100%}
+#g .chunk{padding:0}
+.foot{flex:none;display:flex;gap:.5rem;align-items:center;justify-content:space-between;padding:.5rem .65rem;background:#f3eee2;border-top:1px solid var(--line)}
+.foot .loc{font-size:.78rem;color:var(--muted);text-align:center;flex:1;min-width:0}
+.drawer-backdrop{display:none;position:fixed;inset:0;background:rgba(5,20,12,.45);z-index:40}
+.drawer-backdrop.open{display:block}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:min(320px,88vw);z-index:50;transform:translateX(-105%);transition:transform .2s ease;box-shadow:8px 0 30px rgba(0,0,0,.2)}
+  .side.open{transform:translateX(0)}
+  .iconbtn{display:inline-flex;align-items:center;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  details.chapter>summary .chev,.side{transition:none}
+}
 #g .chk{display:flex;gap:.55rem;align-items:center;margin-top:.7rem;font-weight:700;color:#1F4D31;font-size:1rem}
 #g .chk input,#g .opt input{width:22px;height:22px;accent-color:#1F4D31}
 #g .agree{margin:14px 0;padding:10px 14px;background:#fff;border:1px dashed #B8862A;border-radius:6px}
 #g .sigtype{font-family:Marcellus,serif;font-size:17pt;margin:0 0 4px;border:0;border-bottom:1px solid #333;border-radius:0;background:transparent;padding:6px 2px}
 #g .signs>div{font-size:8.5pt;letter-spacing:.2em;text-transform:uppercase}
-#g textarea.fld{min-height:4.6em;font-size:16px;overflow:hidden}
+#g textarea.fld{min-height:4.2em;font-size:16px;overflow:hidden}
 #g input.fld{font-size:16px}
 #g .signs.web{grid-template-columns:1fr 1fr 1fr}
 @media (max-width:640px){#g .signs.web{grid-template-columns:1fr}}
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr}
-  .side{display:none}
-  .mobile-nav{display:flex}
-}
-@media print{
-  .banner,.bar,.side,.mobile-nav,.footer-nav{display:none!important}
-  body{background:#F7F4EC}
-  #g .page{height:auto!important;min-height:11in;overflow:visible!important;box-shadow:none}
-}
+@media print{.banner,.bar,.side,.crumbbar,.foot,.drawer-backdrop{display:none!important}body{background:#F7F4EC}#g .page{box-shadow:none}}
 </style>
 </head>
 <body>
-<div class="banner" role="status"><strong>PREVIEW ONLY</strong> — course-style chapter layout for review. Production <a href="/guide/">/guide/</a> is unchanged. Answers typed here stay on this device for the session and are <strong>not saved</strong> to your account. <a href="/members/library-preview/">Back to library preview</a></div>
+<div class="banner" role="status">Preview only · answers not saved · <a href="/guide/">production guide</a> · <a href="/members/library-preview/">library</a></div>
 <div class="bar">
-  <div><b>Companion Guide · Course Preview</b><div class="st" id="st" aria-live="polite">Opening…</div></div>
+  <div><b>Companion Guide · Preview</b><div class="st" id="st" aria-live="polite">Opening…</div></div>
   <div class="acts">
-    <a class="btn ghost" href="/members/library-preview/">Library preview</a>
-    <a class="btn ghost" href="/members/">My account</a>
-    <button class="btn" id="pdf" type="button" disabled>Print this page</button>
+    <a class="btn ghost" href="/members/library-preview/">Library</a>
+    <button class="btn" id="pdf" type="button" disabled>Print</button>
   </div>
 </div>
 <div id="m" class="msg" hidden></div>
 <div id="app" hidden>
   <div class="shell">
-    <aside class="side" aria-label="Course modules">
-      <h2>Modules</h2>
-      <div class="prog" id="progText">Page 1 of 1</div>
+    <aside class="side" id="side" aria-label="Chapters">
+      <div class="side-h"><h2>Chapters</h2><button type="button" class="btn ghost" id="sideClose" style="display:none;padding:.3rem .5rem;color:var(--g1);border-color:var(--line)">Close</button></div>
+      <div class="prog" id="progText">Section 1 of 1</div>
       <div class="progbar" aria-hidden="true"><span id="progBar"></span></div>
       <nav id="sideNav"></nav>
     </aside>
     <div class="main">
-      <div class="mobile-nav">
-        <label for="modSel">Module</label>
-        <select id="modSel"></select>
+      <div class="crumbbar">
+        <button type="button" class="iconbtn" id="menuBtn" aria-label="Open chapter menu" aria-controls="side" aria-expanded="false">☰</button>
+        <div class="crumbs" id="crumbs"></div>
       </div>
-      <div class="mobile-nav" style="border-top:0;padding-top:0">
-        <label for="pageSel">Page</label>
-        <select id="pageSel"></select>
+      <div class="stage-wrap" id="stageWrap">
+        <div class="stage">
+          <style id="gcss"></style>
+          <div id="g"></div>
+        </div>
       </div>
-      <div class="stage fade">
-        <style id="gcss"></style>
-        <div id="g"></div>
-      </div>
-      <div class="footer-nav">
+      <div class="foot">
         <button type="button" class="btn ghost" id="prev" style="background:var(--g1)">← Previous</button>
         <div class="loc" id="loc"></div>
         <button type="button" class="btn" id="next">Next →</button>
@@ -112,6 +118,7 @@ a{color:var(--g1)}
     </div>
   </div>
 </div>
+<div class="drawer-backdrop" id="backdrop" hidden></div>
 <script src="/assets/nfoa-auth.js"></script>
 <script>
 (function(){
@@ -121,88 +128,108 @@ var AUTH=null;
 function hdr(h){h=h||{};if(AUTH)h.Authorization='Bearer '+AUTH;return h;}
 function url(){return API+(t?'?t='+encodeURIComponent(t):'');}
 var KEY='nfoa-guide-course-preview:'+(t||'me');
-var st=document.getElementById('st');
-var G=document.getElementById('g');
+var st=document.getElementById('st'), G=document.getElementById('g');
 var local={};try{local=JSON.parse(sessionStorage.getItem(KEY)||'{}')||{};}catch(e){}
-var modules=[]; // {title, pages:[{title,html}]}
-var mi=0, pi=0;
+var chapters=[]; // {label,title,sections:[{title,html}]}
+var ci=0, si=0;
+var reduceMotion=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function fail(msg){document.getElementById('m').hidden=false;document.getElementById('m').textContent=msg;st.textContent='';document.getElementById('app').hidden=true;}
 function group(id){var m=id.match(/^(w05-ch06-exercise-p1|w10-ch15-exercise-p\d)-(hurt|responsible|depends|r\d)$/);return m?m[1]:null;}
 function grow(el){if(el.tagName==='TEXTAREA'){el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}}
 function val(el){return el.type==='checkbox'?(el.checked?'1':''):el.value;}
 function set(el,v){if(el.type==='checkbox')el.checked=v==='1';else el.value=v;}
-function put(id,v){local[id]=v;try{sessionStorage.setItem(KEY,JSON.stringify(local));}catch(e){}st.textContent='Preview only — not saved to your account';}
-
+function put(id,v){local[id]=v;try{sessionStorage.setItem(KEY,JSON.stringify(local));}catch(e){}st.textContent='Preview — not saved to your account';}
 function titleFrom(html){
   var m=html.match(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/i);
-  if(!m) return 'Page';
-  return m[1].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim()||'Page';
+  return m?m[1].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim():'Section';
 }
-function buildModules(html){
+function chunkSection(secHtml){
+  var m=secHtml.trim().match(/^(<section\b[^>]*>)([\s\S]*)(<\/section\s*>)\s*$/i);
+  if(!m) return [secHtml];
+  var open=m[1], body=m[2], close=m[3];
+  var bits=body.split(/(?=<h[34]\b)/i).filter(function(b){return b.trim();});
+  if(bits.length<=1) return [secHtml];
+  return bits.map(function(b,i){return open+'<div class="chunk" data-chunk="'+i+'">'+b+'</div>'+close;});
+}
+function buildChapters(html){
   var parts=html.split(/(?=<section\b)/i).filter(function(p){return /^<section\b/i.test(p.trim());});
-  var out=[], cur=null;
+  var out=[], cur=null, weekNo=0;
   parts.forEach(function(p){
     var am=p.match(/^<section\b([^>]*)>/i);
     var cls=((am&&am[1]||'').match(/class="([^"]*)"/)||[])[1]||'';
     if(/\bweek\b/.test(cls) && !/\bch\b/.test(cls)){
       if(cur) out.push(cur);
-      cur={title:titleFrom(p), pages:[{title:titleFrom(p), html:p}]};
+      weekNo+=1;
+      var title=titleFrom(p);
+      var label=weekNo<=12?('Chapter '+weekNo):'Toolkit';
+      cur={label:label, title:title, sections:[{title:title, html:p}]};
       return;
     }
-    if(!cur){cur={title:'Start Here', pages:[]};}
-    cur.pages.push({title:titleFrom(p), html:p});
+    if(!cur){cur={label:'Getting Started', title:'Getting Started', sections:[]};}
+    chunkSection(p).forEach(function(ch){
+      cur.sections.push({title:titleFrom(ch), html:ch});
+    });
   });
   if(cur) out.push(cur);
-  // Deduplicate page titles within a module with numbers when needed
-  out.forEach(function(mod){
-    var seen={};
-    mod.pages.forEach(function(pg,i){
-      var base=pg.title;
-      if(seen[base]){seen[base]++; pg.title=base+' ('+seen[base]+')';}
-      else seen[base]=1;
-      pg.label=(i+1)+'. '+pg.title;
+  // Number sections within each chapter as Section 1, 2, ...
+  out.forEach(function(ch){
+    ch.sections.forEach(function(sec,i){
+      sec.num=i+1;
+      sec.navTitle='Section '+sec.num;
+      sec.fullTitle=sec.title;
     });
   });
   return out;
 }
-
-function progress(){
-  var total=0, idx=0, n=0;
-  modules.forEach(function(m,i){m.pages.forEach(function(p,j){total++; if(i<mi||(i===mi&&j<=pi)) idx++; if(i===mi&&j===pi) n=total;});});
-  // recompute absolute index
-  var abs=0, curAbs=0;
-  modules.forEach(function(m,i){m.pages.forEach(function(_,j){abs++; if(i===mi&&j===pi) curAbs=abs;});});
-  document.getElementById('progText').textContent='Page '+curAbs+' of '+abs;
-  document.getElementById('progBar').style.width=(abs?(curAbs/abs*100):0)+'%';
-  document.getElementById('loc').textContent=modules[mi].title+' · '+modules[mi].pages[pi].title;
-  document.getElementById('prev').disabled=mi===0&&pi===0;
-  document.getElementById('next').disabled=mi===modules.length-1&&pi===modules[mi].pages.length-1;
+function totalCount(){return chapters.reduce(function(n,c){return n+c.sections.length;},0);}
+function absIndex(){
+  var n=0;
+  for(var i=0;i<chapters.length;i++){
+    for(var j=0;j<chapters[i].sections.length;j++){
+      n++; if(i===ci&&j===si) return n;
+    }
+  }
+  return 1;
 }
-
+function progress(){
+  var tot=totalCount(), abs=absIndex();
+  document.getElementById('progText').textContent='Section '+abs+' of '+tot;
+  document.getElementById('progBar').style.width=(tot?(abs/tot*100):0)+'%';
+  var ch=chapters[ci], sec=ch.sections[si];
+  document.getElementById('crumbs').innerHTML='<strong>'+esc(ch.label)+'</strong> · '+esc(ch.title)+'<br>Section '+sec.num+' — '+esc(sec.fullTitle);
+  document.getElementById('loc').textContent=ch.label+' · Section '+sec.num+' / '+ch.sections.length;
+  document.getElementById('prev').disabled=ci===0&&si===0;
+  document.getElementById('next').disabled=ci===chapters.length-1&&si===ch.sections.length-1;
+}
 function paintSide(){
   var nav=document.getElementById('sideNav');
-  nav.innerHTML=modules.map(function(m,i){
-    var open=i===mi;
-    var pages=m.pages.map(function(p,j){
-      return '<li><button type="button" class="pg" data-m="'+i+'" data-p="'+j+'" aria-current="'+(open&&j===pi?'true':'false')+'">'+esc(p.title)+'</button></li>';
+  nav.innerHTML=chapters.map(function(ch,i){
+    var open=i===ci;
+    var items=ch.sections.map(function(sec,j){
+      return '<li><button type="button" class="secbtn" data-c="'+i+'" data-s="'+j+'" aria-current="'+(open&&j===si?'true':'false')+'">'+esc(sec.navTitle)+': '+esc(sec.fullTitle)+'</button></li>';
     }).join('');
-    return '<div><button type="button" class="mod" data-m="'+i+'" aria-current="'+(i===mi?'true':'false')+'">'+esc(m.title)+'<span class="meta">'+m.pages.length+' page'+(m.pages.length===1?'':'s')+'</span></button>'+(open?'<ul class="pages">'+pages+'</ul>':'')+'</div>';
+    return '<details class="chapter" data-c="'+i+'" '+(open?'open':'')+'>'+
+      '<summary><span class="chev" aria-hidden="true">▾</span><span class="lab">'+esc(ch.label)+'<small>'+esc(ch.title)+' · '+ch.sections.length+' sections</small></span></summary>'+
+      '<ul class="sec-list">'+items+'</ul></details>';
   }).join('');
-  Array.prototype.forEach.call(nav.querySelectorAll('.mod'),function(btn){btn.onclick=function(){go(+btn.getAttribute('data-m'),0);};});
-  Array.prototype.forEach.call(nav.querySelectorAll('.pg'),function(btn){btn.onclick=function(){go(+btn.getAttribute('data-m'),+btn.getAttribute('data-p'));};});
-  var ms=document.getElementById('modSel');
-  ms.innerHTML=modules.map(function(m,i){return '<option value="'+i+'"'+(i===mi?' selected':'')+'>'+esc(m.title)+'</option>';}).join('');
-  var ps=document.getElementById('pageSel');
-  ps.innerHTML=modules[mi].pages.map(function(p,j){return '<option value="'+j+'"'+(j===pi?' selected':'')+'>'+esc(p.title)+'</option>';}).join('');
+  Array.prototype.forEach.call(nav.querySelectorAll('.secbtn'),function(btn){
+    btn.onclick=function(){go(+btn.getAttribute('data-c'), +btn.getAttribute('data-s')); closeDrawer();};
+  });
+  Array.prototype.forEach.call(nav.querySelectorAll('details.chapter'),function(d){
+    d.addEventListener('toggle', function(){
+      if(d.open){
+        Array.prototype.forEach.call(nav.querySelectorAll('details.chapter'),function(o){if(o!==d) o.open=false;});
+      }
+    });
+  });
 }
-function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-
 function bindFields(root){
   Array.prototype.forEach.call(root.querySelectorAll('[data-field-id]'),function(el){
     var id=el.getAttribute('data-field-id');
-    var v=(id in local)?local[id]:'';
-    set(el,v); setTimeout(function(){grow(el);},0);
+    set(el, (id in local)?local[id]:'');
+    setTimeout(function(){grow(el);},0);
     el.addEventListener(el.type==='checkbox'?'change':'input',function(){
       var g=group(id);
       if(g&&el.checked)Array.prototype.forEach.call(root.querySelectorAll('[data-field-id^="'+g+'-"]'),function(o){
@@ -213,53 +240,62 @@ function bindFields(root){
   });
   ['w05-ch05-exercise-p2','w05-ch05-exercise-p3'].forEach(function(i){var e=document.getElementById(i);if(e)e.classList.add('merged');});
 }
-
-function go(m,p){
-  if(m<0||m>=modules.length) return;
-  if(p<0){if(m===0)return; m--; p=modules[m].pages.length-1;}
-  if(p>=modules[m].pages.length){if(m>=modules.length-1)return; m++; p=0;}
-  mi=m; pi=p;
-  var stage=document.querySelector('.stage');
-  stage.classList.remove('fade'); void stage.offsetWidth; stage.classList.add('fade');
-  G.innerHTML=modules[mi].pages[pi].html;
+function go(c,s){
+  if(c<0||c>=chapters.length) return;
+  if(s<0){ if(c===0)return; c--; s=chapters[c].sections.length-1; }
+  if(s>=chapters[c].sections.length){ if(c>=chapters.length-1)return; c++; s=0; }
+  ci=c; si=s;
+  G.innerHTML=chapters[ci].sections[si].html;
   bindFields(G);
   paintSide();
   progress();
-  try{history.replaceState(null,'','#m'+mi+'-p'+pi);}catch(e){}
-  window.scrollTo({top:0,behavior:'smooth'});
+  try{history.replaceState(null,'','#c'+ci+'-s'+si);}catch(e){}
+  var wrap=document.getElementById('stageWrap');
+  if(reduceMotion) wrap.scrollTop=0; else wrap.scrollTo({top:0,behavior:'smooth'});
 }
-
+function openDrawer(){
+  document.getElementById('side').classList.add('open');
+  var b=document.getElementById('backdrop'); b.hidden=false; b.classList.add('open');
+  document.getElementById('menuBtn').setAttribute('aria-expanded','true');
+  document.getElementById('sideClose').style.display='inline-block';
+}
+function closeDrawer(){
+  document.getElementById('side').classList.remove('open');
+  var b=document.getElementById('backdrop'); b.classList.remove('open'); b.hidden=true;
+  document.getElementById('menuBtn').setAttribute('aria-expanded','false');
+  document.getElementById('sideClose').style.display='none';
+}
 function start(){
   fetch(url(),{headers:hdr()}).then(function(r){return r.json();}).then(function(d){
     if(d.signed_out){location.href='/members/library-preview/';return;}
     if(!d.ok){fail((d.error||'This guide link is not valid.')+' Questions? Email hello@neverfightorargue.com.');return;}
-    document.getElementById('gcss').textContent=d.guide.css+'\n#g .page{height:auto!important;min-height:0;overflow:visible!important;margin-bottom:0}';
-    modules=buildModules(d.guide.html||'');
-    if(!modules.length){fail('Guide content could not be split into modules.');return;}
-    // Preview uses empty/ephemeral answers only (sessionStorage). Do not copy production answers.
+    document.getElementById('gcss').textContent=d.guide.css+'\n#g .page{height:auto!important;min-height:0!important;overflow:visible!important;}';
+    chapters=buildChapters(d.guide.html||'');
+    if(!chapters.length){fail('Guide content could not be organized into chapters.');return;}
     document.getElementById('app').hidden=false;
     document.getElementById('pdf').disabled=false;
     document.getElementById('pdf').onclick=function(){window.print();};
-    document.getElementById('prev').onclick=function(){if(pi>0)go(mi,pi-1);else if(mi>0)go(mi-1,modules[mi-1].pages.length-1);};
-    document.getElementById('next').onclick=function(){if(pi<modules[mi].pages.length-1)go(mi,pi+1);else if(mi<modules.length-1)go(mi+1,0);};
-    document.getElementById('modSel').onchange=function(){go(+this.value,0);};
-    document.getElementById('pageSel').onchange=function(){go(mi,+this.value);};
+    document.getElementById('prev').onclick=function(){if(si>0)go(ci,si-1);else if(ci>0)go(ci-1,chapters[ci-1].sections.length-1);};
+    document.getElementById('next').onclick=function(){if(si<chapters[ci].sections.length-1)go(ci,si+1);else if(ci<chapters.length-1)go(ci+1,0);};
+    document.getElementById('menuBtn').onclick=openDrawer;
+    document.getElementById('sideClose').onclick=closeDrawer;
+    document.getElementById('backdrop').onclick=closeDrawer;
     window.addEventListener('keydown',function(e){
       var tag=(e.target&&e.target.tagName||'').toLowerCase();
-      if(tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable) return;
+      if(tag==='input'||tag==='textarea'||tag==='select'||(e.target&&e.target.isContentEditable)) return;
+      if(e.key==='Escape'){closeDrawer();return;}
       if(e.key==='ArrowLeft'){e.preventDefault();document.getElementById('prev').click();}
       if(e.key==='ArrowRight'){e.preventDefault();document.getElementById('next').click();}
     });
-    var hash=location.hash.match(/^#m(\d+)-p(\d+)$/);
-    var sm=hash?+hash[1]:0, sp=hash?+hash[2]:0;
-    if(sm>=modules.length)sm=0;
-    if(!modules[sm]||sp>=modules[sm].pages.length)sp=0;
-    go(sm,sp);
-    st.textContent='Preview only — answers are not saved to your account';
+    var hash=location.hash.match(/^#c(\d+)-s(\d+)$/);
+    var sc=hash?+hash[1]:0, ss=hash?+hash[2]:0;
+    if(sc>=chapters.length)sc=0;
+    if(!chapters[sc]||ss>=chapters[sc].sections.length)ss=0;
+    go(sc,ss);
+    st.textContent='Preview — answers stay on this device only';
   }).catch(function(){fail('Could not load the guide. Please check your connection and refresh.');});
 }
-
-if(t&&!/^[0-9a-f-]{36}$/.test(t)){fail('This guide link is not valid. Use the link in your order email.');}
+if(t&&!/^[0-9a-f-]{36}$/.test(t)){fail('This guide link is not valid.');}
 else if(t)start();
 else NFOA_AUTH.session().then(function(s){
   if(!s){location.href='/members/library-preview/';return;}

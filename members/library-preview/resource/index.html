@@ -10,94 +10,107 @@
 <link rel="icon" href="/assets/favicon.ico" sizes="any">
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#e3dac4;--muted:#5a6a60}
+:root{--g1:#0D2D1D;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#e0d6c2;--muted:#5a6a60}
 *{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:Karla,-apple-system,sans-serif}
+html,body{height:100%;margin:0}
+body{background:var(--cream);color:var(--ink);font-family:Karla,-apple-system,sans-serif;display:flex;flex-direction:column;min-height:100%}
 a{color:var(--g1)}
 [hidden]{display:none!important}
-.banner{background:#5c3b00;color:#fff8e8;padding:.7rem 1rem;text-align:center;font-size:.95rem}
+.banner{flex:none;background:#5c3b00;color:#fff8e8;padding:.35rem .75rem;text-align:center;font-size:.8rem}
 .banner a{color:#ffe7a8}
-header{background:var(--g1);color:var(--cream);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-header .brand{font-family:Marcellus,serif;font-size:1.1rem;color:var(--cream);text-decoration:none}
-header nav{display:flex;gap:14px;flex-wrap:wrap}
-header a{color:var(--cream)}
-main{max-width:960px;margin:0 auto;padding:24px 18px 64px}
-.back{display:inline-flex;align-items:center;gap:6px;font-weight:700;text-decoration:none;margin-bottom:18px}
-.back:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-.layout{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
-@media (max-width:720px){.layout{grid-template-columns:1fr}.cover{max-width:220px}}
-.cover{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--g1);display:block}
-.eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.75rem;margin:0 0 8px;font-weight:700}
-h1{font-family:Marcellus,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.1rem);margin:0 0 10px}
-p{line-height:1.55;color:var(--muted)}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
-.btn{appearance:none;border:0;cursor:pointer;display:inline-block;padding:12px 18px;font:700 .95rem Karla,sans-serif;border-radius:8px;background:var(--g1);color:var(--cream);text-decoration:none}
+header{flex:none;background:var(--g1);color:var(--cream);padding:.55rem .9rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
+header .brand{font-family:Marcellus,serif;font-size:1rem;color:var(--cream);text-decoration:none}
+header nav{display:flex;gap:12px;font-size:.85rem}
+header a{color:var(--cream);text-decoration:none}
+main{flex:1;min-height:0;display:flex;flex-direction:column;padding:.65rem .85rem .85rem;max-width:1100px;width:100%;margin:0 auto}
+.top{flex:none;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;margin-bottom:.55rem}
+.back{font-weight:700;text-decoration:none;font-size:.9rem}
+.back:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1{font-family:Marcellus,serif;font-weight:400;font-size:1.25rem;margin:0}
+.meta{color:var(--muted);font-size:.85rem;margin:.15rem 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:.45rem}
+.btn{appearance:none;border:0;cursor:pointer;display:inline-block;padding:.55rem .85rem;font:700 .85rem Karla,sans-serif;border-radius:7px;background:var(--g1);color:var(--cream);text-decoration:none}
 .btn.gold{background:var(--gold);color:var(--g1)}
-.btn.secondary{background:transparent;color:var(--g1);border:1px solid var(--g1)}
-.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:8px}
-.panel h2{font-family:Marcellus,serif;font-weight:400;font-size:1.15rem;margin:0 0 8px}
-.frame-wrap{position:relative;background:#1a1a1a;border-radius:8px;overflow:hidden;min-height:70vh}
-iframe{width:100%;height:75vh;border:0;background:#fff}
-.note{font-size:.9rem;margin-top:12px}
+.btn.ghost{background:transparent;color:var(--g1);border:1px solid var(--g1)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.viewer{flex:1;min-height:0;display:flex;flex-direction:column;background:#1b241e;border-radius:10px;overflow:hidden;border:1px solid #243028}
+.toolbar{flex:none;display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;justify-content:space-between;padding:.45rem .6rem;background:#121a15;color:#dfe7e1;font-size:.82rem}
+.pager{display:flex;gap:.35rem;align-items:center}
+.pager input{width:3.2rem;padding:.35rem;border-radius:5px;border:1px solid #445248;background:#0d1410;color:#fff;font-size:14px;text-align:center}
+.frame-wrap{flex:1;min-height:0;background:#2a3330}
+iframe,.frame-wrap object{width:100%;height:100%;border:0;background:#fff}
+.note{flex:none;font-size:.75rem;color:var(--muted);margin-top:.45rem;line-height:1.4}
 .err{color:#a33}
+@media (max-width:600px){h1{font-size:1.1rem}.viewer{min-height:55vh}}
 </style>
 </head>
 <body>
-<div class="banner" role="status"><strong>PREVIEW ONLY</strong> — resource detail wrapper. <a href="/members/library-preview/">Back to library preview</a></div>
+<div class="banner" role="status">Preview only · <a href="/members/library-preview/">back to library</a></div>
 <header>
   <a class="brand" href="/">Never Fight or Argue Again</a>
   <nav>
-    <a href="/members/library-preview/">Library preview</a>
-    <a href="/guide/course-preview/">Guide preview</a>
+    <a href="/members/library-preview/">Library</a>
+    <a href="/guide/course-preview/">Guide</a>
   </nav>
 </header>
 <main>
-  <a class="back" href="/members/library-preview/">← Back to library</a>
   <div id="missing" class="err" hidden>That resource is not part of this preview.</div>
-  <div id="ok" hidden>
-    <div class="layout">
-      <img class="cover" id="cover" alt="">
+  <div id="ok" hidden style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="top">
       <div>
-        <p class="eyebrow" id="kind"></p>
+        <a class="back" href="/members/library-preview/">← Library</a>
         <h1 id="title"></h1>
-        <p id="desc"></p>
-        <div class="actions">
-          <a class="btn gold" id="open" target="_blank" rel="noopener">Open PDF</a>
-          <a class="btn" id="dl" download>Download PDF</a>
-          <a class="btn secondary" href="/members/library-preview/">Back to library</a>
-        </div>
-        <div class="panel">
-          <h2>In-page preview</h2>
-          <p class="note">If your browser blocks embedded PDFs, use Open PDF or Download. The native PDF viewer (outside this page) will not show our “Back to library” link — that is a browser limitation, not a missing feature. Source PDFs are unchanged.</p>
-          <div class="frame-wrap"><iframe id="frame" title="PDF preview" loading="lazy"></iframe></div>
-        </div>
+        <p class="meta" id="desc"></p>
+      </div>
+      <div class="actions">
+        <a class="btn gold" id="open" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn" id="dl" download>Download</a>
+        <a class="btn ghost" href="/members/library-preview/">Back</a>
       </div>
     </div>
+    <div class="viewer">
+      <div class="toolbar">
+        <div>In-app preview · fit width when the browser supports it</div>
+        <div class="pager">
+          <button type="button" class="btn ghost" id="prev" style="padding:.35rem .55rem;color:#fff;border-color:#66756b">Prev page</button>
+          <label for="page">Page</label>
+          <input id="page" type="number" min="1" value="1" inputmode="numeric">
+          <button type="button" class="btn ghost" id="next" style="padding:.35rem .55rem;color:#fff;border-color:#66756b">Next page</button>
+          <button type="button" class="btn ghost" id="fit" style="padding:.35rem .55rem;color:#fff;border-color:#66756b">Fit width</button>
+        </div>
+      </div>
+      <div class="frame-wrap"><iframe id="frame" title="PDF preview"></iframe></div>
+    </div>
+    <p class="note">Page controls update the preview URL (`page` + fit). Exact zoom and page UI still depend on your browser’s PDF viewer. Native PDF apps opened outside this page will not show Library back links. Source PDFs are unchanged.</p>
   </div>
 </main>
 <script>
 (function(){
 var CATALOG={
-  'anti-fight-plan':{kind:'Free tool',title:'Anti-Fight Plan',desc:'A simple plan for non-combative conflict resolution. Use it before and after a hard conversation.',cover:'/assets/library-preview/anti-fight-plan.svg',file:'anti-fight-plan.pdf'},
-  'luv-framework':{kind:'Free tool',title:'The L.U.V. Framework',desc:'A one-page guide to the L.U.V. Framework from the book.',cover:'/assets/library-preview/luv-framework.svg',file:'luv-framework.pdf'},
-  'stop-loss-strategy':{kind:'Free tool',title:'The Stop-Loss Strategy',desc:'Protect the conversation before it becomes destructive. A one-page visual guide.',cover:'/assets/library-preview/stop-loss-strategy.svg',file:'stop-loss-strategy.pdf'},
-  'validation-exercise':{kind:'Free tool',title:'Validation Exercise',desc:'A guided exercise to help you hear and validate each other.',cover:'/assets/library-preview/validation-exercise.svg',file:'validation-exercise.pdf'}
+  'anti-fight-plan':{title:'Anti-Fight Plan',desc:'Free tool · printable plan',file:'anti-fight-plan.pdf'},
+  'luv-framework':{title:'The L.U.V. Framework',desc:'Free tool · one-page guide',file:'luv-framework.pdf'},
+  'stop-loss-strategy':{title:'The Stop-Loss Strategy',desc:'Free tool · one-page visual',file:'stop-loss-strategy.pdf'},
+  'validation-exercise':{title:'Validation Exercise',desc:'Free tool · guided practice',file:'validation-exercise.pdf'}
 };
 var id=new URLSearchParams(location.search).get('id')||'';
 var item=CATALOG[id];
-if(!item){document.getElementById('missing').hidden=false;document.title='Not found | Library Preview';return;}
-document.getElementById('ok').hidden=false;
+if(!item){document.getElementById('missing').hidden=false;return;}
+var ok=document.getElementById('ok'); ok.hidden=false; ok.style.display='flex';
 document.title=item.title+' | Library Preview';
-document.getElementById('kind').textContent=item.kind;
 document.getElementById('title').textContent=item.title;
 document.getElementById('desc').textContent=item.desc;
-document.getElementById('cover').src=item.cover;
-document.getElementById('cover').alt=item.title+' cover';
-var url='/downloads/files/'+item.file;
-document.getElementById('open').href=url;
-document.getElementById('dl').href=url;
+var base='/downloads/files/'+item.file;
+document.getElementById('open').href=base;
+document.getElementById('dl').href=base;
 document.getElementById('dl').setAttribute('download',item.file);
-document.getElementById('frame').src=url+'#view=FitH';
+var page=1, fit=true;
+function src(){return base+'#page='+page+(fit?'&view=FitH':'');}
+function render(){document.getElementById('frame').src=src();document.getElementById('page').value=String(page);}
+document.getElementById('prev').onclick=function(){if(page>1){page--;render();}};
+document.getElementById('next').onclick=function(){page++;render();};
+document.getElementById('fit').onclick=function(){fit=true;render();};
+document.getElementById('page').onchange=function(){var n=parseInt(this.value,10);if(n>=1){page=n;render();}};
+render();
 })();
 </script>
 </body>
