@@ -175,7 +175,7 @@ Deno.serve(async (req) => {
   // 3) notice to Larry
   const addr = [ship.name ?? name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(", "), a.country].filter(Boolean).map(esc).join("<br>");
   const cop = `cop${quantity === 1 ? "y" : "ies"}`;
-  await sendEmail(NOTIFY_EMAIL, `${isTest ? "[TEST] " : ""}[SHIP] ${quantity} signed ${cop}, ${name || email}, order ${order.order_no}`,
+  await sendEmail(NOTIFY_EMAIL, `${isTest || s.metadata?.test === "1" ? "[TEST] " : ""}[SHIP] ${quantity} signed ${cop}, ${name || email}, order ${order.order_no}`,
     `<p><b>New book order to ship.</b></p>
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
