@@ -1,18 +1,68 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#0D2D1D"><link rel="icon" href="/assets/favicon.ico" sizes="any"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:wght@600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
-<style>:root{--green:#0D2D1D;--gold:#C39A5E;--gold-ink:#8A6330;--ivory:#F8F4E9;--ink:#16261C;--soft:#4B5A50}*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.6 Karla,-apple-system,sans-serif}
-.top{background:var(--green);color:var(--ivory);text-align:center;padding:1.6rem 1.25rem 2.4rem}.top small{display:block;font:700 .6875rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}.top h1{font:400 clamp(1.7rem,6.5vw,2.4rem)/1.15 Marcellus,serif;margin:.6rem 0 .3rem}
-.wrap{max-width:34rem;margin:-1.5rem auto 2rem;padding:0 1rem}.card{background:#fff;border:1px solid rgba(22,38,28,.12);border-radius:1rem;padding:1.4rem;box-shadow:0 10px 30px rgba(13,45,29,.08);margin-bottom:1rem}
-.pass{text-align:center;border:2px solid var(--gold);background:#F7F1E4}.pass img{width:220px;height:220px;border:6px solid #fff}.k{font:700 .7rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 .4rem}
-.btn{display:inline-block;background:var(--green);color:var(--ivory);text-decoration:none;font-weight:700;padding:.85rem 1.3rem;border-radius:.6rem}.fine{font-size:.9rem;color:var(--soft)}h2{font:700 1.2rem "Playfair Display",serif;margin:1.2rem 0 .3rem}.ph{background:#FFF4D6;border:1px dashed #C39A5E;padding:.6rem .8rem;border-radius:.5rem;font-size:.9rem}</style><title>Companion Guide | Never Fight or Argue Again</title></head><body>
-<header class="top"><small>For Event Bundle owners</small><h1 id="h">The Companion Guide</h1><p id="hi"></p></header>
-<main class="wrap"><div class="card" id="c"><p class="fine">Opening your guide...</p></div></main>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#0D2D1D"><link rel="icon" href="/assets/favicon.ico" sizes="any"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9e4d6;font-family:Karla,-apple-system,sans-serif;color:#22302a}
+.bar{position:sticky;top:0;z-index:5;background:#0D2D1D;color:#F7F4EC;padding:.6rem .8rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+.bar b{font-family:Marcellus,serif;font-weight:400;font-size:1.05rem}
+.bar .st{font-size:.8rem;color:#cfd8cc;min-width:7rem}
+.bar .acts{display:flex;gap:.4rem;flex-wrap:wrap}
+.btn{appearance:none;border:0;cursor:pointer;background:#B8862A;color:#0D2D1D;font:700 .85rem Karla,sans-serif;padding:.6rem .8rem;border-radius:.5rem;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:#F7F4EC;border:1px solid rgba(247,244,236,.45)}
+.msg{max-width:34rem;margin:2rem auto;background:#fff;border-radius:1rem;padding:1.4rem;font-size:1.05rem}
+#g .chk{display:flex;gap:.55rem;align-items:center;margin-top:.7rem;font-weight:700;color:#1F4D31;font-size:1rem}
+#g .chk input,#g .opt input{width:22px;height:22px;accent-color:#1F4D31}
+#g .agree{margin:14px 0;padding:10px 14px;background:#fff;border:1px dashed #B8862A;border-radius:6px}
+#g .sigtype{font-family:Marcellus,serif;font-size:17pt;margin:0 0 4px;border:0;border-bottom:1px solid #333;border-radius:0;background:transparent;padding:6px 2px}
+#g .signs>div{font-size:8.5pt;letter-spacing:.2em;text-transform:uppercase}
+#g textarea.fld{min-height:4.6em;font-size:16px}#g input.fld{font-size:16px}
+#g .pv{display:none;white-space:pre-wrap;border-bottom:1px solid #cfc6b0;min-height:1.6em;margin:6px 0 10px;padding:2px 0}
+#g .merged{margin-top:-10px}
+#g .signs.web{grid-template-columns:1fr 1fr 1fr}@media (max-width:640px){#g .signs.web{grid-template-columns:1fr}}
+#g textarea.fld{overflow:hidden}
+@media print{.bar,.msg{display:none!important}body{background:#F7F4EC}
+ #g .page{height:auto!important;min-height:11in;overflow:visible!important}
+ #g textarea.fld{display:none}#g .pv{display:block}#g .fld,#g .sigtype{border-color:#cfc6b0;background:transparent}}
+</style><title>Companion Guide | Never Fight or Argue Again</title></head><body>
+<div class="bar"><div><b>Companion Guide</b><div class="st" id="st" aria-live="polite">Opening...</div></div><div class="acts"><button class="btn" id="pdf" type="button" disabled>Download my guide (PDF)</button><a class="btn ghost" id="blank" href="#" hidden>Blank PDF</a></div></div>
+<div id="m" class="msg" hidden></div><style id="gcss"></style><div id="g"></div>
 <script>
-(function(){var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1');var t=new URLSearchParams(location.search).get('t')||'';var c=document.getElementById('c');
-function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-fetch(API+'/guide?t='+encodeURIComponent(t)).then(function(r){return r.json();}).then(function(d){
- if(!d.ok){c.innerHTML='<p>'+e(d.error||'This guide link is not valid.')+'</p><p class="fine">Questions? Email hello@neverfightorargue.com.</p>';return;}
- var g=d.guide;document.getElementById('h').textContent=g.title;document.getElementById('hi').textContent=d.name?'Welcome, '+d.name+'.':'Welcome.';
- var h=(g.placeholder?'<p class="ph">'+e(g.intro)+'</p>':'<p>'+e(g.intro)+'</p>');g.sections.forEach(function(s){h+='<h2>'+e(s.h)+'</h2><p>'+e(s.p)+'</p>';});
- h+=d.pdf_url?'<p style="margin-top:1.4rem"><a class="btn" href="'+e(d.pdf_url)+'">Download the PDF</a></p>':'<p class="fine" style="margin-top:1.4rem">The PDF download is being added. Check back soon.</p>';c.innerHTML=h;
-}).catch(function(){c.innerHTML='<p>Could not load the guide. Please refresh.</p>';});})();
+(function(){
+var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1')+'/guide';
+var t=(new URLSearchParams(location.search).get('t')||'').toLowerCase();
+var KEY='nfoa-guide:'+t, st=document.getElementById('st'), G=document.getElementById('g');
+var local={};try{local=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+var pending={},timer=null,saving=false;
+// single-choice groups: Ch. 6 circle one, Ch. 15 ratings
+function group(id){var m=id.match(/^(w05-ch06-exercise-p1|w10-ch15-exercise-p\d)-(hurt|responsible|depends|r\d)$/);return m?m[1]:null;}
+function fail(msg){document.getElementById('m').hidden=false;document.getElementById('m').textContent=msg;st.textContent='';}
+function put(id,v){local[id]={v:v,at:Date.now()};try{localStorage.setItem(KEY,JSON.stringify(local));}catch(e){}pending[id]=v;st.textContent='Saved on this device';clearTimeout(timer);timer=setTimeout(flush,1200);}
+function flush(keep){var ids=Object.keys(pending);if(!ids.length||saving)return;var body={answers:{}};ids.slice(0,150).forEach(function(i){body.answers[i]=pending[i];delete pending[i];});saving=true;st.textContent='Saving...';
+ fetch(API+'?t='+encodeURIComponent(t),{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body),keepalive:!!keep}).then(function(r){return r.json();}).then(function(d){saving=false;if(!d.ok)throw 0;st.textContent='All changes saved';if(Object.keys(pending).length)flush();})
+ .catch(function(){saving=false;for(var i in body.answers)if(!(i in pending))pending[i]=body.answers[i];st.textContent='Saved on this device. Will sync when online.';clearTimeout(timer);timer=setTimeout(flush,8000);});}
+function grow(el){if(el.tagName==='TEXTAREA'){el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}}
+function val(el){return el.type==='checkbox'?(el.checked?'1':''):el.value;}
+function set(el,v){if(el.type==='checkbox')el.checked=v==='1';else el.value=v;}
+if(!/^[0-9a-f-]{36}$/.test(t)){fail('This guide link is not valid. Use the link in your order email.');return;}
+fetch(API+'?t='+encodeURIComponent(t)).then(function(r){return r.json();}).then(function(d){
+ if(!d.ok){fail((d.error||'This guide link is not valid.')+' Questions? Email hello@neverfightorargue.com.');return;}
+ document.getElementById('gcss').textContent=d.guide.css;G.innerHTML='<main>'+d.guide.html+'</main>';
+ var srv=d.answers||{},sAt=d.answers_updated_at?Date.parse(d.answers_updated_at):0;
+ var els=G.querySelectorAll('[data-field-id]');
+ Array.prototype.forEach.call(els,function(el){var id=el.getAttribute('data-field-id');
+  var l=local[id],v=(l&&l.at>sAt)?l.v:(id in srv?srv[id]:(l?l.v:''));
+  if(l&&l.at>sAt&&srv[id]!==l.v)pending[id]=l.v;
+  set(el,v);setTimeout(function(){grow(el);},0);
+  el.addEventListener(el.type==='checkbox'?'change':'input',function(){
+   var g=group(id);if(g&&el.checked)Array.prototype.forEach.call(G.querySelectorAll('[data-field-id^="'+g+'-"]'),function(o){if(o!==el&&o.checked&&group(o.getAttribute('data-field-id'))===g){o.checked=false;put(o.getAttribute('data-field-id'),'');}});
+   grow(el);put(id,val(el));});
+ });
+ // Ch. 5 prayer: p2 and p3 continue p1, so show them as one block
+ ['w05-ch05-exercise-p2','w05-ch05-exercise-p3'].forEach(function(i){var e=document.getElementById(i);if(e)e.classList.add('merged');});
+ st.textContent=Object.keys(pending).length?'Syncing...':(Object.keys(srv).length?'Your answers are loaded':'Answers save as you type');if(Object.keys(pending).length)flush();
+ var pb=document.getElementById('pdf');pb.disabled=false;pb.onclick=function(){window.print();};
+ var b=document.getElementById('blank');if(d.pdf_url){b.href=d.pdf_url;b.hidden=false;}
+}).catch(function(){fail('Could not load the guide. Please check your connection and refresh.');});
+window.addEventListener('beforeprint',function(){Array.prototype.forEach.call(G.querySelectorAll('textarea[data-field-id]'),function(ta){var p=ta.nextElementSibling;if(!p||!p.classList.contains('pv')){p=document.createElement('div');p.className='pv';ta.parentNode.insertBefore(p,ta.nextSibling);}p.textContent=ta.value;});});
+window.addEventListener('pagehide',function(){flush(true);});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')flush(true);});
+})();
 </script></body></html>
