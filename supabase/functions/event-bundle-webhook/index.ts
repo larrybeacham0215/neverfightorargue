@@ -58,9 +58,10 @@ Deno.serve(async (req) => {
     if (s.payment_status !== "paid") return ok({ ignored: "not paid" });
     const bundles = Math.max(1, parseInt(s.metadata.bundles ?? "1", 10) || 1);
     const email = (s.customer_details?.email ?? s.customer_email ?? "").toLowerCase();
-    const name = s.customer_details?.name || s.metadata.buyer_name || "";
+    let name = s.customer_details?.name || s.metadata.buyer_name || "";
     const fields: Record<string, string> = {};
     for (const f of s.custom_fields ?? []) fields[f.key] = f.text?.value ?? "";
+    if (fields.full_name?.trim()) name = fields.full_name.trim();
     const { data: row, error } = await db.from("preorders").upsert({
       stripe_session: s.id, email, name, inscription: fields.inscription ?? "", quantity: bundles * 2, bundles,
       product: "event_bundle", amount: s.amount_total ?? 0, status: "paid", channel: "event",
@@ -71,7 +72,7 @@ Deno.serve(async (req) => {
     const ticketUrl = `${SITE_URL}/pickup/?t=${row.pickup_token}`, guideUrl = `${SITE_URL}/guide/?t=${row.pickup_token}`;
     const tag = s.metadata.test_run ? "[TEST] " : "";
     await sendEmail(NOTIFY_EMAIL, `${tag}[EVENT BUNDLE] ${bundles} bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books), $${((s.amount_total ?? 0) / 100).toFixed(2)}, ${name || email}`,
-      `<p><b>${name || email}</b> bought ${bundles} Event Bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books). Sign to: ${fields.inscription || "(none)"}.</p>`);
+      `<p><b>${name || "(no name given)"}</b> (${email}) bought ${bundles} Event Bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books). Sign to: ${fields.inscription || "(none)"}.</p>`);
     if (email) {
       // Unsubscribe link only exists for newsletter subscribers (subscribers.unsubscribe_token).
       const { data: sub } = await db.from("subscribers").select("unsubscribe_token").eq("email", email).is("unsubscribed_at", null).maybeSingle();

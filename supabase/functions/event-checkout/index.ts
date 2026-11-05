@@ -71,11 +71,16 @@ Deno.serve(async (req) => {
     "metadata[project]": "nfoaa",
     "metadata[channel]": "event",
     "line_items[0][quantity]": String(q),
-    "custom_fields[0][key]": "inscription",
+    "custom_fields[0][key]": "full_name",
     "custom_fields[0][label][type]": "custom",
-    "custom_fields[0][label][custom]": "Sign it to (names, optional)",
+    "custom_fields[0][label][custom]": "Full name",
     "custom_fields[0][type]": "text",
-    "custom_fields[0][optional]": "true",
+    "custom_fields[0][optional]": "false",
+    "custom_fields[1][key]": "inscription",
+    "custom_fields[1][label][type]": "custom",
+    "custom_fields[1][label][custom]": "Sign it to (names, optional)",
+    "custom_fields[1][type]": "text",
+    "custom_fields[1][optional]": "true",
   };
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length < 200) p["customer_email"] = email;
   if (nm) p["metadata[buyer_name]"] = nm;
