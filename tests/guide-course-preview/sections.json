@@ -1,266 +1,332 @@
 [
   {
     "class": "page cover",
-    "title": "Never Fightor Argue Again"
+    "title": "Never Fightor Argue Again",
+    "chunks": 1
   },
   {
     "class": "page plain center",
-    "title": "Never Fight or Argue Again"
+    "title": "Never Fight or Argue Again",
+    "chunks": 1
   },
   {
     "class": "page",
-    "title": "Contents"
+    "title": "Contents",
+    "chunks": 2
   },
   {
     "class": "page",
-    "title": "Before You Begin This Guide"
+    "title": "Before You Begin This Guide",
+    "chunks": 1
   },
   {
     "class": "page",
-    "title": "Before You Begin"
+    "title": "Before You Begin",
+    "chunks": 1
   },
   {
     "class": "page",
-    "title": "Six Elements, Every Chapter"
+    "title": "Six Elements, Every Chapter",
+    "chunks": 7
   },
   {
     "class": "page",
-    "title": "Running a Weekly Session"
+    "title": "Running a Weekly Session",
+    "chunks": 6
   },
   {
     "class": "page week",
-    "title": "Naming the Problem"
+    "title": "Naming the Problem",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Never? Really?"
+    "title": "Never? Really?",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Renewing Your Mind"
+    "title": "Renewing Your Mind",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Renewing Your Mind About Marriage and Communication"
+    "title": "Renewing Your Mind About Marriage and Communication",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Conflict vs. Fighting"
+    "title": "Conflict vs. Fighting",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Understanding Conflict vs. Fighting"
+    "title": "Understanding Conflict vs. Fighting",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Maturity and Leadership"
+    "title": "Maturity and Leadership",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "The Call to Maturity and Leadership"
+    "title": "The Call to Maturity and Leadership",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Inviting God In, Choosing Your Plan"
+    "title": "Inviting God In, Choosing Your Plan",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Inviting God Into Your Marriage Conflict"
+    "title": "Inviting God Into Your Marriage Conflict",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "The Plan: Origin Story"
+    "title": "The Plan: Origin Story",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "The Safety Plan"
+    "title": "The Safety Plan",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "The Safety Plan"
+    "title": "The Safety Plan",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "The Anti-Fight Plan Begins"
+    "title": "The Anti-Fight Plan Begins",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "What Makes It Truly Possible to Never Fight or Argue Again"
+    "title": "What Makes It Truly Possible to Never Fight or Argue Again",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "The Heart Posture of ACTS"
+    "title": "The Heart Posture of ACTS",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Responding With LUV"
+    "title": "Responding With LUV",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Learning to LUV Your Spouse"
+    "title": "Learning to LUV Your Spouse",
+    "chunks": 3
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "Building Safe, Christlike Communication Patterns"
+    "title": "Building Safe, Christlike Communication Patterns",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Solutions and Celebration"
+    "title": "Solutions and Celebration",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Finding Solutions Together"
+    "title": "Finding Solutions Together",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "Celebrating Agreement and Reconnection"
+    "title": "Celebrating Agreement and Reconnection",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Stop-Loss and 3D Communication"
+    "title": "Stop-Loss and 3D Communication",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "The Stop-Loss Strategy"
+    "title": "The Stop-Loss Strategy",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "Mastering 3D Communication"
+    "title": "Mastering 3D Communication",
+    "chunks": 3
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Old Habits and Forgiveness"
+    "title": "Old Habits and Forgiveness",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "What to Do When Old Habits Try to Return"
+    "title": "What to Do When Old Habits Try to Return",
+    "chunks": 3
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "The Power of Forgiveness and Fresh Starts"
+    "title": "The Power of Forgiveness and Fresh Starts",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Safe Place, Lasting Legacy"
+    "title": "Safe Place, Lasting Legacy",
+    "chunks": 1
   },
   {
     "class": "page ch",
-    "title": "Becoming a Safe Place for Each Other"
+    "title": "Becoming a Safe Place for Each Other",
+    "chunks": 3
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page ch",
-    "title": "Leaving a Legacy of Peace"
+    "title": "Leaving a Legacy of Peace",
+    "chunks": 4
   },
   {
     "class": "page ch",
-    "title": "Try It Together"
+    "title": "Try It Together",
+    "chunks": 5
   },
   {
     "class": "page week",
-    "title": "Your Toolkit"
+    "title": "Your Toolkit",
+    "chunks": 1
   },
   {
     "class": "page tool",
-    "title": "SCIP and the Readiness Plan"
+    "title": "SCIP and the Readiness Plan",
+    "chunks": 3
   },
   {
     "class": "page tool",
-    "title": "ACTS and 3D Communication"
+    "title": "ACTS and 3D Communication",
+    "chunks": 3
   },
   {
     "class": "page tool",
-    "title": "L.U.V. Your Spouse Through Conflict"
+    "title": "L.U.V. Your Spouse Through Conflict",
+    "chunks": 4
   },
   {
     "class": "page tool",
-    "title": "The Anti-Fight Plan"
+    "title": "The Anti-Fight Plan",
+    "chunks": 7
   },
   {
     "class": "page tool",
-    "title": "The Safety Plan"
+    "title": "The Safety Plan",
+    "chunks": 8
   },
   {
     "class": "page tool",
-    "title": "The Stop-Loss Strategy"
+    "title": "The Stop-Loss Strategy",
+    "chunks": 7
   },
   {
     "class": "page tool",
-    "title": "The Validation Exercise"
+    "title": "The Validation Exercise",
+    "chunks": 3
   },
   {
     "class": "page",
-    "title": "Final Words &amp; Invitation"
+    "title": "Final Words &amp; Invitation",
+    "chunks": 2
   }
 ]
