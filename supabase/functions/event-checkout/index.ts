@@ -11,7 +11,8 @@ import { BUNDLE_CENTS, planOrder, clientMoneyTamperFields, inventory } from "./o
 
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const ON = Deno.env.get("EVENT_SALES_ON") === "1";
+// Go-live 2026-11-05: sales ON. Kill: redeploy with false, or set secret EVENT_SALES_ON=0 and change to === "1".
+const ON = Deno.env.get("EVENT_SALES_ON") === "0" ? false : true;
 const ALLOWED = [SITE_URL, "https://www.neverfightorargue.com"];
 const EVENT_START = "2026-11-06T00:00:00-05:00";
 const EVENT_PRICE = "price_1UIqyGLCCdJWrOprR9a0889s";

@@ -22,7 +22,8 @@ const WEBHOOK_SECRET = Deno.env.get("EVENT_BUNDLE_WEBHOOK_SECRET") ?? Deno.env.g
 const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const NOTIFY_EMAIL = Deno.env.get("NOTIFY_EMAIL") ?? "hello@neverfightorargue.com";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const ON = Deno.env.get("EVENT_BUNDLE_WEBHOOK_ON") === "1";
+// Go-live 2026-11-05: fulfillment ON. Kill: redeploy with false, or set secret EVENT_BUNDLE_WEBHOOK_ON=0 and change to === "1".
+const ON = Deno.env.get("EVENT_BUNDLE_WEBHOOK_ON") === "0" ? false : true;
 const PRODUCT = "companion_guide";
 
 async function sendEmail(to: string, subject: string, html: string) {
