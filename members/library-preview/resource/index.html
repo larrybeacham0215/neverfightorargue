@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2D1D">
+<title>Resource Preview | Never Fight or Argue Again</title>
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#e3dac4;--muted:#5a6a60}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Karla,-apple-system,sans-serif}
+a{color:var(--g1)}
+[hidden]{display:none!important}
+.banner{background:#5c3b00;color:#fff8e8;padding:.7rem 1rem;text-align:center;font-size:.95rem}
+.banner a{color:#ffe7a8}
+header{background:var(--g1);color:var(--cream);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header .brand{font-family:Marcellus,serif;font-size:1.1rem;color:var(--cream);text-decoration:none}
+header nav{display:flex;gap:14px;flex-wrap:wrap}
+header a{color:var(--cream)}
+main{max-width:960px;margin:0 auto;padding:24px 18px 64px}
+.back{display:inline-flex;align-items:center;gap:6px;font-weight:700;text-decoration:none;margin-bottom:18px}
+.back:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.layout{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+@media (max-width:720px){.layout{grid-template-columns:1fr}.cover{max-width:220px}}
+.cover{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--g1);display:block}
+.eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.75rem;margin:0 0 8px;font-weight:700}
+h1{font-family:Marcellus,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.1rem);margin:0 0 10px}
+p{line-height:1.55;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.btn{appearance:none;border:0;cursor:pointer;display:inline-block;padding:12px 18px;font:700 .95rem Karla,sans-serif;border-radius:8px;background:var(--g1);color:var(--cream);text-decoration:none}
+.btn.gold{background:var(--gold);color:var(--g1)}
+.btn.secondary{background:transparent;color:var(--g1);border:1px solid var(--g1)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:8px}
+.panel h2{font-family:Marcellus,serif;font-weight:400;font-size:1.15rem;margin:0 0 8px}
+.frame-wrap{position:relative;background:#1a1a1a;border-radius:8px;overflow:hidden;min-height:70vh}
+iframe{width:100%;height:75vh;border:0;background:#fff}
+.note{font-size:.9rem;margin-top:12px}
+.err{color:#a33}
+</style>
+</head>
+<body>
+<div class="banner" role="status"><strong>PREVIEW ONLY</strong> — resource detail wrapper. <a href="/members/library-preview/">Back to library preview</a></div>
+<header>
+  <a class="brand" href="/">Never Fight or Argue Again</a>
+  <nav>
+    <a href="/members/library-preview/">Library preview</a>
+    <a href="/guide/course-preview/">Guide preview</a>
+  </nav>
+</header>
+<main>
+  <a class="back" href="/members/library-preview/">← Back to library</a>
+  <div id="missing" class="err" hidden>That resource is not part of this preview.</div>
+  <div id="ok" hidden>
+    <div class="layout">
+      <img class="cover" id="cover" alt="">
+      <div>
+        <p class="eyebrow" id="kind"></p>
+        <h1 id="title"></h1>
+        <p id="desc"></p>
+        <div class="actions">
+          <a class="btn gold" id="open" target="_blank" rel="noopener">Open PDF</a>
+          <a class="btn" id="dl" download>Download PDF</a>
+          <a class="btn secondary" href="/members/library-preview/">Back to library</a>
+        </div>
+        <div class="panel">
+          <h2>In-page preview</h2>
+          <p class="note">If your browser blocks embedded PDFs, use Open PDF or Download. The native PDF viewer (outside this page) will not show our “Back to library” link — that is a browser limitation, not a missing feature. Source PDFs are unchanged.</p>
+          <div class="frame-wrap"><iframe id="frame" title="PDF preview" loading="lazy"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+(function(){
+var CATALOG={
+  'anti-fight-plan':{kind:'Free tool',title:'Anti-Fight Plan',desc:'A simple plan for non-combative conflict resolution. Use it before and after a hard conversation.',cover:'/assets/library-preview/anti-fight-plan.svg',file:'anti-fight-plan.pdf'},
+  'luv-framework':{kind:'Free tool',title:'The L.U.V. Framework',desc:'A one-page guide to the L.U.V. Framework from the book.',cover:'/assets/library-preview/luv-framework.svg',file:'luv-framework.pdf'},
+  'stop-loss-strategy':{kind:'Free tool',title:'The Stop-Loss Strategy',desc:'Protect the conversation before it becomes destructive. A one-page visual guide.',cover:'/assets/library-preview/stop-loss-strategy.svg',file:'stop-loss-strategy.pdf'},
+  'validation-exercise':{kind:'Free tool',title:'Validation Exercise',desc:'A guided exercise to help you hear and validate each other.',cover:'/assets/library-preview/validation-exercise.svg',file:'validation-exercise.pdf'}
+};
+var id=new URLSearchParams(location.search).get('id')||'';
+var item=CATALOG[id];
+if(!item){document.getElementById('missing').hidden=false;document.title='Not found | Library Preview';return;}
+document.getElementById('ok').hidden=false;
+document.title=item.title+' | Library Preview';
+document.getElementById('kind').textContent=item.kind;
+document.getElementById('title').textContent=item.title;
+document.getElementById('desc').textContent=item.desc;
+document.getElementById('cover').src=item.cover;
+document.getElementById('cover').alt=item.title+' cover';
+var url='/downloads/files/'+item.file;
+document.getElementById('open').href=url;
+document.getElementById('dl').href=url;
+document.getElementById('dl').setAttribute('download',item.file);
+document.getElementById('frame').src=url+'#view=FitH';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2D1D">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<title>Guide Course Preview | Never Fight or Argue Again</title>
+<style>
+:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#d9d0bc;--muted:#5a6a60;--side:280px}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#e9e4d6;color:var(--ink);font-family:Karla,-apple-system,sans-serif}
+a{color:var(--g1)}
+[hidden]{display:none!important}
+.banner{background:#5c3b00;color:#fff8e8;padding:.65rem 1rem;text-align:center;font-size:.92rem;line-height:1.4;position:sticky;top:0;z-index:30}
+.banner a{color:#ffe7a8}
+.bar{background:var(--g1);color:var(--cream);padding:.65rem .85rem;display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;justify-content:space-between}
+.bar b{font-family:Marcellus,serif;font-weight:400;font-size:1.05rem}
+.bar .st{font-size:.8rem;color:#cfd8cc;min-width:7rem}
+.bar .acts{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.btn{appearance:none;border:0;cursor:pointer;background:var(--gold);color:var(--g1);font:700 .85rem Karla,sans-serif;padding:.55rem .8rem;border-radius:.5rem;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--cream);border:1px solid rgba(247,244,236,.45)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.navbtn:focus-visible,summary:focus-visible,.mod:focus-visible,.pg:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.msg{max-width:36rem;margin:2rem auto;background:#fff;border-radius:1rem;padding:1.4rem;font-size:1.05rem}
+.shell{display:grid;grid-template-columns:var(--side) 1fr;min-height:calc(100vh - 7rem)}
+.side{background:#f4efe3;border-right:1px solid var(--line);padding:14px 12px 28px;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}
+.side h2{font-family:Marcellus,serif;font-weight:400;font-size:1.05rem;margin:4px 8px 10px}
+.prog{margin:0 8px 14px;font-size:.82rem;color:var(--muted)}
+.progbar{height:6px;background:#ddd4c0;border-radius:999px;overflow:hidden;margin:6px 8px 14px}
+.progbar>span{display:block;height:100%;background:var(--gold);width:0}
+.mod{width:100%;text-align:left;border:0;background:transparent;border-radius:8px;padding:10px 10px;cursor:pointer;font:600 .92rem Karla,sans-serif;color:var(--g1)}
+.mod[aria-current="true"]{background:#fff;box-shadow:inset 3px 0 0 var(--gold)}
+.mod .meta{display:block;font-weight:400;font-size:.78rem;color:var(--muted);margin-top:2px}
+.pages{list-style:none;margin:0 0 8px 8px;padding:0 0 0 10px;border-left:2px solid #e2d8c4}
+.pages li{margin:0}
+.pg{width:100%;text-align:left;border:0;background:transparent;padding:7px 8px;border-radius:6px;cursor:pointer;font:500 .82rem Karla,sans-serif;color:#3a4a40}
+.pg[aria-current="true"]{background:#fff;color:var(--g1);font-weight:700}
+.main{min-width:0;display:flex;flex-direction:column}
+.mobile-nav{display:none;padding:10px 12px;background:#f4efe3;border-bottom:1px solid var(--line);gap:8px;align-items:center}
+.mobile-nav label{font-size:.8rem;font-weight:700;color:var(--muted)}
+.mobile-nav select{flex:1;font-size:16px;padding:10px;border-radius:8px;border:1px solid #b9ae94;background:#fff}
+.stage{padding:12px 12px 24px;max-width:860px;width:100%;margin:0 auto}
+#gcss{}
+#g .page{margin:0 auto;box-shadow:0 8px 28px rgba(13,45,29,.08)}
+.fade #g > .page{animation:fade .22s ease}
+@keyframes fade{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
+.footer-nav{position:sticky;bottom:0;background:rgba(244,239,227,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:10px 12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.footer-nav .loc{font-size:.85rem;color:var(--muted);align-self:center}
+#g .chk{display:flex;gap:.55rem;align-items:center;margin-top:.7rem;font-weight:700;color:#1F4D31;font-size:1rem}
+#g .chk input,#g .opt input{width:22px;height:22px;accent-color:#1F4D31}
+#g .agree{margin:14px 0;padding:10px 14px;background:#fff;border:1px dashed #B8862A;border-radius:6px}
+#g .sigtype{font-family:Marcellus,serif;font-size:17pt;margin:0 0 4px;border:0;border-bottom:1px solid #333;border-radius:0;background:transparent;padding:6px 2px}
+#g .signs>div{font-size:8.5pt;letter-spacing:.2em;text-transform:uppercase}
+#g textarea.fld{min-height:4.6em;font-size:16px;overflow:hidden}
+#g input.fld{font-size:16px}
+#g .signs.web{grid-template-columns:1fr 1fr 1fr}
+@media (max-width:640px){#g .signs.web{grid-template-columns:1fr}}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{display:none}
+  .mobile-nav{display:flex}
+}
+@media print{
+  .banner,.bar,.side,.mobile-nav,.footer-nav{display:none!important}
+  body{background:#F7F4EC}
+  #g .page{height:auto!important;min-height:11in;overflow:visible!important;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="banner" role="status"><strong>PREVIEW ONLY</strong> — course-style chapter layout for review. Production <a href="/guide/">/guide/</a> is unchanged. Answers typed here stay on this device for the session and are <strong>not saved</strong> to your account. <a href="/members/library-preview/">Back to library preview</a></div>
+<div class="bar">
+  <div><b>Companion Guide · Course Preview</b><div class="st" id="st" aria-live="polite">Opening…</div></div>
+  <div class="acts">
+    <a class="btn ghost" href="/members/library-preview/">Library preview</a>
+    <a class="btn ghost" href="/members/">My account</a>
+    <button class="btn" id="pdf" type="button" disabled>Print this page</button>
+  </div>
+</div>
+<div id="m" class="msg" hidden></div>
+<div id="app" hidden>
+  <div class="shell">
+    <aside class="side" aria-label="Course modules">
+      <h2>Modules</h2>
+      <div class="prog" id="progText">Page 1 of 1</div>
+      <div class="progbar" aria-hidden="true"><span id="progBar"></span></div>
+      <nav id="sideNav"></nav>
+    </aside>
+    <div class="main">
+      <div class="mobile-nav">
+        <label for="modSel">Module</label>
+        <select id="modSel"></select>
+      </div>
+      <div class="mobile-nav" style="border-top:0;padding-top:0">
+        <label for="pageSel">Page</label>
+        <select id="pageSel"></select>
+      </div>
+      <div class="stage fade">
+        <style id="gcss"></style>
+        <div id="g"></div>
+      </div>
+      <div class="footer-nav">
+        <button type="button" class="btn ghost" id="prev" style="background:var(--g1)">← Previous</button>
+        <div class="loc" id="loc"></div>
+        <button type="button" class="btn" id="next">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/nfoa-auth.js"></script>
+<script>
+(function(){
+var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1')+'/guide';
+var t=(new URLSearchParams(location.search).get('t')||'').toLowerCase();
+var AUTH=null;
+function hdr(h){h=h||{};if(AUTH)h.Authorization='Bearer '+AUTH;return h;}
+function url(){return API+(t?'?t='+encodeURIComponent(t):'');}
+var KEY='nfoa-guide-course-preview:'+(t||'me');
+var st=document.getElementById('st');
+var G=document.getElementById('g');
+var local={};try{local=JSON.parse(sessionStorage.getItem(KEY)||'{}')||{};}catch(e){}
+var modules=[]; // {title, pages:[{title,html}]}
+var mi=0, pi=0;
+
+function fail(msg){document.getElementById('m').hidden=false;document.getElementById('m').textContent=msg;st.textContent='';document.getElementById('app').hidden=true;}
+function group(id){var m=id.match(/^(w05-ch06-exercise-p1|w10-ch15-exercise-p\d)-(hurt|responsible|depends|r\d)$/);return m?m[1]:null;}
+function grow(el){if(el.tagName==='TEXTAREA'){el.style.height='auto';el.style.height=(el.scrollHeight+2)+'px';}}
+function val(el){return el.type==='checkbox'?(el.checked?'1':''):el.value;}
+function set(el,v){if(el.type==='checkbox')el.checked=v==='1';else el.value=v;}
+function put(id,v){local[id]=v;try{sessionStorage.setItem(KEY,JSON.stringify(local));}catch(e){}st.textContent='Preview only — not saved to your account';}
+
+function titleFrom(html){
+  var m=html.match(/<h[1-4][^>]*>([\s\S]*?)<\/h[1-4]>/i);
+  if(!m) return 'Page';
+  return m[1].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim()||'Page';
+}
+function buildModules(html){
+  var parts=html.split(/(?=<section\b)/i).filter(function(p){return /^<section\b/i.test(p.trim());});
+  var out=[], cur=null;
+  parts.forEach(function(p){
+    var am=p.match(/^<section\b([^>]*)>/i);
+    var cls=((am&&am[1]||'').match(/class="([^"]*)"/)||[])[1]||'';
+    if(/\bweek\b/.test(cls) && !/\bch\b/.test(cls)){
+      if(cur) out.push(cur);
+      cur={title:titleFrom(p), pages:[{title:titleFrom(p), html:p}]};
+      return;
+    }
+    if(!cur){cur={title:'Start Here', pages:[]};}
+    cur.pages.push({title:titleFrom(p), html:p});
+  });
+  if(cur) out.push(cur);
+  // Deduplicate page titles within a module with numbers when needed
+  out.forEach(function(mod){
+    var seen={};
+    mod.pages.forEach(function(pg,i){
+      var base=pg.title;
+      if(seen[base]){seen[base]++; pg.title=base+' ('+seen[base]+')';}
+      else seen[base]=1;
+      pg.label=(i+1)+'. '+pg.title;
+    });
+  });
+  return out;
+}
+
+function progress(){
+  var total=0, idx=0, n=0;
+  modules.forEach(function(m,i){m.pages.forEach(function(p,j){total++; if(i<mi||(i===mi&&j<=pi)) idx++; if(i===mi&&j===pi) n=total;});});
+  // recompute absolute index
+  var abs=0, curAbs=0;
+  modules.forEach(function(m,i){m.pages.forEach(function(_,j){abs++; if(i===mi&&j===pi) curAbs=abs;});});
+  document.getElementById('progText').textContent='Page '+curAbs+' of '+abs;
+  document.getElementById('progBar').style.width=(abs?(curAbs/abs*100):0)+'%';
+  document.getElementById('loc').textContent=modules[mi].title+' · '+modules[mi].pages[pi].title;
+  document.getElementById('prev').disabled=mi===0&&pi===0;
+  document.getElementById('next').disabled=mi===modules.length-1&&pi===modules[mi].pages.length-1;
+}
+
+function paintSide(){
+  var nav=document.getElementById('sideNav');
+  nav.innerHTML=modules.map(function(m,i){
+    var open=i===mi;
+    var pages=m.pages.map(function(p,j){
+      return '<li><button type="button" class="pg" data-m="'+i+'" data-p="'+j+'" aria-current="'+(open&&j===pi?'true':'false')+'">'+esc(p.title)+'</button></li>';
+    }).join('');
+    return '<div><button type="button" class="mod" data-m="'+i+'" aria-current="'+(i===mi?'true':'false')+'">'+esc(m.title)+'<span class="meta">'+m.pages.length+' page'+(m.pages.length===1?'':'s')+'</span></button>'+(open?'<ul class="pages">'+pages+'</ul>':'')+'</div>';
+  }).join('');
+  Array.prototype.forEach.call(nav.querySelectorAll('.mod'),function(btn){btn.onclick=function(){go(+btn.getAttribute('data-m'),0);};});
+  Array.prototype.forEach.call(nav.querySelectorAll('.pg'),function(btn){btn.onclick=function(){go(+btn.getAttribute('data-m'),+btn.getAttribute('data-p'));};});
+  var ms=document.getElementById('modSel');
+  ms.innerHTML=modules.map(function(m,i){return '<option value="'+i+'"'+(i===mi?' selected':'')+'>'+esc(m.title)+'</option>';}).join('');
+  var ps=document.getElementById('pageSel');
+  ps.innerHTML=modules[mi].pages.map(function(p,j){return '<option value="'+j+'"'+(j===pi?' selected':'')+'>'+esc(p.title)+'</option>';}).join('');
+}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+function bindFields(root){
+  Array.prototype.forEach.call(root.querySelectorAll('[data-field-id]'),function(el){
+    var id=el.getAttribute('data-field-id');
+    var v=(id in local)?local[id]:'';
+    set(el,v); setTimeout(function(){grow(el);},0);
+    el.addEventListener(el.type==='checkbox'?'change':'input',function(){
+      var g=group(id);
+      if(g&&el.checked)Array.prototype.forEach.call(root.querySelectorAll('[data-field-id^="'+g+'-"]'),function(o){
+        if(o!==el&&o.checked&&group(o.getAttribute('data-field-id'))===g){o.checked=false;put(o.getAttribute('data-field-id'),'');}
+      });
+      grow(el); put(id,val(el));
+    });
+  });
+  ['w05-ch05-exercise-p2','w05-ch05-exercise-p3'].forEach(function(i){var e=document.getElementById(i);if(e)e.classList.add('merged');});
+}
+
+function go(m,p){
+  if(m<0||m>=modules.length) return;
+  if(p<0){if(m===0)return; m--; p=modules[m].pages.length-1;}
+  if(p>=modules[m].pages.length){if(m>=modules.length-1)return; m++; p=0;}
+  mi=m; pi=p;
+  var stage=document.querySelector('.stage');
+  stage.classList.remove('fade'); void stage.offsetWidth; stage.classList.add('fade');
+  G.innerHTML=modules[mi].pages[pi].html;
+  bindFields(G);
+  paintSide();
+  progress();
+  try{history.replaceState(null,'','#m'+mi+'-p'+pi);}catch(e){}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function start(){
+  fetch(url(),{headers:hdr()}).then(function(r){return r.json();}).then(function(d){
+    if(d.signed_out){location.href='/members/library-preview/';return;}
+    if(!d.ok){fail((d.error||'This guide link is not valid.')+' Questions? Email hello@neverfightorargue.com.');return;}
+    document.getElementById('gcss').textContent=d.guide.css+'\n#g .page{height:auto!important;min-height:0;overflow:visible!important;margin-bottom:0}';
+    modules=buildModules(d.guide.html||'');
+    if(!modules.length){fail('Guide content could not be split into modules.');return;}
+    // Preview uses empty/ephemeral answers only (sessionStorage). Do not copy production answers.
+    document.getElementById('app').hidden=false;
+    document.getElementById('pdf').disabled=false;
+    document.getElementById('pdf').onclick=function(){window.print();};
+    document.getElementById('prev').onclick=function(){if(pi>0)go(mi,pi-1);else if(mi>0)go(mi-1,modules[mi-1].pages.length-1);};
+    document.getElementById('next').onclick=function(){if(pi<modules[mi].pages.length-1)go(mi,pi+1);else if(mi<modules.length-1)go(mi+1,0);};
+    document.getElementById('modSel').onchange=function(){go(+this.value,0);};
+    document.getElementById('pageSel').onchange=function(){go(mi,+this.value);};
+    window.addEventListener('keydown',function(e){
+      var tag=(e.target&&e.target.tagName||'').toLowerCase();
+      if(tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable) return;
+      if(e.key==='ArrowLeft'){e.preventDefault();document.getElementById('prev').click();}
+      if(e.key==='ArrowRight'){e.preventDefault();document.getElementById('next').click();}
+    });
+    var hash=location.hash.match(/^#m(\d+)-p(\d+)$/);
+    var sm=hash?+hash[1]:0, sp=hash?+hash[2]:0;
+    if(sm>=modules.length)sm=0;
+    if(!modules[sm]||sp>=modules[sm].pages.length)sp=0;
+    go(sm,sp);
+    st.textContent='Preview only — answers are not saved to your account';
+  }).catch(function(){fail('Could not load the guide. Please check your connection and refresh.');});
+}
+
+if(t&&!/^[0-9a-f-]{36}$/.test(t)){fail('This guide link is not valid. Use the link in your order email.');}
+else if(t)start();
+else NFOA_AUTH.session().then(function(s){
+  if(!s){location.href='/members/library-preview/';return;}
+  AUTH=s.access_token; start();
+  setInterval(function(){NFOA_AUTH.session().then(function(x){if(x)AUTH=x.access_token;});},20*60000);
+});
+})();
+</script>
+</body>
+</html>
