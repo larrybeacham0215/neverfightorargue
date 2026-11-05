@@ -163,9 +163,13 @@ Deno.serve(async (req) => {
     const token = newInviteToken();
     const hash = await sha256Hex(token);
     const rpc = action === "reissue" ? "spouse_invite_reissue" : "spouse_invite_issue";
+    const intended = String(body.spouse_email ?? body.intended_email ?? "").trim().toLowerCase();
+    if (action === "issue" && intended && !intended.includes("@")) {
+      return json({ ok: false, error: "Enter a valid spouse email, or leave it blank." }, 400);
+    }
     const args = action === "reissue"
       ? { p_parent_entitlement_id: parent.id, p_new_token_hash: hash }
-      : { p_parent_entitlement_id: parent.id, p_token_hash: hash, p_created_by: "buyer" };
+      : { p_parent_entitlement_id: parent.id, p_token_hash: hash, p_created_by: "buyer", p_intended_email: intended || null };
     const { data, error } = await db.rpc(rpc, args);
     if (error) {
       console.error("spouse issue/reissue rpc failed");
@@ -207,27 +211,36 @@ Deno.serve(async (req) => {
     return json({ ok: false, error: "This invite is not available." }, 403);
   }
 
-  // Prove ownership for existing accounts; create only when missing. Never update password.
-  // Prefer sign-in first (proves password). Only createUser when no account / wrong-password ambiguous.
+  // Ownership / possession rules (no password overwrite, no auto-confirm takeover):
+  // 1) Existing account: must sign in with current password. Never admin-update password.
+  // 2) New email: use anon.signUp (sends confirmation when mailer on). Do NOT admin.createUser
+  //    with email_confirm:true — that would claim arbitrary emails without possession proof.
+  // 3) Redeem ONLY after a successful sign-in session (confirmed user). Unconfirmed signup
+  //    returns needs_email_confirmation and does not create entitlements.
   let userId: string | null = null;
   let created = false;
   const sign = await anon.auth.signInWithPassword({ email, password });
   if (sign.data?.user && !sign.error) {
-    userId = sign.data.user.id;
-    // Sign-in succeeded: existing account, password proven. Do not update password or metadata beyond redeem.
+    const u = sign.data.user;
+    // Reject unconfirmed sessions when the project requires confirmation.
+    const confirmed = !!(u.email_confirmed_at || (u as { confirmed_at?: string }).confirmed_at);
+    if (!confirmed && Deno.env.get("SPOUSE_REQUIRE_EMAIL_CONFIRMED") !== "0") {
+      return json({
+        ok: false,
+        error: "Confirm your email before claiming this guide. Check your inbox.",
+        needs_email_confirmation: true,
+      }, 401);
+    }
+    userId = u.id;
   } else {
-    // Could be wrong password OR no account. Try create; if exists, require correct password (do not reveal which).
-    const { data: cu, error: ce } = await db.auth.admin.createUser({
+    // Sign-up path — confirmation email goes through project mailer (local sink in tests).
+    const { data: su, error: se } = await anon.auth.signUp({
       email,
       password,
-      email_confirm: true,
-      user_metadata: name ? { name } : {},
+      options: { data: name ? { name } : {} },
     });
-    if (cu?.user && !ce) {
-      userId = cu.user.id;
-      created = true;
-    } else {
-      const exists = /already|registered|exists/i.test(ce?.message ?? "");
+    if (se) {
+      const exists = /already|registered|exists/i.test(se.message ?? "");
       if (exists) {
         return json({
           ok: false,
@@ -235,8 +248,20 @@ Deno.serve(async (req) => {
           needs_existing_password: true,
         }, 401);
       }
-      console.error("spouse createUser failed");
+      console.error("spouse signUp failed");
       return json({ ok: false, error: "Could not create your account. Please try again." }, 500);
+    }
+    // If project auto-confirms, session may be present; otherwise identities unconfirmed.
+    if (su.session?.user) {
+      userId = su.session.user.id;
+      created = true;
+    } else {
+      return json({
+        ok: false,
+        error: "We sent a confirmation link to that email. Open it, then return here and claim with the same email and password.",
+        needs_email_confirmation: true,
+        created_pending: true,
+      }, 401);
     }
   }
 
@@ -259,6 +284,7 @@ Deno.serve(async (req) => {
       parent_inactive: ["This invite is no longer available.", 403],
       same_as_buyer: ["Use your own email, not the buyer’s email.", 400],
       email_already_entitled: ["This email already has Companion Guide access. Sign in at the members page.", 409],
+      email_mismatch: ["This invite was issued for a different email address.", 403],
       invalid: ["This invite link is not valid.", 403],
     };
     const [msg, code] = map[r.error ?? ""] ?? ["Could not complete the claim.", 400];
