@@ -1,0 +1,62 @@
+{
+  "label": "local_pg + mocked_stripe_external — singles refund fix; NO live Stripe; NO prod writes",
+  "passed": 9,
+  "total": 9,
+  "failed": [],
+  "results": [
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "source_handles_charge_refunded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "source_stores_payment_intent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "source_forwards_event_bundle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "source_singles_refund_by_pi",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "singles_refund_marks_refunded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "singles_refund_clears_inventory_sum",
+      "ok": true,
+      "detail": "sold_remaining_bundle=4"
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "singles_refund_idempotent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "bundle_pi_routes_to_event_bundle_webhook",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_pg+mocked_stripe_external",
+      "name": "local_hmac_verifies_without_stripe_api",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

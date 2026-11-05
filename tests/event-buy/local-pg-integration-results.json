@@ -1,0 +1,45 @@
+{
+  "label": "local_pg_multisession + mocked_stripe_external — real PG 17.6; NO live Stripe; NO prod",
+  "postgres": "embedded-postgres 17.6 on 127.0.0.1:54329",
+  "passed": 6,
+  "total": 6,
+  "failed": [],
+  "results": [
+    {
+      "kind": "local_pg_multisession",
+      "name": "concurrent_hold_exactly_one_wins",
+      "ok": true,
+      "detail": "[{\"ok\":true,\"held\":2,\"left\":0,\"sold\":98,\"hold_id\":\"ebf2af99-3059-4bc5-9cff-59df017d5e1c\"},{\"ok\":false,\"held\":2,\"left\":0,\"sold\":98,\"error\":\"not_enough\"}]"
+    },
+    {
+      "kind": "local_pg_multisession",
+      "name": "loser_is_not_enough",
+      "ok": true,
+      "detail": "{\"ok\":false,\"held\":2,\"left\":0,\"sold\":98,\"error\":\"not_enough\"}"
+    },
+    {
+      "kind": "mocked_stripe_external",
+      "name": "idempotent_duplicate_session",
+      "ok": true,
+      "detail": "c=1"
+    },
+    {
+      "kind": "mocked_stripe_external",
+      "name": "local_hmac_signature_verifies",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_external",
+      "name": "refund_revokes_without_charge_kind",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_external",
+      "name": "singles_refund_clears_inventory",
+      "ok": true,
+      "detail": "sold=0"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "label": "local_gotrue — GoTrue v2.197.0 + SMTP sink; NOT prod Auth",
+  "auth_url": "http://127.0.0.1:9999",
+  "mail_sink": "/workspace/local-infra/gotrue/mail-sink",
+  "passed": 7,
+  "total": 7,
+  "failed": [],
+  "results": [
+    {
+      "kind": "local_gotrue",
+      "name": "signup_accepted_or_pending",
+      "ok": true,
+      "detail": "{\"id\":\"920cba5c-2d27-4219-9fe8-ad380d63a36d\",\"aud\":\"\",\"role\":\"\",\"email\":\"spouse_1793910171588@sink.local\",\"phone\":\"\",\"confirmation_sent_at\":\"2026-11-05T15:22:51.683829628-05:00\",\"app_metadata\":{\"provi"
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "confirmation_email_sunk_locally",
+      "ok": true,
+      "detail": "before=2 after=3"
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "unconfirmed_cannot_signin",
+      "ok": true,
+      "detail": "{\"code\":400,\"error_code\":\"email_not_confirmed\",\"msg\":\"Email not confirmed\"}"
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "confirmed_user_can_signin",
+      "ok": true,
+      "detail": "{\"access_token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzYTA3ZTAyNy02ZWY4LTQyNDAtODU5OS04ODYxN2EyYjMxYzciLCJhdW"
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "wrong_password_rejected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "policy_forbids_admin_autoconfirm",
+      "ok": true,
+      "detail": "spouse-invite uses anon.signUp + require verified possession via confirm link/sign-in; NEVER admin.createUser email_confirm:true (takeover/misdelivery)"
+    },
+    {
+      "kind": "local_gotrue",
+      "name": "claims_require_email_possession",
+      "ok": true,
+      "detail": "Prod: confirm via emailed link (possession). Local test SQL-confirm only after sink proves mail delivery; arbitrary email_confirm:true without possession is FORBIDDEN"
+    }
+  ]
+}
