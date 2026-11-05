@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get your signed copy tonight | Never Fight or Argue Again</title>
-<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book. Pay on your phone and pick up at the book table.">
+<title>Get your signed copies | Never Fight or Argue Again</title>
+<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book, or the $50 Event Bundle with 2 signed books and the Companion Guide. Pay on your phone and pick up at the book table.">
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://neverfightorargue.com/buy/">
 <meta name="theme-color" content="#0D2D1D">
@@ -35,21 +35,28 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
 .err{color:#b3261e;font-size:.9rem;margin:.6rem 0 0}
 #pay{margin-top:.5rem}.back{display:inline-block;margin:0 0 .8rem;color:var(--gold-ink);font-size:.9rem}
 .verse{text-align:center;font-style:italic;color:var(--soft);font-size:.95rem;margin:1.6rem 1rem 0}
+.opts{display:grid;gap:.7rem;margin:0 0 .4rem}
+.opt{display:flex;gap:.8rem;align-items:center;border:2px solid rgba(22,38,28,.15);border-radius:.8rem;padding:.9rem;cursor:pointer;background:#fff;text-align:left;font:inherit;color:inherit;width:100%}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:#FBF6EA}
+.opt img{width:3.6rem}.opt h3{margin:0;font:700 1.02rem/1.25 'Playfair Display',serif}.opt p{margin:.15rem 0 0;font-size:.9rem;color:var(--soft)}
+.opt .pr{margin-left:auto;font:400 1.4rem Marcellus,serif;color:var(--gold-ink);white-space:nowrap}
+.opt[disabled]{opacity:.5;cursor:not-allowed}.tag{display:inline-block;font:700 .62rem Karla;letter-spacing:.14em;text-transform:uppercase;background:var(--green);color:var(--ivory);border-radius:99px;padding:.15rem .5rem;margin-bottom:.2rem}
+.so{color:#b3261e;font-weight:700}
 </style>
 </head>
 <body>
 <header class="top">
-  <small>Launch Night &middot; At the book table</small>
+  <small>At the book table</small>
   <h1>Take it home tonight.</h1>
   <p>We are so glad you are here. Grab your signed copy right from your phone, then pick it up at the book table.</p>
 </header>
 <main class="wrap">
   <div class="card" id="form">
-    <div class="book">
-      <img src="/assets/book-3d.webp" alt="Never Fight or Argue Again book cover" width="104">
-      <div><h2>Never Fight or Argue Again</h2><div class="price">$20 <span>per book</span></div></div>
+    <div class="opts" role="group" aria-label="Choose an option">
+      <button type="button" class="opt" id="o-bundle" data-item="bundle" aria-pressed="false"><img src="/assets/book-3d.webp" alt="" width="58"><div><span class="tag">Best value</span><h3>Event Bundle</h3><p>2 signed books + the Companion Guide</p><p class="so" id="so-bundle" hidden>Sold out</p></div><span class="pr">$50</span></button>
+      <button type="button" class="opt" id="o-single" data-item="single" aria-pressed="true"><img src="/assets/book-3d.webp" alt="" width="58"><div><h3>Signed book</h3><p>Never Fight or Argue Again</p><p class="so" id="so-single" hidden>Sold out</p></div><span class="pr">$20</span></button>
     </div>
-    <label for="qty">How many books?</label>
+    <label for="qty" id="ql">How many books?</label>
     <select id="qty"></select>
     <label for="nm">Your name</label>
     <input id="nm" autocomplete="name" placeholder="First and last name">
@@ -58,21 +65,34 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
     <div class="total"><span id="tq">1 book</span><b id="tt">$20</b></div>
     <p class="err" id="err" hidden></p>
     <button class="btn" id="go" type="button">Continue to secure payment</button>
-    <p class="fine">Secure payment by Stripe. After you pay, your receipt QR appears on screen and in your email. Show it at the book table to pick up your books.</p>
+    <p class="fine">Secure payment by Stripe. After you pay, your pickup QR appears on screen and in your email. Show it at the book table to pick up your books. Bundle buyers also get their Companion Guide link right away.</p>
   </div>
   <div class="card" id="frame" hidden>
-    <a href="#" class="back" id="back">&larr; Change quantity</a>
+    <a href="#" class="back" id="back">&larr; Change order</a>
     <div id="pay"></div>
   </div>
   <p class="verse">&ldquo;A soft answer turneth away wrath.&rdquo; Proverbs 15:1</p>
 </main>
 <script>
 (function(){
-  var PK='pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC', API='https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/checkout';
-  var sel=document.getElementById('qty'), err=document.getElementById('err'), co=null;
-  for(var i=1;i<=10;i++){var o=document.createElement('option');o.value=i;o.textContent=i+(i===1?' book, $20':' books, $'+(i*20));sel.appendChild(o);}
-  function show(){var q=+sel.value;document.getElementById('tq').textContent=q+(q===1?' book':' books');document.getElementById('tt').textContent='$'+(q*20);}
-  sel.addEventListener('change',show);show();
+  var PK='pk_live_J3LGbrNWnWJ9tZ4DJvIh5wtC', API='https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/event-checkout';
+  var sel=document.getElementById('qty'), err=document.getElementById('err'), co=null, item='single', st=null;
+  var U={single:{p:20,max:10,one:' book',many:' books',label:'How many books?'},bundle:{p:50,max:5,one:' bundle (2 books)',many:' bundles',label:'How many bundles?'}};
+  function opts(){var u=U[item],cap=u.max;if(st){cap=Math.min(cap,item==='bundle'?st.bundles_left:st.books_left);}
+    var v=+sel.value||1;sel.innerHTML='';for(var i=1;i<=Math.max(1,cap);i++){var o=document.createElement('option');o.value=i;o.textContent=i+(i===1?u.one:u.many)+', $'+(i*u.p);sel.appendChild(o);}
+    sel.value=Math.min(v,Math.max(1,cap));document.getElementById('ql').textContent=u.label;show();}
+  function show(){var q=+sel.value,u=U[item];document.getElementById('tq').textContent=q+(q===1?u.one:u.many);document.getElementById('tt').textContent='$'+(q*u.p);}
+  function pick(it){var b=document.getElementById('o-'+it);if(b.disabled)return;item=it;['single','bundle'].forEach(function(k){document.getElementById('o-'+k).setAttribute('aria-pressed',k===it?'true':'false');});opts();}
+  document.getElementById('o-single').addEventListener('click',function(){pick('single');});
+  document.getElementById('o-bundle').addEventListener('click',function(){pick('bundle');});
+  sel.addEventListener('change',show);
+  if(/[?&]src=event_bundle\b/.test(location.search))item='bundle';
+  pick(item);
+  function soldOut(){var go=document.getElementById('go');
+    ['single','bundle'].forEach(function(k){var out=k==='single'?st.sold_out_single:st.sold_out_bundle;document.getElementById('o-'+k).disabled=out;document.getElementById('so-'+k).hidden=!out;});
+    if(st.sold_out_single&&st.sold_out_bundle){go.disabled=true;go.textContent='Sold out';return;}
+    if(document.getElementById('o-'+item).disabled)pick(item==='bundle'?'single':'bundle');else opts();}
+  fetch(API).then(function(r){return r.json();}).then(function(d){st=d;soldOut();}).catch(function(){});
   function fail(m){err.textContent=m;err.hidden=false;document.getElementById('frame').hidden=true;document.getElementById('form').hidden=false;}
   document.getElementById('go').addEventListener('click',function(){
     var nm=document.getElementById('nm').value.trim(), em=document.getElementById('em').value.trim();
@@ -84,8 +104,8 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
     var start=function(){
       var stripe=window.Stripe(PK);
       stripe.initEmbeddedCheckout({fetchClientSecret:function(){
-        return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'preorder',src:'event',quantity:+sel.value,name:nm,email:em})})
-          .then(function(r){return r.json();}).then(function(d){if(!d.clientSecret)throw new Error(d.error||'no session');return d.clientSecret;});
+        return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item:item,quantity:+sel.value,name:nm,email:em})})
+          .then(function(r){return r.json();}).then(function(d){if(d.sold_out){st=d;soldOut();}if(!d.clientSecret)throw new Error(d.error||'no session');return d.clientSecret;});
       }}).then(function(c){co=c;pay.innerHTML='';c.mount('#pay');}).catch(function(){fail('Payment could not start. Please try again.');});
     };
     if(window.Stripe)return start();

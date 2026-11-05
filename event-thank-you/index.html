@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#0D2D1D"><link rel="icon" href="/assets/favicon.ico" sizes="any"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:wght@600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--green:#0D2D1D;--gold:#C39A5E;--gold-ink:#8A6330;--ivory:#F8F4E9;--ink:#16261C;--soft:#4B5A50}*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.6 Karla,-apple-system,sans-serif}
+.top{background:var(--green);color:var(--ivory);text-align:center;padding:1.6rem 1.25rem 2.4rem}.top small{display:block;font:700 .6875rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}.top h1{font:400 clamp(1.7rem,6.5vw,2.4rem)/1.15 Marcellus,serif;margin:.6rem 0 .3rem}
+.wrap{max-width:34rem;margin:-1.5rem auto 2rem;padding:0 1rem}.card{background:#fff;border:1px solid rgba(22,38,28,.12);border-radius:1rem;padding:1.4rem;box-shadow:0 10px 30px rgba(13,45,29,.08);margin-bottom:1rem}
+.pass{text-align:center;border:2px solid var(--gold);background:#F7F1E4}.pass img{width:220px;height:220px;border:6px solid #fff}.k{font:700 .7rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 .4rem}
+.btn{display:inline-block;background:var(--green);color:var(--ivory);text-decoration:none;font-weight:700;padding:.85rem 1.3rem;border-radius:.6rem}.fine{font-size:.9rem;color:var(--soft)}h2{font:700 1.2rem "Playfair Display",serif;margin:1.2rem 0 .3rem}.ph{background:#FFF4D6;border:1px dashed #C39A5E;padding:.6rem .8rem;border-radius:.5rem;font-size:.9rem}</style><title>Thank you | Never Fight or Argue Again</title></head><body>
+<header class="top"><small>Event Bundle</small><h1>Thank you. You are all set.</h1><p>Save this page. Your pickup QR and Companion Guide link are below.</p></header>
+<main class="wrap">
+  <div class="card pass" id="pass"><p class="k">Your book table pickup pass</p><p id="msg" class="fine">Confirming your payment...</p><a id="ql" hidden><img id="qr" alt="Your pickup QR code"></a><p id="what" hidden></p></div>
+  <div class="card" id="g" hidden><p class="k">Your Companion Guide</p><p>Read it online or download the PDF any time. This link is just for you, so keep it handy.</p><a class="btn" id="gl">Open the Companion Guide</a></div>
+  <p class="fine" style="text-align:center">We also emailed you this QR and the guide link. If you do not see it, check spam or promotions.</p>
+</main>
+<script>
+(function(){var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1');var sid=new URLSearchParams(location.search).get('session_id')||'';var n=0;
+function go(){fetch(API+'/pickup?session='+encodeURIComponent(sid)).then(function(r){return r.json();}).then(function(d){
+ if(!d.token){if(++n<20)return setTimeout(go,1500);document.getElementById('msg').textContent='Still confirming. Your email will have your QR in a minute or two.';return;}
+ var t=location.origin+'/pickup/?t='+d.token;document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&color=0D2D1D&bgcolor=FFFFFF&data='+encodeURIComponent('https://neverfightorargue.com/pickup/?t='+d.token);
+ var a=document.getElementById('ql');a.href=t;a.hidden=false;document.getElementById('msg').hidden=true;var w=document.getElementById('what');w.hidden=false;w.innerHTML='<b>Show this QR at the book table</b> for your '+d.quantity+' signed books'+(d.name?', '+String(d.name).split(' ')[0].replace(/</g,'')+'.':'.');
+ document.getElementById('gl').href='/guide/?t='+d.token;document.getElementById('g').hidden=false;}).catch(function(){if(++n<20)setTimeout(go,1500);});}
+if(sid)go();else document.getElementById('msg').textContent='Missing order details. Check your email for your QR.';})();
+</script></body></html>

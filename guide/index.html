@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#0D2D1D"><link rel="icon" href="/assets/favicon.ico" sizes="any"><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:wght@600;700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>:root{--green:#0D2D1D;--gold:#C39A5E;--gold-ink:#8A6330;--ivory:#F8F4E9;--ink:#16261C;--soft:#4B5A50}*{box-sizing:border-box}body{margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.6 Karla,-apple-system,sans-serif}
+.top{background:var(--green);color:var(--ivory);text-align:center;padding:1.6rem 1.25rem 2.4rem}.top small{display:block;font:700 .6875rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}.top h1{font:400 clamp(1.7rem,6.5vw,2.4rem)/1.15 Marcellus,serif;margin:.6rem 0 .3rem}
+.wrap{max-width:34rem;margin:-1.5rem auto 2rem;padding:0 1rem}.card{background:#fff;border:1px solid rgba(22,38,28,.12);border-radius:1rem;padding:1.4rem;box-shadow:0 10px 30px rgba(13,45,29,.08);margin-bottom:1rem}
+.pass{text-align:center;border:2px solid var(--gold);background:#F7F1E4}.pass img{width:220px;height:220px;border:6px solid #fff}.k{font:700 .7rem Karla;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink);margin:0 0 .4rem}
+.btn{display:inline-block;background:var(--green);color:var(--ivory);text-decoration:none;font-weight:700;padding:.85rem 1.3rem;border-radius:.6rem}.fine{font-size:.9rem;color:var(--soft)}h2{font:700 1.2rem "Playfair Display",serif;margin:1.2rem 0 .3rem}.ph{background:#FFF4D6;border:1px dashed #C39A5E;padding:.6rem .8rem;border-radius:.5rem;font-size:.9rem}</style><title>Companion Guide | Never Fight or Argue Again</title></head><body>
+<header class="top"><small>For Event Bundle owners</small><h1 id="h">The Companion Guide</h1><p id="hi"></p></header>
+<main class="wrap"><div class="card" id="c"><p class="fine">Opening your guide...</p></div></main>
+<script>
+(function(){var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1');var t=new URLSearchParams(location.search).get('t')||'';var c=document.getElementById('c');
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+fetch(API+'/guide?t='+encodeURIComponent(t)).then(function(r){return r.json();}).then(function(d){
+ if(!d.ok){c.innerHTML='<p>'+e(d.error||'This guide link is not valid.')+'</p><p class="fine">Questions? Email hello@neverfightorargue.com.</p>';return;}
+ var g=d.guide;document.getElementById('h').textContent=g.title;document.getElementById('hi').textContent=d.name?'Welcome, '+d.name+'.':'Welcome.';
+ var h=(g.placeholder?'<p class="ph">'+e(g.intro)+'</p>':'<p>'+e(g.intro)+'</p>');g.sections.forEach(function(s){h+='<h2>'+e(s.h)+'</h2><p>'+e(s.p)+'</p>';});
+ h+=d.pdf_url?'<p style="margin-top:1.4rem"><a class="btn" href="'+e(d.pdf_url)+'">Download the PDF</a></p>':'<p class="fine" style="margin-top:1.4rem">The PDF download is being added. Check back soon.</p>';c.innerHTML=h;
+}).catch(function(){c.innerHTML='<p>Could not load the guide. Please refresh.</p>';});})();
+</script></body></html>
