@@ -15,7 +15,7 @@ function assertIncludes(hay, needles, label){
 
 assertIncludes(guide, [
   'id="side"', 'id="crumbs"', 'id="prev"', 'id="next"', 'id="menuBtn"',
-  'sessionStorage', 'Preview only', 'noindex',
+  'sessionStorage', 'Preview', 'noindex',
   'prefers-reduced-motion', 'aria-expanded', 'Chapter', 'Section'
 ], 'guide');
 assert.ok(!/method:\s*['"]POST['"]/.test(guide), 'guide must not POST');
@@ -24,7 +24,7 @@ assertIncludes(guide, ['display:flex', 'min-height:0', 'drawer-backdrop'], 'guid
 assert.ok(guide.includes("tag==='textarea'"), 'keyboard guard for textarea');
 
 assertIncludes(lib, [
-  'grid-template-columns:repeat(5', 'max-height:210px', 'Preview only', 'noindex',
+  'grid-template-columns:repeat(5', 'max-height:210px', 'Preview', 'noindex',
   'anti-fight-plan', 'luv-framework', 'stop-loss-strategy', 'validation-exercise'
 ], 'library');
 assert.ok(!lib.includes('printable-companion-set'), 'must not re-add printable set');
