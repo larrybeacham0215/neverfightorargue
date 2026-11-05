@@ -1,28 +1,26 @@
 // =====================================================================
 // event-checkout - Never Fight or Argue Again, event weekend Nov 6-7, 2026
 // Side-by-side with the live `checkout` function (which is NOT changed).
-//   GET                      -> { open, books, bundles, books_left, bundles_left, sold_out_single, sold_out_bundle }
-//   POST {item:"single"|"bundle", quantity, name, email} -> { clientSecret }
+//   GET                      -> inventory status
+//   POST {item, quantity, name, email} -> { clientSecret }
+//   POST {..., validate_only:true}     -> plan only (no Stripe session)
 // Flag: EVENT_SALES_ON must be "1" or POST returns 503 (default off).
 // Cap: 100 books total (single = 1 book, bundle = 2 books), max 50 bundles.
-// Singles keep metadata kind=preorder, channel=event, so the live
-// stripe-webhook records them exactly as on launch night.
-// Bundles use metadata kind=event_bundle and are handled by event-bundle-webhook.
+// Singles keep metadata kind=preorder, channel=event.
+// Bundles use metadata kind=event_bundle -> event-bundle-webhook.
 // Deploy: supabase functions deploy event-checkout --no-verify-jwt
 // =====================================================================
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { BUNDLE_CENTS, planOrder, clientMoneyTamperFields } from "./order-math.ts";
 
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
 const ON = Deno.env.get("EVENT_SALES_ON") === "1";
 const ALLOWED = [SITE_URL, "https://www.neverfightorargue.com"];
 const EVENT_START = "2026-11-06T00:00:00-05:00";
-const BOOK_CAP = 100, BUNDLE_CAP = 50;
 const EVENT_PRICE = "price_1UIqyGLCCdJWrOprR9a0889s"; // $20, same as launch night
-// Set after Larry creates the Stripe product. Until then, inline price_data at $50.
-const BUNDLE_PRICE = Deno.env.get("EVENT_BUNDLE_PRICE_ID") || "price_1UYSscLCCdJWrOprCWbRUsed"; // live $50 bundle (prod_VZc6QofyfriZbL)
+const BUNDLE_PRICE = Deno.env.get("EVENT_BUNDLE_PRICE_ID") || "price_1UYSscLCCdJWrOprCWbRUsed"; // live $50 bundle
 const BUNDLE_NAME = "Event Bundle: 2 Signed Books + Companion Guide";
-// Token-gated $1 test path: sha256 hex of a one-time token. Empty = disabled.
 const TEST_HASH = "";
 
 function cors(origin: string | null) {
@@ -45,29 +43,65 @@ Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
   const { data: c } = await db.rpc("event_books_sold", { p_since: EVENT_START });
   const row = Array.isArray(c) ? c[0] : c;
-  const books = row?.books ?? 0, bundles = row?.bundles ?? 0;
-  const booksLeft = Math.max(0, BOOK_CAP - books), bundlesLeft = Math.max(0, Math.min(BUNDLE_CAP - bundles, Math.floor(booksLeft / 2)));
-  const status = { open: ON, books, bundles, books_left: booksLeft, bundles_left: bundlesLeft, sold_out_single: booksLeft < 1, sold_out_bundle: bundlesLeft < 1 };
+  const booksSold = row?.books ?? 0, bundlesSold = row?.bundles ?? 0;
+  const base = planOrder({ item: "single", quantity: 1, booksSold, bundlesSold, test: true });
+  const status = {
+    open: ON,
+    books: booksSold,
+    bundles: bundlesSold,
+    books_left: base.books_left,
+    bundles_left: base.bundles_left,
+    sold_out_single: base.sold_out_single,
+    sold_out_bundle: base.sold_out_bundle,
+  };
   if (req.method === "GET") return json(status);
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
 
-  let body: any = {};
+  let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { /* empty */ }
   const test = !!TEST_HASH && typeof body.test_token === "string" && (await sha256(body.test_token)) === TEST_HASH;
-  if (!ON && !test) return json({ error: "Event sales are not open yet." }, 503);
+  const validateOnly = body.validate_only === true;
+  if (!ON && !test && !validateOnly) return json({ error: "Event sales are not open yet." }, 503);
 
-  const item = body.item === "bundle" ? "bundle" : "single";
-  const max = item === "bundle" ? Math.min(5, bundlesLeft) : Math.min(10, booksLeft);
-  if (max < 1 && !test) return json({ error: "Sold out.", sold_out: true, ...status }, 409);
-  const q = Math.max(1, Math.min(test ? 1 : max, parseInt(String(body.quantity ?? "1"), 10) || 1));
-  const email = String(body.email ?? "").trim();
-  const nm = String(body.name ?? "").trim().slice(0, 100);
+  // Client money fields are ignored (tamper); server uses fixed Stripe prices / cents.
+  const tamper = clientMoneyTamperFields(body);
 
+  const plan = planOrder({
+    item: body.item,
+    quantity: body.quantity,
+    booksSold,
+    bundlesSold,
+    email: String(body.email ?? ""),
+    name: String(body.name ?? ""),
+    test,
+  });
+  if (!plan.ok) {
+    const code = ("sold_out" in plan && plan.sold_out) ? 409 : 400;
+    return json({ error: plan.error, sold_out: !!(plan as {sold_out?: boolean}).sold_out, ...status, item: plan.item, ignored_client_money_fields: tamper }, code);
+  }
+
+  if (validateOnly) {
+    return json({
+      ok: true,
+      validate_only: true,
+      item: plan.item,
+      quantity: plan.quantity,
+      books_pickup: plan.books_pickup,
+      unit_cents: plan.unit_cents,
+      amount_cents: plan.amount_cents,
+      grant_guide: plan.grant_guide,
+      metadata: plan.metadata,
+      ignored_client_money_fields: tamper,
+      ...status,
+    });
+  }
+
+  const q = plan.quantity;
   const p: Record<string, string> = {
-    "mode": "payment",
-    "ui_mode": test ? "hosted" : "embedded",
-    "submit_type": "pay",
-    "expires_at": String(Math.floor(Date.now() / 1000) + (test ? 23 * 3600 : 30 * 60)),
+    mode: "payment",
+    ui_mode: test ? "hosted" : "embedded",
+    submit_type: "pay",
+    expires_at: String(Math.floor(Date.now() / 1000) + (test ? 23 * 3600 : 30 * 60)),
     "metadata[project]": "nfoaa",
     "metadata[channel]": "event",
     "line_items[0][quantity]": String(q),
@@ -82,14 +116,12 @@ Deno.serve(async (req) => {
     "custom_fields[1][type]": "text",
     "custom_fields[1][optional]": "true",
   };
-  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length < 200) p["customer_email"] = email;
-  if (nm) p["metadata[buyer_name]"] = nm;
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(plan.email) && plan.email.length < 200) p["customer_email"] = plan.email;
+  if (plan.name) p["metadata[buyer_name]"] = plan.name;
 
-  if (item === "single") {
+  if (plan.item === "single") {
     p["line_items[0][price]"] = EVENT_PRICE;
-    p["metadata[kind]"] = "preorder";
-    p["metadata[quantity]"] = String(q);
-    p["metadata[unit]"] = "2000";
+    for (const [k, v] of Object.entries(plan.metadata)) p[`metadata[${k}]`] = v;
     p["custom_text[submit][message]"] = `**Pick up at the book table now.** ${q} signed cop${q === 1 ? "y" : "ies"} at $20 per book, $${q * 20} total. After you pay, show your receipt QR at the book table.`;
     p["return_url"] = `${SITE_URL}/preorder-thank-you/?src=event&session_id={CHECKOUT_SESSION_ID}`;
   } else {
@@ -101,18 +133,20 @@ Deno.serve(async (req) => {
       p["line_items[0][price]"] = BUNDLE_PRICE;
     } else {
       p["line_items[0][price_data][currency]"] = "usd";
-      p["line_items[0][price_data][unit_amount]"] = "5000";
+      p["line_items[0][price_data][unit_amount]"] = String(BUNDLE_CENTS);
       p["line_items[0][price_data][product_data][name]"] = BUNDLE_NAME;
     }
-    for (const [k, v] of Object.entries({ kind: "event_bundle", bundle: "1", bundles: String(q), books: String(q * 2), channel: "event", ...(test ? { test_run: "event_bundle_test" } : {}) })) {
+    for (const [k, v] of Object.entries(plan.metadata)) {
       p[`metadata[${k}]`] = v;
-      p[`payment_intent_data[metadata][${k}]`] = v; // so charge.refunded carries it too
+      p[`payment_intent_data[metadata][${k}]`] = v;
     }
-    p["custom_text[submit][message]"] = `**Pick up at the book table.** ${q} bundle${q === 1 ? "" : "s"}: ${q * 2} signed books plus the Companion Guide. Your pickup QR and guide link appear right after you pay.`;
+    p["custom_text[submit][message]"] = `**Pick up at the book table.** ${q} bundle${q === 1 ? "" : "s"}: ${plan.books_pickup} signed books plus the Companion Guide. Your pickup QR and guide link appear right after you pay.`;
     p[test ? "success_url" : "return_url"] = `${SITE_URL}/event-thank-you/?session_id={CHECKOUT_SESSION_ID}`;
   }
 
   const r = await stripe("checkout/sessions", p);
   if (!r.ok) { console.error("stripe error", r.data?.error?.message); return json({ error: "Could not start checkout. Please try again." }, 502); }
-  return json(test ? { url: r.data.url, id: r.data.id } : { clientSecret: r.data.client_secret });
+  return json(test
+    ? { url: r.data.url, id: r.data.id, books_pickup: plan.books_pickup, amount_cents: plan.amount_cents }
+    : { clientSecret: r.data.client_secret, books_pickup: plan.books_pickup, amount_cents: plan.amount_cents });
 });

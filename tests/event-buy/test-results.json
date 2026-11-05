@@ -1,0 +1,78 @@
+{
+  "kind": "local_unit_and_fixture_tests",
+  "note": "No Stripe sessions created. No production mutations. Payment completion tested via webhook source contracts + order-math only.",
+  "passed": 17,
+  "total": 17,
+  "failed": [],
+  "results": [
+    {
+      "name": "single_1_is_20",
+      "ok": true
+    },
+    {
+      "name": "bundle_1_is_50_and_2_books",
+      "ok": true
+    },
+    {
+      "name": "bundle_3_is_150_and_6_books",
+      "ok": true
+    },
+    {
+      "name": "single_qty_clamped_to_10",
+      "ok": true
+    },
+    {
+      "name": "bundle_qty_clamped_to_5",
+      "ok": true
+    },
+    {
+      "name": "tamper_qty_negative_becomes_1",
+      "ok": true
+    },
+    {
+      "name": "tamper_qty_nan_becomes_1",
+      "ok": true
+    },
+    {
+      "name": "unknown_item_defaults_single",
+      "ok": true
+    },
+    {
+      "name": "client_money_fields_detected_not_used",
+      "ok": true
+    },
+    {
+      "name": "bundle_requires_email",
+      "ok": true
+    },
+    {
+      "name": "inventory_near_cap_blocks_overbuy",
+      "ok": true
+    },
+    {
+      "name": "sold_out_when_no_books",
+      "ok": true
+    },
+    {
+      "name": "mixed_sales_inventory_counts_bundle_books",
+      "ok": true
+    },
+    {
+      "name": "webhook_books_eq_2x_bundles",
+      "ok": true
+    },
+    {
+      "name": "webhook_idempotent_upsert_key_is_stripe_session",
+      "ok": true
+    },
+    {
+      "name": "buy_page_defaults_src_event_bundle_to_bundle",
+      "ok": true
+    },
+    {
+      "name": "buy_page_not_live_old_page",
+      "ok": true
+    }
+  ],
+  "ran_at_et": "11/5/2026, 2:42:20 PM ET"
+}
