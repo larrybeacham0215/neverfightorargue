@@ -37,6 +37,9 @@ rep('          <li><a href="/book-launch/" data-tab="launch">Book Launch</a></li
     f'          <li><a href="/downloads/">{G["nav_resources"]}</a></li>\n          <li><a href="/free-chapter/" data-tab="chapters">{G["nav_cta"]}</a></li>\n')
 rep('Biblical conflict resolution for couples who have tried everything. Larry &amp; Rolanda Beacham · Odessa, Florida.', G['footer_tagline'])
 
+# /book-launch/ now opens the book order view
+rep("    '/book-launch/':   'launch',", "    '/book-launch/':   'book',")
+
 # ---------- launch banners and popups ----------
 cut('  <div class="qrbox" id="qrBox"', '</button></div>\n    </div>\n  </div>\n',
     '  <div class="qrbox" id="qrBox" hidden></div>\n')
@@ -201,7 +204,7 @@ s = s.replace('<section class="band band--light" id="book-us">', '<section class
 
 # about: church line, celebration line, launch media bracket. Testimonials HIDE (not rendered).
 i = s.index('<div class="view" id="view-about" hidden>'); k = s.index('  <section class="band on-navy">', i)
-s = s[:k] + sec(f'      <p class="lede">{AB["church_line"]}</p>\n      <p class="lede">{AB["celebration_line"]}</p>\n      <p class="lede">{AB["launch_media"]}</p>\n      <!-- testimonials: HIDE until real (copy/about.json) -->\n') + s[k:]
+s = s[:k] + sec(f'      <p class="lede">{AB["church_line"]}</p>\n      <p class="lede">{AB["celebration_line"]}</p>\n      <!-- testimonials: HIDE until real (copy/about.json) -->\n') + s[k:]
 
 # chapter thank-you line
 rep('<div class="view" id="view-thanks" hidden>\n', f'<div class="view" id="view-thanks" hidden>\n<p class="refresh-note" style="text-align:center;margin:1.5rem auto 0;max-width:40rem">{TY["thank-you"]}</p>\n')
@@ -263,9 +266,9 @@ POST_JS = '''<script>
 rep('</body>', POST_JS + '</body>')
 
 # ---------- runtime titles ----------
-T = {'launch':'Book Launch (past event) | Never Fight or Argue Again','registered':'Book Launch (past event) | Never Fight or Argue Again',
-     'sponsor':'Launch sponsorship (closed) | Never Fight or Argue Again','preorder-checkout':'Pre-orders closed | Never Fight or Argue Again',
-     'preorder-promo':'Pre-orders closed | Never Fight or Argue Again','preorder-thanks':'Pre-orders closed | Never Fight or Argue Again',
+T = {'launch':'Order a signed copy | Never Fight or Argue Again','registered':'Order a signed copy | Never Fight or Argue Again',
+     'sponsor':'Order a signed copy | Never Fight or Argue Again','preorder-checkout':'Order a signed copy | Never Fight or Argue Again',
+     'preorder-promo':'Order a signed copy | Never Fight or Argue Again','preorder-thanks':'Order a signed copy | Never Fight or Argue Again',
      'pass':'Pickup pass | Never Fight or Argue Again','guests':'Guest list | Never Fight or Argue Again'}
 for p, d in PAGES.items():
     if d['view'] in ('home','book','churches','speaking','about','chapters','gift'): T[d['view']] = html.unescape(d['title'])

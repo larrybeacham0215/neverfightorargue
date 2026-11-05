@@ -49,37 +49,37 @@
   "index": false
  },
  "/book-launch/": {
-  "view": "launch",
-  "title": "Book Launch (past event) | Never Fight or Argue Again",
-  "desc": "The book launch has passed. Thank you for celebrating with us.",
-  "og": "home",
+  "view": "book",
+  "title": "The Book: Never Fight or Argue Again | Signed Copies",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham. $20 plus $8 shipping, with an optional inscription or gift note.",
+  "og": "book",
   "index": false
  },
  "/registered/": {
   "view": "registered",
-  "title": "Book Launch (past event) | Never Fight or Argue Again",
-  "desc": "The book launch has passed.",
+  "title": "Order a signed copy | Never Fight or Argue Again",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham.",
   "og": "home",
   "index": false
  },
  "/pre-order/": {
   "view": "preorder-promo",
-  "title": "Pre-orders closed | Never Fight or Argue Again",
-  "desc": "Launch pre-orders are closed. The book is available now.",
+  "title": "Order a signed copy | Never Fight or Argue Again",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham.",
   "og": "book",
   "index": false
  },
  "/preorder-thank-you/": {
   "view": "preorder-thanks",
-  "title": "Pre-orders closed | Never Fight or Argue Again",
-  "desc": "Launch pre-orders are closed.",
+  "title": "Order a signed copy | Never Fight or Argue Again",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham.",
   "og": "book",
   "index": false
  },
  "/sponsor/": {
   "view": "sponsor",
-  "title": "Launch sponsorship (closed) | Never Fight or Argue Again",
-  "desc": "Launch sponsorships are closed. Thank you to our sponsors.",
+  "title": "Order a signed copy | Never Fight or Argue Again",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham.",
   "og": "home",
   "index": false
  },

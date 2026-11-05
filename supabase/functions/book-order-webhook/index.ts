@@ -180,6 +180,7 @@ Deno.serve(async (req) => {
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
        <tr><td><b>Copies</b></td><td>${quantity}${addonText ? ` plus ${esc(addonText)}` : ""} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
+       <tr><td><b>Add-ons</b></td><td>${addonText ? esc(addonText) : "(none)"}</td></tr>
        <tr><td><b>Sign it to</b></td><td>${esc(fields.inscription || "(nothing requested)")}</td></tr>
        <tr><td><b>Gift note</b></td><td>${esc(fields.gift_note || "(none)")}</td></tr>
        <tr><td valign="top"><b>Ship to</b></td><td>${addr || "(no address)"}</td></tr>
