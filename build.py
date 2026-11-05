@@ -174,7 +174,7 @@ s = s.replace("isn't temperament or luck &mdash; it's preparation", "isn't tempe
 # book hero
 rep('        <h1>A plan for the conversation, not just advice about the fight.</h1>\n', f'        <h1>{B["hero_title"]}</h1>\n')
 i = s.index('<h1>'+B['hero_title']+'</h1>'); a = s.index('<p>', i); z = s.index('</p>', a)+4
-s = s[:a] + f'<p>{B["buy_page_line"]}</p>\n        <p><strong>{B["hero_price_line"]}</strong></p>' + s[z:]
+s = s[:a] + f'<p>{B["buy_page_line"]}<br><strong style="display:inline-block;margin-top:.75rem">{B["hero_price_line"]}</strong></p>' + s[z:]
 rep('          <a class="btn" href="#buy">Where to buy</a>\n          <a class="btn btn--outline" href="/" data-tab="home">Read Chapter One free</a>',
     f'          <a class="btn" href="{BUY}" data-evergreen-buy>{B["buy_cta"]}</a>\n          <a class="btn btn--outline" href="/gift/" data-tab="gift">{B["gift_cta"]}</a>')
 i = s.index('<section class="band on-navy" id="buy">')
