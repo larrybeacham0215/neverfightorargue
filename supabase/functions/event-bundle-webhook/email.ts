@@ -27,8 +27,9 @@ export function bundleEmail(o: { name: string; bundles: number; books: number; i
       ${P(`If you do not see a QR here, open your receipt page: ${a(o.ticketUrl, "your pickup pass")}<br>Have a screenshot ready so the line keeps moving.`)}
       ${H(`2. Open your Companion Guide`)}
       ${P(`Your bundle also comes with the 12-week Companion Guide. It walks the two of you through SCIP and L.U.V. week by week, with the Stop-Loss, the Anti-Fight Plan, the Safety Plan and the Validation Exercise in the tools section.`)}
-      ${P(`Getting in is easy. There is nothing to sign up for and no password to remember. Just tap your private link:`)}
+      ${P(`Getting in is easy. Just tap your private link:`)}
       <p style="margin:0 0 16px;"><a href="${o.guideUrl}" style="display:inline-block;background:#0D2D1D;color:#F8F4E9;padding:10px 18px;text-decoration:none;font-family:Arial,sans-serif;font-weight:bold;">Open my Companion Guide</a></p>
+      ${P(`On your first visit, the guide will ask you to create a password. After that, you can sign in anytime at <a href="https://neverfightorargue.com/members/" style="color:#8a6a2e;">neverfightorargue.com/members</a> to find your guide and answers on any phone or computer.`)}
       ${P(`Keep this email so you can find your way back. The link is just for you, so please don&#39;t share it.`)}
       ${P(`The guide is made for you to write in. Type your answers, check the boxes, and sign your Commitment to Peace together. Everything saves as you go, so you can stop anytime and pick up right where you left off. When you&#39;re ready, you can download a PDF with all your answers filled in to print or keep.`)}
       ${P(`If anything does not open, stop by the book table or write us at ${a("mailto:hello@neverfightorargue.com", "hello@neverfightorargue.com")}. We will get you in.`)}

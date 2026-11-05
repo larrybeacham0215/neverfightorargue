@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>My Account | Never Fight or Argue Again</title>
+<style>
+body{margin:0;background:#F8F4E9;color:#0D2D1D;font-family:Arial,Helvetica,sans-serif}
+header{background:#0D2D1D;color:#F8F4E9;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+header a{color:#F8F4E9}header .brand{font-family:Georgia,serif;font-size:18px;text-decoration:none}
+main{max-width:520px;margin:0 auto;padding:28px 20px 60px}
+h1{font-family:Georgia,serif;font-weight:normal;font-size:28px;margin:0 0 8px}p{line-height:1.55}
+.card{background:#fff;border:1px solid #e3dac4;border-radius:10px;padding:22px;margin:18px 0}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 4px}
+input{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:1px solid #b9ae94;border-radius:6px}
+button,.btn{display:inline-block;margin-top:16px;padding:12px 20px;font-size:15px;font-weight:bold;border:0;border-radius:6px;background:#0D2D1D;color:#F8F4E9;cursor:pointer;text-decoration:none}
+.link{background:none;color:#0D2D1D;text-decoration:underline;font-weight:normal;padding:0;margin-top:14px}
+.err{color:#a33;font-size:14px;min-height:1em;margin-top:8px}.ok{color:#1f6b3a;font-size:14px;margin-top:8px}
+.item{display:flex;gap:14px;align-items:flex-start}.item img{width:64px;border-radius:4px}.item h3{margin:0 0 4px;font-family:Georgia,serif;font-weight:normal;font-size:19px}
+.item p{margin:0;font-size:14px}.eyebrow{color:#C39A5E;letter-spacing:.12em;text-transform:uppercase;font-size:12px;margin:0 0 6px}
+[hidden]{display:none!important}
+</style></head><body>
+<header><a class="brand" href="/">Never Fight or Argue Again</a><a href="#" id="out" hidden>Sign out</a></header>
+<main>
+ <section id="v-in" hidden><p class="eyebrow">Members</p><h1>Sign in</h1><p>Sign in with the email you used to buy and the password you created.</p>
+  <form class="card" id="f-in"><label for="ie">Email</label><input id="ie" type="email" autocomplete="email" required><label for="ip">Password</label><input id="ip" type="password" autocomplete="current-password" required>
+  <div class="err" id="ierr" aria-live="polite"></div><button type="submit">Sign in</button><br><button type="button" class="link" id="go-forgot">Forgot your password?</button></form>
+  <p style="font-size:14px">First time here? Open the guide link in your order email. It will ask you to create your password.</p></section>
+ <section id="v-forgot" hidden><h1>Reset your password</h1><p>Enter your email and we will send you a link to choose a new password.</p>
+  <form class="card" id="f-forgot"><label for="fe">Email</label><input id="fe" type="email" autocomplete="email" required><div class="err" id="ferr" aria-live="polite"></div><div class="ok" id="fok" hidden>If there is an account for that email, a reset link is on its way. Check your inbox and spam folder.</div>
+  <button type="submit">Send reset link</button><br><button type="button" class="link" id="back-in">Back to sign in</button></form></section>
+ <section id="v-reset" hidden><h1>Choose a new password</h1>
+  <form class="card" id="f-reset"><label for="rp">New password (at least 8 characters)</label><input id="rp" type="password" minlength="8" autocomplete="new-password" required><label for="rc">Type it again</label><input id="rc" type="password" autocomplete="new-password" required>
+  <div class="err" id="rerr" aria-live="polite"></div><button type="submit">Save new password</button></form></section>
+ <section id="v-list" hidden><p class="eyebrow">My account</p><h1>Welcome back</h1><p id="who"></p><div id="items"></div>
+  <p style="font-size:14px">Questions? Email <a href="mailto:hello@neverfightorargue.com">hello@neverfightorargue.com</a>.</p></section>
+</main>
+<script src="/assets/nfoa-auth.js"></script>
+<script>
+(function(){
+var A=window.NFOA_AUTH;
+// Add future products here. Unknown products still show, with a plain name.
+var CATALOG={companion_guide:{title:'The 12-Week Companion Guide',desc:'Your interactive guide. Answers save to your account on every device.',href:'/guide/',cta:'Open my guide',img:'/assets/guide-cover.jpg'}};
+function show(id){['v-in','v-forgot','v-reset','v-list'].forEach(function(v){document.getElementById(v).hidden=v!==id;});document.getElementById('out').hidden=id!=='v-list';}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function list(){show('v-list');A.session().then(function(s){document.getElementById('who').textContent='Signed in as '+(s&&s.email||'');});
+ var box=document.getElementById('items');box.innerHTML='<p>Loading...</p>';
+ A.rest('entitlements?select=product,granted_at,revoked_at&revoked_at=is.null&order=granted_at.desc').then(function(rows){
+  if(new URLSearchParams(location.search).get('next')==='guide'&&rows.some(function(r){return r.product==='companion_guide';})){location.href='/guide/';return;}
+  if(!rows.length){box.innerHTML='<div class="card"><p>We do not see any purchases on this account yet. If you just paid, give it a minute and refresh, or email hello@neverfightorargue.com.</p></div>';return;}
+  box.innerHTML=rows.map(function(r){var c=CATALOG[r.product]||{title:r.product.replace(/_/g,' ').replace(/\b\w/g,function(x){return x.toUpperCase();}),desc:'',href:'',cta:''};
+   return '<div class="card item">'+(c.img?'<img src="'+c.img+'" alt="">':'')+'<div><h3>'+esc(c.title)+'</h3><p>'+esc(c.desc)+'</p>'+(c.href?'<a class="btn" href="'+c.href+'">'+esc(c.cta)+'</a>':'')+'</div></div>';}).join('');
+ }).catch(function(e){if(e.message==='signed out'){show('v-in');return;}box.innerHTML='<p class="err">Could not load your account. Please refresh.</p>';});}
+document.getElementById('f-in').onsubmit=function(ev){ev.preventDefault();var er=document.getElementById('ierr');er.textContent='';
+ A.signIn(document.getElementById('ie').value.trim(),document.getElementById('ip').value).then(list).catch(function(e){er.textContent=e.message;});};
+document.getElementById('go-forgot').onclick=function(){document.getElementById('fe').value=document.getElementById('ie').value;show('v-forgot');};
+document.getElementById('back-in').onclick=function(){show('v-in');};
+document.getElementById('f-forgot').onsubmit=function(ev){ev.preventDefault();var er=document.getElementById('ferr');er.textContent='';
+ A.forgot(document.getElementById('fe').value.trim()).then(function(){document.getElementById('fok').hidden=false;}).catch(function(e){er.textContent=/rate|seconds/i.test(e.message)?'Please wait a minute and try again.':e.message;});};
+document.getElementById('f-reset').onsubmit=function(ev){ev.preventDefault();var a=document.getElementById('rp').value,b=document.getElementById('rc').value,er=document.getElementById('rerr');er.textContent='';
+ if(a.length<8){er.textContent='Use at least 8 characters.';return;}if(a!==b){er.textContent='The two passwords do not match.';return;}
+ A.setPassword(a).then(list).catch(function(e){er.textContent=e.message;});};
+document.getElementById('out').onclick=function(e){e.preventDefault();A.signOut();show('v-in');};
+var h=A.fromHash();
+if(h&&h.type==='recovery'){show('v-reset');}
+else A.session().then(function(s){if(s)list();else show('v-in');});
+})();
+</script></body></html>
