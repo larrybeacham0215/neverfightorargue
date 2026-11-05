@@ -1,0 +1,38 @@
+{
+  "label": "sql_pglite event holds",
+  "passed": 5,
+  "total": 5,
+  "failed": [],
+  "results": [
+    {
+      "kind": "sql_pglite",
+      "name": "first_hold_ok",
+      "ok": true,
+      "detail": "{\"ok\":true,\"held\":2,\"left\":0,\"sold\":98,\"hold_id\":\"1c220063-a4ce-43e4-9030-cd9159cbcf6e\"}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "second_hold_blocked",
+      "ok": true,
+      "detail": "{\"ok\":false,\"held\":2,\"left\":0,\"sold\":98,\"error\":\"not_enough\"}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "hold_released_after_pay",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "sold_at_cap",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "at_cap_blocked",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

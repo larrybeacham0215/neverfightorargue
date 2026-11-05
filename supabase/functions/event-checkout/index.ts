@@ -46,7 +46,10 @@ Deno.serve(async (req) => {
   const { data: c } = await db.rpc("event_books_sold", { p_since: EVENT_START });
   const row = Array.isArray(c) ? c[0] : c;
   const booksSold = row?.books ?? 0, bundlesSold = row?.bundles ?? 0;
-  const stock = inventory(booksSold, bundlesSold);
+  const { data: heldRaw } = await db.rpc("event_active_held_books", { p_since: EVENT_START });
+  const held = typeof heldRaw === "number" ? heldRaw : (heldRaw ?? 0);
+  // Treat active holds as already committed against the cap for GET/plan.
+  const stock = inventory(booksSold + held, bundlesSold);
   const status = { open: ON, books: stock.books, bundles: stock.bundles, books_left: stock.books_left, bundles_left: stock.bundles_left, sold_out_single: stock.sold_out_single, sold_out_bundle: stock.sold_out_bundle };
 
   if (req.method === "GET") return json(status);
@@ -91,6 +94,23 @@ Deno.serve(async (req) => {
     });
   }
 
+  // Atomic soft hold against concurrent checkouts (TTL ~ checkout session expiry).
+  const holdToken = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+  if (!test) {
+    const { data: hold, error: holdErr } = await db.rpc("event_try_hold_books", {
+      p_books: plan.books_pickup,
+      p_bundles: plan.bundle_qty,
+      p_hold_token: holdToken,
+      p_since: EVENT_START,
+      p_book_cap: 100,
+      p_ttl_minutes: 35,
+    });
+    const h = hold as { ok?: boolean; error?: string; left?: number } | null;
+    if (holdErr || !h?.ok) {
+      return json({ error: "Not enough books left for that quantity.", sold_out: true, ...status }, 409);
+    }
+  }
+
   const p: Record<string, string> = {
     mode: "payment",
     ui_mode: test ? "hosted" : "embedded",
@@ -114,6 +134,10 @@ Deno.serve(async (req) => {
   for (const [k, v] of Object.entries(plan.metadata)) {
     p[`metadata[${k}]`] = v;
     if (plan.grant_guide) p[`payment_intent_data[metadata][${k}]`] = v;
+  }
+  if (!test) {
+    p["metadata[hold_token]"] = holdToken;
+    if (plan.grant_guide) p["payment_intent_data[metadata][hold_token]"] = holdToken;
   }
 
   // Line items: bundles and/or singles (server prices only)
@@ -161,7 +185,12 @@ Deno.serve(async (req) => {
   }
 
   const r = await stripe("checkout/sessions", p);
-  if (!r.ok) { console.error("stripe error", r.data?.error?.message); return json({ error: "Could not start checkout. Please try again." }, 502); }
+  if (!r.ok) {
+    console.error("stripe error", r.data?.error?.message);
+    if (!test) await db.rpc("event_release_hold", { p_hold_token: holdToken, p_stripe_session: null });
+    return json({ error: "Could not start checkout. Please try again." }, 502);
+  }
+  if (!test && r.data?.id) await db.rpc("event_attach_hold_session", { p_hold_token: holdToken, p_stripe_session: r.data.id });
   return json(test
     ? { url: r.data.url, id: r.data.id, books_pickup: plan.books_pickup, amount_cents: plan.amount_cents, bundle_qty: plan.bundle_qty, single_qty: plan.single_qty, grant_guide: plan.grant_guide }
     : { clientSecret: r.data.client_secret, books_pickup: plan.books_pickup, amount_cents: plan.amount_cents, bundle_qty: plan.bundle_qty, single_qty: plan.single_qty, grant_guide: plan.grant_guide });

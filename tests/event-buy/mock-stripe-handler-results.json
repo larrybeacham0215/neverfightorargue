@@ -1,0 +1,133 @@
+{
+  "label": "unit + mocked_stripe_handler — NO live Stripe sessions, NO paid tests, NO production writes",
+  "live_price_readonly": {
+    "single": "price_1UIqyG… active $20",
+    "bundle": "price_1UYSsc… active $50"
+  },
+  "ran_at": "2026-11-05T20:06:57.904Z",
+  "passed": 20,
+  "total": 20,
+  "failed": [],
+  "results": [
+    {
+      "kind": "unit",
+      "name": "bundle_cents_5000",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "single_cents_2000",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "mixed_books_pickup",
+      "ok": true,
+      "detail": "{\"ok\":true,\"bundle_qty\":2,\"single_qty\":3,\"books_pickup\":7,\"amount_cents\":16000,\"email\":\"a@b.co\",\"name\":\"\",\"metadata\":{\"kind\":\"event_bundle\",\"bundle\":\"1\",\"bundles\":\"2\",\"singles\":\"3\",\"books\":\"7\",\"channel\":\"event\"},\"kind\":\"event_bundle\",\"grant_guide\":true,\"item\":\"mixed\",\"quantity\":7,\"books\":0,\"bundles\":0,\"books_left\":100,\"bundles_left\":50,\"sold_out_single\":false,\"sold_out_bundle\":false}"
+    },
+    {
+      "kind": "unit",
+      "name": "mixed_amount",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "mixed_guide",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "singles_only_kind_preorder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "singles_books",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "ignores_client_money",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "mixed_qty_books",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "mixed_grants_guide",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "singles_ignored_by_bundle_webhook",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "singles_legacy_preorder_path",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "idempotent_same_session",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "flag_off_blocks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "refund_without_charge_kind",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "refund_idempotent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_stripe_handler",
+      "name": "refund_keeps_entitlement_if_other_bundle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "plan_snapshot_race_exists_without_holds",
+      "ok": true,
+      "detail": "would_sell=102; mitigated by event_try_hold_books (see holds-pglite)"
+    },
+    {
+      "kind": "unit",
+      "name": "server_total_not_client",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "map_session_mixed",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

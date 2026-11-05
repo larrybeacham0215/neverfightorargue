@@ -49,12 +49,12 @@ Deno.serve(async (req) => {
   if (!(await verify(payload, req.headers.get("stripe-signature")))) return new Response("bad signature", { status: 400 });
   const event = JSON.parse(payload);
   const obj = event.data?.object ?? {};
-  if (obj.metadata?.kind !== "event_bundle") return ok({ ignored: "not event_bundle" });
-  if (!ON && obj.metadata?.test_run !== "event_bundle_test") return ok({ ignored: "flag off" });
   const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
   if (event.type === "checkout.session.completed") {
     const s = obj;
+    if (s.metadata?.kind !== "event_bundle") return ok({ ignored: "not event_bundle" });
+    if (!ON && s.metadata?.test_run !== "event_bundle_test") return ok({ ignored: "flag off" });
     if (s.payment_status !== "paid") return ok({ ignored: "not paid" });
     // books_pickup = 2*bundles + singles (legacy: missing singles => 0 extras)
     let bundleQty = Math.max(0, parseInt(String(s.metadata.bundles ?? "0"), 10) || 0);
@@ -74,6 +74,8 @@ Deno.serve(async (req) => {
       payment_intent: s.payment_intent ?? null, test_run: s.metadata.test_run ?? null,
     }, { onConflict: "stripe_session" }).select("id, pickup_token").single();
     if (error || !row) { console.error("save failed", error); return new Response("save failed", { status: 500 }); }
+    // Convert hold -> sold (preorder row now counts in event_books_sold).
+    await db.rpc("event_release_hold", { p_hold_token: s.metadata?.hold_token ?? null, p_stripe_session: s.id });
     let entitlementId: string | null = null;
     // Guide entitlement ONLY when at least one bundle was purchased.
     if (email && grantGuide) {
@@ -96,20 +98,29 @@ Deno.serve(async (req) => {
   }
 
   if (event.type === "charge.refunded") {
+    // Charge objects often lack metadata.kind even when the PaymentIntent/session was event_bundle.
+    // Identify via payment_intent -> preorders.product. Flag gate: skip fulfillment-side ignore when flag off
+    // only if the matched order is a non-test event_bundle (same policy as completed).
     if (!obj.refunded) return ok({ ignored: "partial refund, review by hand" });
-    const { data: row } = await db.from("preorders").update({ status: "refunded", refunded_at: new Date().toISOString() }).eq("payment_intent", obj.payment_intent).select("id, email").maybeSingle();
+    const pi = obj.payment_intent;
+    if (!pi) return ok({ ignored: "no payment_intent" });
+    const { data: existing } = await db.from("preorders").select("id, email, product, test_run, status").eq("payment_intent", pi).maybeSingle();
+    if (!existing || existing.product !== "event_bundle") return ok({ ignored: "not event_bundle order" });
+    if (!ON && existing.test_run !== "event_bundle_test") return ok({ ignored: "flag off" });
+    if (existing.status === "refunded") return ok({ ok: true, refunded: true, idempotent: true });
+    const { data: row } = await db.from("preorders").update({ status: "refunded", refunded_at: new Date().toISOString() }).eq("id", existing.id).eq("status", "paid").select("id, email").maybeSingle();
     if (row?.email) {
       // Keep access if the same email still has another paid bundle order.
       const { count } = await db.from("preorders").select("id", { count: "exact", head: true }).eq("email", row.email).eq("product", "event_bundle").eq("status", "paid");
       if (!count) {
-        const { data: ents } = await db.from("entitlements").update({ revoked_at: new Date().toISOString(), revoke_reason: "refund" }).eq("email_lower", row.email.toLowerCase()).eq("product", PRODUCT).select("id");
+        const { data: ents } = await db.from("entitlements").update({ revoked_at: new Date().toISOString(), revoke_reason: "refund" }).eq("email_lower", row.email.toLowerCase()).eq("product", PRODUCT).is("revoked_at", null).select("id");
         for (const ent of ents ?? []) {
           await db.from("guide_sequence_state").update({ stopped_at: new Date().toISOString(), stop_reason: "refund" }).eq("entitlement_id", ent.id).is("stopped_at", null);
           await db.from("guide_email_queue").update({ status: "stopped", skip_reason: "refund" }).eq("entitlement_id", ent.id).eq("status", "pending");
         }
       }
     }
-    return ok({ ok: true, refunded: !!row });
+    return ok({ ok: true, refunded: !!row, already: !row });
   }
   return ok({ ignored: event.type });
 });
