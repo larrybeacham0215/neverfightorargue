@@ -2520,7 +2520,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="nav__tabs" id="navTabs">
       <a href="/" data-tab="home">Home</a>
       <a href="/book/" data-tab="book">The Book</a>
-      <a href="/book-launch/" data-tab="launch">Book Launch</a>
       <a href="/churches/" data-tab="churches">For Churches</a>
       <a href="/speaking/" data-tab="speaking">Speaking</a>
       <a href="/about/" data-tab="about">About Us</a>
@@ -2529,41 +2528,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </nav>
 
 <main id="main">
-  <!-- QR lightbox: click the banner QR to show it big / full screen -->
-  <div class="qrbox" id="qrBox" hidden role="dialog" aria-label="Scan to RSVP">
-    <div class="qrbox__card">
-      <img src="/assets/rsvp-qr.svg" alt="QR code for the launch registration page" width="296" height="296">
-      <p class="qrbox__title">Scan to RSVP</p>
-      <p class="qrbox__sub">Book Launch &amp; 30-Year Anniversary Celebration &middot; Sunday, November 1 &middot; Grace Family Church, Land O Lakes Campus, Lutz<br>Presented by Replace Your University</p>
-      <p class="qrbox__url">neverfightorargue.com/book-launch</p>
-      <div class="qrbox__btns"><button type="button" class="btn btn--onLight" id="qrFull">Full screen</button><button type="button" class="btn btn--onLightOutline" id="qrClose">Close</button></div>
-    </div>
-  </div>
-  <!-- sticky reminder (shown on the registered and gift pages) -->
-  <div class="stick" id="stick" hidden>
-    <div class="stick__inner">
-      <a class="pillbtn pillbtn--bar pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a>
-      <button type="button" class="stick__x" id="stickX" aria-label="Dismiss">&times;</button>
-    </div>
-  </div>
-
-
 <!-- ==================================================================== -->
 <!-- ============================ HOME ================================== -->
 <!-- ==================================================================== -->
 <div class="view" id="view-home">
 
   <header class="hero hero--light" id="free">
-    <a class="hero__banner" href="/book-launch/" data-tab="launch" aria-label="You're invited: Book Launch and 30-Year Wedding Anniversary Celebration. RSVP to join the celebration.">
-      <span class="hero__qr" aria-hidden="true"><img src="/assets/rsvp-qr.svg" alt="" width="296" height="296"><b>Scan to RSVP</b></span>
-      <picture>
-        <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.webp?v=3" type="image/webp">
-        <source media="(max-width: 640px)" srcset="/assets/launch-banner-m.jpg?v=3">
-        <source srcset="/assets/launch-banner.webp?v=3" type="image/webp">
-        <img src="/assets/launch-banner.jpg?v=3" alt="" width="2172" height="435">
-      </picture>
-    </a>
-    <p class="presby presby--hero"><span>Presented by</span> <b>Replace Your University</b></p>
     <div class="wrap hero__grid">
       <div class="hero__col">
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
@@ -2586,6 +2556,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <p class="form__error" hidden></p>
           </form>
           <p class="hero__fine">Free instant download &bull; No spam &bull; Unsubscribe anytime</p>
+          <p style="margin-top:1rem"><a class="btn btn--onLightOutline" href="/book/" data-tab="book">Order a signed copy &mdash; $20 plus $8 shipping</a></p>
         </div>
 
         <ul class="hero__feats reveal">
@@ -2787,11 +2758,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap phead__inner">
       <div class="phead__words">
         <p class="eyebrow">The book</p>
-        <h1>A plan for the conversation, not just advice about the fight.</h1>
-        <p>Most marriage books hand you principles and wish you well. This one hands you a sequence — what each spouse does before the conversation, what happens during it, and how you get back on track when an old habit shows up again.</p>
+        <h1>Get your signed copy.</h1>
+        <p>Get your signed copy of Never Fight or Argue Again, for yourself or for a couple you love.<br><strong style="display:inline-block;margin-top:.75rem">$20 signed copy, plus $8 flat shipping.</strong></p>
         <p class="phead__cta">
-          <a class="btn" href="#buy">Where to buy</a>
-          <a class="btn btn--outline" href="/" data-tab="home">Read Chapter One free</a>
+          <a class="btn" href="/book/#buy" data-checkout data-evergreen-buy>Buy a signed copy</a>
+          <a class="btn btn--outline" href="/book/#buy" data-checkout data-gift>Send one as a gift</a>
         </p>
       </div>
       <div class="phead__media">
@@ -2813,7 +2784,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="eyebrow eyebrow--ink">Never Fight or Argue Again</p>
         <h2 class="h-lg">Biblical conflict resolution for couples who have tried everything.</h2>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
-        <p>Written by Larry and Rolanda Beacham out of years of learning — often the hard way — that fighting fair still wasn't the same as not fighting at all.</p>
+        <p>Written by Larry and Rolanda Beacham out of years of learning, often the hard way, that fighting fair still wasn't the same as not fighting at all.</p>
       </div>
       <div class="reveal">
         <ul class="ticks" style="margin-top:0">
@@ -2860,7 +2831,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="card">
           <div class="card__name">ACTS</div>
           <div class="card__gloss">The heart posture</div>
-          <p>Adoration, Confession, Thanksgiving, and Sharing truth in love — the gospel's own order for entering a hard conversation. Own what's yours before you name what isn't.</p>
+          <p>Adoration, Confession, Thanksgiving, and Sharing truth in love, the gospel's own order for entering a hard conversation. Own what's yours before you name what isn't.</p>
         </div>
         <div class="card">
           <div class="card__name">LUV</div>
@@ -2870,7 +2841,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="card">
           <div class="card__name">Stop Loss</div>
           <div class="card__gloss">The agreed pause</div>
-          <p>Borrowed from investing: exit early to prevent deeper loss. A pre-agreed cue, a fixed pause, and a real plan to come back — so pausing never becomes walking away.</p>
+          <p>Borrowed from investing: exit early to prevent deeper loss. A pre-agreed cue, a fixed pause, and a real plan to come back, so pausing never becomes walking away.</p>
         </div>
         <div class="card">
           <div class="card__name">3D Communication</div>
@@ -2885,7 +2856,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <div class="card">
           <div class="card__name">Discussion Guide</div>
           <div class="card__gloss">Chapter by chapter</div>
-          <p>Questions for reading alone, as a couple, or in a small group. Slowly is fine — you don't have to answer them all in one sitting.</p>
+          <p>Questions for reading alone, as a couple, or in a small group. Slowly is fine, you don't have to answer them all in one sitting.</p>
         </div>
       </div>
     </div>
@@ -2904,10 +2875,19 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <li>One of you rushes to fix it. The other needs time. Neither approach is working.</li>
           <li>The same argument keeps coming back wearing different clothes.</li>
           <li>You've stopped bringing things up because of how the conversation will go.</li>
-          <li>Your kids are learning something from how you two handle disagreement — and you're not sure it's what you want them learning.</li>
+          <li>Your kids are learning something from how you two handle disagreement, and you're not sure it's what you want them learning.</li>
           <li>You lead a marriage ministry and need something couples will actually finish.</li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <section class="band band--paper refresh">
+    <div class="wrap" style="max-width:52rem">
+      <h2 class="h-lg reveal">Give it to a couple you love.</h2>
+      <p class="lede reveal">Know a couple who keeps having the same fight? Send them a signed copy with your note inside. We mail it to the address you enter at checkout.</p>
+      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="/book/#buy" data-checkout data-gift>Gift a signed copy</a></p>
+      <p class="safety-note" role="note" style="max-width:40rem;margin:2rem auto 0;padding:1rem 1.25rem;border:1px solid #C39A5E;border-radius:6px;background:#FAF6EC;color:#16261C;font-size:.95rem;text-align:left">If you are in an abusive or unsafe relationship, this book is not a substitute for help. Call the National Domestic Violence Hotline at <a href="tel:+18007997233">1-800-799-7233</a>.</p>
     </div>
   </section>
 
@@ -2916,134 +2896,26 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p class="eyebrow reveal">Get the book</p>
       <h2 class="h-xl reveal">You can stop fighting.</h2>
       <div class="orn orn--short orn--center reveal" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center reveal" style="margin-bottom:2.5rem">Paperback and ebook, releasing <strong>Sunday, November 1, 2026</strong>. Available wherever you prefer to buy books.</p>
-      <div class="reveal buy__stores" id="buyStores">
-        <a class="btn btn--outline" data-store="amazon" rel="noopener" target="_blank">Amazon</a>
-        <a class="btn btn--outline" data-store="kindle" rel="noopener" target="_blank">Kindle</a>
-        <a class="btn btn--outline" data-store="bn" rel="noopener" target="_blank">Barnes &amp; Noble</a>
-        <a class="btn btn--outline" data-store="apple" rel="noopener" target="_blank">Apple Books</a>
-        <a class="btn btn--outline" data-store="christianbook" rel="noopener" target="_blank">Christianbook</a>
-      </div>
-      <div class="reveal buy__soon" id="buySoon">
-        <p>Store links go live on launch day. Until then, two things you can do right now:</p>
-        <div class="buy__soonBtns">
-          <a class="btn" href="/" data-tab="home">Read Chapter One free</a>
-          <a class="btn btn--outline" href="/book-launch/" data-tab="launch">Reserve your seat &mdash; Nov 1</a>
-        </div>
+      <p class="lede lede--light center reveal" style="margin-bottom:2rem">Order a copy signed by Larry and Ro for $20 plus $8 flat shipping. Add a name for the inscription, or send it as a gift with a short note. Whether you have been fighting for years or just want to stop before it starts, this is a place to begin, together.</p>
+      <div class="reveal buy__soonBtns" style="justify-content:center">
+        <a class="btn" href="/book/#buy" data-checkout data-evergreen-buy>Buy a signed copy</a>
+        <a class="btn btn--outline" href="/book/#buy" data-checkout data-gift>Send one as a gift</a>
       </div>
       <div class="reveal" style="max-width:34rem;margin:3rem auto 0;padding-top:2.5rem;border-top:1px solid rgba(247,243,234,.14)">
         <h3 class="h-sm" style="margin-bottom:.75rem">Ordering for a group?</h3>
-        <p style="margin-bottom:1.5rem">Signed copies, bulk pricing, and church rates are available directly from us. Ten copies or a hundred — same conversation.</p>
-        <a class="btn" href="/churches/" data-tab="churches">Church &amp; bulk orders</a>
+        <p style="margin-bottom:1.5rem">If you are getting copies for a small group, a class or a whole church, order directly from us. Ten copies or a hundred, same conversation.</p>
+        <a class="btn" href="/churches/" data-tab="churches">Church and bulk orders</a>
       </div>
     </div>
   </section>
 
 </div>
 
+
 <!-- ==================================================================== -->
 <!-- ========================== BOOK LAUNCH ============================= -->
 <!-- ==================================================================== -->
-<div class="view" id="view-launch" hidden>
-
-  <header class="phead ev__head">
-    <div class="wrap ev__headGrid">
-      <div class="ev__intro">
-        <h1>Join Us In Celebrating 30 Years Of Marriage <em>and the Launch of Our New Book.</em> <span aria-hidden="true">&#127881;</span></h1>
-        <p class="ev__lede">Thirty years ago we said &ldquo;I do.&rdquo; On November 1st we&rsquo;re marking that anniversary the only way that makes sense to us &mdash; by launching <em>Never Fight or Argue Again</em>, the book those thirty years taught us to write. Come celebrate with us.</p>
-        <p class="ev__cta">
-          <button class="pillbtn pillbtn--xl pillbtn--live" type="button" data-open-rsvp><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#E2C070" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M8 15h2M12 15h2M8 18h2M12 18h2"/></svg></span>RSVP &mdash; Reserve Your Seat, It&rsquo;s Free</button>
-        </p>
-      </div>
-
-      <figure class="ev__stage">
-        <picture>
-          <source srcset="/assets/launch-stage.webp?v=3" type="image/webp">
-          <img src="/assets/launch-stage.jpg?v=3"
-               alt="The Never Fight or Argue Again book launch reception at Grace Family Church, Land O Lakes Campus, with guests mingling before the stage"
-               width="1448" height="1086">
-        </picture>
-      </figure>
-    </div>
-
-    <div class="wrap">
-      <dl class="ev__bar">
-        <div class="ev__barDate">
-          <span class="ev__month">Nov</span><span class="ev__day">1</span><span class="ev__year">2026</span>
-        </div>
-        <div><dt>When</dt><dd>Sunday, November 1st<br><strong>5:30&nbsp;pm</strong></dd></div>
-        <div><dt>Where</dt><dd><strong>Grace Family Church, Land O Lakes Campus</strong><br>22920 FL&#8209;54, Lutz, FL 33549</dd></div>
-        <div><dt>Cost</dt><dd><strong>Free to attend</strong><br>Registration required</dd></div>
-        <div class="ev__barCta">
-          <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Get directions</a>
-        </div>
-      </dl>
-      <p class="presby presby--launch"><span>Presented by</span> <b>Replace Your University</b></p>
-    </div>
-  </header>
-
-  <!-- Registration opens in a dialog so the page stays one screen. -->
-  <dialog class="rsvp" id="rsvpModal" aria-labelledby="rsvpHeading">
-    <form method="dialog" class="rsvp__close">
-      <button value="close" aria-label="Close">&times;</button>
-    </form>
-    <div class="rsvp__inner capture capture--light">
-      <p class="eyebrow eyebrow--ink">Reserve your seat</p>
-      <h2 id="rsvpHeading" class="rsvp__title">Register for November 1st</h2>
-      <div class="rsvp__when">
-        <div><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span><b>Sunday, November 1, 2026</b></span></div>
-        <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Starts promptly at 5:30 pm</b></span></div>
-        <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span><b>Grace Family Church, Land O Lakes Campus</b><br>22920 FL-54, Lutz, FL 33549</span></div>
-      </div>
-      <p class="presby presby--rsvp"><span>Presented by</span> <b>Replace Your University</b></p>
-      <p class="rsvp__sub">Free, and it takes about twenty seconds. We'll confirm by email straight away.</p>
-
-      <form class="form ev__rsvpForm" data-capture data-kind="launch" novalidate>
-        <p hidden aria-hidden="true"><label>Leave this empty: <input name="company-website" tabindex="-1" autocomplete="off"></label></p>
-        <div class="form__row">
-          <div class="field">
-            <label for="l1">First name</label>
-            <input type="text" id="l1" name="first_name" placeholder="First name" autocomplete="given-name" required>
-          </div>
-          <div class="field">
-            <label for="l2">Last name</label>
-            <input type="text" id="l2" name="last_name" placeholder="Last name" autocomplete="family-name">
-          </div>
-        </div>
-        <div class="field">
-          <label for="l3">Email</label>
-          <input type="email" id="l3" name="email" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <div class="form__row">
-          <div class="field">
-            <label for="l4">How many of you?</label>
-            <select id="l4" name="guests">
-              <option value="1">Just me</option>
-              <option value="2" selected>Two of us</option>
-              <option value="3">Three</option>
-              <option value="4">Four</option>
-              <option value="5">Five or more</option>
-            </select>
-          </div>
-        </div>
-        <input type="hidden" name="attending" value="in_person">
-        <div class="field">
-          <label for="l6">Words of encouragement for Larry and Rolanda?</label>
-          <textarea id="l6" name="notes" placeholder="A prayer, a verse, a word for the night — or anything we should know…"></textarea>
-        </div>
-        <label class="sponsor__check sponsor__check--plain"><input type="checkbox" id="l7" name="sponsor_interest" value="yes"><span>I own a business or ministry &mdash; tell me about sponsoring the launch</span></label>
-        <div class="field sponsor__phone" id="sponsorPhone">
-          <label for="l8">Best number to call or text you about sponsoring</label>
-          <input type="tel" id="l8" name="sponsor_phone" placeholder="(813) 555-0100" autocomplete="tel">
-        </div>
-        <p class="form__error" hidden></p>
-        <button class="btn btn--onLight btn--lg btn--block" type="submit">Reserve my seat</button>
-        <p class="form__fine">Free. We'll only email you about the launch and the book.</p>
-      </form>
-    </div>
-  </dialog>
-
-</div>
+<div class="view" id="view-launch" hidden></div>
 
 <!-- ==================================================================== -->
 <!-- ======================= REGISTERED (launch) ========================= -->
@@ -3331,7 +3203,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <li><b>Your logo</b> by October 18th, so it makes the printed program and the screens.</li>
           <li><b>November 1st.</b> Your seats are waiting.</li>
         </ol>
-        <p style="margin-top:1.5rem"><a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
+        <p style="margin-top:1.5rem"><a class="btn" href="/book/" data-tab="book">Order a signed copy</a></p>
       </div>
       <aside class="reg__card">
         <p class="eyebrow">One more thing you can do</p>
@@ -3381,7 +3253,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h1>Thank you.<br><em>Somebody's going home with the book.</em></h1>
         <p class="lede lede--light" style="max-width:34rem">Your gift is confirmed and Stripe has emailed you a receipt. On November 1st we'll hand a signed copy to a couple, with your name on the card inside if you gave one. You won't know who they were. They won't forget that somebody did it.</p>
         <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem;align-items:center">
-          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn" href="/book/" data-tab="book">Order a signed copy</a>
           <a class="btn btn--outline" href="https://donate.stripe.com/28E00k71E5usaNs7uz5Vu00" target="_blank" rel="noopener">Gift another copy</a>
         </p>
         <p style="margin-top:1.75rem"><a class="pillbtn pillbtn--live" href="/sponsor/" data-tab="sponsor"><span class="pillbtn__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.6 5.4 6 .8-4.4 4.2 1.1 5.9L12 15.5 6.7 18.3l1.1-5.9L3.4 8.2l6-.8z"/></svg></span>Business Owners &mdash; Sponsor The Night &amp; Be Recognized</a></p>
@@ -3463,7 +3335,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="eyebrow">Payment received</p>
         <h1>You're in.<br><em>Thank you.</em></h1>
         <p class="lede lede--light" style="max-width:34rem">Your sponsorship is confirmed and paid. Stripe has emailed your receipt and invoice. Two things left: reply to any of our emails with your <strong>logo</strong> (PNG or SVG) by <strong>October 18th</strong>, and we'll see you on <strong>November 1st</strong> &mdash; your seats will be waiting.</p>
-        <p style="margin-top:1.5rem"><a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a></p>
+        <p style="margin-top:1.5rem"><a class="btn" href="/book/" data-tab="book">Order a signed copy</a></p>
       </div>
       <aside class="reg__card">
         <p class="eyebrow">One more thing you can do</p>
@@ -3609,7 +3481,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h1>Your copy is spoken for.<br><em>See you up front.</em></h1>
         <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and show your pickup pass at the express table for your signed copy and the laminated Frameworks Bundle &mdash; no line.</p>
         <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
-          <a class="btn" href="/book-launch/" data-tab="launch">Back to the launch page</a>
+          <a class="btn" href="/book/" data-tab="book">Order a signed copy</a>
           <a class="btn btn--outline" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Read Chapter One now</a>
         </p>
       </div>
@@ -4518,15 +4390,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
       <div class="ty__side ty__side--invite">
         <div class="ty__card">
-          <p class="eyebrow">You're invited</p>
-          <h2 class="ty__h2">Book launch<br>November 1st, 5:30&nbsp;pm.</h2>
+          <p class="eyebrow">Get the book</p>
+          <h2 class="ty__h2">Get your signed copy.</h2>
           <div class="orn orn--short" aria-hidden="true"><span></span></div>
-          <p>We're launching <em>Never Fight or Argue Again</em> live at Grace Family Church, Land O Lakes Campus in Lutz &mdash; not a webinar, an actual room with actual couples in it. We'd love to have you there.</p>
-          <p>Doors at 5:30&nbsp;pm, free to attend. <a href="/book-launch/" data-tab="launch">Reserve a seat</a> so we know to expect you.</p>
-          <p class="ty__cardCta">
-            <a data-gcal class="btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York">Add to Google Calendar</a>
-          </p>
-          <p class="ty__cardAlt"><a href="/assets/launch-nov-1.ics">Other calendars (.ics)</a></p>
+          <p>Order a copy signed by Larry and Ro for $20 plus $8 flat shipping. Add a name for the inscription, or send it as a gift with a short note.</p>
+          <p class="ty__cardCta"><a class="btn" href="/book/" data-tab="book">Order a signed copy</a></p>
         </div>
       </div>
 
@@ -4612,7 +4480,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h4>Explore</h4>
         <ul>
           <li><a href="/book/" data-tab="book">The Book</a></li>
-          <li><a href="/book-launch/" data-tab="launch">Book Launch</a></li>
+          <li><a href="/book/" data-tab="book">Order a signed copy</a></li>
           <li><a href="/churches/" data-tab="churches">For Churches</a></li>
           <li><a href="/speaking/" data-tab="speaking">Speaking</a></li>
           <li><a href="/about/" data-tab="about">About Larry &amp; Ro</a></li>
@@ -4711,7 +4579,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   var ROUTES = {
     '/':               'home',
     '/book/':          'book',
-    '/book-launch/':   'launch',
+    '/book-launch/':   'book',
     '/registered/':    'registered',
     '/sponsor/':       'sponsor',       // hidden: not in nav, footer or sitemap
     '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
@@ -4739,8 +4607,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   var TITLES = {
     home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
-    book: 'The Book — Never Fight or Argue Again',
-    launch: 'Book Launch — November 1st, Tampa — Never Fight or Argue Again',
+    book: 'The Book: Never Fight or Argue Again | Signed Copies',
+    launch: 'Order a signed copy | Never Fight or Argue Again',
     registered: "You're registered — Never Fight or Argue Again",
     sponsor: 'Sponsor the launch — Never Fight or Argue Again',
     'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
@@ -4780,6 +4648,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   }
 
   function showView(name, opts) {
+    if (name === 'launch') name = 'book';
     if (VIEWS.indexOf(name) === -1) name = 'home';
     opts = opts || {};
 
@@ -5679,6 +5548,30 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   showView(viewFromLocation(), { keepScroll: true });
 })();
 
+</script>
+<script>
+/* book-checkout is POST only: create the session, then go to Stripe. */
+(function(){
+  var URL_ = "https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/book-checkout";
+  document.addEventListener("click", function(ev){
+    var a = ev.target.closest && ev.target.closest("[data-checkout]");
+    if (!a) return;
+    ev.preventDefault();
+    if (a.getAttribute("aria-busy") === "true") return;
+    a.setAttribute("aria-busy", "true");
+    var label = a.textContent; a.textContent = "Opening secure checkout\u2026";
+    function fail(){
+      a.removeAttribute("aria-busy"); a.textContent = label;
+      var m = a.parentNode.querySelector(".checkout-msg");
+      if (!m) { m = document.createElement("p"); m.className = "checkout-msg"; m.setAttribute("role","alert"); m.style.marginTop = ".75rem"; a.parentNode.appendChild(m); }
+      m.innerHTML = 'Checkout could not open. Please try again, or email <a href="mailto:hello@neverfightorargue.com?subject=Signed%20copy%20order">hello@neverfightorargue.com</a> and we will help.';
+    }
+    fetch(URL_, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity: 1, gift: a.hasAttribute("data-gift") }) })
+      .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
+      .then(function(x){ if (x.ok && x.j && typeof x.j.url === "string" && /^https:\/\/checkout\.stripe\.com\//.test(x.j.url)) location.href = x.j.url; else fail(); })
+      .catch(fail);
+  });
+})();
 </script>
 </body>
 </html>
