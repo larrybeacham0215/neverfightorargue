@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2D1D">
+<title>Library Preview | Never Fight or Argue Again</title>
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#0D2D1D;--g2:#1F4D31;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#e3dac4;--muted:#5a6a60}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Karla,-apple-system,sans-serif}
+a{color:var(--g1)}
+[hidden]{display:none!important}
+.banner{background:#5c3b00;color:#fff8e8;padding:.7rem 1rem;text-align:center;font-size:.95rem;line-height:1.4}
+.banner strong{font-weight:700}
+.banner a{color:#ffe7a8}
+header{background:var(--g1);color:var(--cream);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+header .brand{font-family:Marcellus,serif;font-size:1.1rem;color:var(--cream);text-decoration:none}
+header nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+header a{color:var(--cream);font-size:.95rem}
+main{max-width:1100px;margin:0 auto;padding:28px 18px 72px}
+.eyebrow{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:.75rem;margin:0 0 8px;font-weight:700}
+h1{font-family:Marcellus,serif;font-weight:400;font-size:clamp(1.7rem,3vw,2.3rem);margin:0 0 8px;color:var(--g1)}
+.lede{max-width:40rem;line-height:1.55;margin:0 0 22px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;margin:16px 0}
+label{display:block;font-size:.85rem;font-weight:700;margin:12px 0 4px}
+input{width:100%;padding:12px;font-size:16px;border:1px solid #b9ae94;border-radius:6px;background:#fff}
+button,.btn{appearance:none;border:0;cursor:pointer;display:inline-block;margin-top:14px;padding:12px 18px;font:700 .95rem Karla,sans-serif;border-radius:8px;background:var(--g1);color:var(--cream);text-decoration:none}
+.btn.secondary{background:transparent;color:var(--g1);border:1px solid var(--g1)}
+.btn.gold{background:var(--gold);color:var(--g1)}
+.link{background:none;border:0;color:var(--g1);text-decoration:underline;font:inherit;cursor:pointer;padding:0;margin-top:14px}
+.err{color:#a33;font-size:.9rem;min-height:1.2em;margin-top:8px}
+.ok{color:#1f6b3a;font-size:.9rem;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-top:8px}
+.tile{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 0 rgba(13,45,29,.04);transition:transform .15s ease, box-shadow .15s ease}
+.tile:hover,.tile:focus-visible{transform:translateY(-2px);box-shadow:0 10px 28px rgba(13,45,29,.12);outline:2px solid var(--gold);outline-offset:2px}
+.tile .cover{aspect-ratio:4/5;background:var(--g1);display:block;width:100%;object-fit:cover}
+.tile .body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.tile .kind{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.tile h2{font-family:Marcellus,serif;font-weight:400;font-size:1.2rem;margin:0;color:var(--g1);line-height:1.25}
+.tile p{margin:0;font-size:.9rem;line-height:1.45;color:var(--muted);flex:1}
+.tile .cta{margin-top:10px;font-weight:700;color:var(--g2);font-size:.95rem}
+.locked{opacity:.72}
+.locked .cta{color:var(--muted)}
+.note{font-size:.9rem;color:var(--muted);margin-top:28px;line-height:1.5}
+@media (max-width:520px){.grid{grid-template-columns:1fr 1fr;gap:12px}.tile h2{font-size:1.05rem}}
+</style>
+</head>
+<body>
+<div class="banner" role="status"><strong>PREVIEW ONLY</strong> — redesigned library layout for review. Production My Library is unchanged. <a href="/members/">Open current library</a></div>
+<header>
+  <a class="brand" href="/">Never Fight or Argue Again</a>
+  <nav>
+    <a href="/members/library-preview/">Library preview</a>
+    <a href="/guide/course-preview/">Guide preview</a>
+    <a href="#" id="out" hidden>Sign out</a>
+  </nav>
+</header>
+<main>
+  <section id="v-in" hidden>
+    <p class="eyebrow">Members preview</p>
+    <h1>Sign in to preview your library</h1>
+    <p class="lede">Same account as production. This page only changes how your content is organized for review.</p>
+    <form class="card" id="f-in">
+      <label for="ie">Email</label>
+      <input id="ie" type="email" autocomplete="email" required>
+      <label for="ip">Password</label>
+      <input id="ip" type="password" autocomplete="current-password" required>
+      <div class="err" id="ierr" aria-live="polite"></div>
+      <button type="submit">Sign in</button><br>
+      <button type="button" class="link" id="go-forgot">Forgot your password?</button>
+    </form>
+  </section>
+
+  <section id="v-forgot" hidden>
+    <h1>Reset your password</h1>
+    <p class="lede">Enter your email and we will send a reset link. This uses the same production reset flow.</p>
+    <form class="card" id="f-forgot">
+      <label for="fe">Email</label>
+      <input id="fe" type="email" autocomplete="email" required>
+      <div class="err" id="ferr" aria-live="polite"></div>
+      <div class="ok" id="fok" hidden>If there is an account for that email, a reset link is on its way.</div>
+      <button type="submit">Send reset link</button><br>
+      <button type="button" class="link" id="back-in">Back to sign in</button>
+    </form>
+  </section>
+
+  <section id="v-list" hidden>
+    <p class="eyebrow">My library · preview</p>
+    <h1>Your content</h1>
+    <p class="lede" id="who"></p>
+    <p class="lede">Choose a cover to open that resource. Free tools stay available after sign-in. The Companion Guide still requires your purchase entitlement.</p>
+    <div id="grid" class="grid" aria-live="polite"></div>
+    <p class="note">PDF resources open in a preview wrapper with a persistent “Back to library” link, plus a clear Download button. Native PDF viewers cannot embed our back link inside the file itself — that limitation is expected and source PDFs are not modified.</p>
+  </section>
+</main>
+<script src="/assets/nfoa-auth.js"></script>
+<script>
+(function(){
+var A=window.NFOA_AUTH;
+var ITEMS=[
+  {id:'companion-guide', kind:'Course', title:'The 12-Week Companion Guide', desc:'Interactive chapters with worksheets. Opens the course-style preview (answers not saved there).', cover:'/assets/library-preview/companion-guide.svg', href:'/guide/course-preview/', cta:'Open course preview', needs:'companion_guide'},
+  {id:'anti-fight-plan', kind:'Free tool', title:'Anti-Fight Plan', desc:'A simple plan for non-combative conflict resolution. Use it before and after a hard conversation.', cover:'/assets/library-preview/anti-fight-plan.svg', href:'/members/library-preview/resource/?id=anti-fight-plan', cta:'Open resource', file:'anti-fight-plan.pdf'},
+  {id:'luv-framework', kind:'Free tool', title:'The L.U.V. Framework', desc:'A one-page guide to the L.U.V. Framework from the book.', cover:'/assets/library-preview/luv-framework.svg', href:'/members/library-preview/resource/?id=luv-framework', cta:'Open resource', file:'luv-framework.pdf'},
+  {id:'stop-loss-strategy', kind:'Free tool', title:'The Stop-Loss Strategy', desc:'Protect the conversation before it becomes destructive.', cover:'/assets/library-preview/stop-loss-strategy.svg', href:'/members/library-preview/resource/?id=stop-loss-strategy', cta:'Open resource', file:'stop-loss-strategy.pdf'},
+  {id:'validation-exercise', kind:'Free tool', title:'Validation Exercise', desc:'A guided exercise to help you hear and validate each other.', cover:'/assets/library-preview/validation-exercise.svg', href:'/members/library-preview/resource/?id=validation-exercise', cta:'Open resource', file:'validation-exercise.pdf'}
+];
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function show(id){['v-in','v-forgot','v-list'].forEach(function(v){document.getElementById(v).hidden=v!==id;});document.getElementById('out').hidden=id!=='v-list';}
+function render(entitled){
+  var box=document.getElementById('grid');
+  box.innerHTML=ITEMS.map(function(it){
+    var ok=!it.needs||entitled[it.needs];
+    if(ok){
+      return '<a class="tile" href="'+esc(it.href)+'"><img class="cover" src="'+esc(it.cover)+'" alt=""><div class="body"><div class="kind">'+esc(it.kind)+'</div><h2>'+esc(it.title)+'</h2><p>'+esc(it.desc)+'</p><div class="cta">'+esc(it.cta)+' →</div></div></a>';
+    }
+    return '<div class="tile locked" aria-disabled="true"><img class="cover" src="'+esc(it.cover)+'" alt=""><div class="body"><div class="kind">'+esc(it.kind)+'</div><h2>'+esc(it.title)+'</h2><p>'+esc(it.desc)+'</p><div class="cta">Not on this account yet</div></div></div>';
+  }).join('');
+}
+function list(){
+  show('v-list');
+  A.session().then(function(s){document.getElementById('who').textContent='Signed in as '+(s&&s.email||'');});
+  var box=document.getElementById('grid');
+  box.innerHTML='<p>Loading your content…</p>';
+  A.rest('entitlements?select=product,revoked_at,role,parent_entitlement_id&revoked_at=is.null').then(function(rows){
+    var entitled={};
+    (rows||[]).forEach(function(r){entitled[r.product]=true;});
+    render(entitled);
+  }).catch(function(e){
+    if(e.message==='signed out'){show('v-in');return;}
+    box.innerHTML='<p class="err">Could not load your account. Please refresh.</p>';
+  });
+}
+document.getElementById('f-in').onsubmit=function(ev){ev.preventDefault();var er=document.getElementById('ierr');er.textContent='';
+  A.signIn(document.getElementById('ie').value.trim(),document.getElementById('ip').value).then(list).catch(function(e){er.textContent=e.message;});};
+document.getElementById('go-forgot').onclick=function(){document.getElementById('fe').value=document.getElementById('ie').value;show('v-forgot');};
+document.getElementById('back-in').onclick=function(){show('v-in');};
+document.getElementById('f-forgot').onsubmit=function(ev){ev.preventDefault();var er=document.getElementById('ferr');er.textContent='';
+  A.forgot(document.getElementById('fe').value.trim()).then(function(){document.getElementById('fok').hidden=false;}).catch(function(e){er.textContent=/rate|seconds/i.test(e.message)?'Please wait a minute and try again.':e.message;});};
+document.getElementById('out').onclick=function(e){e.preventDefault();A.signOut();show('v-in');};
+A.session().then(function(s){if(s)list();else show('v-in');});
+})();
+</script>
+</body>
+</html>

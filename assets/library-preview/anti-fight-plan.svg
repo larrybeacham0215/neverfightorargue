@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="800" viewBox="0 0 640 800" role="img" aria-label="Anti-Fight Plan">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0D2D1D"/>
+      <stop offset="100%" stop-color="#1F4D31"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="800" fill="url(#bg)"/>
+  <rect x="28" y="28" width="584" height="744" fill="none" stroke="#B8862A" stroke-width="2" opacity="0.85"/>
+  <rect x="44" y="44" width="552" height="712" fill="none" stroke="#F7F4EC" stroke-width="1" opacity="0.25"/>
+  <text x="80" y="120" fill="#B8862A" font-family="Georgia, 'Times New Roman', serif" font-size="18" letter-spacing="4">ONE-PAGE TOOL</text>
+  <line x1="80" y1="140" x2="200" y2="140" stroke="#B8862A" stroke-width="2"/>
+  <text x="80" y="320" fill="#F7F4EC" font-family="Georgia, 'Times New Roman', serif" font-size="64">Anti-Fight</text>
+  <text x="80" y="400" fill="#F7F4EC" font-family="Georgia, 'Times New Roman', serif" font-size="48">Plan</text>
+  <text x="80" y="700" fill="#F7F4EC" font-family="Arial, Helvetica, sans-serif" font-size="18" opacity="0.8">Never Fight or Argue Again</text>
+  <text x="80" y="730" fill="#B8862A" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="2">PREVIEW COVER</text>
+</svg>
