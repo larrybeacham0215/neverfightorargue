@@ -39,9 +39,11 @@
   "resource_preview": {
     "route": "/members/library-preview/resource/?id=anti-fight-plan",
     "expect": [
-      "Back to library always visible",
-      "Open/Download + page/fit controls present",
-      "Honest note about native PDF back-link limitation"
+      "Exactly one Back to My Library control",
+      "Compact toolbar: Open PDF + Download + small page pager",
+      "Content area prioritized over controls",
+      "Short user tip only; no developer URL/native-PDF footer",
+      "Graceful fallback if embed fails, with Open/Download primary"
     ]
   },
   "note": "Static tests cannot measure pixels. Parent should QA visually on listed viewports."

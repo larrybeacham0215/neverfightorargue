@@ -30,7 +30,11 @@ assertIncludes(lib, [
 assert.ok(!lib.includes('printable-companion-set'), 'must not re-add printable set');
 assert.ok(!lib.includes('anti-fight-plan-and-safety-plan'), 'must not re-add safety combo');
 
-assertIncludes(res, ['Prev page', 'Next page', 'Fit width', 'Open PDF', 'Download', 'page=', 'view=FitH'], 'resource');
+assertIncludes(res, ['Back to My Library', 'Open PDF', 'Download', 'view=FitH', 'Preview isn’t available here'], 'resource');
+assert.equal((res.match(/Back to My Library/g)||[]).length, 1, 'exactly one Back to My Library');
+assert.ok(!res.includes('← Library'), 'no redundant ← Library');
+assert.ok(!/Native PDF|Source PDFs|page\+fit|URL params/i.test(res), 'no developer footer copy');
+assert.ok(res.includes('fallback'), 'embed fallback present');
 
 const spec = {
   targets: [
