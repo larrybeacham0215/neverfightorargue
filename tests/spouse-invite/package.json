@@ -1,0 +1,8 @@
+{
+  "name": "spouse-invite-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node mocked-handler.test.mjs"
+  }
+}

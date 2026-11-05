@@ -190,13 +190,9 @@ Deno.serve(async (req) => {
   }
 
   // Prove ownership for existing accounts; create only when missing. Never update password.
+  // Prefer sign-in first (proves password). Only createUser when no account / wrong-password ambiguous.
   let userId: string | null = null;
   let created = false;
-  const { data: listed } = await db.auth.admin.listUsers({ page: 1, perPage: 200 });
-  // Prefer getUserByEmail if available in this client version; fall back to filtered list.
-  const existing = (listed?.users ?? []).find((x) => (x.email ?? "").toLowerCase() == email) ?? null;
-
-  // supabase-js v2: use list + filter is imperfect at scale; try sign-in first for existing.
   const sign = await anon.auth.signInWithPassword({ email, password });
   if (sign.data?.user && !sign.error) {
     userId = sign.data.user.id;

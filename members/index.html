@@ -41,11 +41,30 @@ function show(id){['v-in','v-forgot','v-reset','v-list'].forEach(function(v){doc
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function list(){show('v-list');A.session().then(function(s){document.getElementById('who').textContent='Signed in as '+(s&&s.email||'');});
  var box=document.getElementById('items');box.innerHTML='<p>Loading...</p>';
- A.rest('entitlements?select=product,granted_at,revoked_at&revoked_at=is.null&order=granted_at.desc').then(function(rows){
+ A.rest('entitlements?select=id,product,granted_at,revoked_at,role,parent_entitlement_id,source&revoked_at=is.null&order=granted_at.desc').then(function(rows){
   if(new URLSearchParams(location.search).get('next')==='guide'&&rows.some(function(r){return r.product==='companion_guide';})){location.href='/guide/';return;}
   if(!rows.length){box.innerHTML='<div class="card"><p>We do not see any purchases on this account yet. If you just paid, give it a minute and refresh, or email hello@neverfightorargue.com.</p></div>';return;}
+  var API=(window.NFOA_API||'https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1')+'/spouse-invite';
   box.innerHTML=rows.map(function(r){var c=CATALOG[r.product]||{title:r.product.replace(/_/g,' ').replace(/\b\w/g,function(x){return x.toUpperCase();}),desc:'',href:'',cta:''};
-   return '<div class="card item">'+(c.img?'<img src="'+c.img+'" alt="">':'')+'<div><h3>'+esc(c.title)+'</h3><p>'+esc(c.desc)+'</p>'+(c.href?'<a class="btn" href="'+c.href+'">'+esc(c.cta)+'</a>':'')+'</div></div>';}).join('');
+   var invite='';
+   if(r.product==='companion_guide'&&!r.parent_entitlement_id&&r.role!=='spouse'){
+     invite='<div class="spouse-box" data-parent="'+esc(r.id)+'" style="margin-top:14px;padding-top:12px;border-top:1px dashed #e3dac4"><p style="margin:0 0 8px;font-size:14px"><strong>Invite your spouse</strong> — they get their own guide and private answers. Forward the invite link; do not forward your own guide link.</p><button type="button" class="btn spouse-issue" style="margin-top:0">Create spouse invite link</button><button type="button" class="link spouse-reissue" style="display:block;margin-top:10px">Lost the link? Create a new one</button><textarea class="spouse-text" readonly hidden style="width:100%;margin-top:10px;min-height:9em;font-size:13px;padding:10px;border:1px solid #b9ae94;border-radius:6px"></textarea><p class="err spouse-err" style="margin:6px 0 0"></p></div>';
+   }
+   return '<div class="card item">'+(c.img?'<img src="'+c.img+'" alt="">':'')+'<div><h3>'+esc(c.title)+'</h3><p>'+esc(c.desc)+'</p>'+(c.href?'<a class="btn" href="'+c.href+'">'+esc(c.cta)+'</a>':'')+invite+'</div></div>';}).join('');
+  Array.prototype.forEach.call(box.querySelectorAll('.spouse-box'),function(boxEl){
+    function run(action){
+      var err=boxEl.querySelector('.spouse-err'), ta=boxEl.querySelector('.spouse-text');
+      err.textContent='';ta.hidden=true;
+      A.session().then(function(s){
+        if(!s||!s.access_token){err.textContent='Please sign in again.';return;}
+        return fetch(API,{method:'POST',headers:{'content-type':'application/json','authorization':'Bearer '+s.access_token},body:JSON.stringify({action:action,parent_entitlement_id:boxEl.getAttribute('data-parent')})})
+          .then(function(r){return r.json().then(function(d){return {status:r.status,d:d};});})
+          .then(function(x){var d=x.d||{};if(!d.ok){err.textContent=d.error||'Could not create the invite.';return;}ta.value=d.forwardable_text||d.invite_url||'';ta.hidden=false;ta.select();});
+      }).catch(function(){err.textContent='Could not create the invite.';});
+    }
+    boxEl.querySelector('.spouse-issue').onclick=function(){run('issue');};
+    boxEl.querySelector('.spouse-reissue').onclick=function(){run('reissue');};
+  });
  }).catch(function(e){if(e.message==='signed out'){show('v-in');return;}box.innerHTML='<p class="err">Could not load your account. Please refresh.</p>';});}
 document.getElementById('f-in').onsubmit=function(ev){ev.preventDefault();var er=document.getElementById('ierr');er.textContent='';
  A.signIn(document.getElementById('ie').value.trim(),document.getElementById('ip').value).then(list).catch(function(e){er.textContent=e.message;});};

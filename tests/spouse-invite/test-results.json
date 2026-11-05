@@ -1,0 +1,165 @@
+{
+  "label": "spouse-invite local — unit + mocked_handler (no live Stripe/DB/mail)",
+  "ran_at": "2026-11-05T19:48:36.877Z",
+  "passed": 26,
+  "total": 26,
+  "failed": [],
+  "results": [
+    {
+      "kind": "unit",
+      "name": "token_is_64_hex",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "hash_is_64_hex",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "plaintext_not_equal_hash",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "invite_url_path",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "issue_ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "peek_open_usable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "peek_non_consuming",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "one_live_slot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "reissue_while_open",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "old_token_revoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "redeem_ok",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "spouse_source",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "spouse_role",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "spouse_parent_link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "no_sequence_enrollment",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "no_preorder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "single_use",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "no_second_seat_after_redeem",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "same_as_buyer_blocked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "email_already_entitled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "spouse_cannot_be_parent",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "independent_claim_token",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "independent_answer_keys",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "mocked_handler",
+      "name": "parent_revoke_cascades_spouse",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "urls_differ",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "unit",
+      "name": "forwardable_has_spouse_path",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
