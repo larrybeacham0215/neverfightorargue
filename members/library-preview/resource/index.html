@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0D2D1D">
+<title>Resource Preview | Never Fight or Argue Again</title>
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Karla:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--g1:#0D2D1D;--gold:#B8862A;--cream:#F7F4EC;--ink:#22302a;--line:#e0d6c2;--muted:#5a6a60}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--cream);color:var(--ink);font-family:Karla,-apple-system,sans-serif;display:flex;flex-direction:column;min-height:100%}
+a{color:var(--g1)}
+[hidden]{display:none!important}
+.banner{flex:none;background:#5c3b00;color:#fff8e8;padding:.15rem .6rem;text-align:center;font-size:.7rem;letter-spacing:.02em;line-height:1.2}
+header{flex:none;background:var(--g1);color:var(--cream);padding:.4rem .75rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
+header .brand{font-family:Marcellus,serif;font-size:.95rem;color:var(--cream);text-decoration:none}
+header nav{display:flex;gap:10px;align-items:center;font-size:.82rem}
+header a{color:var(--cream);text-decoration:none}
+header a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{flex:1;min-height:0;display:flex;flex-direction:column;padding:.45rem .7rem .6rem;max-width:1100px;width:100%;margin:0 auto}
+.top{flex:none;display:flex;flex-wrap:wrap;gap:.4rem .75rem;align-items:center;justify-content:space-between;margin-bottom:.4rem}
+.titles{min-width:0;flex:1}
+h1{font-family:Marcellus,serif;font-weight:400;font-size:1.15rem;margin:0;line-height:1.2}
+.meta{color:var(--muted);font-size:.78rem;margin:.1rem 0 0}
+.toolbar{flex:none;display:flex;flex-wrap:wrap;gap:.3rem;align-items:center}
+.btn{appearance:none;border:0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:.4rem .65rem;font:700 .78rem Karla,sans-serif;border-radius:6px;background:var(--g1);color:var(--cream);text-decoration:none;line-height:1.2}
+.btn.gold{background:var(--gold);color:var(--g1)}
+.btn.ghost{background:transparent;color:var(--g1);border:1px solid var(--line)}
+.btn.tiny{padding:.3rem .45rem;min-width:2rem}
+.pager{display:inline-flex;align-items:center;gap:.25rem;margin-left:.15rem;padding-left:.45rem;border-left:1px solid var(--line)}
+.pager label{font-size:.72rem;color:var(--muted);font-weight:700}
+.pager input{width:2.6rem;padding:.25rem;border-radius:5px;border:1px solid #b9ae94;background:#fff;font-size:13px;text-align:center}
+.viewer{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line);position:relative}
+.frame-wrap{flex:1;min-height:0;background:#edf0ee;position:relative}
+iframe{width:100%;height:100%;border:0;background:#fff}
+.fallback{display:none;position:absolute;inset:0;align-items:center;justify-content:center;padding:1.25rem;text-align:center;background:linear-gradient(#f7f4ec,#efe9db)}
+.fallback.show{display:flex}
+.fallback .card{max-width:22rem;background:#fff;border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem}
+.fallback h2{font-family:Marcellus,serif;font-weight:400;font-size:1.1rem;margin:0 0 .4rem}
+.fallback p{margin:0 0 .75rem;color:var(--muted);font-size:.88rem;line-height:1.45}
+.fallback .row{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+.note{flex:none;font-size:.72rem;color:var(--muted);margin-top:.35rem}
+.err{color:#a33}
+@media (max-width:600px){h1{font-size:1.05rem}.viewer{min-height:50vh}.pager{border-left:0;padding-left:0;margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="banner" role="status">Preview</div>
+<header>
+  <a class="brand" href="/">Never Fight or Argue Again</a>
+  <nav>
+    <a href="/members/library-preview/" id="backLib">← Back to My Library</a>
+  </nav>
+</header>
+<main>
+  <div id="missing" class="err" hidden>That resource is not part of this preview.</div>
+  <div id="ok" hidden style="display:none;flex-direction:column;flex:1;min-height:0">
+    <div class="top">
+      <div class="titles">
+        <h1 id="title"></h1>
+        <p class="meta" id="desc"></p>
+      </div>
+      <div class="toolbar" role="toolbar" aria-label="Resource actions">
+        <a class="btn gold" id="open" target="_blank" rel="noopener">Open PDF</a>
+        <a class="btn" id="dl" download>Download</a>
+        <div class="pager">
+          <button type="button" class="btn ghost tiny" id="prev" aria-label="Previous page">‹</button>
+          <label for="page">Page</label>
+          <input id="page" type="number" min="1" value="1" inputmode="numeric">
+          <button type="button" class="btn ghost tiny" id="next" aria-label="Next page">›</button>
+        </div>
+      </div>
+    </div>
+    <div class="viewer">
+      <div class="frame-wrap">
+        <iframe id="frame" title="PDF preview"></iframe>
+        <div class="fallback" id="fallback" role="status">
+          <div class="card">
+            <h2>Preview isn’t available here</h2>
+            <p>Your browser couldn’t show this PDF in the page. Open or download it instead — that’s the main way to read it.</p>
+            <div class="row">
+              <a class="btn gold" id="open2" target="_blank" rel="noopener">Open PDF</a>
+              <a class="btn" id="dl2" download>Download</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Tip: Open PDF is the most reliable view on phones and some browsers.</p>
+  </div>
+</main>
+<script>
+(function(){
+var CATALOG={
+  'anti-fight-plan':{title:'Anti-Fight Plan',desc:'Free tool · printable plan',file:'anti-fight-plan.pdf'},
+  'luv-framework':{title:'The L.U.V. Framework',desc:'Free tool · one-page guide',file:'luv-framework.pdf'},
+  'stop-loss-strategy':{title:'The Stop-Loss Strategy',desc:'Free tool · one-page visual',file:'stop-loss-strategy.pdf'},
+  'validation-exercise':{title:'Validation Exercise',desc:'Free tool · guided practice',file:'validation-exercise.pdf'}
+};
+var id=new URLSearchParams(location.search).get('id')||'';
+var item=CATALOG[id];
+if(!item){document.getElementById('missing').hidden=false;return;}
+var ok=document.getElementById('ok'); ok.hidden=false; ok.style.display='flex';
+document.title=item.title+' | Library Preview';
+document.getElementById('title').textContent=item.title;
+document.getElementById('desc').textContent=item.desc;
+var base='/downloads/files/'+item.file;
+['open','open2'].forEach(function(i){document.getElementById(i).href=base;});
+['dl','dl2'].forEach(function(i){var el=document.getElementById(i); el.href=base; el.setAttribute('download',item.file);});
+var page=1, frame=document.getElementById('frame'), fallback=document.getElementById('fallback'), shown=false, loaded=false;
+function src(){return base+'#page='+page+'&view=FitH';}
+function showFallback(){if(shown)return; shown=true; fallback.classList.add('show');}
+function render(){loaded=false; frame.src=src(); document.getElementById('page').value=String(page);}
+document.getElementById('prev').onclick=function(){if(page>1){page--;render();}};
+document.getElementById('next').onclick=function(){page++;render();};
+document.getElementById('page').onchange=function(){var n=parseInt(this.value,10);if(n>=1){page=n;render();}};
+frame.addEventListener('load', function(){loaded=true;});
+frame.addEventListener('error', showFallback);
+// If the embed never loads (common in headless / blocked PDF plugins), offer Open/Download overlay.
+setTimeout(function(){if(!loaded) showFallback();}, 3500);
+render();
+})();
+</script>
+</body>
+</html>
