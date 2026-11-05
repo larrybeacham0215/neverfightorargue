@@ -17,28 +17,28 @@ CSV: `backfill/past-buyers-dryrun.csv`
 
 | Decision | Count |
 | --- | --- |
-| include | 65 |
+| include | 66 |
 | exclude | 3 |
-| needs_review | 1 |
+| needs_review | 0 |
 | unique emails scanned | 69 |
 
 Include by source (deduped; book_orders mirrors preorders/event, so sources are canonicalized):
 
 | Source | Include |
 | --- | --- |
-| preorder | 32 |
+| preorder | 33 |
 | event_table (launch day) | 33 |
 
 Excluded (do not gift): Larry addresses (`larrybeacham@`, `virtualceoworld@`), test_mode / test_run / $1 tests, event_bundle buyers, existing `companion_guide` entitlement, placeholder emails.
 
-Needs review: `larrysmithryu@proton.me` — needs review: email looks RYU-adjacent (James L Smith).
+`larrysmithryu@proton.me` moved to **include** per Larry (was needs_review).
 
 ## Pacing
 
 - Shared Brevo cap with KDM: 300/day.
 - Guide mail budget: `GUIDE_SEQUENCE_DAILY_BUDGET` default **100**/America/New_York day (gift sends + sequence sends counted together via `guide_mail_sent_today()`).
 - Day 1 is offset **+1 day** from gift send, so gift-day and Day 1 do not collide on the same calendar day.
-- At 100 gifts/day: **65 includes need ~1 day(s)** of gift sending after go-live. Then Day 1 and weeklies follow on their due dates under the same budget.
+- At 100 gifts/day: **66 includes need ~1 day(s)** of gift sending after go-live. Then Day 1 and weeklies follow on their due dates under the same budget.
 
 ## Gate
 
@@ -66,6 +66,6 @@ Created entitlement for `guide-backfill-throwaway@neverfightorargue.com` with cl
 
 ## Still needs Larry
 
-1. Approve the include list + count (65 after any needs_review call).
+1. Approve the include list + count (**66**; needs_review cleared).
 2. Confirm gift email (copy already approved).
 3. Set `GUIDE_BACKFILL_ON=1` (and usually `GUIDE_SEQUENCE_ON=1`) when ready to send.
