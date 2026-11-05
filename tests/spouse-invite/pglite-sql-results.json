@@ -1,0 +1,135 @@
+{
+  "label": "sql_pglite — real local Postgres WASM executing spouse SQL; NOT live Supabase; NO Auth runtime",
+  "ran_at": "2026-11-05T20:04:29.275Z",
+  "passed": 21,
+  "total": 21,
+  "failed": [],
+  "results": [
+    {
+      "kind": "sql_pglite",
+      "name": "issue_ok",
+      "ok": true,
+      "detail": "{\"ok\":true,\"status\":\"open\",\"invite_id\":\"1b530e47-efb1-4cfd-8503-ecb5479dc5f8\"}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "peek_open",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "peek_non_consuming",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "slot_taken",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "reissue_ok",
+      "ok": true,
+      "detail": "{\"ok\":true,\"status\":\"open\",\"invite_id\":\"c0a8b677-d2ff-410c-a52a-0ee63ccfae80\",\"revoked_invite_id\":\"1b530e47-efb1-4cfd-8503-ecb5479dc5f8\"}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "old_revoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "redeem_ok",
+      "ok": true,
+      "detail": "{\"ok\":true,\"email\":\"spouse@example.com\",\"user_id\":\"027a9f33-d5a3-4e55-9dc7-4d55e585e033\",\"claim_token\":\"6b73e3b1-79bd-4467-82ce-b0bce9ab4191\",\"entitlement_id\":\"d73fda59-c696-4828-ab57-91c0ee8fdbf2\"}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "no_auto_sequence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "no_pickup_preorder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "spouse_source_role",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "answer_isolation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "claim_tokens_differ",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "single_use",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "no_reissue_after_redeem",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "same_as_buyer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "email_already_entitled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "parent_revoke_cascades",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "access_ok_false_after_parent_revoke",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "concurrent_second_fails",
+      "ok": true,
+      "detail": "{\"a\":{\"ok\":true,\"email\":\"race-a@example.com\",\"user_id\":\"6972ea7d-2dff-4e80-a181-23f303af6f25\",\"claim_token\":\"74dcf9f3-e5cd-4e92-ad9f-a877a6942254\",\"entitlement_id\":\"df1895c9-0960-4621-8783-3c359a950937\"},\"b\":{\"ok\":false,\"error\":\"already_used\"}}"
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "one_spouse_seat",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "kind": "sql_pglite",
+      "name": "spouse_not_qualifying_parent",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
