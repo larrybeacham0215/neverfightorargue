@@ -12,7 +12,7 @@
 // Deploy: supabase functions deploy event-bundle-webhook --no-verify-jwt
 // =====================================================================
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { bundleEmail } from "./email.ts";
+import { bundleEmail, SUBJECT } from "./email.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -71,7 +71,12 @@ Deno.serve(async (req) => {
     const tag = s.metadata.test_run ? "[TEST] " : "";
     await sendEmail(NOTIFY_EMAIL, `${tag}[EVENT BUNDLE] ${bundles} bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books), $${((s.amount_total ?? 0) / 100).toFixed(2)}, ${name || email}`,
       `<p><b>${name || email}</b> bought ${bundles} Event Bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books). Sign to: ${fields.inscription || "(none)"}.</p>`);
-    if (email) await sendEmail(email, `${tag}Your Event Bundle: pickup QR and Companion Guide`, bundleEmail({ name, bundles, books: bundles * 2, inscription: fields.inscription ?? "", ticketUrl, guideUrl }));
+    if (email) {
+      // Unsubscribe link only exists for newsletter subscribers (subscribers.unsubscribe_token).
+      const { data: sub } = await db.from("subscribers").select("unsubscribe_token").eq("email", email).is("unsubscribed_at", null).maybeSingle();
+      const unsubUrl = sub?.unsubscribe_token ? `${SITE_URL}/unsubscribe/?t=${sub.unsubscribe_token}` : null;
+      await sendEmail(email, `${tag}${SUBJECT}`, bundleEmail({ name, bundles, books: bundles * 2, inscription: fields.inscription ?? "", ticketUrl, guideUrl, unsubUrl }));
+    }
     return ok({ ok: true, bundles });
   }
 
