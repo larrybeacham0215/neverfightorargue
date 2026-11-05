@@ -2,8 +2,8 @@
 
 Marketing site for **Never Fight or Argue Again** by Larry & Rolanda Beacham.
 
-**Start here: [GO-LIVE-NOW.md](GO-LIVE-NOW.md)** — the 35 minutes that put the site on the internet.
-**Then: [LAUNCH-GUIDE.md](LAUNCH-GUIDE.md)** — connecting Supabase and Brevo so the forms work.
+**Start here: [GO-LIVE-NOW.md](_docs/GO-LIVE-NOW.md)** — the 35 minutes that put the site on the internet.
+**Then: [LAUNCH-GUIDE.md](_docs/LAUNCH-GUIDE.md)** — connecting Supabase and Brevo so the forms work.
 
 ## Stack
 
@@ -40,3 +40,6 @@ Supabase secrets and never appear in this repo.
 ## Editing
 
 Open a file → pencil icon → change → **Commit changes**. Live in about a minute.
+
+## Internal docs
+Project notes live in `_docs/` (PROJECT-HANDOFF, SYSTEM-STATUS, LAUNCH-GUIDE, GO-LIVE-NOW, GODADDY-DNS, GODADDY-EMAIL-DNS, THE-EMAILS, UPLOAD-HELP). GitHub Pages never publishes folders that start with `_`, and `_config.yml` also excludes this README, the build scripts, `copy/`, `src/` and `supabase/` from the site.

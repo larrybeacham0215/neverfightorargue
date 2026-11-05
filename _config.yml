@@ -1,0 +1,13 @@
+# GitHub Pages (Jekyll) build settings.
+# Folders starting with "_" (like _docs/) are never published.
+# Everything below is repo-only and must not be served on the site.
+exclude:
+  - README.md
+  - _docs
+  - build.py
+  - og.py
+  - pages.json
+  - copy
+  - src
+  - supabase
+  - chapters/PUT-YOUR-PDF-HERE.txt

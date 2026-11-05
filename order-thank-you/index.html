@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Thank you for your order | Never Fight or Argue Again</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;600&family=Playfair+Display:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F3EA;color:#16261C;font:400 1.05rem/1.65 Karla,system-ui,sans-serif}
+main{max-width:34rem;margin:0 auto;padding:clamp(2.5rem,8vw,5rem) 1.25rem;text-align:center}
+.k{font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#8A6330;margin:0 0 1rem}
+h1{font:600 clamp(2rem,6vw,2.75rem)/1.15 'Playfair Display',Georgia,serif;color:#0D2D1D;margin:0 0 1.25rem}
+h1 em{font-style:italic;font-weight:500;color:#8A6330}
+img{width:min(220px,60%);height:auto;margin:0 auto 1.5rem;display:block}
+.btn{display:inline-block;margin:.5rem .35rem 0;padding:.8rem 1.4rem;border:2px solid #0D2D1D;color:#0D2D1D;text-decoration:none;font-weight:600}
+.btn--fill{background:#0D2D1D;color:#F7F3EA}
+</style>
+</head>
+<body>
+<main>
+  <p class="k">Never Fight or Argue Again</p>
+  <img src="/assets/book-3d.png" alt="Never Fight or Argue Again book">
+  <h1>Thank you. <em>Your order is in.</em></h1>
+  <p>Larry and Ro will sign your copy by hand and ship it to the address you gave. We will email you a confirmation, and Stripe will send your receipt separately.</p>
+  <!-- ============ UPSELL SLOT (pending) ============
+       One-time upsell offer goes here once Larry approves the offer, price and link.
+       Keep it hidden until then. Shown on /order-thank-you/ only. -->
+  <section id="upsell-slot" data-pending="one-time-upsell" hidden></section>
+  <!-- ============ /UPSELL SLOT ============ -->
+  <p>Questions? Just reply to the confirmation email.</p>
+  <p><a class="btn btn--fill" href="/downloads">Get the free companion PDFs</a><a class="btn" href="/">Back to home</a></p>
+</main>
+</body>
+</html>

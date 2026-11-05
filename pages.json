@@ -1,0 +1,149 @@
+{
+ "/": {
+  "view": "home",
+  "title": "Never Fight or Argue Again | Larry &amp; Rolanda Beacham",
+  "desc": "Biblical conflict resolution for couples who have tried everything. Read Chapter One free and download the companion plans.",
+  "og": "home",
+  "index": true
+ },
+ "/book/": {
+  "view": "book",
+  "title": "The Book: Never Fight or Argue Again | Signed Copies",
+  "desc": "Order a signed copy of Never Fight or Argue Again by Larry and Ro Beacham. $20 plus $8 shipping, with an optional inscription or gift note.",
+  "og": "book",
+  "index": true
+ },
+ "/churches/": {
+  "view": "churches",
+  "title": "Marriage Curriculum for Churches | Never Fight or Argue Again",
+  "desc": "Signed copies in bulk and free leader resources for churches and small groups. A biblical conflict plan couples will actually use.",
+  "og": "churches",
+  "index": true
+ },
+ "/speaking/": {
+  "view": "speaking",
+  "title": "Book Larry &amp; Ro Beacham to Speak | Never Fight or Argue Again",
+  "desc": "Invite Larry and Ro Beacham for a Sunday message, marriage retreat or small-group series on biblical conflict resolution for couples.",
+  "og": "speaking",
+  "index": true
+ },
+ "/about/": {
+  "view": "about",
+  "title": "About Larry &amp; Ro Beacham | Never Fight or Argue Again",
+  "desc": "Meet Larry and Rolanda Beacham of Odessa, Florida, married 30 years, parents of six, and authors of Never Fight or Argue Again.",
+  "og": "about",
+  "index": true
+ },
+ "/free-chapter/": {
+  "view": "chapters",
+  "title": "Read Chapter One Free | Never Fight or Argue Again",
+  "desc": "Chapter One, free: the case against fighting fair, and the two plans that replace it.",
+  "og": "chapter",
+  "index": true
+ },
+ "/gift/": {
+  "view": "gift",
+  "title": "Gift a Signed Copy | Never Fight or Argue Again",
+  "desc": "Send a signed copy of Never Fight or Argue Again to a couple you love.",
+  "og": "book",
+  "index": false
+ },
+ "/book-launch/": {
+  "view": "launch",
+  "title": "Book Launch (past event) | Never Fight or Argue Again",
+  "desc": "The book launch has passed. Thank you for celebrating with us.",
+  "og": "home",
+  "index": false
+ },
+ "/registered/": {
+  "view": "registered",
+  "title": "Book Launch (past event) | Never Fight or Argue Again",
+  "desc": "The book launch has passed.",
+  "og": "home",
+  "index": false
+ },
+ "/pre-order/": {
+  "view": "preorder-promo",
+  "title": "Pre-orders closed | Never Fight or Argue Again",
+  "desc": "Launch pre-orders are closed. The book is available now.",
+  "og": "book",
+  "index": false
+ },
+ "/preorder-thank-you/": {
+  "view": "preorder-thanks",
+  "title": "Pre-orders closed | Never Fight or Argue Again",
+  "desc": "Launch pre-orders are closed.",
+  "og": "book",
+  "index": false
+ },
+ "/sponsor/": {
+  "view": "sponsor",
+  "title": "Launch sponsorship (closed) | Never Fight or Argue Again",
+  "desc": "Launch sponsorships are closed. Thank you to our sponsors.",
+  "og": "home",
+  "index": false
+ },
+ "/gift-thank-you/": {
+  "view": "gift-thanks",
+  "title": "Thank you for your gift | Never Fight or Argue Again",
+  "desc": "Thank you for your gift.",
+  "og": "book",
+  "index": false
+ },
+ "/thank-you/": {
+  "view": "thanks",
+  "title": "Thank you | Never Fight or Argue Again",
+  "desc": "Your free chapter is on its way.",
+  "og": "chapter",
+  "index": false
+ },
+ "/sponsor-thank-you/": {
+  "view": "sponsor-thanks",
+  "title": "Thank you | Never Fight or Argue Again",
+  "desc": "Thank you.",
+  "og": "home",
+  "index": false
+ },
+ "/sponsor-paid/": {
+  "view": "sponsor-paid",
+  "title": "Sponsorship confirmed | Never Fight or Argue Again",
+  "desc": "Sponsorship confirmed.",
+  "og": "home",
+  "index": false
+ },
+ "/invoice/": {
+  "view": "invoice",
+  "title": "Sponsorship invoicing (internal)",
+  "desc": "Internal.",
+  "og": "home",
+  "index": false
+ },
+ "/pickup/": {
+  "view": "pass",
+  "title": "Pickup pass | Never Fight or Argue Again",
+  "desc": "Pickup pass.",
+  "og": "home",
+  "index": false
+ },
+ "/express/": {
+  "view": "express",
+  "title": "Express table (staff)",
+  "desc": "Staff only.",
+  "og": "home",
+  "index": false
+ },
+ "/guests/": {
+  "view": "guests",
+  "title": "Guest list | Never Fight or Argue Again",
+  "desc": "Guest list.",
+  "og": "home",
+  "index": false
+ },
+ "/readers/": {
+  "view": "readers",
+  "title": "Chapter One readers (admin)",
+  "desc": "Admin.",
+  "og": "home",
+  "index": false
+ }
+}
