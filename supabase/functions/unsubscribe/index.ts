@@ -53,6 +53,8 @@ Deno.serve(async (req) => {
   }
 
   const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
+
+  // Newsletter list
   const { data, error } = await db
     .from("subscribers")
     .update({ unsubscribed_at: new Date().toISOString() })
@@ -60,9 +62,21 @@ Deno.serve(async (req) => {
     .select("email")
     .maybeSingle();
 
-  if (error || !data) {
-    return new Response(JSON.stringify({ ok: false, reason: "not-found" }), { status: 404, headers });
+  // Companion Guide follow-up sequence (own unsub token per entitlement)
+  const { data: seq } = await db
+    .from("guide_sequence_state")
+    .update({ stopped_at: new Date().toISOString(), stop_reason: "unsubscribe" })
+    .eq("unsub_token", token)
+    .is("stopped_at", null)
+    .select("email_lower, entitlement_id")
+    .maybeSingle();
+  if (seq?.entitlement_id) {
+    await db.from("guide_email_queue").update({ status: "stopped", skip_reason: "unsubscribe" }).eq("entitlement_id", seq.entitlement_id).eq("status", "pending");
   }
 
-  return new Response(JSON.stringify({ ok: true, email: data.email }), { headers });
+  if ((!error && data) || seq) {
+    return new Response(JSON.stringify({ ok: true, email: data?.email ?? seq?.email_lower ?? null, guide_sequence: !!seq }), { headers });
+  }
+
+  return new Response(JSON.stringify({ ok: false, reason: "not-found" }), { status: 404, headers });
 });

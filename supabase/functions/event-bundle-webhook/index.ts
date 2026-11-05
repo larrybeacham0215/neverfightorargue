@@ -68,7 +68,14 @@ Deno.serve(async (req) => {
       payment_intent: s.payment_intent ?? null, test_run: s.metadata.test_run ?? null,
     }, { onConflict: "stripe_session" }).select("id, pickup_token").single();
     if (error || !row) { console.error("save failed", error); return new Response("save failed", { status: 500 }); }
-    if (email) await db.from("entitlements").upsert({ email_lower: email, product: PRODUCT, stripe_session: s.id, preorder_id: row.id, granted_at: new Date().toISOString(), revoked_at: null, revoke_reason: null }, { onConflict: "email_lower,product" });
+    let entitlementId: string | null = null;
+    if (email) {
+      const { data: ent } = await db.from("entitlements").upsert({ email_lower: email, product: PRODUCT, stripe_session: s.id, preorder_id: row.id, granted_at: new Date().toISOString(), revoked_at: null, revoke_reason: null }, { onConflict: "email_lower,product" }).select("id").single();
+      entitlementId = ent?.id ?? null;
+      // Enroll Companion Guide follow-ups (13 steps). Safe while GUIDE_SEQUENCE_ON is off:
+      // only test_run rows can send until Larry flips the flag.
+      if (entitlementId) await db.rpc("enroll_guide_sequence", { p_entitlement_id: entitlementId });
+    }
     const ticketUrl = `${SITE_URL}/pickup/?t=${row.pickup_token}`, guideUrl = `${SITE_URL}/guide/?t=${row.pickup_token}`;
     const tag = s.metadata.test_run ? "[TEST] " : "";
     await sendEmail(NOTIFY_EMAIL, `${tag}[EVENT BUNDLE] ${bundles} bundle${bundles === 1 ? "" : "s"} (${bundles * 2} books), $${((s.amount_total ?? 0) / 100).toFixed(2)}, ${name || email}`,
@@ -88,7 +95,13 @@ Deno.serve(async (req) => {
     if (row?.email) {
       // Keep access if the same email still has another paid bundle order.
       const { count } = await db.from("preorders").select("id", { count: "exact", head: true }).eq("email", row.email).eq("product", "event_bundle").eq("status", "paid");
-      if (!count) await db.from("entitlements").update({ revoked_at: new Date().toISOString(), revoke_reason: "refund" }).eq("email_lower", row.email.toLowerCase()).eq("product", PRODUCT);
+      if (!count) {
+        const { data: ents } = await db.from("entitlements").update({ revoked_at: new Date().toISOString(), revoke_reason: "refund" }).eq("email_lower", row.email.toLowerCase()).eq("product", PRODUCT).select("id");
+        for (const ent of ents ?? []) {
+          await db.from("guide_sequence_state").update({ stopped_at: new Date().toISOString(), stop_reason: "refund" }).eq("entitlement_id", ent.id).is("stopped_at", null);
+          await db.from("guide_email_queue").update({ status: "stopped", skip_reason: "refund" }).eq("entitlement_id", ent.id).eq("status", "pending");
+        }
+      }
     }
     return ok({ ok: true, refunded: !!row });
   }
