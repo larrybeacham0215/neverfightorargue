@@ -20,7 +20,7 @@ const EVENT_START = "2026-11-06T00:00:00-05:00";
 const BOOK_CAP = 100, BUNDLE_CAP = 50;
 const EVENT_PRICE = "price_1UIqyGLCCdJWrOprR9a0889s"; // $20, same as launch night
 // Set after Larry creates the Stripe product. Until then, inline price_data at $50.
-const BUNDLE_PRICE = Deno.env.get("EVENT_BUNDLE_PRICE_ID") ?? "";
+const BUNDLE_PRICE = Deno.env.get("EVENT_BUNDLE_PRICE_ID") || "price_1UYSscLCCdJWrOprCWbRUsed"; // live $50 bundle (prod_VZc6QofyfriZbL)
 const BUNDLE_NAME = "Event Bundle: 2 Signed Books + Companion Guide";
 // Token-gated $1 test path: sha256 hex of a one-time token. Empty = disabled.
 const TEST_HASH = "";
@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
     "mode": "payment",
     "ui_mode": test ? "hosted" : "embedded",
     "submit_type": "pay",
-    "expires_at": String(Math.floor(Date.now() / 1000) + 30 * 60),
+    "expires_at": String(Math.floor(Date.now() / 1000) + (test ? 23 * 3600 : 30 * 60)),
     "metadata[project]": "nfoaa",
     "metadata[channel]": "event",
     "line_items[0][quantity]": String(q),

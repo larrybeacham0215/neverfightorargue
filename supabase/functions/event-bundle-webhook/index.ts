@@ -6,7 +6,8 @@
 //                                 entitlement "companion_guide", buyer email via Brevo
 //                                 from hello@, [EVENT BUNDLE] note to Larry.
 //   charge.refunded            -> preorders status=refunded, entitlement revoked.
-// Flag: EVENT_BUNDLE_WEBHOOK_ON must be "1" (default off: verifies, then ignores).
+// Flag: EVENT_BUNDLE_WEBHOOK_ON must be "1" (default off: verifies, then ignores),
+// except sessions with metadata test_run=event_bundle_test (the $1 token-gated test).
 // Go-live: the live stripe-webhook forwards kind=event_bundle and charge.refunded
 // here with the original signature (same pattern as book-order-webhook).
 // Deploy: supabase functions deploy event-bundle-webhook --no-verify-jwt
@@ -49,7 +50,7 @@ Deno.serve(async (req) => {
   const event = JSON.parse(payload);
   const obj = event.data?.object ?? {};
   if (obj.metadata?.kind !== "event_bundle") return ok({ ignored: "not event_bundle" });
-  if (!ON && !obj.metadata?.test_run) return ok({ ignored: "flag off" });
+  if (!ON && obj.metadata?.test_run !== "event_bundle_test") return ok({ ignored: "flag off" });
   const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
   if (event.type === "checkout.session.completed") {
