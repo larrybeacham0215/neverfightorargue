@@ -19,7 +19,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
+let STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET") ?? "";
 const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "hello@neverfightorargue.com";
@@ -62,7 +62,18 @@ const esc = (v: unknown) => String(v ?? "").replace(/&/g, "&amp;").replace(/</g,
 const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
+// Restricted rk_live in Edge secrets cannot expand PaymentIntents or detach payment methods
+// (needs charge_read/dispute_read + payment_method_read/write). Prefer Vault nfoa_stripe_secret
+// (existing full sk_live) when present — same account, no new Stripe key.
+async function ensureStripeKey() {
+  if (STRIPE_KEY.startsWith("sk_")) return STRIPE_KEY;
+  const { data } = await db.rpc("nfoa_stripe_secret");
+  if (typeof data === "string" && data.startsWith("sk_")) STRIPE_KEY = data;
+  return STRIPE_KEY;
+}
+
 async function stripe(path: string, params?: Record<string, string>, idem?: string) {
+  await ensureStripeKey();
   const headers: Record<string, string> = { Authorization: `Bearer ${STRIPE_KEY}` };
   if (params) headers["Content-Type"] = "application/x-www-form-urlencoded";
   if (idem) headers["Idempotency-Key"] = idem;
@@ -136,34 +147,6 @@ async function checkZip(order: any, s: any, given: unknown) {
   return "bad";
 }
 
-// Companion Guide link for a paid order: personal /guide/?t=<claim_token> when the buyer has an active
-// companion_guide entitlement, else /members/. Only returned with the paid session id (Stripe random id)
-// within 24 hours of checkout, or later with the matching shipping ZIP.
-async function guideUrlFor(order: any) {
-  if (!order?.email) return `${SITE_URL}/members/`;
-  const { data: ent } = await db.from("entitlements").select("claim_token").eq("email_lower", String(order.email).toLowerCase()).eq("product", "companion_guide").is("revoked_at", null).maybeSingle();
-  return ent?.claim_token ? `${SITE_URL}/guide/?t=${ent.claim_token}` : `${SITE_URL}/members/`;
-}
-
-// Short note to the buyer whenever a thank-you page add-on is paid, so the order email stays complete.
-async function notifyBuyer(order: any, row: any, isTest: boolean) {
-  if (!order?.email) return;
-  let testTag = isTest;
-  if (!testTag && order.stripe_session) { const r = await stripe(`checkout/sessions/${encodeURIComponent(order.stripe_session)}`); testTag = r.ok && r.body?.metadata?.test === "1"; }
-  const what = row.offer === "gift_copy" ? `${row.quantity} extra signed gift cop${row.quantity === 1 ? "y" : "ies"}` : "the printed, laminated companion set";
-  const names = (row.inscriptions ?? []).filter(Boolean);
-  const guideUrl = await guideUrlFor(order);
-  await sendEmail(order.email, `${testTag ? "[TEST] " : ""}Added to your order ${order.order_no}`,
-    `<div style="background:#F7F3EA;padding:32px 16px;font-family:Georgia,'Times New Roman',serif;color:#16261C;"><div style="max-width:560px;margin:0 auto;background:#fff;border:1px solid #E4DCCB;padding:32px;">
-      <p style="margin:0 0 22px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8A6330;">Never Fight or Argue Again</p>
-      <div style="font-size:16px;line-height:1.6;">
-      <p style="margin:0 0 18px;">Hi ${order.name ? esc(String(order.name).split(" ")[0]) + "," : "there,"}</p>
-      <p style="margin:0 0 18px;">Good news: we added <b>${esc(what)}</b> (${money(row.amount_cents)}) to order <b>${esc(order.order_no)}</b>. It ships in the same box as your book, with no extra shipping.${names.length ? ` We will sign ${names.length === 1 ? "it" : "them"} to ${names.map((n: string) => `<i>${esc(n)}</i>`).join(", ")}.` : ""}</p>
-      <p style="margin:0 0 18px;">Your Companion Guide is ready whenever you are: <a href="${guideUrl}">open my Companion Guide</a>. Sign in later at <a href="${SITE_URL}/members/">${SITE_URL.replace(/^https?:\/\//, "")}/members/</a>, where <b>Forgot password</b> sends a reset link.</p>
-      <p style="margin:0 0 18px;">Stripe sends a separate receipt for this charge. Just reply to this email if anything needs fixing.</p>
-      <p style="margin:0;">Larry &amp; Ro</p></div></div></div>`);
-}
-
 async function notifyLarry(order: any, row: any, isTest: boolean) {
   const o = OFFERS[row.offer];
   const what = row.offer === "gift_copy" ? `${row.quantity} extra signed cop${row.quantity === 1 ? "y" : "ies"}` : "printed laminated companion set";
@@ -190,7 +173,6 @@ async function markPaid(order: any, rowId: string, fields: Record<string, unknow
   if (!flipped) return false;
   await db.rpc("apply_book_addons", { p_order: order.id });
   await notifyLarry(order, flipped, isTest);
-  try { await notifyBuyer(order, flipped, isTest); } catch (e) { console.error("buyer addon email", String(e)); }
   return true;
 }
 
@@ -227,8 +209,14 @@ async function sweepCards() {
   const problems: string[] = [];
   for (const o of rows ?? []) {
     if (!o.stripe_session) continue;
-    const r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
+    let r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
+    if (r.status === 401 || r.status === 403) r = await stripe(`checkout/sessions/${o.stripe_session}`);
     if (!r.ok) { out.lookup_failed = (out.lookup_failed ?? 0) + 1; problems.push(`${o.order_no}: Stripe lookup failed (${r.status})`); continue; }
+    // If expand was refused, payment_intent is an id string — fetch it so detachCard can see the PM.
+    if (r.body?.payment_intent && typeof r.body.payment_intent === "string") {
+      const pi = await stripe(`payment_intents/${r.body.payment_intent}`);
+      if (pi.ok) r = { ...r, body: { ...r.body, payment_intent: pi.body } };
+    }
     const k = await detachCard(o, r.body);
     out[k] = (out[k] ?? 0) + 1;
     if (k === "failed") problems.push(`${o.order_no}: card detach failed`);
@@ -278,13 +266,17 @@ async function reconcileOrphans(now: number, out: Record<string, number>, proble
 }
 
 async function sweepAlert(problems: string[]) {
-  // At most one alert email per 6 hours unless a new orphan order appears.
-  const urgent = problems.some((p) => p.startsWith("PAID"));
-  if (!urgent && await seenOnce("sweep-alert", "card-sweep", 6 * 3600 * 1000)) return;
-  console.error("card sweep problems", problems.length);
+  // At most one alert email per distinct order/orphan (30 days). Retries stay quiet after the first notice.
+  const fresh: string[] = [];
+  for (const p of problems) {
+    const key = (p.startsWith("PAID") ? p.slice(0, 120) : (p.split(":")[0] || p)).slice(0, 80);
+    if (!(await seenOnce("sweep-alert", key, 30 * 86400 * 1000))) fresh.push(p);
+  }
+  if (!fresh.length) return;
+  console.error("card sweep problems", fresh.length);
   await sendEmail(NOTIFY_EMAIL, "[ALERT] Book card sweep needs a look",
-    `<p>The saved-card cleanup found problems:</p><ul>${problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-     <p style="color:#5C6B60">A saved card that is not removed stays on the Stripe customer until it is detached. Failed lookups retry every 10 minutes for 7 days.</p>`);
+    `<p>The saved-card cleanup found problems:</p><ul>${fresh.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
+     <p style="color:#5C6B60">A saved card that is not removed stays on the Stripe customer until it is detached. Failed lookups still retry every 10 minutes for 7 days, but this alert is sent once per order.</p>`);
 }
 
 async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean, keepOpen = false) {
@@ -358,6 +350,7 @@ Deno.serve(async (req) => {
   if (req.method === "POST" && req.headers.get("x-nfoa-sweep")) {
     const sec = await sweepSecret();
     if (!sec || !safeEqual(req.headers.get("x-nfoa-sweep") ?? "", sec)) return json({ error: "Not allowed" }, 403);
+    await ensureStripeKey();
     return json({ ok: true, swept: await sweepCards() });
   }
   const signed = req.method === "POST" && !!req.headers.get("stripe-signature");
@@ -389,7 +382,6 @@ Deno.serve(async (req) => {
       gift_copies: order?.gift_copies ?? 0, companion_set: !!order?.companion_set,
       offers: { gift_copy: state("gift_copy"), companion_set: state("companion_set") },
       closes_at: Number(s.created) + WINDOW_SEC,
-      guide_url: order && s.payment_status === "paid" && (zipOk || Date.now() / 1000 - Number(s.created) <= 86400) ? await guideUrlFor(order) : null,
     });
   }
   if (req.method !== "POST") return json({ error: "method" }, 405);
