@@ -19,7 +19,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
+let STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const WEBHOOK_SECRET = Deno.env.get("STRIPE_WEBHOOK_SECRET") ?? "";
 const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const FROM_EMAIL = Deno.env.get("FROM_EMAIL") ?? "hello@neverfightorargue.com";
@@ -62,7 +62,18 @@ const esc = (v: unknown) => String(v ?? "").replace(/&/g, "&amp;").replace(/</g,
 const money = (c: number) => `$${(c / 100).toFixed(2)}`;
 const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: false } });
 
+// Restricted rk_live in Edge secrets cannot expand PaymentIntents or detach payment methods
+// (needs charge_read/dispute_read + payment_method_read/write). Prefer Vault nfoa_stripe_secret
+// (existing full sk_live) when present — same account, no new Stripe key.
+async function ensureStripeKey() {
+  if (STRIPE_KEY.startsWith("sk_")) return STRIPE_KEY;
+  const { data } = await db.rpc("nfoa_stripe_secret");
+  if (typeof data === "string" && data.startsWith("sk_")) STRIPE_KEY = data;
+  return STRIPE_KEY;
+}
+
 async function stripe(path: string, params?: Record<string, string>, idem?: string) {
+  await ensureStripeKey();
   const headers: Record<string, string> = { Authorization: `Bearer ${STRIPE_KEY}` };
   if (params) headers["Content-Type"] = "application/x-www-form-urlencoded";
   if (idem) headers["Idempotency-Key"] = idem;
@@ -198,8 +209,14 @@ async function sweepCards() {
   const problems: string[] = [];
   for (const o of rows ?? []) {
     if (!o.stripe_session) continue;
-    const r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
+    let r = await stripe(`checkout/sessions/${o.stripe_session}?expand[]=payment_intent`);
+    if (r.status === 401 || r.status === 403) r = await stripe(`checkout/sessions/${o.stripe_session}`);
     if (!r.ok) { out.lookup_failed = (out.lookup_failed ?? 0) + 1; problems.push(`${o.order_no}: Stripe lookup failed (${r.status})`); continue; }
+    // If expand was refused, payment_intent is an id string — fetch it so detachCard can see the PM.
+    if (r.body?.payment_intent && typeof r.body.payment_intent === "string") {
+      const pi = await stripe(`payment_intents/${r.body.payment_intent}`);
+      if (pi.ok) r = { ...r, body: { ...r.body, payment_intent: pi.body } };
+    }
     const k = await detachCard(o, r.body);
     out[k] = (out[k] ?? 0) + 1;
     if (k === "failed") problems.push(`${o.order_no}: card detach failed`);
@@ -249,13 +266,17 @@ async function reconcileOrphans(now: number, out: Record<string, number>, proble
 }
 
 async function sweepAlert(problems: string[]) {
-  // At most one alert email per 6 hours unless a new orphan order appears.
-  const urgent = problems.some((p) => p.startsWith("PAID"));
-  if (!urgent && await seenOnce("sweep-alert", "card-sweep", 6 * 3600 * 1000)) return;
-  console.error("card sweep problems", problems.length);
+  // At most one alert email per distinct order/orphan (30 days). Retries stay quiet after the first notice.
+  const fresh: string[] = [];
+  for (const p of problems) {
+    const key = (p.startsWith("PAID") ? p.slice(0, 120) : (p.split(":")[0] || p)).slice(0, 80);
+    if (!(await seenOnce("sweep-alert", key, 30 * 86400 * 1000))) fresh.push(p);
+  }
+  if (!fresh.length) return;
+  console.error("card sweep problems", fresh.length);
   await sendEmail(NOTIFY_EMAIL, "[ALERT] Book card sweep needs a look",
-    `<p>The saved-card cleanup found problems:</p><ul>${problems.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-     <p style="color:#5C6B60">A saved card that is not removed stays on the Stripe customer until it is detached. Failed lookups retry every 10 minutes for 7 days.</p>`);
+    `<p>The saved-card cleanup found problems:</p><ul>${fresh.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
+     <p style="color:#5C6B60">A saved card that is not removed stays on the Stripe customer until it is detached. Failed lookups still retry every 10 minutes for 7 days, but this alert is sent once per order.</p>`);
 }
 
 async function fallbackCheckout(order: any, s: any, row: any, isTest: boolean, keepOpen = false) {
@@ -329,6 +350,7 @@ Deno.serve(async (req) => {
   if (req.method === "POST" && req.headers.get("x-nfoa-sweep")) {
     const sec = await sweepSecret();
     if (!sec || !safeEqual(req.headers.get("x-nfoa-sweep") ?? "", sec)) return json({ error: "Not allowed" }, 403);
+    await ensureStripeKey();
     return json({ ok: true, swept: await sweepCards() });
   }
   const signed = req.method === "POST" && !!req.headers.get("stripe-signature");
