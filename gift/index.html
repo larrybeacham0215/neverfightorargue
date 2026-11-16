@@ -2937,7 +2937,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Doors 5:30 pm</span></div>
           <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg><span>Grace Family Church, Land O Lakes Campus<br><small>22920 FL-54, Lutz, FL 33549</small></span></div>
         </div>
-        <p class="bl__links"><a data-gcal href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York">Add to calendar</a> &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Directions</a> &middot; <a href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Chapter One (free)</a></p>
+        <p class="bl__links"><a data-gcal href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Never%20Fight%20or%20Argue%20Again%20%E2%80%94%20live%20book%20launch&amp;dates=20261101T223000Z/20261102T003000Z&amp;details=The%20live%20launch%20of%20Never%20Fight%20or%20Argue%20Again%20by%20Larry%20%26%20Rolanda%20Beacham.%0A%0ADoors%205%3A30pm.%20Free%20to%20attend.%0A%0Ahttps%3A//neverfightorargue.com/book-launch/&amp;location=Grace%20Family%20Church%2C%2022920%20FL-54%2C%20Lutz%2C%20FL%2033549&amp;ctz=America/New_York">Add to calendar</a> &middot; <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Grace+Family+Church%2C+22920+FL-54%2C+Lutz%2C+FL+33549" target="_blank" rel="noopener">Directions</a> &middot; <a href="/#free">Chapter One (free)</a></p>
         <p class="presby presby--reg"><span>Presented by</span> <b>Replace Your University</b></p>
         <span class="bl__orn" aria-hidden="true"></span>
         <p class="bl__close">We can&rsquo;t wait to celebrate with you.</p>
@@ -3481,7 +3481,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="lede lede--light" style="max-width:34rem">Your pre-order is in and a confirmation is on its way to your inbox. On November 1st: give your name at the door, take your reserved seat, and show your pickup pass at the express table for your signed copy and the laminated Frameworks Bundle &mdash; no line.</p>
         <p style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.75rem">
           <a class="btn" href="/book/" data-tab="book">Order a signed copy</a>
-          <a class="btn btn--outline" href="/assets/never-fight-or-argue-again-chapter-1.pdf?v=2" download>Read Chapter One now</a>
+          <a class="btn btn--outline" href="/#free">Read Chapter One now</a>
         </p>
       </div>
       <aside class="pass" id="passThanks" data-pass>
@@ -4694,10 +4694,26 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     if (history.replaceState) history.replaceState({ view: h }, '', PATHS[h]);
     return h;
   }
+  function isChapterCaptureHash() {
+    return (location.hash || '') === '#free';
+  }
+
+  function goToChapterCapture() {
+    var hero = document.getElementById('free');
+    if (!hero) return;
+    var home = document.getElementById('view-home');
+    if (home && home.hidden) showView('home', { keepScroll: true });
+    hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var email = document.getElementById('f1e');
+    if (email) setTimeout(function () { email.focus(); }, 400);
+    closeMobileNav();
+  }
+
   upgradeHash();
   window.addEventListener('hashchange', function () {
     var h = upgradeHash();
     if (h) showView(h);
+    else if (isChapterCaptureHash()) goToChapterCapture();
   });
 
   document.addEventListener('click', function (ev) {
@@ -4707,6 +4723,18 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
     // In-page anchor: smooth scroll, no routing.
     var hrefA = a.getAttribute('href') || '';
+    if (hrefA === '#free' || hrefA === '/#free') {
+      ev.preventDefault();
+      if (window.history && history.pushState) {
+        if (location.pathname + location.hash !== '/#free') {
+          history.pushState({ view: 'home' }, '', '/#free');
+        }
+      } else {
+        location.hash = 'free';
+      }
+      goToChapterCapture();
+      return;
+    }
     if (hrefA.charAt(0) === '#' && hrefA.length > 1 && document.getElementById(hrefA.slice(1))) {
       ev.preventDefault();
       document.getElementById(hrefA.slice(1)).scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -5545,6 +5573,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
   /* ---------------- boot ---------------- */
   showView(viewFromLocation(), { keepScroll: true });
+  if (isChapterCaptureHash()) goToChapterCapture();
 })();
 
 </script>
