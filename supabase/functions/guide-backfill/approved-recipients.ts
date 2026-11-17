@@ -331,6 +331,11 @@ export const APPROVED_RECIPIENTS: ApprovedRecipient[] = [
     "email": "willmore2007@gmail.com",
     "name": "",
     "source": "preorder"
+  },
+  {
+    "email": "markawillmore@gmail.com",
+    "name": "Mark Willmore",
+    "source": "spouse_of_past_buyer"
   }
 ];
 export const APPROVED_EMAILS = new Set(APPROVED_RECIPIENTS.map((r) => r.email.toLowerCase()));
