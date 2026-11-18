@@ -1,4 +1,4 @@
-// book-order-webhook: Never Fight or Argue Again, shipped signed-copy orders.
+// book-order-webhook: Never Fight or Argue Again, shipped book orders. (Nov 18, 2026: copies are no longer signed.)
 // Stripe's existing endpoint posts checkout.session.completed to stripe-webhook, which forwards
 // sessions with metadata.kind = "book_order" here with the original body and Stripe-Signature header.
 // This function verifies the signature again (STRIPE_WEBHOOK_SECRET), then:
@@ -82,7 +82,7 @@ function buyerEmailHtml(o: { name: string; lines: string[]; amount: number; ship
           <tr><td style="padding:3px 18px 3px 0;">Shipping${o.books ? ` (${o.books} book${o.books === 1 ? "" : "s"})` : ""}</td><td align="right" style="padding:3px 0;">${o.money(o.shipCents)}</td></tr>
           <tr><td style="padding:6px 18px 3px 0;border-top:1px solid #E4DCCB;"><b>Total paid</b></td><td align="right" style="padding:6px 0 3px;border-top:1px solid #E4DCCB;"><b>${o.money(o.amount)}</b></td></tr>
         </table>
-        <p style="margin:0 0 18px;">We sign every copy by hand, then ship it to:<br>${o.addr}</p>
+        <p style="margin:0 0 18px;">We will ship it to:<br>${o.addr}</p>
         ${guideSectionHtml(o.guideUrl, SITE_URL)}
         <p style="margin:0 0 18px;">Your order number is <b>${esc(o.orderNo)}</b>. Stripe sends your payment receipt in a separate email. Just reply to this email if anything needs fixing.</p>
         <p style="margin:0;">Larry &amp; Ro</p>`);
@@ -97,8 +97,8 @@ async function previewFor(sessionId: string) {
   const { data: ent } = await db.from("entitlements").select("claim_token").eq("email_lower", o.email).eq("product", GUIDE_PRODUCT).is("revoked_at", null).maybeSingle();
   const money = (c: number) => `$${(c / 100).toFixed(2)}`;
   const cop = `cop${o.quantity === 1 ? "y" : "ies"}`;
-  const lines = [`${o.quantity} signed ${cop} of <i>Never Fight or Argue Again</i>${o.inscription ? `, signed to <i>${esc(o.inscription)}</i>` : ""}`];
-  for (const x of adds ?? []) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra signed gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
+  const lines = [`${o.quantity} ${cop} of <i>Never Fight or Argue Again</i>`];
+  for (const x of adds ?? []) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
   lines.push("Free access to the 12 week interactive Companion Guide");
   const addr = [o.ship_name, o.ship_line1, o.ship_line2, [o.ship_city, o.ship_state, o.ship_postal_code].filter(Boolean).join(", "), o.ship_country].filter(Boolean).map(esc).join("<br>");
   // book_orders.amount_cents already includes shipping (Stripe amount_total minus Checkout add-ons), so do not add shipping_cents again.
@@ -116,7 +116,7 @@ Deno.serve(async (req) => {
     const p = await previewFor(String(b.preview_session ?? ""));
     if (!p) return new Response(JSON.stringify({ error: "not found" }), { status: 404 });
     let sent = false;
-    if (b.send_to_larry) sent = await sendEmail("larrybeacham@gmail.com", "[TEST] Your signed copy is on the way soon", p.html);
+    if (b.send_to_larry) sent = await sendEmail("larrybeacham@gmail.com", "[TEST] Your book is on the way soon", p.html);
     return new Response(JSON.stringify({ ok: true, sent, html: p.html }), { status: 200, headers: { "content-type": "application/json" } });
   }
   if (req.method !== "POST") return new Response("ok", { status: 200 });
@@ -272,14 +272,13 @@ Deno.serve(async (req) => {
   // 3) notice to Larry
   const addr = [ship.name ?? name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(", "), a.country].filter(Boolean).map(esc).join("<br>");
   const cop = `cop${quantity === 1 ? "y" : "ies"}`;
-  await sendEmail(NOTIFY_EMAIL, `${testOrder ? "[TEST] " : ""}[SHIP] ${quantity} signed ${cop}, ${name || email}, order ${order.order_no}`,
+  await sendEmail(NOTIFY_EMAIL, `${testOrder ? "[TEST] " : ""}[SHIP] ${quantity} ${cop}, ${name || email}, order ${order.order_no}`,
     `<p><b>New book order to ship.</b></p>
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
        <tr><td><b>Copies</b></td><td>${quantity}${addonText ? ` plus ${esc(addonText)}` : ""} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
        <tr><td><b>Shipping</b></td><td>${money(shipCents)} for ${quantity} book${quantity === 1 ? "" : "s"}${shipCents !== shipRule(quantity) ? ` <b style="color:#b3261e">(expected ${money(shipRule(quantity))}, please check)</b>` : ""}</td></tr>
        <tr><td><b>Add-ons</b></td><td>${addonText ? esc(addonText) : "(none)"}</td></tr>
-       <tr><td><b>Sign it to</b></td><td>${esc(fields.inscription || "(nothing requested)")}</td></tr>
        <tr><td><b>Gift note</b></td><td>${esc(fields.gift_note || "(none)")}</td></tr>
        <tr><td valign="top"><b>Ship to</b></td><td>${addr || "(no address)"}</td></tr>
        <tr><td><b>Buyer</b></td><td>${esc(name)}</td></tr>
@@ -292,10 +291,10 @@ Deno.serve(async (req) => {
 
   // 4) confirmation to the buyer (never in a harness test). Lists everything bought plus Companion Guide access.
   if (!isTest && email) {
-    const lines = [`${quantity} signed ${cop} of <i>Never Fight or Argue Again</i>${fields.inscription ? `, signed to <i>${esc(fields.inscription)}</i>` : ""}`];
-    for (const x of lineAddons) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra signed gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
+    const lines = [`${quantity} ${cop} of <i>Never Fight or Argue Again</i>`];
+    for (const x of lineAddons) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
     lines.push("Free access to the 12 week interactive Companion Guide");
-    await sendEmail(email, `${testOrder ? "[TEST] " : ""}Your signed copy is on the way soon`, buyerEmailHtml({ name, lines, amount, shipCents, books: quantity, addr, orderNo: order.order_no, guideUrl, money }));
+    await sendEmail(email, `${testOrder ? "[TEST] " : ""}Your book is on the way soon`, buyerEmailHtml({ name, lines, amount, shipCents, books: quantity, addr, orderNo: order.order_no, guideUrl, money }));
   }
   return new Response(JSON.stringify({ ok: true, order_no: order.order_no, quantity, test: isTest }), { status: 200 });
 });

@@ -1,6 +1,6 @@
 // Ray Round 2 must-fix 1: detach the saved card after the 30 minute window (deployed Nov 2, 2026).
 // book-upsell: one-time add-ons on the order thank-you page (Larry, Nov 2, 2026).
-//   Offer 1 gift_copy:     extra signed copy in the same box, $15 each, 1 to 3, optional name per copy.
+//   Offer 1 gift_copy:     extra copy in the same box, $15 each, 1 to 3. (Nov 18, 2026: copies are no longer signed; names are not asked for.)
 //   Offer 2 companion_set: printed laminated companion set, $9.
 // Security: CORS limited to the site (+ localhost:8787 preview); 60 requests per IP per 10 minutes (the page polls).
 // Round 2: before the first charge the buyer confirms their shipping ZIP (5 wrong tries per order per 30 minutes locks it),
@@ -30,7 +30,7 @@ const TEST_TOKEN = ""; // __TEST_TOKEN__ (empty in production)
 const WINDOW_SEC = 30 * 60;
 
 const OFFERS: Record<string, { unit: number; max: number; name: string }> = {
-  gift_copy: { unit: 1500, max: 3, name: "Extra signed gift copy (same box)" },
+  gift_copy: { unit: 1500, max: 3, name: "Extra gift copy (same box)" },
   companion_set: { unit: 900, max: 1, name: "Printed laminated companion set" },
 };
 
@@ -149,7 +149,7 @@ async function checkZip(order: any, s: any, given: unknown) {
 
 async function notifyLarry(order: any, row: any, isTest: boolean) {
   const o = OFFERS[row.offer];
-  const what = row.offer === "gift_copy" ? `${row.quantity} extra signed cop${row.quantity === 1 ? "y" : "ies"}` : "printed laminated companion set";
+  const what = row.offer === "gift_copy" ? `${row.quantity} extra cop${row.quantity === 1 ? "y" : "ies"}` : "printed laminated companion set";
   const names = (row.inscriptions ?? []).filter(Boolean);
   const { data: fresh } = await db.from("book_orders").select("quantity, gift_copies, companion_set, inscription").eq("id", order.id).single();
   const total = (fresh?.quantity ?? order.quantity) + (fresh?.gift_copies ?? 0);
@@ -158,9 +158,7 @@ async function notifyLarry(order: any, row: any, isTest: boolean) {
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)} (${esc(order.name || order.email)})</td></tr>
        <tr><td><b>Add-on</b></td><td>${esc(o.name)} x ${row.quantity}, ${money(row.amount_cents)} paid</td></tr>
-       ${row.offer === "gift_copy" ? `<tr><td><b>Sign the extra cop${row.quantity === 1 ? "y" : "ies"} to</b></td><td>${names.length ? names.map(esc).join("<br>") : "(no names given)"}</td></tr>` : ""}
-       <tr><td><b>Box now holds</b></td><td>${total} signed book${total === 1 ? "" : "s"}${fresh?.companion_set ? " + 1 laminated companion set" : ""}</td></tr>
-       <tr><td><b>Main copy signed to</b></td><td>${esc(fresh?.inscription || "(nothing requested)")}</td></tr>
+       <tr><td><b>Box now holds</b></td><td>${total} book${total === 1 ? "" : "s"}${fresh?.companion_set ? " + 1 laminated companion set" : ""}</td></tr>
        <tr><td><b>Stripe</b></td><td>${esc(row.stripe_payment_intent ?? row.stripe_session ?? "")}</td></tr>
      </table>
      <p style="color:#5C6B60">ship_queue in Supabase now shows gift_copies, gift_inscriptions and companion_set for this order.</p>`);

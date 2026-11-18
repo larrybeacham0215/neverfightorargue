@@ -57,8 +57,7 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     <h3>Your order</h3>
     <p style="margin:0 0 .75rem">Your order number is <b id="s-no">[order number]</b>.</p>
     <dl>
-      <dt>Signed copies</dt><dd id="s-qty">...</dd>
-      <dt id="s-ins-l" hidden>Signed to</dt><dd id="s-ins" hidden></dd>
+      <dt>Copies</dt><dd id="s-qty">...</dd>
       <dt id="s-to-l" hidden>Shipping to</dt><dd id="s-to" hidden></dd>
       <dt>Total paid</dt><dd id="s-total">...</dd>
     </dl>
@@ -73,19 +72,18 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     <p class="msg" id="zip-msg" hidden></p>
   </section>
 
-  <!-- Offer 1: extra signed gift copy, same box -->
+  <!-- Offer 1: extra gift copy, same box -->
   <section class="card offer" id="o1" hidden>
     <span class="tag">One time only</span>
-    <h2>Add a signed copy <em>for someone you love</em></h2>
-    <p>Know a couple who could use this book too? Add another signed copy to this order for $15, and it ships in the same box at no extra shipping cost. That is $12 less than ordering it on its own ($20 plus $7 shipping).</p>
-    <p>We will sign it for them, too. Just add their name below.</p>
+    <h2>Add a copy <em>for someone you love</em></h2>
+    <p>Know a couple who could use this book too? Add another copy to this order for $15, and it ships in the same box at no extra shipping cost. That is $12 less than ordering it on its own ($20 plus $7 shipping).</p>
     <p class="price">$15 <span style="font:400 1rem Karla,sans-serif;color:#5C6B60">per copy</span><s>$27</s></p>
-    <div class="qty" role="group" aria-label="How many extra signed copies">
+    <div class="qty" role="group" aria-label="How many extra copies">
       <button type="button" data-q="1" aria-pressed="true">1</button>
       <button type="button" data-q="2" aria-pressed="false">2</button>
       <button type="button" data-q="3" aria-pressed="false">3</button>
     </div>
-    <div id="o1-names"></div>
+    <div id="o1-names" hidden></div>
     <button class="btn" id="o1-add" type="button">Add to my order, $15</button>
     <p class="fine">Charged to the card you just used. One time only, no subscription.</p>
     <button class="no" type="button" data-skip="o1">No thanks, I am all set</button>
@@ -114,7 +112,6 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
   <section class="card">
     <h3>What happens next</h3>
     <ul style="margin:0;padding-left:1.1rem">
-      <li>We sign every copy ourselves. If you added a name for the inscription, we will sign it to them.</li>
       <li>Your book ships within [X business days] by [carrier].</li>
       <li>You will get an email with tracking when it ships [confirm this happens].</li>
       <li>Questions about your order? Reach us at [contact email].</li>
@@ -152,7 +149,7 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     box.innerHTML = "";
     for (var i = 0; i < qty; i++) {
       var l = document.createElement("label"); l.htmlFor = "n" + i;
-      l.textContent = qty === 1 ? "Name to sign it to (optional)" : "Name to sign copy " + (i + 1) + " to (optional)";
+      l.textContent = "Name for copy " + (i + 1) + " (optional)"; /* hidden since Nov 18: no signed copies */
       var inp = document.createElement("input"); inp.type = "text"; inp.id = "n" + i; inp.maxLength = 100; inp.autocomplete = "off"; inp.value = keep[i] || "";
       box.appendChild(l); box.appendChild(inp);
     }
@@ -186,11 +183,10 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
     if (d.guide_url || d.ready) { $("guide-go").href = guideUrl(); show($("guidebox"), true); }
     if (d.order_no) $("s-no").textContent = d.order_no;
     $("s-qty").textContent = d.quantity != null ? String(d.quantity + (d.gift_copies || 0)) : "...";
-    if (d.inscription) { $("s-ins").textContent = d.inscription; show($("s-ins"), true); show($("s-ins-l"), true); }
     if (d.ship_to) { $("s-to").textContent = d.ship_to; show($("s-to"), true); show($("s-to-l"), true); }
     if (d.total_cents != null) $("s-total").textContent = money(d.total_cents) + (d.shipping_cents ? " (includes " + money(d.shipping_cents) + " shipping)" : "");
     var adds = [];
-    if (d.gift_copies) adds.push(d.gift_copies + " extra signed gift cop" + (d.gift_copies === 1 ? "y" : "ies") + " added, same box");
+    if (d.gift_copies) adds.push(d.gift_copies + " extra gift cop" + (d.gift_copies === 1 ? "y" : "ies") + " added, same box");
     if (d.companion_set) adds.push("Printed laminated companion set added, same box");
     $("s-adds").innerHTML = ""; adds.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; $("s-adds").appendChild(li); });
     show($("s-adds"), adds.length > 0);
@@ -225,7 +221,7 @@ input[type=text]{width:100%;padding:.7rem;font:inherit;border:1px solid #CFC5B0;
           if (d.fallback_url) { btn.textContent = "Opening a secure page..."; location.href = d.fallback_url; return; }
           if (d.ok) {
             var sec = $(offer === "gift_copy" ? "o1" : "o2"); sec.dataset.done = "1"; show(sec, false);
-            $("s-msg").textContent = offer === "gift_copy" ? "Added. Your extra signed cop" + (qty === 1 ? "y" : "ies") + " will ship in the same box." : "Added. Your companion set will ship in the same box.";
+            $("s-msg").textContent = offer === "gift_copy" ? "Added. Your extra cop" + (qty === 1 ? "y" : "ies") + " will ship in the same box." : "Added. Your companion set will ship in the same box.";
             sessionStorage.setItem("nfoa_zip", zip); show($("zipbox"), false);
             show($("s-msg"), true); load(function () { nextOrGuide(2500); });
             return;

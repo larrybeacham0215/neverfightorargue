@@ -1,16 +1,16 @@
 // Ray Round 2: card-save disclosure (Larry chose "disclosed", Nov 2, 2026) plus optional_items.
-// book-checkout: Never Fight or Argue Again, signed copy shipped to the buyer.
+// book-checkout: Never Fight or Argue Again, paperback shipped to the buyer. (Nov 18, 2026: no longer signed; the inscription field is removed.)
 // POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
 // Round 2: a missing Origin is refused; rate-limit IP from cf-connecting-ip or the last proxy hop; fail-open is logged.
 // Security (Ray's review, Nov 2, 2026): CORS limited to the site (+ localhost:8787 preview), 10 sessions per IP per 10 minutes.
-// Collects: US shipping address, phone, quantity (1-20, chosen on /book/), name to sign to, gift note, email opt-in.
+// Collects: US shipping address, phone, quantity (1-20, chosen on /book/), gift note, email opt-in.
 // Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
 // The paid session is handled by stripe-webhook -> book-order-webhook (metadata.kind = book_order).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { shippingCents, shippingLabel } from "./shipping.ts";
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const UNIT = 2000; // $20 per signed copy (regular price)
+const UNIT = 2000; // $20 per copy (regular price)
 // Shipping (Larry, Nov 18, 2026): $7 for the first book + $2 for each additional book, computed here from the
 // quantity the buyer chose on /book/. Replaces the $8 flat rate (Nov 2). Because Stripe Checkout's shipping rate
 // is a fixed amount, the quantity is chosen on our page and is NOT adjustable on the Stripe page, so the
@@ -70,8 +70,8 @@ Deno.serve(async (req) => {
     cancel_url: `${SITE_URL}/book/`,
     "line_items[0][price_data][currency]": "usd",
     "line_items[0][price_data][unit_amount]": String(UNIT),
-    "line_items[0][price_data][product_data][name]": "Never Fight or Argue Again (signed copy)",
-    "line_items[0][price_data][product_data][description]": "A signed paperback by Larry and Rolanda Beacham, shipped to you.",
+    "line_items[0][price_data][product_data][name]": "Never Fight or Argue Again (paperback)",
+    "line_items[0][price_data][product_data][description]": "The paperback by Larry and Rolanda Beacham, shipped to you.",
     "line_items[0][price_data][product_data][images][0]": `${SITE_URL}/assets/book-3d.png`,
     "line_items[0][quantity]": String(qty),
     "shipping_address_collection[allowed_countries][0]": "US",
@@ -82,28 +82,22 @@ Deno.serve(async (req) => {
     "shipping_options[0][shipping_rate_data][display_name]": shippingLabel(qty),
     billing_address_collection: "auto",
     customer_creation: "always",
-    "custom_fields[0][key]": "inscription",
+    "custom_fields[0][key]": "gift_note",
     "custom_fields[0][label][type]": "custom",
-    "custom_fields[0][label][custom]": "Name to sign the book to (optional)",
+    "custom_fields[0][label][custom]": "Is it a gift? Add a short note (optional)",
     "custom_fields[0][type]": "text",
     "custom_fields[0][optional]": "true",
-    "custom_fields[0][text][maximum_length]": "100",
-    "custom_fields[1][key]": "gift_note",
+    "custom_fields[0][text][maximum_length]": "255",
+    "custom_fields[1][key]": "updates",
     "custom_fields[1][label][type]": "custom",
-    "custom_fields[1][label][custom]": "Is it a gift? Add a short note (optional)",
-    "custom_fields[1][type]": "text",
+    "custom_fields[1][label][custom]": "Email me new resources from Larry and Ro",
+    "custom_fields[1][type]": "dropdown",
     "custom_fields[1][optional]": "true",
-    "custom_fields[1][text][maximum_length]": "255",
-    "custom_fields[2][key]": "updates",
-    "custom_fields[2][label][type]": "custom",
-    "custom_fields[2][label][custom]": "Email me new resources from Larry and Ro",
-    "custom_fields[2][type]": "dropdown",
-    "custom_fields[2][optional]": "true",
-    "custom_fields[2][dropdown][options][0][label]": "Yes, please",
-    "custom_fields[2][dropdown][options][0][value]": "yes",
-    "custom_fields[2][dropdown][options][1][label]": "No, thanks",
-    "custom_fields[2][dropdown][options][1][value]": "no",
-    "custom_text[shipping_address][message]": "Larry and Ro sign every copy by hand, then we ship it to this address.",
+    "custom_fields[1][dropdown][options][0][label]": "Yes, please",
+    "custom_fields[1][dropdown][options][0][value]": "yes",
+    "custom_fields[1][dropdown][options][1][label]": "No, thanks",
+    "custom_fields[1][dropdown][options][1][value]": "no",
+    "custom_text[shipping_address][message]": "We ship your book to this address.",
     "metadata[project]": "nfoaa",
     "metadata[kind]": "book_order",
     "metadata[source]": "web",

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Get your signed copies | Never Fight or Argue Again</title>
-<meta name="description" content="Never Fight or Argue Again, signed by Larry and Rolanda Beacham. $20 per book, or the $50 Event Bundle with 2 signed books and the Companion Guide. Mix and match. Pay on your phone and pick up at the book table.">
+<title>Get your copies | Never Fight or Argue Again</title>
+<meta name="description" content="Never Fight or Argue Again by Larry and Rolanda Beacham. $20 per book, or the $50 Event Bundle with 2 books and the Companion Guide. Mix and match. Pay on your phone and pick up at the book table.">
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://neverfightorargue.com/buy/">
 <meta name="theme-color" content="#0D2D1D">
@@ -44,16 +44,16 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
 <header class="top">
   <small>At the book table</small>
   <h1>Take it home tonight.</h1>
-  <p>We are so glad you are here. Grab your signed copies right from your phone, then pick them up at the book table.</p>
+  <p>We are so glad you are here. Grab your copies right from your phone, then pick them up at the book table.</p>
 </header>
 <main class="wrap">
   <div class="card" id="form">
     <div class="row" id="r-bundle">
-      <div><span class="tag">Best value</span><h3>Event Bundle</h3><p>2 signed books + Companion Guide · $50 each</p><p class="so" id="so-bundle" hidden>Sold out</p></div>
+      <div><span class="tag">Best value</span><h3>Event Bundle</h3><p>2 books + Companion Guide · $50 each</p><p class="so" id="so-bundle" hidden>Sold out</p></div>
       <div><div class="pr">$50</div><label for="qb" style="margin:.4rem 0 .2rem">Bundles</label><select id="qb" aria-label="How many bundles"></select></div>
     </div>
     <div class="row" id="r-single">
-      <div><h3>Signed book</h3><p>Never Fight or Argue Again · $20 each</p><p class="so" id="so-single" hidden>Sold out</p></div>
+      <div><h3>Single book</h3><p>Never Fight or Argue Again · $20 each</p><p class="so" id="so-single" hidden>Sold out</p></div>
       <div><div class="pr">$20</div><label for="qs" style="margin:.4rem 0 .2rem">Singles</label><select id="qs" aria-label="How many single books"></select></div>
     </div>
     <label for="nm">Your name</label>
@@ -61,7 +61,7 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
     <label for="em">Email for your receipt</label>
     <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com">
     <div class="total"><span id="tq">1 bundle (2 books)</span><b id="tt">$50</b></div>
-    <p class="fine" id="pickHint">Pickup: <b id="pb">2</b> signed books<span id="guideHint"> · includes Companion Guide</span></p>
+    <p class="fine" id="pickHint">Pickup: <b id="pb">2</b> books<span id="guideHint"> · includes Companion Guide</span></p>
     <p class="err" id="err" hidden></p>
     <button class="btn" id="go" type="button">Continue to secure payment</button>
     <p class="fine">Secure payment by Stripe. After you pay, your pickup QR appears on screen and in your email. Bundle buyers also get their Companion Guide link right away.</p>
@@ -125,7 +125,7 @@ select,input{width:100%;font:inherit;font-size:1.05rem;padding:.8rem .9rem;borde
     var nm=document.getElementById('nm').value.trim(), em=document.getElementById('em').value.trim();
     var b=+qb.value||0, s=+qs.value||0;
     err.hidden=true;
-    if(b<1&&s<1){return fail('Choose at least one bundle or one signed book.');}
+    if(b<1&&s<1){return fail('Choose at least one bundle or one book.');}
     if(!nm){return fail('Please enter your name.');}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){return fail('Please enter a valid email so we can send your receipt.');}
     if(b>=1&&!em){return fail('Email is required for the Companion Guide.');}

@@ -15,7 +15,7 @@
 function go(){fetch(API+'/pickup?session='+encodeURIComponent(sid)).then(function(r){return r.json();}).then(function(d){
  if(!d.token){if(++n<20)return setTimeout(go,1500);document.getElementById('msg').textContent='Still confirming. Your email will have your QR in a minute or two.';return;}
  var t=location.origin+'/pickup/?t='+d.token;document.getElementById('qr').src='https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&color=0D2D1D&bgcolor=FFFFFF&data='+encodeURIComponent('https://neverfightorargue.com/pickup/?t='+d.token);
- var a=document.getElementById('ql');a.href=t;a.hidden=false;document.getElementById('msg').hidden=true;var w=document.getElementById('what');w.hidden=false;w.innerHTML='<b>Show this QR at the book table</b> for your '+d.quantity+' signed books'+(d.name?', '+String(d.name).split(' ')[0].replace(/</g,'')+'.':'.');
+ var a=document.getElementById('ql');a.href=t;a.hidden=false;document.getElementById('msg').hidden=true;var w=document.getElementById('what');w.hidden=false;w.innerHTML='<b>Show this QR at the book table</b> for your '+d.quantity+' book'+(d.quantity==1?'':'s')+(d.name?', '+String(d.name).split(' ')[0].replace(/</g,'')+'.':'.');
  document.getElementById('gl').href='/guide/?t='+d.token;document.getElementById('g').hidden=false;}).catch(function(){if(++n<20)setTimeout(go,1500);});}
 if(sid)go();else document.getElementById('msg').textContent='Missing order details. Check your email for your QR.';})();
 </script></body></html>
