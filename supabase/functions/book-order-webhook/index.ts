@@ -7,6 +7,7 @@
 //   3) emails Larry an order notice (NOTIFY_EMAIL, same address as the pre-order notices)
 //   4) emails the buyer a short confirmation (same Brevo pattern as the pre-order confirmation)
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { shippingCents as shipRule } from "./shipping.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -72,11 +73,15 @@ function guideSectionHtml(guideUrl: string, siteUrl: string) {
   </div>`;
 }
 
-function buyerEmailHtml(o: { name: string; lines: string[]; amount: number; shipCents: number; addr: string; orderNo: string; guideUrl: string; money: (c: number) => string }) {
+function buyerEmailHtml(o: { name: string; lines: string[]; amount: number; shipCents: number; books?: number; addr: string; orderNo: string; guideUrl: string; money: (c: number) => string }) {
   return shellLite(`<p style="margin:0 0 18px;">Hi ${o.name ? esc(o.name.split(" ")[0]) + "," : "there,"}</p>
         <p style="margin:0 0 10px;">Thank you for your order. Here is everything in it:</p>
         <ul style="margin:0 0 18px;padding-left:20px;">${o.lines.map((l) => `<li style="margin:0 0 6px;">${l}</li>`).join("")}</ul>
-        <p style="margin:0 0 18px;">Total paid: <b>${o.money(o.amount)}</b>${o.shipCents ? ` (includes ${o.money(o.shipCents)} shipping)` : ""}.</p>
+        <table cellpadding="0" cellspacing="0" style="margin:0 0 18px;border-collapse:collapse;font-size:15px;min-width:260px;">
+          <tr><td style="padding:3px 18px 3px 0;">Items</td><td align="right" style="padding:3px 0;">${o.money(o.amount - o.shipCents)}</td></tr>
+          <tr><td style="padding:3px 18px 3px 0;">Shipping${o.books ? ` (${o.books} book${o.books === 1 ? "" : "s"})` : ""}</td><td align="right" style="padding:3px 0;">${o.money(o.shipCents)}</td></tr>
+          <tr><td style="padding:6px 18px 3px 0;border-top:1px solid #E4DCCB;"><b>Total paid</b></td><td align="right" style="padding:6px 0 3px;border-top:1px solid #E4DCCB;"><b>${o.money(o.amount)}</b></td></tr>
+        </table>
         <p style="margin:0 0 18px;">We sign every copy by hand, then ship it to:<br>${o.addr}</p>
         ${guideSectionHtml(o.guideUrl, SITE_URL)}
         <p style="margin:0 0 18px;">Your order number is <b>${esc(o.orderNo)}</b>. Stripe sends your payment receipt in a separate email. Just reply to this email if anything needs fixing.</p>
@@ -96,8 +101,9 @@ async function previewFor(sessionId: string) {
   for (const x of adds ?? []) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra signed gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
   lines.push("Free access to the 12 week interactive Companion Guide");
   const addr = [o.ship_name, o.ship_line1, o.ship_line2, [o.ship_city, o.ship_state, o.ship_postal_code].filter(Boolean).join(", "), o.ship_country].filter(Boolean).map(esc).join("<br>");
-  const total = o.amount_cents + (o.shipping_cents ?? 0) + (o.upsell_amount_cents ?? 0);
-  return { email: o.email, html: buyerEmailHtml({ name: o.name ?? "", lines, amount: total, shipCents: o.shipping_cents ?? 0, addr, orderNo: o.order_no, guideUrl: ent?.claim_token ? `${SITE_URL}/guide/?t=${ent.claim_token}` : `${SITE_URL}/members/`, money }) };
+  // book_orders.amount_cents already includes shipping (Stripe amount_total minus Checkout add-ons), so do not add shipping_cents again.
+  const total = o.amount_cents + (o.upsell_amount_cents ?? 0);
+  return { email: o.email, html: buyerEmailHtml({ name: o.name ?? "", lines, amount: total, shipCents: o.shipping_cents ?? 0, books: o.quantity, addr, orderNo: o.order_no, guideUrl: ent?.claim_token ? `${SITE_URL}/guide/?t=${ent.claim_token}` : `${SITE_URL}/members/`, money }) };
 }
 
 Deno.serve(async (req) => {
@@ -271,6 +277,7 @@ Deno.serve(async (req) => {
      <table cellpadding="4" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px">
        <tr><td><b>Order</b></td><td>${esc(order.order_no)}</td></tr>
        <tr><td><b>Copies</b></td><td>${quantity}${addonText ? ` plus ${esc(addonText)}` : ""} (${money(amount)} paid, including ${money(shipCents)} shipping)</td></tr>
+       <tr><td><b>Shipping</b></td><td>${money(shipCents)} for ${quantity} book${quantity === 1 ? "" : "s"}${shipCents !== shipRule(quantity) ? ` <b style="color:#b3261e">(expected ${money(shipRule(quantity))}, please check)</b>` : ""}</td></tr>
        <tr><td><b>Add-ons</b></td><td>${addonText ? esc(addonText) : "(none)"}</td></tr>
        <tr><td><b>Sign it to</b></td><td>${esc(fields.inscription || "(nothing requested)")}</td></tr>
        <tr><td><b>Gift note</b></td><td>${esc(fields.gift_note || "(none)")}</td></tr>
@@ -288,7 +295,7 @@ Deno.serve(async (req) => {
     const lines = [`${quantity} signed ${cop} of <i>Never Fight or Argue Again</i>${fields.inscription ? `, signed to <i>${esc(fields.inscription)}</i>` : ""}`];
     for (const x of lineAddons) lines.push(x.offer === "gift_copy" ? `${x.quantity} extra signed gift cop${x.quantity === 1 ? "y" : "ies"} (${money(x.amount_cents)}), in the same box` : `The printed, laminated companion set (${money(x.amount_cents)}), in the same box`);
     lines.push("Free access to the 12 week interactive Companion Guide");
-    await sendEmail(email, `${testOrder ? "[TEST] " : ""}Your signed copy is on the way soon`, buyerEmailHtml({ name, lines, amount, shipCents, addr, orderNo: order.order_no, guideUrl, money }));
+    await sendEmail(email, `${testOrder ? "[TEST] " : ""}Your signed copy is on the way soon`, buyerEmailHtml({ name, lines, amount, shipCents, books: quantity, addr, orderNo: order.order_no, guideUrl, money }));
   }
   return new Response(JSON.stringify({ ok: true, order_no: order.order_no, quantity, test: isTest }), { status: 200 });
 });

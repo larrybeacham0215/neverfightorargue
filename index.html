@@ -149,6 +149,15 @@ h1 + .lede,h2 + .lede,h3 + .lede{margin-top:1.25rem}
 .buy__soon{max-width:34rem;margin:2rem auto 0}
 .buy__soon p{font-size:.9375rem;color:rgba(247,243,234,.7);margin:0 0 1rem}
 .buy__soonBtns{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+.ordbox{max-width:26rem;margin:0 auto;padding:1.5rem;border:1px solid rgba(195,154,94,.55);border-radius:.9rem;background:rgba(247,243,234,.05);text-align:left}
+.ordbox label{display:block;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 .45rem}
+.ordbox select{width:100%;font:inherit;font-size:1.05rem;padding:.7rem .8rem;border-radius:.5rem;border:1px solid rgba(195,154,94,.6);background:#fff;color:#16261C}
+.ordbox__sum{margin:1.1rem 0 .4rem;display:grid;gap:.35rem}
+.ordbox__sum div{display:flex;justify-content:space-between;gap:1rem}
+.ordbox__sum dt,.ordbox__sum dd{margin:0}
+.ordbox__tot{border-top:1px solid rgba(247,243,234,.25);padding-top:.55rem;margin-top:.2rem;font-weight:700;font-size:1.15rem}
+.ordbox__tot dd{color:var(--gold)}
+.ordbox__fine{font-size:.85rem;opacity:.8;margin:.2rem 0 1.1rem}
 .buy__soon.is-off{display:none}
 .btn--onLight{background:radial-gradient(120% 140% at 50% 0%,#1E5A3A 0%,#0F3B25 55%,#0A2C1B 100%);border-color:#E2C070;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);box-shadow:0 0 0 1px #8A6330,0 6px 18px rgba(13,45,29,.35),inset 0 1px 0 rgba(255,255,255,.25)}
 .btn--onLight:hover{filter:brightness(1.08)}
@@ -2555,7 +2564,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <p class="form__error" hidden></p>
           </form>
           <p class="hero__fine">Free instant download &bull; No spam &bull; Unsubscribe anytime</p>
-          <p style="margin-top:1rem"><a class="btn btn--onLightOutline" href="/book/" data-tab="book">Order a signed copy &mdash; $20 plus $8 shipping</a></p>
+          <p style="margin-top:1rem"><a class="btn btn--onLightOutline" href="/book/" data-tab="book">Order a signed copy &mdash; $20 plus shipping</a></p>
         </div>
 
         <ul class="hero__feats reveal">
@@ -2758,10 +2767,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="phead__words">
         <p class="eyebrow">The book</p>
         <h1>Get your signed copy.</h1>
-        <p>Get your signed copy of Never Fight or Argue Again, for yourself or for a couple you love.<br><strong style="display:inline-block;margin-top:.75rem">$20 signed copy, plus $8 flat shipping.</strong></p>
+        <p>Get your signed copy of Never Fight or Argue Again, for yourself or for a couple you love.<br><strong style="display:inline-block;margin-top:.75rem">$20 per signed copy. Shipping is $7 for the first book, plus $2 for each additional book.</strong></p>
         <p class="phead__cta">
-          <a class="btn" href="/book/#buy" data-checkout data-evergreen-buy>Buy a signed copy</a>
-          <a class="btn btn--outline" href="/book/#buy" data-checkout data-gift>Send one as a gift</a>
+          <a class="btn" href="#buy">Buy a signed copy</a>
+          <a class="btn btn--outline" href="#buy">Send one as a gift</a>
         </p>
       </div>
       <div class="phead__media">
@@ -2885,7 +2894,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap" style="max-width:52rem">
       <h2 class="h-lg reveal">Give it to a couple you love.</h2>
       <p class="lede reveal">Know a couple who keeps having the same fight? Send them a signed copy with your note inside. We mail it to the address you enter at checkout.</p>
-      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="/book/#buy" data-checkout data-gift>Gift a signed copy</a></p>
+      <p class="reveal" style="margin-top:1.5rem"><a class="btn btn--onLight" href="#buy">Gift a signed copy</a></p>
       <p class="safety-note" role="note" style="max-width:40rem;margin:2rem auto 0;padding:1rem 1.25rem;border:1px solid #C39A5E;border-radius:6px;background:#FAF6EC;color:#16261C;font-size:.95rem;text-align:left">If you are in an abusive or unsafe relationship, this book is not a substitute for help. Call the National Domestic Violence Hotline at <a href="tel:+18007997233">1-800-799-7233</a>.</p>
     </div>
   </section>
@@ -2895,10 +2904,20 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p class="eyebrow reveal">Get the book</p>
       <h2 class="h-xl reveal">You can stop fighting.</h2>
       <div class="orn orn--short orn--center reveal" aria-hidden="true"><span></span></div>
-      <p class="lede lede--light center reveal" style="margin-bottom:2rem">Order a copy signed by Larry and Ro for $20 plus $8 flat shipping. Add a name for the inscription, or send it as a gift with a short note. Whether you have been fighting for years or just want to stop before it starts, this is a place to begin, together.</p>
-      <div class="reveal buy__soonBtns" style="justify-content:center">
-        <a class="btn" href="/book/#buy" data-checkout data-evergreen-buy>Buy a signed copy</a>
-        <a class="btn btn--outline" href="/book/#buy" data-checkout data-gift>Send one as a gift</a>
+      <p class="lede lede--light center reveal" style="margin-bottom:2rem">Order copies signed by Larry and Ro for $20 each. Shipping is $7 for the first book, plus $2 for each additional book. Add a name for the inscription, or send it as a gift with a short note. Whether you have been fighting for years or just want to stop before it starts, this is a place to begin, together.</p>
+      <div class="reveal ordbox" id="orderBox">
+        <label for="ordQty">How many signed copies?</label>
+        <select id="ordQty" aria-describedby="ordSum"></select>
+        <dl class="ordbox__sum" id="ordSum" aria-live="polite">
+          <div><dt id="ordItemsL">1 signed copy</dt><dd id="ordItems">$20.00</dd></div>
+          <div><dt id="ordShipL">Shipping (1 book)</dt><dd id="ordShip">$7.00</dd></div>
+          <div class="ordbox__tot"><dt>Total</dt><dd id="ordTotal">$27.00</dd></div>
+        </dl>
+        <p class="ordbox__fine">US shipping only. You enter the shipping address on the next, secure Stripe page.</p>
+        <div class="buy__soonBtns" style="justify-content:center">
+          <a class="btn" href="/book/#buy" data-checkout data-evergreen-buy>Buy signed copies</a>
+          <a class="btn btn--outline" href="/book/#buy" data-checkout data-gift>Send as a gift</a>
+        </div>
       </div>
       <div class="reveal" style="max-width:34rem;margin:3rem auto 0;padding-top:2.5rem;border-top:1px solid rgba(247,243,234,.14)">
         <h3 class="h-sm" style="margin-bottom:.75rem">Ordering for a group?</h3>
@@ -4392,7 +4411,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <p class="eyebrow">Get the book</p>
           <h2 class="ty__h2">Get your signed copy.</h2>
           <div class="orn orn--short" aria-hidden="true"><span></span></div>
-          <p>Order a copy signed by Larry and Ro for $20 plus $8 flat shipping. Add a name for the inscription, or send it as a gift with a short note.</p>
+          <p>Order a copy signed by Larry and Ro for $20 plus shipping ($7 for the first book, $2 for each additional). Add a name for the inscription, or send it as a gift with a short note.</p>
           <p class="ty__cardCta"><a class="btn" href="/book/" data-tab="book">Order a signed copy</a></p>
         </div>
       </div>
@@ -4564,7 +4583,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   // quotes, so they are held back. To bring either one live: add it to VIEWS,
   // put its path back in ROUTES, restore its nav and footer links, and add it
   // to sitemap.xml. The markup is untouched and waiting.
-  var VIEWS = ['home', 'book', 'launch', 'registered', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift', 'gift-checkout', 'gift-thanks', 'preorder-checkout', 'preorder-thanks', 'preorder-promo', 'pass', 'express', 'guests', 'readers', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
+  // Nov 18, 2026 (Larry): launch is over. The RSVP 'registered' page, the Beat the Line pre-order promo and
+  // checkout (launch pricing), and the Nov 1 gift-a-copy pages are retired; their paths now open The Book.
+  var VIEWS = ['home', 'book', 'launch', 'sponsor', 'sponsor-thanks', 'sponsor-paid', 'sponsor-checkout', 'invoice', 'gift-thanks', 'preorder-thanks', 'pass', 'express', 'guests', 'readers', 'churches', 'speaking', 'about', 'thanks', 'chapters'];
 
   /* =====================================================================
      ROUTING
@@ -4579,13 +4600,13 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     '/':               'home',
     '/book/':          'book',
     '/book-launch/':   'book',
-    '/registered/':    'registered',
+    '/registered/':    'book',          // retired launch RSVP page (Nov 18)
     '/sponsor/':       'sponsor',       // hidden: not in nav, footer or sitemap
     '/gift-thank-you/': 'gift-thanks',  // Stripe returns here after a gift
-    '/gift/':          'gift',          // public, shareable
-    '/gift/checkout/': 'gift-checkout',
-    '/book/checkout/': 'preorder-checkout',
-    '/pre-order/':     'preorder-promo',   // hidden promo page for emails
+    '/gift/':          'book',          // retired Nov 1 gift-a-copy page; gifts now ship via The Book (Nov 18)
+    '/gift/checkout/': 'book',
+    '/book/checkout/': 'book',          // retired launch pre-order checkout (Nov 18)
+    '/pre-order/':     'book',          // retired Beat the Line promo (Nov 18)
     '/preorder-thank-you/': 'preorder-thanks',
     '/pickup/':        'pass',
     '/express/':       'express',
@@ -4603,13 +4624,21 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   };
   var PATHS = {};
   for (var p in ROUTES) PATHS[ROUTES[p]] = p;
+  PATHS.book = '/book/';
+  // Retired launch paths: show The Book and correct the address bar.
+  (function () {
+    var here = normalise(location.pathname);
+    if (here !== '/book/' && ROUTES[here] === 'book' && window.history && history.replaceState) {
+      history.replaceState({ view: 'book' }, '', '/book/' + location.search + location.hash);
+    }
+  })();
 
   var TITLES = {
     home: 'Never Fight or Argue Again — Larry & Rolanda Beacham',
     book: 'The Book: Never Fight or Argue Again | Signed Copies',
     launch: 'Order a signed copy | Never Fight or Argue Again',
     registered: "You're registered — Never Fight or Argue Again",
-    sponsor: 'Sponsor the launch — Never Fight or Argue Again',
+    sponsor: 'Sponsor the launch — Never Fight or Argue Again',  // sponsor page kept on purpose (Nov 18); see README
     'gift-thanks': 'Thank you for your gift — Never Fight or Argue Again',
     'gift': 'Gift a signed copy — Never Fight or Argue Again',
     'gift-checkout': 'Gift a signed copy — secure payment',
@@ -4848,10 +4877,10 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       // configured) or reserve through the form below.
       // Gift a signed copy: Stripe Checkout handles quantity, payment and the receipt.
       ['giveBtn', 'giveBtnPublic'].forEach(function (id) { var g = document.getElementById(id); if (!g) return;
-        if (CONFIG.embeddedCheckout) { g.href = '/gift/checkout/'; g.dataset.tab = 'gift-checkout'; g.removeAttribute('target'); }
-        else if (CONFIG.stripeCoupleLink) { g.href = CONFIG.stripeCoupleLink; g.target = '_blank'; g.rel = 'noopener'; } });
+        g.href = '/book/'; g.dataset.tab = 'book'; g.removeAttribute('target'); g.removeAttribute('rel'); /* Nov 18: the Nov 1 gift checkout is retired; gifts ship through The Book */
+        });
       document.querySelectorAll('a.giftbtn[href^="https://donate.stripe.com"], a.rh__promo[href^="https://donate.stripe.com"], a.btn[href^="https://donate.stripe.com"]').forEach(function (g) {
-        if (CONFIG.embeddedCheckout) { g.href = '/gift/checkout/'; g.dataset.tab = 'gift-checkout'; g.removeAttribute('target'); }
+        g.href = '/book/'; g.dataset.tab = 'book'; g.removeAttribute('target'); g.removeAttribute('rel'); /* Nov 18: the Nov 1 gift checkout is retired; gifts ship through The Book */
       });
 
       // Share box on the gift thank-you page
@@ -5578,9 +5607,29 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 
 </script>
 <script>
-/* book-checkout is POST only: create the session, then go to Stripe. */
+/* book-checkout is POST only: create the session, then go to Stripe.
+   Shipping (Larry, Nov 18, 2026): $7 for the first book + $2 for each additional book.
+   The numbers below are for display only; book-checkout recomputes the price and shipping on the server. */
 (function(){
   var URL_ = "https://zojsascliwlqgxcrqqlo.supabase.co/functions/v1/book-checkout";
+  var UNIT = 2000, SHIP1 = 700, SHIPX = 200, MAXQ = 20;
+  var sel = document.getElementById("ordQty");
+  function money(c){ return "$" + (c / 100).toFixed(2); }
+  function qty(){ return sel ? Math.max(1, Math.min(MAXQ, parseInt(sel.value, 10) || 1)) : 1; }
+  function render(){
+    var q = qty(), items = UNIT * q, ship = SHIP1 + SHIPX * (q - 1);
+    document.getElementById("ordItemsL").textContent = q + " signed cop" + (q === 1 ? "y" : "ies") + " \u00d7 $20";
+    document.getElementById("ordItems").textContent = money(items);
+    document.getElementById("ordShipL").textContent = q === 1 ? "Shipping (1 book)" : "Shipping (" + q + " books: $7 + $2 each extra)";
+    document.getElementById("ordShip").textContent = money(ship);
+    document.getElementById("ordTotal").textContent = money(items + ship);
+  }
+  if (sel) {
+    for (var i = 1; i <= MAXQ; i++) { var o = document.createElement("option"); o.value = String(i); o.textContent = i + (i === 1 ? " copy" : " copies"); sel.appendChild(o); }
+    var pre = parseInt(new URLSearchParams(location.search).get("qty"), 10);
+    sel.value = String(pre >= 1 && pre <= MAXQ ? pre : 1);
+    sel.addEventListener("change", render); render();
+  }
   document.addEventListener("click", function(ev){
     var a = ev.target.closest && ev.target.closest("[data-checkout]");
     if (!a) return;
@@ -5594,7 +5643,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       if (!m) { m = document.createElement("p"); m.className = "checkout-msg"; m.setAttribute("role","alert"); m.style.marginTop = ".75rem"; a.parentNode.appendChild(m); }
       m.innerHTML = 'Checkout could not open. Please try again, or email <a href="mailto:hello@neverfightorargue.com?subject=Signed%20copy%20order">hello@neverfightorargue.com</a> and we will help.';
     }
-    fetch(URL_, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity: 1, gift: a.hasAttribute("data-gift") }) })
+    fetch(URL_, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ quantity: qty(), gift: a.hasAttribute("data-gift") }) })
       .then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); })
       .then(function(x){ if (x.ok && x.j && typeof x.j.url === "string" && /^https:\/\/checkout\.stripe\.com\//.test(x.j.url)) location.href = x.j.url; else fail(); })
       .catch(fail);

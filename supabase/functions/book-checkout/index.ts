@@ -3,14 +3,18 @@
 // POST /functions/v1/book-checkout {quantity} -> {url}   (POST only; 405 otherwise. GET links were retired Nov 2, 2026.)
 // Round 2: a missing Origin is refused; rate-limit IP from cf-connecting-ip or the last proxy hop; fail-open is logged.
 // Security (Ray's review, Nov 2, 2026): CORS limited to the site (+ localhost:8787 preview), 10 sessions per IP per 10 minutes.
-// Collects: US shipping address, phone, quantity (1-20), name to sign to, gift note, email opt-in.
+// Collects: US shipping address, phone, quantity (1-20, chosen on /book/), name to sign to, gift note, email opt-in.
 // Card is saved for off-session use so /order-thank-you/ add-ons charge in one click (book-upsell).
 // The paid session is handled by stripe-webhook -> book-order-webhook (metadata.kind = book_order).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { shippingCents, shippingLabel } from "./shipping.ts";
 const STRIPE_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";
 const SITE_URL = Deno.env.get("SITE_URL") ?? "https://neverfightorargue.com";
-const UNIT = 2000; // $20 per signed copy (same as the launch price)
-// Shipping: $8 flat per order (Larry, Nov 2, 2026).
+const UNIT = 2000; // $20 per signed copy (regular price)
+// Shipping (Larry, Nov 18, 2026): $7 for the first book + $2 for each additional book, computed here from the
+// quantity the buyer chose on /book/. Replaces the $8 flat rate (Nov 2). Because Stripe Checkout's shipping rate
+// is a fixed amount, the quantity is chosen on our page and is NOT adjustable on the Stripe page, so the
+// shipping line always matches the number of books.
 
 const ALLOWED_ORIGINS = ["https://neverfightorargue.com", "https://www.neverfightorargue.com", "http://localhost:8787"];
 function corsFor(req: Request) {
@@ -58,6 +62,7 @@ Deno.serve(async (req) => {
     wantsSave = b.save_card === true;
   } catch { /* default 1 */ }
   qty = Math.max(1, Math.min(20, qty));
+  const shipCents = shippingCents(qty); // never taken from the client
 
   const p: Record<string, string> = {
     mode: "payment",
@@ -69,15 +74,12 @@ Deno.serve(async (req) => {
     "line_items[0][price_data][product_data][description]": "A signed paperback by Larry and Rolanda Beacham, shipped to you.",
     "line_items[0][price_data][product_data][images][0]": `${SITE_URL}/assets/book-3d.png`,
     "line_items[0][quantity]": String(qty),
-    "line_items[0][adjustable_quantity][enabled]": "true",
-    "line_items[0][adjustable_quantity][minimum]": "1",
-    "line_items[0][adjustable_quantity][maximum]": "20",
     "shipping_address_collection[allowed_countries][0]": "US",
     "phone_number_collection[enabled]": "true",
     "shipping_options[0][shipping_rate_data][type]": "fixed_amount",
-    "shipping_options[0][shipping_rate_data][fixed_amount][amount]": "800",
+    "shipping_options[0][shipping_rate_data][fixed_amount][amount]": String(shipCents),
     "shipping_options[0][shipping_rate_data][fixed_amount][currency]": "usd",
-    "shipping_options[0][shipping_rate_data][display_name]": "Standard shipping",
+    "shipping_options[0][shipping_rate_data][display_name]": shippingLabel(qty),
     billing_address_collection: "auto",
     customer_creation: "always",
     "custom_fields[0][key]": "inscription",
@@ -105,6 +107,9 @@ Deno.serve(async (req) => {
     "metadata[project]": "nfoaa",
     "metadata[kind]": "book_order",
     "metadata[source]": "web",
+    "metadata[books]": String(qty),
+    "metadata[shipping_cents]": String(shipCents),
+    "metadata[shipping_rule]": "7_first_2_each_extra",
     "payment_intent_data[metadata][kind]": "book_order",
   };
   // Card saving (Ray Round 2, must-fix 1). HELD: Larry is choosing a mode.
@@ -133,5 +138,5 @@ Deno.serve(async (req) => {
     console.error("book-checkout failed", s?.error?.message);
     return jres({ error: "Checkout could not start. Please try again." }, 502, cors);
   }
-  return jres({ url: s.url }, 200, cors);
+  return jres({ url: s.url, quantity: qty, subtotal_cents: UNIT * qty, shipping_cents: shipCents, total_cents: UNIT * qty + shipCents }, 200, cors);
 });
