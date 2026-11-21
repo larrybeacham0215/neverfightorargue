@@ -2545,6 +2545,122 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 }
 /* About: their photo sits with the story, under the pull quote. */
 .portrait--story{margin-top:clamp(1.75rem,3.5vw,2.5rem)}
+/* Churches page: photo gallery under the pull quote. Cream and gold
+   frame, mixed landscape and portrait shots in a 4/3 window. */
+.gallery{margin:clamp(1.75rem,3.5vw,2.5rem) 0 0;padding:0;border:0;background:none}
+.gallery__frame{
+  position:relative;
+  padding:.5rem;
+  background:linear-gradient(180deg,#FFFDF8 0%,#F4EEE0 100%);
+  border:1px solid rgba(195,154,94,.75);
+  border-radius:1rem;
+  box-shadow:0 0 0 5px rgba(195,154,94,.13),0 22px 44px -26px rgba(22,38,28,.55);
+}
+.gallery__viewport{
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  border-radius:.6rem;
+  background:var(--ivory-deep);
+  box-shadow:0 0 0 1px rgba(13,45,29,.18);
+}
+.gallery__slide{
+  position:absolute;inset:0;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .6s ease,visibility .6s ease;
+  background:var(--ivory-deep);
+}
+.gallery__slide.is-active{opacity:1;visibility:visible;z-index:1}
+.gallery__back{
+  position:absolute;inset:-12%;
+  width:124%;height:124%;
+  object-fit:cover;
+  filter:blur(22px) saturate(1.05);
+  transform:scale(1.08);
+  pointer-events:none;
+}
+.gallery__slide picture,.gallery__slide > img.gallery__photo{
+  position:relative;z-index:1;
+  display:block;width:100%;height:100%;
+}
+.gallery__photo{
+  width:100%;height:100%;
+  object-fit:contain;
+  object-position:center top;
+  display:block;
+}
+.gallery__slide[data-kind="landscape"] .gallery__photo{
+  object-fit:cover;
+  object-position:center;
+}
+.gallery__prev,.gallery__next{
+  position:absolute;top:50%;
+  z-index:2;
+  transform:translateY(-50%);
+  width:2.6rem;height:2.6rem;padding:0;
+  border-radius:50%;cursor:pointer;
+  border:1px solid rgba(195,154,94,.85);
+  background:rgba(248,244,233,.92);
+  color:var(--gold-ink);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 18px -10px rgba(13,45,29,.55);
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.gallery__prev{left:.75rem}
+.gallery__next{right:.75rem}
+.gallery__prev:hover,.gallery__next:hover,
+.gallery__prev:focus-visible,.gallery__next:focus-visible{
+  background:var(--gold);border-color:var(--gold);color:var(--navy-deep);
+  outline:none;
+}
+.gallery__prev svg,.gallery__next svg{width:.85rem;height:.85rem;fill:none;stroke:currentColor;stroke-width:2}
+.gallery__bar{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:.85rem;flex-wrap:wrap;
+  margin:.75rem .35rem .1rem;
+}
+.gallery__dots{display:flex;gap:.45rem;flex-wrap:wrap;align-items:center}
+.gallery__dots button{
+  width:.55rem;height:.55rem;padding:0;border-radius:50%;cursor:pointer;
+  border:1px solid var(--gold-ink);background:transparent;
+  transition:background .2s ease,transform .2s ease,border-color .2s ease;
+}
+.gallery__dots button[aria-current="true"]{
+  background:var(--gold-ink);border-color:var(--gold-ink);transform:scale(1.2);
+}
+.gallery__dots button:focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
+.gallery__tools{display:flex;align-items:center;gap:.75rem;margin-left:auto}
+.gallery__count{
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+}
+.gallery__pause{
+  width:2.15rem;height:2.15rem;padding:0;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(195,154,94,.7);background:transparent;color:var(--gold-ink);
+  display:flex;align-items:center;justify-content:center;
+}
+.gallery__pause:hover,.gallery__pause:focus-visible{
+  background:var(--gold);border-color:var(--gold);color:var(--navy-deep);outline:none;
+}
+.gallery__pause svg{width:.8rem;height:.8rem;fill:currentColor}
+.gallery figcaption{
+  margin:.55rem .35rem 0;
+  font-family:var(--f-display);
+  font-size:clamp(1.05rem,2.2vw,1.25rem);
+  line-height:1.4;
+  color:var(--ink);
+  text-align:center;
+}
+@media(max-width:900px){
+  .gallery__frame{padding:.35rem;border-radius:.8rem}
+  .gallery__viewport{border-radius:.5rem}
+  .gallery__prev,.gallery__next{width:2.35rem;height:2.35rem}
+}
+@media(prefers-reduced-motion:reduce){
+  .gallery__slide{transition:none}
+  .gallery__pause{display:none}
+}
+
 </style>
 <script type="application/ld+json">
 {
@@ -3747,7 +3863,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="phead__words">
         <p class="eyebrow">For churches &amp; organizations</p>
         <h1>Marriage curriculum couples will actually finish.</h1>
-        <p>Most marriage studies teach couples to communicate better inside the same old pattern. This one changes the pattern — and it gives each spouse something specific to do, which is usually the difference between a group that shows up week four and a group that doesn't.</p>
+        <p>Most marriage studies teach couples to communicate better inside the same old pattern. This one changes the pattern, and it gives each spouse something specific to do, which is usually the difference between a group that shows up week four and a group that doesn't.</p>
       </div>
       <figure class="phead__video vframe vframe--dark reveal">
         <video controls preload="none" playsinline width="1280" height="720" poster="/assets/testimonies-churches-poster.jpg?v=1" aria-label="Couples sharing how the plan changed their marriage">
@@ -3766,20 +3882,92 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <h2 class="h-lg">The couples in your church aren't short on principles.</h2>
         <div class="orn orn--short" aria-hidden="true"><span></span></div>
         <blockquote class="quote">
-          <p>You can win the argument — or you can be the place they never have to argue again.</p>
+          <p>You can win the argument, or you can be the place they never have to argue again.</p>
           <footer>From the book</footer>
         </blockquote>
-        <figure class="portrait portrait--story portrait--wide">
+        <figure class="gallery reveal" id="churchesGallery" aria-roledescription="carousel" aria-label="Photos from a church session">
+          <p class="sr-only gallery__live" aria-live="off" aria-atomic="true"></p>
+          <div class="gallery__frame">
+            <div class="gallery__viewport" tabindex="0">
+        <div class="gallery__slide is-active" data-kind="landscape" role="group" aria-roledescription="slide" aria-label="Photo 1 of 7" data-ready="1">
           <picture>
-            <source srcset="/assets/churches-group.webp" type="image/webp">
-            <img src="/assets/churches-group.jpg"
-                 alt="Couples working through the study together around a table in a small group"
-                 width="1400" height="788" loading="lazy">
+            <source type="image/webp" srcset="/assets/churches-session-01-800.webp 800w, /assets/churches-session-01-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" srcset="/assets/churches-session-01-800.jpg 800w, /assets/churches-session-01-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" src="/assets/churches-session-01-1600.jpg" width="1600" height="1200" alt="A group of couples at a church session, seated and standing together, many holding up a copy of Never Fight or Argue Again." loading="eager" fetchpriority="high" decoding="async">
           </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 2 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-02-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-02-800.webp 800w, /assets/churches-session-02-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-02-800.jpg 800w, /assets/churches-session-02-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-02-1600.jpg" width="1200" height="1600" alt="A smiling woman holds a clipboard beside a man seated at a round table, with two people talking in the background." loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 3 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-03-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-03-800.webp 800w, /assets/churches-session-03-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-03-800.jpg 800w, /assets/churches-session-03-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-03-1600.jpg" width="1200" height="1600" alt="Two women stand together reviewing notes on a clipboard during a church session." loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 4 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-04-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-04-800.webp 800w, /assets/churches-session-04-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-04-800.jpg 800w, /assets/churches-session-04-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-04-1600.jpg" width="1200" height="1600" alt="Two men shake hands and smile while others sit and talk nearby in a church classroom." loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 5 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-05-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-05-800.webp 800w, /assets/churches-session-05-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-05-800.jpg 800w, /assets/churches-session-05-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-05-1600.jpg" width="946" height="1261" alt="A couple sit together in folding chairs, talking during a session, with a clipboard in her lap." loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 6 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-06-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-06-800.webp 800w, /assets/churches-session-06-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-06-800.jpg 800w, /assets/churches-session-06-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-06-1600.jpg" width="1200" height="1600" alt="Couples sit in a row of folding chairs, some writing on clipboards during the session." loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery__slide" data-kind="portrait" role="group" aria-roledescription="slide" aria-label="Photo 7 of 7" aria-hidden="true">
+          <img class="gallery__back" data-src="/assets/churches-session-07-800.jpg" alt="" aria-hidden="true" width="600" height="800" decoding="async">
+          <picture>
+            <source type="image/webp" data-srcset="/assets/churches-session-07-800.webp 800w, /assets/churches-session-07-1600.webp 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <source type="image/jpeg" data-srcset="/assets/churches-session-07-800.jpg 800w, /assets/churches-session-07-1600.jpg 1600w" sizes="(max-width: 900px) 92vw, 36rem">
+            <img class="gallery__photo" data-src="/assets/churches-session-07-1600.jpg" width="1200" height="1600" alt="A smiling man in a football jersey reviews a clipboard, while a woman seated nearby looks at a tablet." loading="lazy" decoding="async">
+          </picture>
+        </div>
+            </div>
+            <button type="button" class="gallery__prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button type="button" class="gallery__next" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+          <div class="gallery__bar">
+            <div class="gallery__dots">
+        <button type="button" aria-label="Show photo 1 of 7" aria-current="true"></button>
+        <button type="button" aria-label="Show photo 2 of 7"></button>
+        <button type="button" aria-label="Show photo 3 of 7"></button>
+        <button type="button" aria-label="Show photo 4 of 7"></button>
+        <button type="button" aria-label="Show photo 5 of 7"></button>
+        <button type="button" aria-label="Show photo 6 of 7"></button>
+        <button type="button" aria-label="Show photo 7 of 7"></button>
+            </div>
+            <div class="gallery__tools">
+              <span class="gallery__count"><span class="gallery__n">1</span> of 7</span>
+              <button type="button" class="gallery__pause" aria-label="Pause slideshow"></button>
+            </div>
+          </div>
+          <figcaption>Couples learning to fight for each other, not with each other.</figcaption>
         </figure>
       </div>
       <div class="reveal">
-        <p>They've heard the sermons. They know the verses. What they're missing is a sequence — something concrete enough that a husband knows exactly what to do on Thursday night when he can tell his wife is hurt and he doesn't know what to say.</p>
+        <p>They've heard the sermons. They know the verses. What they're missing is a sequence: something concrete enough that a husband knows exactly what to do on Thursday night when he can tell his wife is hurt and he doesn't know what to say.</p>
         <p>This material gives both spouses their own assignment. The one carrying the hurt works a Safety Plan. The one who caused it works a Readiness Plan. Neither is waiting on the other to go first, which removes the standoff that stalls most marriage ministry.</p>
         <p>It's Scripture-anchored throughout, written by a couple who needed it themselves first, and it doesn't require a licensed counselor in the room to lead well.</p>
       </div>
@@ -3840,7 +4028,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <div class="cards reveal" style="margin-top:clamp(2.5rem,5vw,3.5rem)">
         <div class="card">
           <div class="card__name">Small group study</div>
-          <div class="card__gloss">6–12 weeks</div>
+          <div class="card__gloss">6-12 weeks</div>
           <p>Work through the book using the built-in discussion guide. Homes, campus, or online. Couples read between sessions and practice one tool at a time.</p>
         </div>
         <div class="card">
@@ -3925,9 +4113,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
               <label for="c6">Approx. couples</label>
               <select id="c6" name="group_size">
                 <option>Under 10</option>
-                <option>10–25</option>
-                <option>25–75</option>
-                <option>75–200</option>
+                <option>10-25</option>
+                <option>25-75</option>
+                <option>75-200</option>
                 <option>200+</option>
               </select>
             </div>
@@ -5693,6 +5881,131 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 /* Pause any talk video when its view is hidden (single page views). */
 (function(){var vs=document.querySelectorAll('.talk video,.vframe video');if(!vs.length||!window.MutationObserver)return;
 new MutationObserver(function(){vs.forEach(function(v){if(!v.paused&&!v.offsetParent)v.pause();});}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden']});})();
+</script>
+<script>
+/* Churches photo gallery: autoplay, pause on hover/touch/focus, swipe, keyboard. */
+(function(){
+  var root = document.getElementById('churchesGallery');
+  if (!root) return;
+  var viewEl = document.getElementById('view-churches');
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.gallery__slide'));
+  var dots = Array.prototype.slice.call(root.querySelectorAll('.gallery__dots button'));
+  var prev = root.querySelector('.gallery__prev');
+  var next = root.querySelector('.gallery__next');
+  var pauseBtn = root.querySelector('.gallery__pause');
+  var countN = root.querySelector('.gallery__n');
+  var live = root.querySelector('.gallery__live');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var i = 0, timer = null, hovered = false, focused = false, touching = false, userPaused = false;
+  var INTERVAL = 5500;
+  var iconPause = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+  var iconPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  function hydrate(idx){
+    var s = slides[idx];
+    if (!s || s.getAttribute('data-ready') === '1') return;
+    s.querySelectorAll('source[data-srcset]').forEach(function(el){
+      el.setAttribute('srcset', el.getAttribute('data-srcset'));
+      el.removeAttribute('data-srcset');
+    });
+    s.querySelectorAll('img[data-src]').forEach(function(el){
+      el.setAttribute('src', el.getAttribute('data-src'));
+      el.removeAttribute('data-src');
+    });
+    s.setAttribute('data-ready', '1');
+  }
+  function nearby(idx){
+    hydrate((idx + slides.length - 1) % slides.length);
+    hydrate(idx);
+    hydrate((idx + 1) % slides.length);
+  }
+  function setPauseUi(){
+    if (!pauseBtn) return;
+    var stopped = userPaused || reduce;
+    pauseBtn.setAttribute('aria-label', stopped ? 'Play slideshow' : 'Pause slideshow');
+    pauseBtn.innerHTML = stopped ? iconPlay : iconPause;
+  }
+  function stopTimer(){ if (timer) { clearInterval(timer); timer = null; } }
+  function canPlay(){
+    return !reduce && !userPaused && !hovered && !focused && !touching && !(viewEl && viewEl.hidden);
+  }
+  function startTimer(){
+    stopTimer();
+    if (!canPlay()) return;
+    timer = setInterval(function(){ go(i + 1, false); }, INTERVAL);
+  }
+  function go(n, user){
+    i = (n + slides.length) % slides.length;
+    nearby(i);
+    slides.forEach(function(s, k){
+      var on = k === i;
+      s.classList.toggle('is-active', on);
+      s.setAttribute('aria-hidden', on ? 'false' : 'true');
+    });
+    dots.forEach(function(d, k){
+      if (k === i) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
+    if (countN) countN.textContent = String(i + 1);
+    if (live){
+      live.setAttribute('aria-live', user ? 'polite' : 'off');
+      live.textContent = user ? ('Photo ' + (i + 1) + ' of ' + slides.length) : '';
+    }
+    if (user) startTimer();
+  }
+  function onPauseClick(){
+    userPaused = !userPaused;
+    setPauseUi();
+    if (userPaused) stopTimer(); else startTimer();
+  }
+
+  nearby(0);
+  if (prev) prev.addEventListener('click', function(){ go(i - 1, true); });
+  if (next) next.addEventListener('click', function(){ go(i + 1, true); });
+  dots.forEach(function(d, k){
+    d.addEventListener('click', function(){ go(k, true); });
+  });
+  if (pauseBtn) pauseBtn.addEventListener('click', onPauseClick);
+
+  root.addEventListener('mouseenter', function(){ hovered = true; stopTimer(); });
+  root.addEventListener('mouseleave', function(){ hovered = false; startTimer(); });
+  root.addEventListener('focusin', function(){ focused = true; stopTimer(); });
+  root.addEventListener('focusout', function(ev){
+    if (root.contains(ev.relatedTarget)) return;
+    focused = false; startTimer();
+  });
+
+  root.addEventListener('keydown', function(ev){
+    if (ev.target.matches('input, textarea, select')) return;
+    if (ev.key === 'ArrowLeft'){ ev.preventDefault(); go(i - 1, true); }
+    if (ev.key === 'ArrowRight'){ ev.preventDefault(); go(i + 1, true); }
+  });
+
+  var x0 = null, y0 = null;
+  root.addEventListener('touchstart', function(e){
+    touching = true; stopTimer();
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, {passive:true});
+  root.addEventListener('touchend', function(e){
+    touching = false;
+    if (x0 === null){ startTimer(); return; }
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? i + 1 : i - 1, true);
+    else startTimer();
+    x0 = null; y0 = null;
+  }, {passive:true});
+
+  if (viewEl && window.MutationObserver){
+    new MutationObserver(function(){
+      if (viewEl.hidden) stopTimer(); else startTimer();
+    }).observe(viewEl, {attributes:true, attributeFilter:['hidden']});
+  }
+
+  setPauseUi();
+  if (!reduce && viewEl && !viewEl.hidden) startTimer();
+})();
+
 </script>
 </body>
 </html>
