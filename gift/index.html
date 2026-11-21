@@ -2487,6 +2487,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   .seam::before,.seam::after{opacity:1}
 }
 
+
+/* Talk video (Made for More conference) */
+.talk__head{max-width:46rem;margin-bottom:clamp(1.75rem,4vw,2.75rem)}
+.talk__frame{margin:0;max-width:62rem}
+.talk__frame video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0D2D1D;border:1px solid rgba(22,38,28,.14);box-shadow:0 22px 44px -28px rgba(13,45,29,.55)}
+.talk__frame figcaption{margin-top:.8rem;font-size:.92rem;color:var(--ink-soft)}
 </style>
 <script type="application/ld+json">
 {
@@ -2606,6 +2612,23 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p>Conflict and fighting are not the same thing. Conflict is two people who see something differently. Fighting is what happens when one or both of them arrive unprepared. The difference isn't temperament or luck — it's preparation. And preparation can be learned.</p>
         <p><a class="inlink" href="/book/" data-tab="book">Read more about the plan →</a></p>
       </div>
+    </div>
+  </section>
+
+  <section class="band band--light talk" id="watch">
+    <div class="wrap">
+      <div class="talk__head reveal">
+        <p class="eyebrow eyebrow--ink">Watch</p>
+        <h2 class="h-lg">Fighting fair is still fighting.</h2>
+        <p class="lede">Ro and I read all the books and learned all the rules, and we were still losing each other. Here are five minutes from a talk I gave at the Made for More conference about what finally changed.</p>
+      </div>
+      <figure class="talk__frame reveal">
+        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-poster.jpg" aria-label="Larry Beacham speaking at the Made for More conference">
+          <source src="/assets/made-for-more-talk.mp4" type="video/mp4">
+          <track kind="captions" src="/assets/made-for-more-talk.vtt" srclang="en" label="English">
+        </video>
+        <figcaption>Larry Beacham at the Made for More conference. 4 minutes 41 seconds, captions available.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -3887,6 +3910,24 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       <p>Larry and Ro teach this material the way they learned it — plainly, as two people who needed it first. No performance, no polished couple on a stage pretending the hard years didn't happen.</p>
     </div>
   </header>
+
+  <!-- TALK VIDEO SLOT (cut #2). Hidden until /assets/made-for-more-talk-2.mp4, -poster.jpg and .vtt are added; then remove the hidden attribute. -->
+  <section class="band band--light talk" id="speaking-talk" hidden>
+    <div class="wrap">
+      <div class="talk__head reveal">
+        <p class="eyebrow eyebrow--ink">Watch</p>
+        <h2 class="h-lg">Hear how we teach it.</h2>
+        <p class="lede">Before you invite us, watch a few minutes from my talk at the Made for More conference. This is the same message we bring to churches, retreats and small groups.</p>
+      </div>
+      <figure class="talk__frame reveal">
+        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-2-poster.jpg" aria-label="Larry Beacham speaking at the Made for More conference">
+          <source src="/assets/made-for-more-talk-2.mp4" type="video/mp4">
+          <track kind="captions" src="/assets/made-for-more-talk-2.vtt" srclang="en" label="English">
+        </video>
+        <figcaption>Larry Beacham at the Made for More conference. Captions available.</figcaption>
+      </figure>
+    </div>
+  </section>
 
   <section class="band band--paper">
     <div class="wrap">
@@ -5600,6 +5641,11 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
       .catch(fail);
   });
 })();
+</script>
+<script>
+/* Pause any talk video when its view is hidden (single page views). */
+(function(){var vs=document.querySelectorAll('.talk video');if(!vs.length||!window.MutationObserver)return;
+new MutationObserver(function(){vs.forEach(function(v){if(!v.paused&&!v.offsetParent)v.pause();});}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden']});})();
 </script>
 </body>
 </html>
