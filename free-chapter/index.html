@@ -2550,7 +2550,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 .portrait--story{margin-top:clamp(1.75rem,3.5vw,2.5rem)}
 /* Churches page: photo gallery under the pull quote. Cream and gold
    frame, mixed landscape and portrait shots in a 4/3 window. */
-.gallery{margin:clamp(1.75rem,3.5vw,2.5rem) 0 0;padding:0;border:0;background:none}
+.gallery{margin:0 0 clamp(1.35rem,3vw,2rem);padding:0;border:0;background:none;width:100%;max-width:100%}
 .gallery__frame{
   position:relative;
   padding:.5rem;
@@ -3888,6 +3888,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           <p>You can win the argument, or you can be the place they never have to argue again.</p>
           <footer>From the book</footer>
         </blockquote>
+      </div>
+      <div class="reveal">
         <figure class="gallery reveal" id="churchesGallery" aria-roledescription="carousel" aria-label="Photos from a church session">
           <p class="sr-only gallery__live" aria-live="off" aria-atomic="true"></p>
           <div class="gallery__frame">
@@ -3968,8 +3970,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
           </div>
           <figcaption>Couples learning to fight for each other, not with each other.</figcaption>
         </figure>
-      </div>
-      <div class="reveal">
         <p>They've heard the sermons. They know the verses. What they're missing is a sequence: something concrete enough that a husband knows exactly what to do on Thursday night when he can tell his wife is hurt and he doesn't know what to say.</p>
         <p>This material gives both spouses their own assignment. The one carrying the hurt works a Safety Plan. The one who caused it works a Readiness Plan. Neither is waiting on the other to go first, which removes the standoff that stalls most marriage ministry.</p>
         <p>It's Scripture-anchored throughout, written by a couple who needed it themselves first, and it doesn't require a licensed counselor in the room to lead well.</p>
