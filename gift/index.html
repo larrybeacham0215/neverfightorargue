@@ -2535,6 +2535,8 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
   .phead--video .phead__video{order:3;max-width:none;justify-self:stretch;margin:0 0 1.2rem}
   .phead--video .phead__words > p:not(.eyebrow){order:4}
 }
+/* About: their photo sits with the story, under the pull quote. */
+.portrait--story{margin-top:clamp(1.75rem,3.5vw,2.5rem)}
 </style>
 <script type="application/ld+json">
 {
@@ -4070,17 +4072,19 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <!-- ==================================================================== -->
 <div class="view" id="view-about" hidden>
 
-  <header class="phead phead--portrait">
+  <header class="phead phead--video">
     <div class="wrap phead__inner">
       <div class="phead__words">
         <p class="eyebrow">About the authors</p>
         <h1>Larry &amp; Rolanda Beacham</h1>
-        <p>A husband-and-wife team devoted to helping couples move from conflict to real connection — starting with the years they spent learning it the hard way themselves.</p>
+        <p>A husband-and-wife team devoted to helping couples move from conflict to real connection, starting with the years they spent learning it the hard way themselves.</p>
       </div>
-      <figure class="portrait portrait--head">
-        <img src="/assets/larry-rolanda.jpg"
-             alt="Larry and Rolanda Beacham, smiling together"
-             width="1400" height="1050" loading="eager">
+      <figure class="phead__video vframe vframe--dark reveal">
+        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-3-poster.jpg?v=1" aria-label="Larry Beacham on why fighting fair is not enough">
+          <source src="/assets/made-for-more-talk-3.mp4" type="video/mp4">
+          <track kind="captions" src="/assets/made-for-more-talk-3.vtt" srclang="en" label="English">
+        </video>
+        <figcaption>Larry Beacham on fixing the heart, not just the behavior. Captions available.</figcaption>
       </figure>
     </div>
   </header>
@@ -4094,29 +4098,17 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <blockquote class="quote">
           <p>They did what the books said. And they still kept ending up on opposite sides of the same room.</p>
         </blockquote>
+        <figure class="portrait portrait--story">
+          <img src="/assets/larry-rolanda.jpg"
+               alt="Larry and Rolanda Beacham, smiling together"
+               width="1400" height="1050" loading="lazy">
+        </figure>
       </div>
       <div class="reveal">
-        <p>Larry and Rolanda learned that the long way. They stayed calm, listened actively, kept it clean — everything the advice told them to do.</p>
-        <p>What eventually changed things wasn't a better technique. It was realizing that both of them were walking into hard conversations unprepared — one carrying pain with nowhere safe to put it, the other bracing for impact and reaching for a defense. Out of those years came the Safety Plan and Anti-Fight Plan framework at the center of this book.</p>
+        <p>Larry and Rolanda learned that the long way. They stayed calm, listened actively, kept it clean, everything the advice told them to do.</p>
+        <p>What eventually changed things wasn't a better technique. It was realizing that both of them were walking into hard conversations unprepared: one carrying pain with nowhere safe to put it, the other bracing for impact and reaching for a defense. Out of those years came the Safety Plan and Anti-Fight Plan framework at the center of this book.</p>
         <p>It has since shaped how they lead their own marriage and how they walk alongside other couples. They live in Odessa, Florida, and are parents to Taylor, Bryant, Lauryn, Manny, Ari, and Trey. <em>Never Fight or Argue Again</em> is their first book.</p>
       </div>
-    </div>
-  </section>
-
-  <section class="band band--light" id="about-talk">
-    <div class="wrap">
-      <div class="talk__head reveal">
-        <p class="eyebrow eyebrow--ink">Hear it from Larry</p>
-        <h2 class="h-lg">Damage control is not the same as divine transformation.</h2>
-        <p class="lede">Where the idea of fighting fair came from, why it still leaves cracks, and what changes when your heart does.</p>
-      </div>
-      <figure class="vframe reveal" style="max-width:58rem">
-        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-3-poster.jpg?v=1" aria-label="Larry Beacham on why fighting fair is not enough">
-          <source src="/assets/made-for-more-talk-3.mp4" type="video/mp4">
-          <track kind="captions" src="/assets/made-for-more-talk-3.vtt" srclang="en" label="English">
-        </video>
-        <figcaption>Larry Beacham on fixing the heart, not just the behavior. Captions available.</figcaption>
-      </figure>
     </div>
   </section>
 
