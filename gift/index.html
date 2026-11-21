@@ -2507,14 +2507,16 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 @media(min-width:901px){
   .hero--light{padding-block:clamp(1.25rem,2.6vh,2.25rem) clamp(1.75rem,4vh,3rem)}
   .hero--light .hero__kicker{margin-bottom:.65rem}
-  .hero--light h1{font-size:clamp(2rem,min(3.5vw,5.6vh),3.2rem);margin-bottom:.8rem}
+  .hero--light h1{font-size:clamp(2rem,min(3.5vw,5.6vh),2.5rem);margin-bottom:.8rem}
   .hero--light .hero__sub{margin-bottom:1.1rem}
   .hero--light .hero__feats{margin-top:1.4rem}
+  .hero--light .hero__break{display:none}
+  .hero--light .hero__title{white-space:nowrap}
 }
 @media(min-width:901px) and (max-height:860px){
   .hero--light{padding-block:.65rem 1.35rem}
   .hero--light .hero__kicker{margin-bottom:.35rem}
-  .hero--light h1{margin-bottom:.45rem;font-size:clamp(1.85rem,min(3.2vw,4.8vh),2.7rem)}
+  .hero--light h1{margin-bottom:.45rem;font-size:clamp(1.85rem,min(3.2vw,4.8vh),2.5rem)}
   .hero--light .hero__sub{margin-bottom:.55rem}
   .hero--light .hero__video{margin:0 0 .7rem}
 }
@@ -2710,7 +2712,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     <div class="wrap hero__grid">
       <div class="hero__col">
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
-        <h1 class="reveal"><span class="hero__lead">Get the First Chapter of</span><span class="hero__title">Never Fight <em>or</em><br>Argue Again &ndash; Free</span></h1>
+        <h1 class="reveal"><span class="hero__lead">Get the First Chapter of</span><span class="hero__title">Never Fight <em>or</em> <br class="hero__break">Argue Again &ndash; Free</span></h1>
         <p class="hero__sub reveal">Discover biblical conflict resolution for couples who have tried everything. Learn practical tools to create safety, restore connection, and communicate without destructive conflict.</p>
         <figure class="hero__video vframe reveal">
           <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-poster.jpg?v=3" aria-label="Larry Beacham speaking on marriage and conflict">
