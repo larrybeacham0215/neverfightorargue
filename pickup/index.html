@@ -2494,6 +2494,48 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 .talk__frame{margin:0;max-width:62rem}
 .talk__frame video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0D2D1D;border:1px solid rgba(22,38,28,.14);box-shadow:0 22px 44px -28px rgba(13,45,29,.55)}
 .talk__frame figcaption{margin-top:.8rem;font-size:.92rem;color:var(--ink-soft)}
+/* Framed talk videos: a cream mat with a thin gold rule, used in the home
+   hero and the speaking hero. */
+.vframe{margin:0;padding:.5rem;background:linear-gradient(180deg,#FFFDF8 0%,#F4EEE0 100%);border:1px solid rgba(195,154,94,.75);border-radius:1rem;box-shadow:0 0 0 5px rgba(195,154,94,.13),0 26px 50px -28px rgba(13,45,29,.6)}
+.vframe video{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:.6rem;background:#0D2D1D;box-shadow:0 0 0 1px rgba(13,45,29,.45)}
+.vframe figcaption{margin:.5rem .3rem .1rem;font-size:.82rem;line-height:1.4;color:#4F5D53;text-align:center}
+.vframe--dark{box-shadow:0 0 0 5px rgba(195,154,94,.2),0 30px 60px -30px rgba(0,0,0,.75)}
+/* Home hero: title, subtitle, video, then the opt in. The video is sized by
+   the viewport height so the form stays above the fold on laptop screens. */
+.hero__video{width:min(100%,41rem,calc((100vh - var(--hv-chrome,32rem)) * 1.7778));margin:0 0 1.3rem}
+.hero__by--after{margin:1.1rem 0 0}
+@media(min-width:901px){
+  .hero--light{padding-block:clamp(1.25rem,2.6vh,2.25rem) clamp(1.75rem,4vh,3rem)}
+  .hero--light .hero__kicker{margin-bottom:.65rem}
+  .hero--light h1{font-size:clamp(2rem,min(3.5vw,5.6vh),3.2rem);margin-bottom:.8rem}
+  .hero--light .hero__sub{margin-bottom:1.1rem}
+  .hero--light .hero__feats{margin-top:1.4rem}
+}
+@media(max-width:900px){
+  .hero__video{width:100%;margin:0 0 1.1rem}
+  .vframe{padding:.35rem;border-radius:.8rem}
+  .vframe video{border-radius:.5rem}
+}
+@media(max-width:640px){
+  .hero--light .hero__grid{grid-template-areas:"kicker" "title" "sub" "video" "cta" "by" "art" "feats"}
+  .hero__video{grid-area:video;margin:.15rem 0 1.1rem}
+  .hero__by--after{margin:1.1rem 0 .25rem}
+}
+/* Speaking hero: words on the left, the talk on the right. */
+.phead--video{padding-block:clamp(2rem,5vh,3.5rem)}
+.phead--video .phead__inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:clamp(2rem,4vw,3.5rem);align-items:center}
+.phead--video .phead__inner > *{max-width:none}
+.phead--video h1{font-size:clamp(2rem,min(3.3vw,5.4vh),3rem)}
+.phead__video{width:100%;max-width:calc((100vh - 15rem) * 1.7778);justify-self:end}
+@media(max-width:900px){
+  .phead--video{padding-block:1.6rem 2.4rem}
+  .phead--video .phead__inner{grid-template-columns:minmax(0,1fr);gap:0}
+  .phead--video .phead__words{display:contents}
+  .phead--video .eyebrow{order:1}
+  .phead--video h1{order:2;margin-bottom:1rem}
+  .phead--video .phead__video{order:3;max-width:none;justify-self:stretch;margin:0 0 1.2rem}
+  .phead--video .phead__words > p:not(.eyebrow){order:4}
+}
 </style>
 <script type="application/ld+json">
 {
@@ -2545,8 +2587,12 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
         <p class="hero__kicker reveal">A happier, stronger marriage is possible</p>
         <h1 class="reveal"><span class="hero__lead">Get the First Chapter of</span><span class="hero__title">Never Fight <em>or</em><br>Argue Again &ndash; Free</span></h1>
         <p class="hero__sub reveal">Discover biblical conflict resolution for couples who have tried everything. Learn practical tools to create safety, restore connection, and communicate without destructive conflict.</p>
-
-        <p class="hero__by reveal">By Larry &amp; Rolanda Beacham <span aria-hidden="true"></span></p>
+        <figure class="hero__video vframe reveal">
+          <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-poster.jpg?v=2" aria-label="Larry Beacham speaking at the Made for More conference">
+            <source src="/assets/made-for-more-talk.mp4" type="video/mp4">
+            <track kind="captions" src="/assets/made-for-more-talk.vtt" srclang="en" label="English">
+          </video>
+        </figure>
 
         <div class="hero__cta reveal">
           <form class="grab" data-capture novalidate>
@@ -2562,8 +2608,9 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
             <p class="form__error" hidden></p>
           </form>
           <p class="hero__fine">Free instant download &bull; No spam &bull; Unsubscribe anytime</p>
-          <p style="margin-top:1rem"><a class="btn btn--onLightOutline" href="/book/" data-tab="book">Order a signed copy &mdash; $20 plus $8 shipping</a></p>
         </div>
+
+        <p class="hero__by hero__by--after reveal">By Larry &amp; Rolanda Beacham <span aria-hidden="true"></span></p>
 
         <ul class="hero__feats reveal">
           <li>
@@ -2616,22 +2663,6 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
     </div>
   </section>
 
-  <section class="band band--light talk" id="watch">
-    <div class="wrap">
-      <div class="talk__head reveal">
-        <p class="eyebrow eyebrow--ink">Watch</p>
-        <h2 class="h-lg">Fighting fair is still fighting.</h2>
-        <p class="lede">Ro and I read all the books and learned all the rules, and we were still losing each other. Here are five minutes from a talk I gave at the Made for More conference about what finally changed.</p>
-      </div>
-      <figure class="talk__frame reveal">
-        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-poster.jpg" aria-label="Larry Beacham speaking at the Made for More conference">
-          <source src="/assets/made-for-more-talk.mp4" type="video/mp4">
-          <track kind="captions" src="/assets/made-for-more-talk.vtt" srclang="en" label="English">
-        </video>
-        <figcaption>Larry Beacham at the Made for More conference. 4 minutes 41 seconds, captions available.</figcaption>
-      </figure>
-    </div>
-  </section>
 
   <section class="band on-navy converge">
     <div class="wrap">
@@ -3904,30 +3935,23 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 <!-- ==================================================================== -->
 <div class="view" id="view-speaking" hidden>
 
-  <header class="phead">
+  <header class="phead phead--video">
     <div class="wrap phead__inner">
-      <p class="eyebrow">Speaking &amp; couples ministry</p>
-      <h1>Bring the plan to your church, retreat, or group.</h1>
-      <p>Larry and Ro teach this material the way they learned it — plainly, as two people who needed it first. No performance, no polished couple on a stage pretending the hard years didn't happen.</p>
-    </div>
-  </header>
-
-  <section class="band band--light talk" id="speaking-talk">
-    <div class="wrap">
-      <div class="talk__head reveal">
-        <p class="eyebrow eyebrow--ink">Watch</p>
-        <h2 class="h-lg">Hear how we teach it.</h2>
-        <p class="lede">Before you invite us, watch a few minutes from my talk at the Made for More conference. This is the same message we bring to churches, retreats and small groups.</p>
+      <div class="phead__words">
+        <p class="eyebrow">Speaking &amp; couples ministry</p>
+        <h1>Bring the plan to your church, retreat, or group.</h1>
+        <p>Larry and Ro teach this material the way they learned it — plainly, as two people who needed it first. No performance, no polished couple on a stage pretending the hard years didn't happen.</p>
       </div>
-      <figure class="talk__frame reveal">
-        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-2-poster.jpg" aria-label="Larry Beacham speaking at the Made for More conference">
+      <figure class="phead__video vframe vframe--dark reveal">
+        <video controls preload="none" playsinline width="1280" height="720" poster="/assets/made-for-more-talk-2-poster.jpg?v=2" aria-label="Larry Beacham speaking at the Made for More conference">
           <source src="/assets/made-for-more-talk-2.mp4" type="video/mp4">
           <track kind="captions" src="/assets/made-for-more-talk-2.vtt" srclang="en" label="English">
         </video>
         <figcaption>Larry Beacham at the Made for More conference. 5 minutes 12 seconds, captions available.</figcaption>
       </figure>
     </div>
-  </section>
+  </header>
+
 
   <section class="band band--paper">
     <div class="wrap">
@@ -5644,7 +5668,7 @@ body:has(#view-thanks:not([hidden])) .foot{display:none}
 </script>
 <script>
 /* Pause any talk video when its view is hidden (single page views). */
-(function(){var vs=document.querySelectorAll('.talk video');if(!vs.length||!window.MutationObserver)return;
+(function(){var vs=document.querySelectorAll('.talk video,.vframe video');if(!vs.length||!window.MutationObserver)return;
 new MutationObserver(function(){vs.forEach(function(v){if(!v.paused&&!v.offsetParent)v.pause();});}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden']});})();
 </script>
 </body>
